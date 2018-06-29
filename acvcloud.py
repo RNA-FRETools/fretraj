@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 # compute accessible-contact volume clouds for a given PDB get_structure
 # F.Steffen, University of Zurich
 
@@ -119,7 +119,7 @@ def dijkstra(distanceDict,adjDict, src, N, n):
 def runACV(config):
     # parameters
     serialID = config.getint('dye parameters', 'serialID')
-    n = config.getfloat('dye parameters', 'n')
+    n = config.getint('dye parameters', 'n')
     CVthickness = config.getfloat('dye parameters', 'CVthick')
     spacing = config.getfloat('grid', 'spacing')
 
@@ -166,10 +166,10 @@ def runACV(config):
 
     grid_final = grid_notRNAvol[nodeswithin]
 
-    return grid_final, grid_notRNAvol, grid
+    return grid_final, grid_notRNAvol, grid, coords_AttachPos
 
 
-def writeXYZ(grid_final, grid_notRNAvol, grid):
+def writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos):
     filenameRNA = 'RNA.xyz'
     f = open(filenameRNA,'w')
     f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
@@ -197,4 +197,5 @@ def writeXYZ(grid_final, grid_notRNAvol, grid):
 if __name__ == "__main__":
     pdbFile, paramFile = parseCmd()
     config = getConfig(paramFile)
-    runACV(config)
+    grid_final, grid_notRNAvol, grid, coords_AttachPos = runACV(config)
+    writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos)
