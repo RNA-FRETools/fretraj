@@ -1,0 +1,10 @@
+[dye parameters]
+serialID=1000
+CVthick=3
+n=17
+
+[grid]
+spacing=1
+
+[dijkstra]
+blub=test
