@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 # compute accessible-contact volume clouds for a given PDB get_structure
 # F.Steffen, University of Zurich
 
