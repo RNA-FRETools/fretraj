@@ -3,7 +3,7 @@
 # F.Steffen, University of Zurich
 
 import numpy as np
-import re
+import re, sys
 import heapq
 import argparse
 import configparser
@@ -14,7 +14,12 @@ from operator import itemgetter
 
 def parseCmd():
     """
-    parses the command line to get the input PDB file and the dye parameters
+    Parse the command line to get the input PDB file and the dye parameters
+
+    Returns
+    -------
+    pdbFile : string with input PDB filename
+    paramFile : string with parameter filename
     """
     version = 1.0
 
@@ -29,6 +34,17 @@ def parseCmd():
 
 
 def getConfig(paramFile):
+    """
+    Parse the parameter file to get the configuration settings for acvCloud
+
+    Parameters
+    ----------
+    paramFile : string with parameter filename
+
+    Returns
+    -------
+    config : SafeConfigParser object with the configuration settings
+    """
     # default parameters
     config = configparser.SafeConfigParser({"gammaCorr":"yes", "trajTimeInterval":"1", "deltat":"10"})
     config.readfp(open(paramFile))
@@ -36,6 +52,20 @@ def getConfig(paramFile):
 
 
 def getPDBcoord(pdbFile, serialID):
+    """
+    Get coordinates of the input pdb file and the dye attachement position
+
+    Parameters
+    ----------
+    pdbFile : string with input PDB filename
+    paramFile : string with parameter filename
+
+    Returns
+    -------
+    coords_target : n x 3 array of atomic coordinates of the target structure
+    element_target : list of elements in the target structure
+    coords_AttachPos : list of atomic coordinates of the attachment position
+    """
     # read pdb files
     p = PDB.PDBParser(PERMISSIVE=1, QUIET=1)
     structure = p.get_structure("rna", pdbFile)
@@ -58,21 +88,51 @@ def getPDBcoord(pdbFile, serialID):
     return coords_target, element_target, coords_AttachPos
 
 
-def generate_grid(n, spacing, coords_AttachPos):
-    row = 0
-    grid = np.zeros(((2*n+1)**3,3))
+def generate_grid(linker, spacing, coords_AttachPos):
+    """
+    Calculate regular grid around attachment position
 
-    for i in range(2*n+1):
-        for j in range(2*n+1):
-            for k in range(2*n+1):
-                grid[row,0] = i*spacing+coords_AttachPos[0]-n
-                grid[row,1] = j*spacing+coords_AttachPos[1]-n
-                grid[row,2] = k*spacing+coords_AttachPos[2]-n
+    Parameters
+    ----------
+    linker : dye linker length in Angstrom
+    spacing : spacing between grid points
+    coords_AttachPos : list of atomic coordinates of the attachment position
+
+    Returns
+    -------
+    grid : 2*linker+1 x 3 array of grid points
+
+    """
+    row = 0
+    grid = np.zeros(((2*linker+1)**3,3))
+
+    for i in range(2*linker+1):
+        for j in range(2*linker+1):
+            for k in range(2*linker+1):
+                grid[row,0] = i*spacing+coords_AttachPos[0]-linker
+                grid[row,1] = j*spacing+coords_AttachPos[1]-linker
+                grid[row,2] = k*spacing+coords_AttachPos[2]-linker
                 row += 1
     return grid
 
 
-def getRNAvolume(n, element_target, coords_target, vdWRadius, grid, Kd_grid, CVthickness):
+def getRNAvolume(linker, element_target, coords_target, vdWRadius, grid, Kd_grid, CVthickness):
+    """
+    Compute a spacing fill model of the RNA based on atomic coordinates and VdW radii of the involved elements
+
+    Parameters
+    ----------
+    linker : dye linker length in Angstrom
+    element_target : list of elements in the target structure
+    coords_AttachPos : list of atomic coordinates of the attachment position
+    vdWRadius : dictionary of the VdW radius for each element
+    grid : 2*linker+1 x 3 array of grid points
+
+    Returns
+    -------
+    grid_RNAvol : m x 3 array of coordinates making up the RNA volume
+    grid_notRNAvol : k x 3 array of grid points without those belonging to the spacing fill model
+    """
     index_RNAvol = []
     for i in range(len(element_target)):
         #print(element_target[i])
@@ -83,12 +143,27 @@ def getRNAvolume(n, element_target, coords_target, vdWRadius, grid, Kd_grid, CVt
     index_notRNAvol = list(set(range(len(grid))) - set(index_RNAvol)) # "-" is the difference operator
     grid_notRNAvol = grid[index_notRNAvol]
 
-    tuple_gridindex = np.vstack(np.unravel_index(range(len(grid)), (2*n,2*n,2*n))).T
-    tuple_RNAnotvol_gridindex = tuple_gridindex[index_notRNAvol,:]
-    return grid_RNAvol, grid_notRNAvol, tuple_RNAnotvol_gridindex
+    tuple_gridindex = np.vstack(np.unravel_index(range(len(grid)), (2*linker,2*linker,2*linker))).T
+    #tuple_RNAnotvol_gridindex = tuple_gridindex[index_notRNAvol,:]
+    return grid_RNAvol, grid_notRNAvol
 
 
-def dijkstra(distanceDict,adjDict, src, N, n):
+def dijkstra(distanceDict,adjDict, src, N, linker):
+    """
+    Find all grid points which have a path length from the attachment point that is shorter than or equal to the linker length using Dijkstra's algorithm
+
+    Parameters
+    ----------
+    distanceDict : dictionary of distance lists for every grid point in grid_notRNAvol : k x 3 array of grid points without those belonging to the
+    adjDict : dictionary of adjacency list
+    src : source node
+    N : number of nodes
+    linker : dye linker length in Angstrom
+
+    Returns
+    -------
+    nodeswithin : list of grid points having a path length shorter than or equal to the linker length
+    """
     # initalize
     dist = [float('inf') for i in range(N+1)]
 
@@ -110,16 +185,33 @@ def dijkstra(distanceDict,adjDict, src, N, n):
     # select nodes with dist smaller than n
     nodeswithin = []
     for i in range(N):
-        if dist[i] < n:
+        if dist[i] <= linker:
             nodeswithin.append(i)
 
     return nodeswithin
 
 
 def runACV(config):
+    """
+    Run the ACV calculation
+
+    Parameters
+    -----------
+    config : SafeConfigParser object with the configuration settings
+
+    Returns
+    -------
+    grid_final : Accessible volume of dye
+    grid_notRNAvol : k x 3 array of grid points without those belonging to the
+    grid : 2*linker+1 x 3 array of grid points
+    coords_AttachPos : list of atomic coordinates of the attachment position
+    grid_CV : Contact volume of dye
+    grid_FV : Free volume of dye (FV = AV - CV)
+    """
+
     # parameters
     serialID = config.getint('dye parameters', 'serialID')
-    n = config.getint('dye parameters', 'n')
+    linker = config.getint('dye parameters', 'linker')
     CVthickness = config.getfloat('dye parameters', 'CVthick')
     spacing = config.getfloat('grid', 'spacing')
 
@@ -128,7 +220,7 @@ def runACV(config):
     grid = generate_grid(n, spacing, coords_AttachPos)
     Kd_grid = spatial.cKDTree(grid)
 
-    # kick out the edges of the grid (make it a sphere with a radius of the masimal linker length)
+    # kick out the edges of the grid (make it a sphere with a radius of the maximal linker length)
     index = Kd_grid.query_ball_point(coords_AttachPos, n)
     grid = grid[index]
 
@@ -137,7 +229,7 @@ def runACV(config):
     Kd_grid = spatial.cKDTree(grid)
 
     vdWRadius = {"H":1.1, "C":1.7, "O": 1.52, "N":1.55, "P":1.8}
-    grid_RNAvol, grid_notRNAvol, tuple_RNAnotvol_gridindex = getRNAvolume(n, element_target, coords_target, vdWRadius, grid, Kd_grid, CVthickness)
+    grid_RNAvol, grid_notRNAvol = getRNAvolume(n, element_target, coords_target, vdWRadius, grid, Kd_grid, CVthickness)
 
 
     #grid_notRNAvol = np.vstack((grid_notRNAvol,coords_AttachPos))
@@ -189,12 +281,22 @@ def runACV(config):
     grid_FV = grid_FV.view(grid_final.dtype).reshape(-1, ncols)
 
 
-
-
     return grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV
 
 
 def writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV):
+    """
+    Write XYZ coordinates of accessible, contact and free volume
+
+    Parameters
+    ----------
+    grid_final : Accessible volume of dye
+    grid_notRNAvol : k x 3 array of grid points without those belonging to the
+    grid : 2*linker+1 x 3 array of grid points
+    coords_AttachPos : list of atomic coordinates of the attachment position
+    grid_CV : Contact volume of dye
+    grid_FV : Free volume of dye (FV = AV - CV)
+    """
     filenameRNA = 'RNA.xyz'
     f = open(filenameRNA,'w')
     f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
