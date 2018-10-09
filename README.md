@@ -10,17 +10,34 @@ acvCloud depends on the following python modules
 - heapq
 - argparse
 
-The modules can be installed via the package manager `pip`
+The modules can be installed via the package manager `pip`, e.g. for argparse
 ```
 pip install argparse
 ```
 
 ## Run acvCloud
-acvCloud can be run from the command line
+acvCloud can be run from the command line by specifiying a pdb structure and an associated parameter file (see [Parameter file](#parameter-file))
 ```
-acvCloud.py -i 
+acvcloud.py -i structure.pdb -p parameters.dat
 ```
+
 or from within PyMOL
 ```
-run acvCloud.py
+run acvcloud.py -i structure.pdb -p parameters.dat
+```
+
+## Parameter file
+A typical parameter file for acvCloud has the following entries
+
+```
+[dye parameters]
+serialID=257
+CVthick=3
+n=18
+
+[grid]
+spacing=1
+
+[dijkstra]
+blub=test
 ```
