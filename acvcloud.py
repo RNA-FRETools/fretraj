@@ -143,6 +143,7 @@ def runACV(config):
     #grid_notRNAvol = np.vstack((grid_notRNAvol,coords_AttachPos))
     Kd_gridnotRNAvol = spatial.cKDTree(grid_notRNAvol)
 
+
     N = len(grid_notRNAvol)
 
     distances_src, ind_src = Kd_gridnotRNAvol.query(coords_AttachPos, k=13**3, distance_upper_bound=6)
@@ -166,10 +167,34 @@ def runACV(config):
 
     grid_final = grid_notRNAvol[nodeswithin]
 
-    return grid_final, grid_notRNAvol, grid, coords_AttachPos
+    # CV
+     # construct KD-Trees
+    Kd_gridRNAvol = spatial.cKDTree(grid_RNAvol)
+    Kd_grid_final = spatial.cKDTree(grid_final)
+
+    # compute distance matrix
+    distMat_CV = spatial.cKDTree.sparse_distance_matrix(Kd_gridRNAvol, Kd_grid_final, CVthickness)
+
+    # get grid indices within CV thickness from the RNA volume
+    index_CV = list(set([item[1] for item in distMat_CV.keys()]))
+
+    # get the coordinates of the CV
+    grid_CV = grid_final[index_CV]
 
 
-def writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos):
+    # get coordinates of the FV (difference of coordinates of AV that are not in CV)
+    nrows, ncols = grid_final.shape
+    dtype={'names':['f{}'.format(i) for i in range(ncols)], 'formats':ncols * [grid_final.dtype]}
+    grid_FV = np.setdiff1d(grid_final.view(dtype), grid_CV.view(dtype))
+    grid_FV = grid_FV.view(grid_final.dtype).reshape(-1, ncols)
+
+
+
+
+    return grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV
+
+
+def writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV):
     filenameRNA = 'RNA.xyz'
     f = open(filenameRNA,'w')
     f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
@@ -192,10 +217,26 @@ def writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos):
     f.close()
 
 
+    # contact volume
+    filenameCV = 'CV.xyz'
+    f = open(filenameCV,'w')
+    f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
+    for i in range(len(grid_CV)):
+        f.write('D '+" ".join(map(str, grid_CV[i]))+'\n')
+    f.close()
+
+    # Free volume
+    filenameFV = 'FV.xyz'
+    f = open(filenameFV,'w')
+    f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
+    for i in range(grid_FV.shape[0]):
+        f.write('D '+" ".join(map(str, grid_FV[i]))+'\n')
+    f.close()
+
 
 
 if __name__ == "__main__":
     pdbFile, paramFile = parseCmd()
     config = getConfig(paramFile)
-    grid_final, grid_notRNAvol, grid, coords_AttachPos = runACV(config)
-    writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos)
+    grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV = runACV(config)
+    writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV)

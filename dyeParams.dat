@@ -1,7 +1,7 @@
 [dye parameters]
-serialID=1000
+serialID=257
 CVthick=3
-n=17
+n=18
 
 [grid]
 spacing=1
