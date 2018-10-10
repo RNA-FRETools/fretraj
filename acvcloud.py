@@ -46,7 +46,7 @@ def getConfig(paramFile):
     config : SafeConfigParser object with the configuration settings
     """
     # default parameters
-    config = configparser.SafeConfigParser({"gammaCorr":"yes", "trajTimeInterval":"1", "deltat":"10"})
+    config = configparser.SafeConfigParser({"spacing":"1"})
     config.readfp(open(paramFile))
     return config
 
@@ -67,8 +67,8 @@ def getPDBcoord(pdbFile, serialID):
     coords_AttachPos : list of atomic coordinates of the attachment position
     """
     # read pdb files
-    p = PDB.PDBParser(PERMISSIVE=1, QUIET=1)
-    structure = p.get_structure("rna", pdbFile)
+    pdbParser = PDB.PDBParser(PERMISSIVE=1, QUIET=1)
+    structure = pdbParser.get_structure("bio", pdbFile)
 
     # get coordinates of structure
     coords_target = []
@@ -113,12 +113,17 @@ def generate_grid(linker, spacing, coords_AttachPos):
                 grid[row,1] = j*spacing+coords_AttachPos[1]-linker
                 grid[row,2] = k*spacing+coords_AttachPos[2]-linker
                 row += 1
+
+    # remove the edges of the grid (make it a sphere with a radius of the maximal linker length)
+    Kd_grid = spatial.cKDTree(grid)
+    sphereIdx = Kd_grid.query_ball_point(coords_AttachPos, linker)
+    grid = grid[sphereIdx]
     return grid
 
 
-def getRNAvolume(linker, element_target, coords_target, vdWRadius, grid, Kd_grid, CVthickness):
+def getPDBvolume(linker, element_target, coords_target, vdWRadius, grid, Kd_grid, spacing):
     """
-    Compute a spacing fill model of the RNA based on atomic coordinates and VdW radii of the involved elements
+    Compute a spacing fill model of the PDB structure based on atomic coordinates and VdW radii of the involved elements
 
     Parameters
     ----------
@@ -130,31 +135,53 @@ def getRNAvolume(linker, element_target, coords_target, vdWRadius, grid, Kd_grid
 
     Returns
     -------
-    grid_RNAvol : m x 3 array of coordinates making up the RNA volume
-    grid_notRNAvol : k x 3 array of grid points without those belonging to the spacing fill model
+    grid_PDBvol : m x 3 array of coordinates making up the PDB volume
+    grid_notPDBvol : k x 3 array of grid points without those belonging to the spacing fill model
     """
-    index_RNAvol = []
-    for i in range(len(element_target)):
-        #print(element_target[i])
+    PDBvolIdx = []
+    for i,elem in enumerate(element_target):
+        PDBvolIdx.append(Kd_grid.query_ball_point(coords_target[i], vdWRadius[elem]+spacing/2))  # find all grid points within the VdW radii (+ half of the grid spacing) of the atoms belonging to the target
+        # Note: adding half the grid spacing helps finding missing points due to the finite spacing of the grid
 
-        index_RNAvol.append(Kd_grid.query_ball_point(coords_target[i], vdWRadius[element_target[i]]+CVthickness))
-    index_RNAvol = list(set([item for sublist in index_RNAvol for item in sublist if item]))
-    grid_RNAvol = grid[index_RNAvol]
-    index_notRNAvol = list(set(range(len(grid))) - set(index_RNAvol)) # "-" is the difference operator
-    grid_notRNAvol = grid[index_notRNAvol]
+    PDBvolIdx = list(set([item for sublist in PDBvolIdx for item in sublist if item])) # get indices of grid points inside the PDB volume
+    grid_PDBvol = grid[PDBvolIdx]
+    notPDBvolIdx = list(set(range(len(grid))) - set(PDBvolIdx)) # "-" is the difference operator
+    grid_notPDBvol = grid[notPDBvolIdx]
+    return grid_PDBvol, grid_notPDBvol
 
-    tuple_gridindex = np.vstack(np.unravel_index(range(len(grid)), (2*linker,2*linker,2*linker))).T
-    #tuple_RNAnotvol_gridindex = tuple_gridindex[index_notRNAvol,:]
-    return grid_RNAvol, grid_notRNAvol
+def buildNeighborList(Kd_gridnotPDBvol, coords_AttachPos, grid_notPDBvol, nof_nodes):
+    """
+    Build list of neighbors of all grid points not belonging to the PDB volume
+
+    Parameters
+    ----------
+    Kd_gridnotPDBvol :
+    coords_AttachPos :
+    grid_notPDBvol :
+    nof_nodes :
+
+    Returns:
+    --------
+    distDict :
+    adjDict :
+    """
+    # compute neighbor list for grid points (nodes)
+    distances_src, idx_src = Kd_gridnotPDBvol.query(coords_AttachPos, k=13**3, distance_upper_bound=6)  # return k neighbors from attachement point with a max. distance of 6 Angstrom
+    distances, idx = Kd_gridnotPDBvol.query(grid_notPDBvol, k=7**3, distance_upper_bound=3.01) # return k neighbors from attachement point with a max. distance of 3.01 Angstrom
+    distDict = {i: list(distances[i,np.isfinite(distances[i,:])]) for i in range(nof_nodes)}
+    adjDict = {i: list(idx[i,np.isfinite(distances[i,:])]) for i in range(nof_nodes)}
+    adjDict[nof_nodes] = idx_src
+    distDict[nof_nodes] = distances_src
+    return distDict, adjDict
 
 
-def dijkstra(distanceDict,adjDict, src, N, linker):
+def dijkstra(distDict, adjDict, src, nof_nodes, linker):
     """
     Find all grid points which have a path length from the attachment point that is shorter than or equal to the linker length using Dijkstra's algorithm
 
     Parameters
     ----------
-    distanceDict : dictionary of distance lists for every grid point in grid_notRNAvol : k x 3 array of grid points without those belonging to the
+    distDict : dictionary of distance lists for every grid point in grid_notPDBvol
     adjDict : dictionary of adjacency list
     src : source node
     N : number of nodes
@@ -165,29 +192,23 @@ def dijkstra(distanceDict,adjDict, src, N, linker):
     nodeswithin : list of grid points having a path length shorter than or equal to the linker length
     """
     # initalize
-    dist = [float('inf') for i in range(N+1)]
-
+    dist = [float('inf') for i in range(nof_nodes+1)]
     pq = [(0, src)]
-
     while pq:
         current_weight, u = heapq.heappop(pq)
-
-
         i = 0
         for v in adjDict[u]:
-            weight = current_weight + distanceDict[u][i]
-
+            weight = current_weight + distDict[u][i]
             if dist[v] > weight:
                 dist[v] = weight
                 heapq.heappush(pq, (weight, v))
             i += 1
 
-    # select nodes with dist smaller than n
+    # select nodes with dist smaller than linker
     nodeswithin = []
-    for i in range(N):
+    for i in range(nof_nodes):
         if dist[i] <= linker:
             nodeswithin.append(i)
-
     return nodeswithin
 
 
@@ -201,9 +222,8 @@ def runACV(config):
 
     Returns
     -------
-    grid_final : Accessible volume of dye
-    grid_notRNAvol : k x 3 array of grid points without those belonging to the
-    grid : 2*linker+1 x 3 array of grid points
+    grid_AV : Accessible volume of dye
+    grid_notPDBvol : k x 3 array of grid points without those belonging to the
     coords_AttachPos : list of atomic coordinates of the attachment position
     grid_CV : Contact volume of dye
     grid_FV : Free volume of dye (FV = AV - CV)
@@ -215,124 +235,62 @@ def runACV(config):
     CVthickness = config.getfloat('dye parameters', 'CVthick')
     spacing = config.getfloat('grid', 'spacing')
 
+    # PDB coordinates
     coords_target, element_target, coords_AttachPos = getPDBcoord(pdbFile, serialID)
-
-    grid = generate_grid(n, spacing, coords_AttachPos)
-    Kd_grid = spatial.cKDTree(grid)
-
-    # kick out the edges of the grid (make it a sphere with a radius of the maximal linker length)
-    index = Kd_grid.query_ball_point(coords_AttachPos, n)
-    grid = grid[index]
-
-    # construct KD-Trees
     Kd_coords = spatial.cKDTree(coords_target)
+
+    # grid construction
+    grid = generate_grid(linker, spacing, coords_AttachPos)
     Kd_grid = spatial.cKDTree(grid)
 
-    vdWRadius = {"H":1.1, "C":1.7, "O": 1.52, "N":1.55, "P":1.8}
-    grid_RNAvol, grid_notRNAvol = getRNAvolume(n, element_target, coords_target, vdWRadius, grid, Kd_grid, CVthickness)
+    # compute PDB volume
+    vdWRadius = {'H':1.1, 'C':1.7, 'O': 1.52, 'N':1.55, 'P':1.8}
+    grid_PDBvol, grid_notPDBvol = getPDBvolume(linker, element_target, coords_target, vdWRadius, grid, Kd_grid, spacing)
+    Kd_gridPDBvol = spatial.cKDTree(grid_PDBvol)
+    Kd_gridnotPDBvol = spatial.cKDTree(grid_notPDBvol)
+    nof_nodes = len(grid_notPDBvol)
+
+    # compute nodes with path lengths shorter than linker length
+    distDict, adjDict = buildNeighborList(Kd_gridnotPDBvol, coords_AttachPos, grid_notPDBvol, nof_nodes)
+    nodeswithin = dijkstra(distDict, adjDict, nof_nodes, nof_nodes, linker)
+    grid_AV = grid_notPDBvol[nodeswithin]
+    Kd_grid_AV = spatial.cKDTree(grid_AV)
+
+    # compute CV
+    distMat_CV = spatial.cKDTree.sparse_distance_matrix(Kd_gridPDBvol, Kd_grid_AV, CVthickness)
+    idx_CV = list(set([item[1] for item in distMat_CV.keys()])) # get grid indices within CV thickness from the PDB volume
+    grid_CV = grid_AV[idx_CV]
+
+    #from scipy.spatial import ConvexHull
+    #hull = ConvexHull(grid_PDBvol)
+    #surf = grid_PDBvol[hull.vertices]
+    #writeXYZ('surf', surf, coords_AttachPos)
 
 
-    #grid_notRNAvol = np.vstack((grid_notRNAvol,coords_AttachPos))
-    Kd_gridnotRNAvol = spatial.cKDTree(grid_notRNAvol)
+    # compute FV (difference of coordinates of AV that are not in CV)
+    nrows, ncols = grid_AV.shape
+    dtype={'names':['f{}'.format(i) for i in range(ncols)], 'formats':ncols * [grid_AV.dtype]}
+    grid_FV = np.setdiff1d(grid_AV.view(dtype), grid_CV.view(dtype))
+    grid_FV = grid_FV.view(grid_AV.dtype).reshape(-1, ncols)
+
+    return coords_AttachPos, grid_PDBvol, grid_notPDBvol, grid_AV, grid_CV, grid_FV
 
 
-    N = len(grid_notRNAvol)
-
-    distances_src, ind_src = Kd_gridnotRNAvol.query(coords_AttachPos, k=13**3, distance_upper_bound=6)
-
-    distances, ind = Kd_gridnotRNAvol.query(grid_notRNAvol, k=7**3, distance_upper_bound=3.01)
-
-    distanceDict = {i: list(distances[i,np.isfinite(distances[i,:])]) for i in range(N)}
-    adjDict = {i: list(ind[i,np.isfinite(distances[i,:])]) for i in range(N)}
-
-    adjDict[N] = ind_src
-    distanceDict[N] = distances_src
-
-    #print distances[distances[:,0]==10]
-    #print [(k, list(list(zip(*g))[1])) for k, g in groupby(distances.keys(), itemgetter(0))]
-
-    #edges = [key[0][1] for key in distances[5000,:].items()]
-    #N = 6
-    #distances = {(1,3):5, (1,3):2, (1,4):2, (2,3):2, (2,4):4, (3,4):1}
-
-    nodeswithin = dijkstra(distanceDict, adjDict, N, N, n)
-
-    grid_final = grid_notRNAvol[nodeswithin]
-
-    # CV
-     # construct KD-Trees
-    Kd_gridRNAvol = spatial.cKDTree(grid_RNAvol)
-    Kd_grid_final = spatial.cKDTree(grid_final)
-
-    # compute distance matrix
-    distMat_CV = spatial.cKDTree.sparse_distance_matrix(Kd_gridRNAvol, Kd_grid_final, CVthickness)
-
-    # get grid indices within CV thickness from the RNA volume
-    index_CV = list(set([item[1] for item in distMat_CV.keys()]))
-
-    # get the coordinates of the CV
-    grid_CV = grid_final[index_CV]
-
-
-    # get coordinates of the FV (difference of coordinates of AV that are not in CV)
-    nrows, ncols = grid_final.shape
-    dtype={'names':['f{}'.format(i) for i in range(ncols)], 'formats':ncols * [grid_final.dtype]}
-    grid_FV = np.setdiff1d(grid_final.view(dtype), grid_CV.view(dtype))
-    grid_FV = grid_FV.view(grid_final.dtype).reshape(-1, ncols)
-
-
-    return grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV
-
-
-def writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV):
+def writeXYZ(name, coords, coords_AttachPos):
     """
     Write XYZ coordinates of accessible, contact and free volume
 
     Parameters
     ----------
-    grid_final : Accessible volume of dye
-    grid_notRNAvol : k x 3 array of grid points without those belonging to the
-    grid : 2*linker+1 x 3 array of grid points
+    name : name of the coordinate file (without suffix)
+    coords : n x 3 array of grid points
     coords_AttachPos : list of atomic coordinates of the attachment position
-    grid_CV : Contact volume of dye
-    grid_FV : Free volume of dye (FV = AV - CV)
     """
-    filenameRNA = 'RNA.xyz'
-    f = open(filenameRNA,'w')
+    filename = '{}.xyz'.format(name)
+    f = open(filename, 'w')
     f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
-    for i in range(len(grid)):
-        f.write('D '+" ".join(map(str, grid[i]))+'\n')
-    f.close()
-
-    filenameRNA = 'RNA_not.xyz'
-    f = open(filenameRNA,'w')
-    f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
-    for i in range(len(grid_notRNAvol)):
-        f.write('D '+" ".join(map(str, grid_notRNAvol[i]))+'\n')
-    f.close()
-
-    filenameRNA = 'RNA_final.xyz'
-    f = open(filenameRNA,'w')
-    f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
-    for i in range(len(grid_final)):
-        f.write('D '+" ".join(map(str, grid_final[i]))+'\n')
-    f.close()
-
-
-    # contact volume
-    filenameCV = 'CV.xyz'
-    f = open(filenameCV,'w')
-    f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
-    for i in range(len(grid_CV)):
-        f.write('D '+" ".join(map(str, grid_CV[i]))+'\n')
-    f.close()
-
-    # Free volume
-    filenameFV = 'FV.xyz'
-    f = open(filenameFV,'w')
-    f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
-    for i in range(grid_FV.shape[0]):
-        f.write('D '+" ".join(map(str, grid_FV[i]))+'\n')
+    for c in coords:
+        f.write('D '+" ".join(map(str, c))+'\n')
     f.close()
 
 
@@ -340,5 +298,8 @@ def writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_F
 if __name__ == "__main__":
     pdbFile, paramFile = parseCmd()
     config = getConfig(paramFile)
-    grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV = runACV(config)
-    writeXYZ(grid_final, grid_notRNAvol, grid, coords_AttachPos, grid_CV, grid_FV)
+    coords_AttachPos, grid_PDBvol, grid_notPDBvol, grid_AV, grid_CV, grid_FV = runACV(config)
+    writeXYZ('PDB', grid_PDBvol, coords_AttachPos)
+    writeXYZ('AV', grid_AV, coords_AttachPos)
+    writeXYZ('CV', grid_CV, coords_AttachPos)
+    writeXYZ('FV', grid_FV, coords_AttachPos)

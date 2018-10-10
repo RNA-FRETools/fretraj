@@ -41,3 +41,11 @@ spacing=1
 [dijkstra]
 blub=test
 ```
+
+To accurately visualize the accessible, contact and free volume in PyMOL, set the VdW size of the volume objects (not the pdb structure) to half of the grid size. In the Python API the following commands will do the job (assuming a grid spacing of 1 Angstrom and the respective volume objects are named `RNA`, `AV`, `CV` and `FV`)
+```
+cmd.alter("RNA", "vdw=0.5")
+cmd.alter("AV", "vdw=0.5")
+cmd.alter("CV", "vdw=0.5")
+cmd.alter("FV", "vdw=0.5")
+```
