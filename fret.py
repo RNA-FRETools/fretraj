@@ -7,8 +7,6 @@ import re, sys
 import argparse
 import configparser
 from scipy import spatial
-sys.path.append('./')
-import sobol_lib
 
 def parseCmd():
     """

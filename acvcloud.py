@@ -48,7 +48,15 @@ def getConfig(paramFile):
     # default parameters
     config = configparser.SafeConfigParser({"spacing":"1"})
     config.readfp(open(paramFile))
-    return config
+
+    params = {'serialID': config.getint('dye parameters', 'serialID'),
+              'linker': config.getint('dye parameters', 'linker'),
+              'CVthickness': config.getfloat('dye parameters', 'CVthick'),
+              'spacing': config.getfloat('grid', 'spacing'),
+              'w_cv': config.getfloat('weights', 'cv'),
+              'w_fv': config.getfloat('weights', 'fv')
+             }
+    return params
 
 
 def getPDBcoord(pdbFile, serialID):
@@ -85,7 +93,9 @@ def getPDBcoord(pdbFile, serialID):
     serial_numbers = [atom.serial_number for atom in selection]
     selection_dict = dict(zip(serial_numbers, selection))
     coords_AttachPos = list(selection_dict[serialID].get_coord().astype(np.dtype('float64')))
-    return coords_target, element_target, coords_AttachPos
+
+    biomol = Biomolecule(coords_target, element_target, coords_AttachPos)
+    return biomol
 
 
 def generate_grid(linker, spacing, coords_AttachPos):
@@ -212,7 +222,7 @@ def dijkstra(distDict, adjDict, src, nof_nodes, linker):
     return nodeswithin
 
 
-def runACV(config):
+def runACV(par, biomol):
     """
     Run the ACV calculation
 
@@ -229,54 +239,51 @@ def runACV(config):
     grid_FV : Free volume of dye (FV = AV - CV)
     """
 
-    # parameters
-    serialID = config.getint('dye parameters', 'serialID')
-    linker = config.getint('dye parameters', 'linker')
-    CVthickness = config.getfloat('dye parameters', 'CVthick')
-    spacing = config.getfloat('grid', 'spacing')
-
     # PDB coordinates
-    coords_target, element_target, coords_AttachPos = getPDBcoord(pdbFile, serialID)
-    Kd_coords = spatial.cKDTree(coords_target)
+    Kd_coords = spatial.cKDTree(biomol.coords)
 
     # grid construction
-    grid = generate_grid(linker, spacing, coords_AttachPos)
+    grid = generate_grid(par['linker'], par['spacing'], biomol.attach)
     Kd_grid = spatial.cKDTree(grid)
 
     # compute PDB volume
     vdWRadius = {'H':1.1, 'C':1.7, 'O': 1.52, 'N':1.55, 'P':1.8}
-    grid_PDBvol, grid_notPDBvol = getPDBvolume(linker, element_target, coords_target, vdWRadius, grid, Kd_grid, spacing)
+    grid_PDBvol, grid_notPDBvol = getPDBvolume(par['linker'], biomol.elements, biomol.coords, vdWRadius, grid, Kd_grid, par['spacing'])
     Kd_gridPDBvol = spatial.cKDTree(grid_PDBvol)
     Kd_gridnotPDBvol = spatial.cKDTree(grid_notPDBvol)
-    nof_nodes = len(grid_notPDBvol)
+    nof_nodes = grid_notPDBvol.shape[0]
 
     # compute nodes with path lengths shorter than linker length
-    distDict, adjDict = buildNeighborList(Kd_gridnotPDBvol, coords_AttachPos, grid_notPDBvol, nof_nodes)
-    nodeswithin = dijkstra(distDict, adjDict, nof_nodes, nof_nodes, linker)
+    distDict, adjDict = buildNeighborList(Kd_gridnotPDBvol, biomol.attach, grid_notPDBvol, nof_nodes)
+    nodeswithin = dijkstra(distDict, adjDict, nof_nodes, nof_nodes, par['linker'])
     grid_AV = grid_notPDBvol[nodeswithin]
+    weights_AV = np.array([1]*grid_AV.shape[0])
     Kd_grid_AV = spatial.cKDTree(grid_AV)
 
     # compute CV
-    distMat_CV = spatial.cKDTree.sparse_distance_matrix(Kd_gridPDBvol, Kd_grid_AV, CVthickness)
+    distMat_CV = spatial.cKDTree.sparse_distance_matrix(Kd_gridPDBvol, Kd_grid_AV, par['CVthickness'])
     idx_CV = list(set([item[1] for item in distMat_CV.keys()])) # get grid indices within CV thickness from the PDB volume
     grid_CV = grid_AV[idx_CV]
-
-    #from scipy.spatial import ConvexHull
-    #hull = ConvexHull(grid_PDBvol)
-    #surf = grid_PDBvol[hull.vertices]
-    #writeXYZ('surf', surf, coords_AttachPos)
-
+    weights_CV = np.array([par['w_cv']]*grid_CV.shape[0])
 
     # compute FV (difference of coordinates of AV that are not in CV)
     nrows, ncols = grid_AV.shape
     dtype={'names':['f{}'.format(i) for i in range(ncols)], 'formats':ncols * [grid_AV.dtype]}
     grid_FV = np.setdiff1d(grid_AV.view(dtype), grid_CV.view(dtype))
     grid_FV = grid_FV.view(grid_AV.dtype).reshape(-1, ncols)
+    weights_FV = np.array([par['w_fv']]*grid_FV.shape[0])
 
-    return coords_AttachPos, grid_PDBvol, grid_notPDBvol, grid_AV, grid_CV, grid_FV
+    bio = Coords(grid_PDBvol, None)
+    av = Coords(grid_AV, weights_AV)
+    cv = Coords(grid_CV, weights_CV)
+    fv = Coords(grid_FV, weights_FV)
+
+    cloud = Cloud(pdbFile, biomol.coords, bio, av, cv, fv)
+
+    return cloud
 
 
-def writeXYZ(name, coords, coords_AttachPos):
+def writeXYZ(name, coords, attach):
     """
     Write XYZ coordinates of accessible, contact and free volume
 
@@ -288,18 +295,39 @@ def writeXYZ(name, coords, coords_AttachPos):
     """
     filename = '{}.xyz'.format(name)
     f = open(filename, 'w')
-    f.write('attachmentCoords '+" ".join(map(str, coords_AttachPos))+'\n')
+    f.write('attachmentCoords {:.2f}\t{:.2f}\t{:.2f}\n'.format(biomol.attach[0], biomol.attach[1], biomol.attach[2]))
     for c in coords:
-        f.write('D '+" ".join(map(str, c))+'\n')
+        #c_str = ':.3'.format(c)
+        f.write('D {:.2f}\t{:.2f}\t{:.2f}\n'.format(c[0], c[1], c[2]))
     f.close()
 
+class Cloud:
+    def __init__(self, structure, coords_AttachPos, bio, av, cv, fv):
+        self.structure = structure
+        self.coords_AttachPos = coords_AttachPos
+        self.bio = bio
+        self.av = av
+        self.cv = cv
+        self.fv = fv
+
+class Coords:
+    def __init__(self, coords, weights):
+        self.coords = coords
+        self.weights = weights
+
+class Biomolecule:
+    def __init__(self, coords, elements, attach):
+        self.coords = coords
+        self.elements = elements
+        self.attach = attach
 
 
 if __name__ == "__main__":
     pdbFile, paramFile = parseCmd()
-    config = getConfig(paramFile)
-    coords_AttachPos, grid_PDBvol, grid_notPDBvol, grid_AV, grid_CV, grid_FV = runACV(config)
-    writeXYZ('PDB', grid_PDBvol, coords_AttachPos)
-    writeXYZ('AV', grid_AV, coords_AttachPos)
-    writeXYZ('CV', grid_CV, coords_AttachPos)
-    writeXYZ('FV', grid_FV, coords_AttachPos)
+    par = getConfig(paramFile)
+    biomol = getPDBcoord(pdbFile, par['serialID'])
+    cloud = runACV(par, biomol)
+    writeXYZ('PDB', cloud.bio.coords, cloud.coords_AttachPos)
+    writeXYZ('AV', cloud.av.coords, cloud.coords_AttachPos)
+    writeXYZ('CV', cloud.cv.coords, cloud.coords_AttachPos)
+    writeXYZ('FV', cloud.fv.coords, cloud.coords_AttachPos)
