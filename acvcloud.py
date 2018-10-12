@@ -263,15 +263,16 @@ def runACV(par, biomol):
     # compute CV
     distMat_CV = spatial.cKDTree.sparse_distance_matrix(Kd_gridPDBvol, Kd_grid_AV, par['CVthickness'])
     idx_CV = list(set([item[1] for item in distMat_CV.keys()])) # get grid indices within CV thickness from the PDB volume
+
     grid_CV = grid_AV[idx_CV]
     weights_CV = np.array([par['w_cv']]*grid_CV.shape[0])
+    weights_AV[idx_CV] = par['w_cv']
 
-    # compute FV (difference of coordinates of AV that are not in CV)
-    nrows, ncols = grid_AV.shape
-    dtype={'names':['f{}'.format(i) for i in range(ncols)], 'formats':ncols * [grid_AV.dtype]}
-    grid_FV = np.setdiff1d(grid_AV.view(dtype), grid_CV.view(dtype))
-    grid_FV = grid_FV.view(grid_AV.dtype).reshape(-1, ncols)
+    # compute FV (difference of indices of AV that are not in CV)
+    idx_FV = np.setdiff1d(range(grid_AV.shape[0]), idx_CV)
+    grid_FV = grid_AV[idx_FV]
     weights_FV = np.array([par['w_fv']]*grid_FV.shape[0])
+    weights_AV[idx_FV] = par['w_fv']
 
     bio = Coords(grid_PDBvol, None)
     av = Coords(grid_AV, weights_AV)
