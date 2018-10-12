@@ -283,7 +283,7 @@ def runACV(par, biomol):
     cv = Coords(grid_CV, weights_CV)
     fv = Coords(grid_FV, weights_FV)
 
-    cloud = Cloud(biomol.structure, biomol.coords, bio, av, cv, fv)
+    cloud = Cloud(biomol.structure, biomol.attach, bio, av, cv, fv)
 
     return cloud
 
@@ -300,7 +300,7 @@ def writeXYZ(name, coords, attach, weights=None):
     """
     filename = '{}.xyz'.format(name)
     f = open(filename, 'w')
-    f.write('attachmentCoords {:.2f}\t{:.2f}\t{:.2f}\n'.format(biomol.attach[0], biomol.attach[1], biomol.attach[2]))
+    f.write('attachmentCoords {:.2f}\t{:.2f}\t{:.2f}\n'.format(attach[0], attach[1], attach[2]))
     if weights is not None:
         for c,w in zip(coords, weights):
             f.write('D {:.2f}\t{:.2f}\t{:.2f}\t{:.2f}\n'.format(c[0], c[1], c[2], w))

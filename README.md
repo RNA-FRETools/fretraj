@@ -48,4 +48,5 @@ cmd.alter("RNA", "vdw=0.5")
 cmd.alter("AV", "vdw=0.5")
 cmd.alter("CV", "vdw=0.5")
 cmd.alter("FV", "vdw=0.5")
+cmd.rebuild('all')
 ```
