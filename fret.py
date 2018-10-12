@@ -45,17 +45,10 @@ def getConfig(paramFile):
     return config
 
 class ACV:
-    def __init__(self, config, id, weights):
+    def __init__(self, config, id):
         self.id = id
         self.loadCoords(config)
         self.mean_pos()
-        if isinstance(weights, float):
-            self.weights = np.array([weights]*self.coords.shape[0])
-        elif (isinstance(weights, (list, tuple, np.ndarray)) and len(weights) == self.coords.shape[0]):
-            self.weights = np.array(weights)
-        else:
-            self.weights = np.array([1]*self.coords.shape[0])
-
 
     def loadCoords(self, config):
         """
@@ -66,13 +59,22 @@ class ACV:
         config : SafeConfigParser object
         """
         self.filename = config.get('clouds', self.id)
-        self.coords = np.loadtxt(self.filename, skiprows=1, usecols=[1,2,3])
+        try:
+            data = np.loadtxt(self.filename, skiprows=1, usecols=[1,2,3,4])
+        except:
+            data = np.loadtxt(self.filename, skiprows=1, usecols=[1,2,3])
+        self.coords = data[:,0:3]
+        if data.shape[1]>3:
+            self.weights = data[:,3]
+        else:
+            self.weights = np.array([1.0]*self.coords.shape[0])
 
     def mean_pos(self):
         """
         Compute mean dye position
         """
-        self.mp = np.mean(self.coords, 0)
+        #self.mp = np.mean(self.coords, 0)
+        self.mp = np.dot(self.weights,self.coords)/self.weights.sum()
 
 
 def dist_mp(av1, av2):
@@ -207,6 +209,6 @@ if __name__ == "__main__":
     paramFile = parseCmd()
     config = getConfig(paramFile)
     R0 = config.getfloat('förster', 'R0')
-    av1 = ACV(config, 'av_don', weights=None)
-    av2 = ACV(config, 'av_acc', weights=None)
+    av1 = ACV(config, 'av_don')
+    av2 = ACV(config, 'av_acc')
     fretObs(av1, av2, R0)

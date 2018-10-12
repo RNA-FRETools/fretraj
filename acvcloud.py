@@ -49,14 +49,14 @@ def getConfig(paramFile):
     config = configparser.SafeConfigParser({"spacing":"1"})
     config.readfp(open(paramFile))
 
-    params = {'serialID': config.getint('dye parameters', 'serialID'),
+    par = {'serialID': config.getint('dye parameters', 'serialID'),
               'linker': config.getint('dye parameters', 'linker'),
               'CVthickness': config.getfloat('dye parameters', 'CVthick'),
               'spacing': config.getfloat('grid', 'spacing'),
               'w_cv': config.getfloat('weights', 'cv'),
               'w_fv': config.getfloat('weights', 'fv')
              }
-    return params
+    return par
 
 
 def getPDBcoord(pdbFile, serialID):
@@ -242,6 +242,10 @@ def runACV(par, biomol):
     # PDB coordinates
     Kd_coords = spatial.cKDTree(biomol.coords)
 
+    # rescale weights
+    par['w_cv'] = par['w_cv']/(par['w_cv']+par['w_fv'])
+    par['w_fv'] = 1-par['w_cv']
+
     # grid construction
     grid = generate_grid(par['linker'], par['spacing'], biomol.attach)
     Kd_grid = spatial.cKDTree(grid)
@@ -257,7 +261,7 @@ def runACV(par, biomol):
     distDict, adjDict = buildNeighborList(Kd_gridnotPDBvol, biomol.attach, grid_notPDBvol, nof_nodes)
     nodeswithin = dijkstra(distDict, adjDict, nof_nodes, nof_nodes, par['linker'])
     grid_AV = grid_notPDBvol[nodeswithin]
-    weights_AV = np.array([1]*grid_AV.shape[0])
+    weights_AV = np.array([1.0]*grid_AV.shape[0])
     Kd_grid_AV = spatial.cKDTree(grid_AV)
 
     # compute CV
@@ -284,7 +288,7 @@ def runACV(par, biomol):
     return cloud
 
 
-def writeXYZ(name, coords, attach):
+def writeXYZ(name, coords, attach, weights=None):
     """
     Write XYZ coordinates of accessible, contact and free volume
 
@@ -297,9 +301,12 @@ def writeXYZ(name, coords, attach):
     filename = '{}.xyz'.format(name)
     f = open(filename, 'w')
     f.write('attachmentCoords {:.2f}\t{:.2f}\t{:.2f}\n'.format(biomol.attach[0], biomol.attach[1], biomol.attach[2]))
-    for c in coords:
-        #c_str = ':.3'.format(c)
-        f.write('D {:.2f}\t{:.2f}\t{:.2f}\n'.format(c[0], c[1], c[2]))
+    if weights is not None:
+        for c,w in zip(coords, weights):
+            f.write('D {:.2f}\t{:.2f}\t{:.2f}\t{:.2f}\n'.format(c[0], c[1], c[2], w))
+    else:
+        for c in coords:
+            f.write('D {:.2f}\t{:.2f}\t{:.2f}\n'.format(c[0], c[1], c[2]))
     f.close()
 
 class Cloud:
@@ -330,6 +337,6 @@ if __name__ == "__main__":
     biomol = getPDBcoord(pdbFile, par['serialID'])
     cloud = runACV(par, biomol)
     writeXYZ('PDB', cloud.bio.coords, cloud.coords_AttachPos)
-    writeXYZ('AV', cloud.av.coords, cloud.coords_AttachPos)
+    writeXYZ('AV', cloud.av.coords, cloud.coords_AttachPos, cloud.av.weights)
     writeXYZ('CV', cloud.cv.coords, cloud.coords_AttachPos)
     writeXYZ('FV', cloud.fv.coords, cloud.coords_AttachPos)
