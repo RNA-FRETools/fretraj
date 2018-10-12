@@ -94,7 +94,7 @@ def getPDBcoord(pdbFile, serialID):
     selection_dict = dict(zip(serial_numbers, selection))
     coords_AttachPos = list(selection_dict[serialID].get_coord().astype(np.dtype('float64')))
 
-    biomol = Biomolecule(coords_target, element_target, coords_AttachPos)
+    biomol = Biomolecule(pdbFile, coords_target, element_target, coords_AttachPos)
     return biomol
 
 
@@ -278,7 +278,7 @@ def runACV(par, biomol):
     cv = Coords(grid_CV, weights_CV)
     fv = Coords(grid_FV, weights_FV)
 
-    cloud = Cloud(pdbFile, biomol.coords, bio, av, cv, fv)
+    cloud = Cloud(biomol.structure, biomol.coords, bio, av, cv, fv)
 
     return cloud
 
@@ -316,7 +316,8 @@ class Coords:
         self.weights = weights
 
 class Biomolecule:
-    def __init__(self, coords, elements, attach):
+    def __init__(self, structure, coords, elements, attach):
+        self.structure = structure
         self.coords = coords
         self.elements = elements
         self.attach = attach

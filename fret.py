@@ -193,14 +193,11 @@ def writeOutput(Rmp, R_DA_avg, R_DA_std, E_avg, R_DA_E):
     print('----------------')
 
 
-def fretObs(config):
-    av1 = ACV(config, 'av_don', weights=None)
-    av2 = ACV(config, 'av_acc', weights=None)
+def fretObs(av1, av2, R0):
     Rmp = dist_mp(av1, av2)
     R_DA = dists_DA(av1, av2, 10**6)
     R_DA_avg = avg_dist_DA(R_DA)
     R_DA_std = std_dist_DA(R_DA)
-    R0 = config.getfloat('förster', 'R0')
     E_avg = mean_fret(R_DA, R0)
     R_DA_E = mean_fret_dist(E_avg, R0)
     writeOutput(Rmp, R_DA_avg, R_DA_std, E_avg, R_DA_E)
@@ -209,4 +206,7 @@ def fretObs(config):
 if __name__ == "__main__":
     paramFile = parseCmd()
     config = getConfig(paramFile)
-    fretObs(config)
+    R0 = config.getfloat('förster', 'R0')
+    av1 = ACV(config, 'av_don', weights=None)
+    av2 = ACV(config, 'av_acc', weights=None)
+    fretObs(av1, av2, R0)
