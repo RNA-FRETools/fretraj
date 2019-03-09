@@ -12,6 +12,10 @@ from scipy import spatial
 from itertools import groupby
 from operator import itemgetter
 
+# for timing
+#import time
+#start_time = time.time()
+
 def parseCmd():
     """
     Parse the command line to get the input PDB file and the dye parameters
@@ -150,7 +154,7 @@ def getPDBvolume(linker, element_target, coords_target, vdWRadius, grid, Kd_grid
     """
     PDBvolIdx = []
     for i,elem in enumerate(element_target):
-        PDBvolIdx.append(Kd_grid.query_ball_point(coords_target[i], vdWRadius[elem]+spacing/2))  # find all grid points within the VdW radii (+ half of the grid spacing) of the atoms belonging to the target
+        PDBvolIdx.append(Kd_grid.query_ball_point(coords_target[i], vdWRadius[elem]+spacing/2+3))  # find all grid points within the VdW radii (+ half of the grid spacing) of the atoms belonging to the target
         # Note: adding half the grid spacing helps finding missing points due to the finite spacing of the grid
 
     PDBvolIdx = list(set([item for sublist in PDBvolIdx for item in sublist if item])) # get indices of grid points inside the PDB volume
@@ -176,8 +180,9 @@ def buildNeighborList(Kd_gridnotPDBvol, coords_AttachPos, grid_notPDBvol, nof_no
     adjDict :
     """
     # compute neighbor list for grid points (nodes)
-    distances_src, idx_src = Kd_gridnotPDBvol.query(coords_AttachPos, k=13**3, distance_upper_bound=6)  # return k neighbors from attachement point with a max. distance of 6 Angstrom
-    distances, idx = Kd_gridnotPDBvol.query(grid_notPDBvol, k=7**3, distance_upper_bound=3.01) # return k neighbors from attachement point with a max. distance of 3.01 Angstrom
+    distances_src, idx_src = Kd_gridnotPDBvol.query(coords_AttachPos, k=10**3, distance_upper_bound=6)  # return k neighbors from attachement point with a max. distance of 6 Angstrom
+    distances, idx = Kd_gridnotPDBvol.query(grid_notPDBvol, k=74, distance_upper_bound=3.01) # return k neighbors from attachement point with a max. distance of 3.01 Angstrom
+
     distDict = {i: list(distances[i,np.isfinite(distances[i,:])]) for i in range(nof_nodes)}
     adjDict = {i: list(idx[i,np.isfinite(distances[i,:])]) for i in range(nof_nodes)}
     adjDict[nof_nodes] = idx_src
@@ -260,6 +265,9 @@ def runACV(par, biomol):
     # compute nodes with path lengths shorter than linker length
     distDict, adjDict = buildNeighborList(Kd_gridnotPDBvol, biomol.attach, grid_notPDBvol, nof_nodes)
     nodeswithin = dijkstra(distDict, adjDict, nof_nodes, nof_nodes, par['linker'])
+
+    #print("--- %s seconds ---" % (time.time() - start_time))
+
     grid_AV = grid_notPDBvol[nodeswithin]
     weights_AV = np.array([1.0]*grid_AV.shape[0])
     Kd_grid_AV = spatial.cKDTree(grid_AV)
