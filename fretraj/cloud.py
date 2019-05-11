@@ -28,15 +28,16 @@ with open(os.path.join(package_directory, 'periodic_table.json')) as f:
 
 VDW_RADIUS = dict((key, _periodic_table[key]["vdw_radius"]) for key in _periodic_table.keys())
 
-_default_struct = {'Position': {'pd_key': {'attach_id': ((int, float), None), 'linker_length': ((int, float), None),
-                                           'linker_width': ((int, float), None), 'dye_radius1': ((int, float), None),
-                                           'dye_radius2': ((int, float), None), 'dye_radius3': ((int, float), None),
-                                           'cv_thickness': ((int, float), 0), 'grid_spacing': ((int, float), 0.5),
-                                           'mol_selection': (str, 'all'), 'simulation_type': (str, 'AV3'),
-                                           'cv_fraction': (float, 0)}},
-                   'Distance': {'pd_key': {'R0': ((int, float), None)}}}
+_label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None), 'linker_length': ((int, float), None),
+                                       'linker_width': ((int, float), None), 'dye_radius1': ((int, float), None),
+                                       'dye_radius2': ((int, float), None), 'dye_radius3': ((int, float), None),
+                                       'cv_thickness': ((int, float), 0), 'grid_spacing': ((int, float), 0.5),
+                                       'mol_selection': (str, 'all'), 'simulation_type': (str, 'AV3'),
+                                       'cv_fraction': (float, 0)}},
+               'Distance': {'pd_key': {'R0': ((int, float), None)}}}
 
-_default_params = {key: val[1] for key, val in _default_struct['Position']['pd_key'].items() if val[1] is not None}
+_label_dict_vals = {field: {'pd_key': {key: val[1] for key, val in _label_dict[field]['pd_key'].items()}} for field in _label_dict.keys()}
+_default_params = {key: val[1] for key, val in _label_dict['Position']['pd_key'].items() if val[1] is not None}
 
 
 def parseCmd():
@@ -48,7 +49,6 @@ def parseCmd():
     pdbFile : string
     paramFile : string
     """
-
     parser = argparse.ArgumentParser(
         description='compute accessible-contact clouds for \
                      an MD trajectory or a given PDB structure')
@@ -58,10 +58,17 @@ def parseCmd():
         '-i', '--input', help='Input PDB structure (.pdb)', required=True)
     parser.add_argument('-p', '--parameters',
                         help='Parameter file (.json)', required=True)
+    parser.add_argument('-o', '--output',
+                        help='Output file of accessible contact volume (.pdb, .xyz, .dx)',
+                        required=False)
+    parser.add_argument('-d', '--distance',
+                        help='Distance file (.json)', required=False)
     args = parser.parse_args()
-    pdb_file = args.input
-    param_file = args.parameters
-    return pdb_file, param_file
+    in_filePDB = args.input
+    param_fileJSON = args.parameters
+    out_fileACV = args.output
+    out_fileDist = args.distance
+    return in_filePDB, param_fileJSON, out_fileACV, out_fileDist
 
 
 def labeling_params(param_file):
@@ -105,7 +112,7 @@ def check_labels(labels):
     -------
     labels_checked : dict
     """
-    for field in _default_struct.keys():
+    for field in _label_dict.keys():
         if field in labels.keys():
             for pos in labels[field].keys():
                 if field == 'Position':
@@ -117,7 +124,7 @@ def check_labels(labels):
                         raise KeyError('simulation_type', pos, field)
                 elif field == 'Distance':
                     pass
-                for key, (t, d) in _default_struct[field]['pd_key'].items():
+                for key, (t, d) in _label_dict[field]['pd_key'].items():
                     if key not in labels[field][pos]:
                         if key in _default_params.keys():
                             labels[field][pos][key] = _default_params[key]
@@ -132,6 +139,34 @@ def check_labels(labels):
     return labels
 
 
+def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', length=20, fill='█'):
+    """
+    Command line progress bar
+
+    Parameters
+    ----------
+    iteration : int
+                current iteration
+    total : int
+            total number of iterations
+                  - Required  : total iterations (Int)
+    prefix : str, optional
+             string before progress bar
+    suffix : str, optional
+             string after progress bar
+    length : int
+             length of progress bar
+    fill : str, optional
+           fill character of progress bar
+    """
+    percent = '{:0.0f}'.format(100 * iteration / total)
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r{} |{}| {}% {}'.format(prefix, bar, percent, suffix), end='\r')
+    if iteration == total:
+        print()
+
+
 class ACV:
     """
     Reweighted accessible contact volume of a covalently linked fluorophore
@@ -139,7 +174,7 @@ class ACV:
     Parameters
     ----------
     ll_acv : LabelLib.Grid3D
-             accessible volume with added weight labels for free and contact volume 
+             accessible volume with added weight labels for free and contact volume
              (density label FV: 1.0, density label CV: 2.0); the two volumes are subsequently reweighted
     cv_thickness : float
                    width of the contact volume in Angstrom (default: 0, i.e. no CV is calculated)
@@ -151,7 +186,7 @@ class ACV:
     Attributes
     ----------
     grid : list
-           flattened list of grid point values of the LabelLib.Grid3D
+           flattened list of grid point values of the LabelLib.Grid3D class with labeled CV points (not yet reweighted)
     shape : list
             shape of the LabelLib.Grid3D
     originXYZ : list
@@ -164,26 +199,35 @@ class ACV:
 
     grid_1d : ndarray
               one-dimensional array of grid points of length n_gridpts
-    tag : ndarray
-          one-dimensional array of length n_gridpts
     grid_3d : ndarray
               3-dimensional array of grid points with a shape given by n_xyz
+    tag_3d : ndarray
+             one-dimensional array of length n_gridpts
     cloud_xyzq : ndarray
                  array of x-,y-,z-coordinates and corresponding weights
                  with a shape [n_gridpts(+), 4]
+    ll_Grid3D : LabelLib.Grid3D
+                reweighted LabelLib.Grid3D class with attributes (shape, originXYZ, discStep, grid)
     """
 
-    def __init__(self, ll_acv, cv_thickness, cv_fraction):
-        self.grid = ll_acv.grid
-        self.shape = ll_acv.shape
-        self.originXYZ = ll_acv.originXYZ
-        self.discStep = ll_acv.discStep
+    def __init__(self, ll_acv=None, cv_thickness=0, cv_fraction=0, cloud_xyzqt=None):
+        if ll_acv is not None:
+            self.grid = ll_acv.grid
+            self.shape = ll_acv.shape
+            self.originXYZ = ll_acv.originXYZ
+            self.discStep = ll_acv.discStep
 
-        self.n_gridpts = np.prod(self.shape)
-        self.grid_1d = self._reweight_cv(cv_thickness, cv_fraction)
-        self.tag = self._tag_volume()
-        self.grid_3d = ACVolume.reshape_grid(self.grid_1d, self.shape)
-        self.cloud_xyzq = ACVolume.grid2pts(self.grid_3d, self.originXYZ, [self.discStep] * 3)
+            self.n_gridpts = np.prod(self.shape)
+            self.grid_1d, self.tag_1d = self._reweight_cv(cv_thickness, cv_fraction)
+            self.grid_3d = Volume.reshape_grid(self.grid_1d, self.shape)
+            self.tag_3d = Volume.reshape_grid(self.tag_1d, self.shape)
+            self.cloud_xyzqt = Volume.grid2pts(self.grid_3d, self.originXYZ, [self.discStep] * 3, self.tag_3d)
+
+            self.ll_Grid3D = ll.Grid3D(self.shape, self.originXYZ, self.discStep)
+            self.ll_Grid3D.grid = self.grid_1d
+        else:
+            self.cloud_xyzqt = cloud_xyzqt
+        self.mp = Volume.mean_pos(self.cloud_xyzqt)
 
     def _reweight_cv(self, cv_thickness, cv_fraction):
         """
@@ -204,11 +248,12 @@ class ACV:
                   one-dimensional array of grid points of length n_gridpts
         """
         grid_1d = np.array(self.grid)
-        if cv_thickness != 0:
+        tag_1d = self._tag_volume(grid_1d)
+        if cv_thickness != 0 or cv_fraction != 0:
             weight_cv = self._weight_factor(grid_1d, cv_fraction)
             grid_1d[grid_1d > 1.0] = weight_cv
         grid_1d = np.clip(grid_1d, 0, None)
-        return grid_1d
+        return grid_1d, tag_1d
 
     @staticmethod
     def _weight_factor(grid_1d, cv_fraction):
@@ -236,11 +281,14 @@ class ACV:
 
         """
         n_CV = np.count_nonzero(grid_1d > 1.0)
-        n_FV = np.count_nonzero(grid_1d == 1.0)
-        weight_cv = n_FV / n_CV * cv_fraction / (1.0 - cv_fraction)
+        if n_CV != 0:
+            n_FV = np.count_nonzero([(grid_1d > 0) & (grid_1d <= 1)])
+            weight_cv = n_FV / n_CV * cv_fraction / (1.0 - cv_fraction)
+        else:
+            weight_cv = 1
         return weight_cv
 
-    def _tag_volume(self):
+    def _tag_volume(self, grid_1d):
         """
         Assign a tag to the grid values depending on their location in the cloud
         (1: free volume, 2: contact volume)
@@ -255,12 +303,29 @@ class ACV:
         tag : ndarray
               one-dimensional array of length n_gridpts
         """
-        tag = np.full(self.n_gridpts, 1)
-        tag[self.grid_1d > 1.0] = 2
-        return tag
+        tag_1d = np.full(self.n_gridpts, 1)
+        tag_1d[grid_1d > 1.0] = 2
+        return tag_1d
 
 
-class ACVolume:
+class Molecule:
+    def __init__(self, volume1, volume2, R_DA=None, use_LabelLib=True):
+        self.volume1 = volume1
+        self.volume2 = volume2
+        if use_LabelLib:
+            self.mean_R_DA = mean_dist_DA_ll(volume1.acv1, volume1.acv2, n_dist=10**6)
+            self.mean_E_DA = mean_FRET_DA_ll(volume1.acv1, volume2.acv2, R0=54, n_dist=10**6)
+            self.dists_DA = dists_DA_ll(volume1.acv, volume2.acv, n_dist=10**6)
+            # check sample inverse to get distribution
+        else:
+            self.R_DA = dists_DA(volume1.acv, volume2.acv, n_dist=10**6)
+            self.mean_R_DA = mean_dist_DA(volume1.acv1, volume2.acv2, R_DA=self.R_DA)
+            self.E_DA = FRET_DA(volume1.acv1, volume1.acv2, R_DA=self.R_DA, R0=54)
+            self.mean_E_DA = mean_FRET_DA(volume1.acv1, volume1.acv2, E_DA=self.E_DA)
+            self.mean_R_DA_E = mean_dist_DA_fromFRET(volume1.acv1, volume1.acv2, mean_E_DA=self.mean_E_DA, R0=54)
+
+
+class Volume:
     """
     Class object holding the accessible contact volume of a specific labeling position
 
@@ -284,7 +349,11 @@ class ACVolume:
     frame : int
             frame number of the mdtraj.Trajectory object
     attach_id : int
-                serial atom id of the attachment point in the mdtraj.Trajectory object
+                serial atom id of the attachment point in the pdb file (1 based indexing)
+    attach_id_mdtraj : int
+                serial atom id of the attachment point in the mdtraj.Trajectory object (0 based indexing)
+    resi_atom : str
+                residue name, residue number and atom name of the attachment point
     mol_selection : str
                     atom selection expression compatible with `MDTraj <http://mdtraj.org/latest/atom_selection.html>`_
     linker_length : float
@@ -306,50 +375,159 @@ class ACVolume:
                   (e.g. as determined by fluorescence anisotropy)
     """
 
-    def __init__(self, structure, frame, site, labels):
-        self.labeling_site = site
+    def __init__(self, structure=None, frame=None, site='pd_key', labels=_label_dict_vals, cloud_xyzqt=None):
         self.structure = structure
-        self.frame = frame
         self.attach_id = labels['Position'][site]['attach_id']
-        self.mol_selection = labels['Position'][site]['mol_selection']
-        self.linker_length = labels['Position'][site]['linker_length']
-        self.linker_width = labels['Position'][site]['linker_width']
-        self.simulation_type = labels['Position'][site]['simulation_type']
-        self.dye_radii = np.array([labels['Position'][site]['dye_radius1'], labels['Position']
-                                   [site]['dye_radius2'], labels['Position'][site]['dye_radius3']])
-        self.grid_spacing = labels['Position'][site]['grid_spacing']
-        self.cv_thickness = labels['Position'][site]["cv_thickness"]
-        self.cv_fraction = labels['Position'][site]["cv_fraction"]
-        self.av = self.calc_av()
-        self.acv = self.calc_acv()
+
+        if structure is not None and self.attach_id is not None:
+            self.labeling_site = site
+            self.mol_selection = labels['Position'][site]['mol_selection']
+            self.linker_length = labels['Position'][site]['linker_length']
+            self.linker_width = labels['Position'][site]['linker_width']
+            self.simulation_type = labels['Position'][site]['simulation_type']
+            self.dye_radii = np.array([labels['Position'][site]['dye_radius1'], labels['Position'][site]['dye_radius2'], labels['Position'][site]['dye_radius3']])
+            self.grid_spacing = labels['Position'][site]['grid_spacing']
+            self.cv_thickness = labels['Position'][site]["cv_thickness"]
+            self.cv_fraction = labels['Position'][site]["cv_fraction"]
+
+            try:
+                self.n_atoms = self.structure.n_atoms
+            except:
+                print('{} is no valid mdtraj.Trajectory object'.format(self.structure))
+            else:
+                self.frame = frame
+                try:
+                    if self.frame > self.structure.n_frames - 1:
+                        raise IndexError
+                except IndexError:
+                    print('The frame {:d} is out of range, select a frame within 0 - {:d}'.format(self.frame, self.structure.n_frames - 1))
+                else:
+                    try:
+                        if self.attach_id < 1 or self.attach_id > self.n_atoms:
+                            raise IndexError
+                    except IndexError:
+                        print('The attachment position {:d} is out of range, select an index within 1 - {:d}'.format(self.attach_id, n_atoms))
+                    else:
+                        self.attach_id_mdtraj = labels['Position'][site]['attach_id'] - 1
+                        self.resi_atom = self.structure.top.atom(self.attach_id_mdtraj)
+
+                        self.av = self.calc_av()
+                        try:
+                            if not any(np.array(self.av.grid) > 0):
+                                raise ValueError
+                        except ValueError:
+                            print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
+                        else:
+                            self.acv = self.calc_acv()
+        else:
+            print('Molecular structure or attachment point are unknown')
+
+        if cloud_xyzqt is not None:
+            self.acv = ACV(cloud_xyzqt=cloud_xyzqt)
+
+    @classmethod
+    def from_frames(cls, structure, frames, site, labels):
+        """
+        Trajectory
+
+        Parameters
+        ----------
+        structure : mdtraj.Trajectory
+        frames : int or list
+        site : str
+        labels : dict
+
+        Examples
+        --------
+        """
+        n_fr = len(frames)
+        printProgressBar(0, n_fr)
+        traj = []
+        for i, frame in enumerate(frames):
+            traj.append(Volume(structure, frame, site, labels))
+            printProgressBar(i + 1, n_fr)
+        return traj
 
     @classmethod
     def from_attachID(cls, structure, frame, labels, attachID):
         """
-        Alternative constructor for ACVolume
+        Alternative constructor for the ft.cloud.Volume class by reading in one or multiple
+        attachment points using the same dye and grid parameters
 
         Parameters
         ----------
         structure : mdtraj.Trajectory
         frame : int
-        site : str
         labels : dict
+        attachID : int or list
 
-        Returns
-        -------
-        ACVolume : class instance
-                   Returns an instance of the ft.cloud.ACVolume class
+        Examples
+        --------
+
+        >>> struct = md.load_pdb('data/2m23.pdb')
+        >>> labels_global = ft.labeling_params('data/labels_global.json')
+        >>> from_attachID(struct, 0, labelsglobals, [2,929])
+
         """
         site = 'global'
         try:
-            global_params = labels['Position'][site]
+            global_params = copy.deepcopy(labels['Position'][site])
         except KeyError as e:
-            print('Site key missing: {}. Cannot initalize ACVolume.'.format(e))
+            print('Site key missing: {}. Cannot initalize Volume.'.format(e))
         else:
-            labels['Position'].clear()
-            labels['Position'][attachID] = global_params
-            labels['Position'][attachID]['attach_id'] = attachID
-            return cls(structure, frame, attachID, labels)
+            glabels = {'Position': {}}
+            try:
+                iter(attachID)
+            except TypeError:
+                attachID = [attachID]
+
+            n_aID = len(attachID)
+            printProgressBar(0, n_aID)
+            locs = []
+            for i, aID in enumerate(attachID):
+                glabels['Position'][str(aID)] = global_params
+                glabels['Position'][str(aID)]['attach_id'] = aID
+                locs.append(cls(structure, frame, str(aID), glabels))
+                printProgressBar(i + 1, n_aID)
+            return locs
+
+    @classmethod
+    def from_cloud_xyz(cls, file_str):
+        """
+        Alternative constructor for the ft.cloud.Volume class by reading in an accessible volume
+        object from an xyz or pdb file
+
+        Parameters
+        ----------
+        file_str : path to accessible volume object
+
+        Examples
+        --------
+
+        >>> ft.cloud.Volume.from_cloud_xyz('data/2m23_resi1_Cy3.xyz')
+
+        """
+
+        for delimiter in (' ', '\t'):
+            try:
+                data = np.genfromtxt(file_str, dtype=[('element', 'U2'), ('x', 'f8'), ('y', 'f8'), ('z', 'f8'), ('q', 'f8')], delimiter=delimiter, skip_header=2)
+            except ValueError:
+                continue
+            else:
+                tag = [2 if p > 1 else 1 for p in data['q']]
+                cloud_xyzqt = np.array((data['x'], data['y'], data['z'], data['q'], tag)).T
+                return cls(cloud_xyzqt=cloud_xyzqt)
+
+        for delimiter in (' ', '\t'):
+            try:
+                data = np.genfromtxt(file_str, dtype=[('element', 'U2'), ('x', 'f8'), ('y', 'f8'), ('z', 'f8')], delimiter=delimiter, skip_header=2)
+            except ValueError:
+                continue
+            else:
+                weight = [1] * len(data['x'])
+                tag = [1] * len(data['x'])
+                cloud_xyzqt = np.array((data['x'], data['y'], data['z'], weight, tag)).T
+                return cls(cloud_xyzqt=cloud_xyzqt)
 
     @staticmethod
     def reshape_grid(grid, shape):
@@ -371,7 +549,7 @@ class ACVolume:
         --------
 
         >>> grid = numpy.full(27,1)
-        >>> ft.ACVolume.reshape_grid(grid, (3,3,3))
+        >>> ft.Volume.reshape_grid(grid, (3,3,3))
         array([[[1., 1., 1.],
                 [1., 1., 1.],
                 [1., 1., 1.]],
@@ -379,13 +557,14 @@ class ACVolume:
                [[1., 1., 1.],
                 [1., 1., 1.],
                 [1., 1., 1.]]])
+
         """
         grid_3d = np.array(grid, dtype=np.float64).reshape(shape, order='F')
         return grid_3d
 
     @staticmethod
     @nb.jit
-    def grid2pts(grid_3d, xyz_min, d_xyz):
+    def grid2pts(grid_3d, xyz_min, d_xyz, *args):
         """
         Convert 3D-grid with density values to xyz coordinates with a weight (q)
 
@@ -400,25 +579,38 @@ class ACVolume:
 
         Returns
         -------
-        cloud_xyzq : ndarray
-                     array of x-,y-,z-coordinates and corresponding weights
-                     with a shape [n_gridpts(+), 4]
+        cloud_xyzqt : ndarray
+                     array of x-,y-,z-coordinates with corresponding weights and tags
+                     with a shape [n_gridpts(+), 5]
 
         Examples
         --------
 
         >>> grid_3d = numpy.zeros((3,3,3))
-        >>> grid_3d[(1,1,1)] = 1
-        >>> grid_3d[(1,2,1)] = 10
-        >>> ft.ACVolume.grid2pts(grid_3d, xyz_min=[0,0,0], d_xyz=[1,1,1])
-        array([[ 0.5,  0.5,  0.5,  1. ],
-               [ 0.5,  1. ,  0.5, 10. ]])
+        >>> grid_3d[(1,1,1)] = 1   # FV
+        >>> grid_3d[(1,2,1)] = 10  # CV
+        >>> ft.Volume.grid2pts(grid_3d, xyz_min=[0,0,0], d_xyz=[1,1,1])
+        array([[ 0.5,  0.5,  0.5,  1.  1],
+               [ 0.5,  1. ,  0.5, 10.  1]])
+
+        >>> tag_3d = numpy.zeros((3,3,3))
+        >>> grid_3d[(1,1,1)] = 1   # FV
+        >>> grid_3d[(1,1,1)] = 2   # CV
+        >>> ft.Volume.grid2pts(grid_3d, xyz_min=[0,0,0], d_xyz=[1,1,1], tag_3d)
+        array([[ 0.5,  0.5,  0.5,  1.  1],
+               [ 0.5,  1. ,  0.5, 10.  2]])
+
         """
         xmin, ymin, zmin = xyz_min
         nx, ny, nz = grid_3d.shape
         dx, dy, dz = d_xyz
 
-        cloud_xyzq = np.empty((nx * ny * nz, 4), dtype=np.float64, order='C')
+        if len(args) != 0:
+            tag_3d = args[0]
+        else:
+            tag_3d = np.full(grid_3d.shape, 1)
+
+        cloud_xyzqt = np.empty((nx * ny * nz, 5), dtype=np.float64, order='C')
 
         gdx = np.arange(0, nx, dtype=np.float64) * dx
         gdy = np.arange(0, ny, dtype=np.float64) * dy
@@ -430,12 +622,14 @@ class ACVolume:
                 for iz in range(nz):
                     d = grid_3d[ix, iy, iz]
                     if d > 0:
-                        cloud_xyzq[n, 0] = gdx[ix] + xmin
-                        cloud_xyzq[n, 1] = gdy[iy] + ymin
-                        cloud_xyzq[n, 2] = gdz[iz] + zmin
-                        cloud_xyzq[n, 3] = d
+                        cloud_xyzqt[n, 0] = gdx[ix] + xmin
+                        cloud_xyzqt[n, 1] = gdy[iy] + ymin
+                        cloud_xyzqt[n, 2] = gdz[iz] + zmin
+                        cloud_xyzqt[n, 3] = d
+                        cloud_xyzqt[n, 4] = tag_3d[ix, iy, iz]
                         n += 1
-        return cloud_xyzq[:n]
+
+        return cloud_xyzqt[:n]
 
     @property
     def mol_xyzr(self):
@@ -463,14 +657,8 @@ class ACVolume:
 
         radii = np.array([VDW_RADIUS[atom.element.symbol] /
                           100 for atom in struct.top.atoms], ndmin=2).T
-        radii[self.attach_id] = 0.0
+        radii[self.attach_id_mdtraj] = 0.0
         xyzr = np.hstack((xyz, radii))
-
-        # x0 = np.hstack([self.attach_xyz, 0.0])
-        # asr = 4.5
-        # sd = (xyzr - x0)**2
-        # d2 = sd[:, 0] + sd[:, 1] + sd[:, 2]
-        # xyzr[np.where(d2 < 0 ** 2)[0]] *= np.array([1.0, 1.0, 1.0, 0.0])
         return xyzr
 
     @property
@@ -489,7 +677,7 @@ class ACVolume:
         >>> avobj.attach_xyz
 
         """
-        xyz = self.structure.xyz[self.frame][self.attach_id] * 10
+        xyz = self.structure.xyz[self.frame][self.attach_id_mdtraj] * 10
         return xyz
 
     def save_acv(self, filename, format='xyz', **kwargs):
@@ -515,13 +703,13 @@ class ACVolume:
                 write_weights = kwargs['write_weights']
             except KeyError:
                 write_weights = True
-            file_str = export.xyz(self.acv.cloud_xyzq, write_weights)
+            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, write_weights)
         elif format == 'open_dx':
             d_xyz = [self.grid_spacing] * 3
             xyz_min = self.acv.originXYZ
             file_str = export.open_dx(self.acv.grid_3d, xyz_min, d_xyz)
         else:
-            file_str = export.pdb(self.acv.cloud_xyzq, self.acv.tag)
+            file_str = export.pdb(self.acv.cloud_xyzqt, self.acv.mp)
         with open(filename, 'w') as fname:
             fname.write(file_str)
 
@@ -577,9 +765,9 @@ class ACVolume:
         """
         cv_label = 2.0
         das_marker = np.full(self.mol_xyzr.shape[0], cv_label)
-        das_xyzm = np.vstack([self.mol_xyzr.T, das_marker])
-        das_xyzm[3] += self.cv_thickness
-        return das_xyzm
+        das_xyzrm = np.vstack([self.mol_xyzr.T, das_marker])
+        das_xyzrm[3] += self.cv_thickness
+        return das_xyzrm
 
     def calc_acv(self):
         """
@@ -606,7 +794,7 @@ class ACVolume:
         References
         ----------
         .. [3] Steffen, F. D., Sigel, R. K. O. & Börner, R. "An atomistic view on carbocyanine \
-        photophysics in the realm of RNA", *Phys. Chem. Chem. Phys.* **18**, 29045–29055 (2016). 
+        photophysics in the realm of RNA", *Phys. Chem. Chem. Phys.* **18**, 29045–29055 (2016).
         .. [4] Dimura, M. et al. Quantitative FRET studies and integrative modeling unravel the structure \
         and dynamics of biomolecular systems", *Curr. Opin. Struct. Biol.* **40**, 163–185 (2016).
 
@@ -616,33 +804,38 @@ class ACVolume:
         >>> avobj.calc_acv()
 
         """
-        if self.cv_thickness != 0:
-            das_xyzm = self._dye_acc_surf()
-            ll_acv = ll.addWeights(self.av, das_xyzm)
-        else:
-            ll_acv = copy.deepcopy(self.av)
+        das_xyzrm = self._dye_acc_surf()
+        ll_acv = ll.addWeights(self.av, das_xyzrm)
 
         acv = ACV(ll_acv, self.cv_thickness, self.cv_fraction)
         return acv
 
-        # print(acv)
-        # acv.n_gridpts = np.prod(acv.shape)
-        # acv.tag = self._tag_volume(acv.n_gridpts, grid_1d)
-        # acv.grid = list(np.clip(grid_1d, 0, None))
-        # acv.grid_3d = self._reshape_grid(acv)
+    @staticmethod
+    def mean_pos(cloud_xyzqt):
+        """
+        Calculate mean dye position in accessible contact volume
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        mp : 
+        """
+        #mp = np.mean(cloud_xyzqt[:, 0:3], 0)
+        x = np.dot(cloud_xyzqt[:, 0], cloud_xyzqt[:, 3])
+        y = np.dot(cloud_xyzqt[:, 1], cloud_xyzqt[:, 3])
+        z = np.dot(cloud_xyzqt[:, 2], cloud_xyzqt[:, 3])
+        mp = np.array((x, y, z)) / cloud_xyzqt[:, 3].sum()
+        return mp
 
 
 if __name__ == "__main__":
-    pdb_file, param_file = parseCmd()
-    labels = labeling_params(param_file)
-    struct = md.load_pdb(pdb_file)
-    av1 = ACVolume(struct, 0, '344', labels)
-    points = density2points(av1.av.discStep, density_av1, av1.av.originXYZ)
-    writeXYZ('PDB', points, av1.attach_xyz)
+    in_filePDB, param_fileJSON, out_fileACV, out_fileDist = parseCmd()
+    labels = labeling_params(param_fileJSON)
+    struct = md.load_pdb(in_filePDB)
+    av = Volume(struct, 0, '40', labels)
 
-    sys.exit()
-    cloud = runACV(par, biomol)
-    writeXYZ('PDB', cloud.bio.coords, cloud.coords_AttachPos)
-    writeXYZ('AV', cloud.av.coords, cloud.coords_AttachPos, cloud.av.weights)
-    writeXYZ('CV', cloud.cv.coords, cloud.coords_AttachPos)
-    writeXYZ('FV', cloud.fv.coords, cloud.coords_AttachPos)
+    if out_fileACV:
+        out_filenameACV, out_fileextACV = os.path.splitext(out_fileACV)
+        av.save_acv(out_fileACV, format=out_fileextACV[1:])

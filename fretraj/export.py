@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
+NAME = 'D'
+ELEMENT = 'D'
+NAME_MP = 'H'
+ELEMENT_MP = 'H'
+OCCUPANCY_MP = -1
 
-def open_dx(density, xyz_min, d_xyz):
+
+def open_dx(grid_3d, xyz_min, d_xyz):
     """
     Return an OpenDX formatted string
 
@@ -20,7 +26,7 @@ def open_dx(density, xyz_min, d_xyz):
         OpenDX formatted string
     """
     xmin, ymin, zmin = xyz_min
-    nx, ny, nz = density.shape
+    nx, ny, nz = grid_3d.shape
     dx, dy, dz = d_xyz
 
     s = ''
@@ -35,7 +41,7 @@ def open_dx(density, xyz_min, d_xyz):
     for ix in range(0, nx):
         for iy in range(0, ny):
             for iz in range(0, nz):
-                s += '{}'.format(density[ix, iy, iz])
+                s += '{}'.format(grid_3d[ix, iy, iz])
                 k += 1
                 if k % 3 == 0:
                     s += '\n'
@@ -50,7 +56,7 @@ def open_dx(density, xyz_min, d_xyz):
     return s
 
 
-def xyz(points, write_weights=True):
+def xyz(cloud_xyzqt, mp, write_weights=True):
     """
     Returns an XYZ formatted string
 
@@ -65,20 +71,22 @@ def xyz(points, write_weights=True):
     s : str
         XYZ formatted string
     """
-    n_points = points.shape[0]
+    n_points = cloud_xyzqt.shape[0]
     s = ''
     s += '{:d}\n'.format(n_points)
     s += '# Accessible contact volume\n'
     if write_weights:
         for k in range(n_points):
-            s += 'D\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(points[k, 0], points[k, 1], points[k, 2], points[k, 3])
+            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], cloud_xyzqt[k, 3])
+        s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2], -1)
     else:
         for k in range(n_points):
-            s += 'D\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(points[k, 0], points[k, 1], points[k, 2])
+            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2])
+        s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2])
     return s
 
 
-def pdb(cloud_xyzq, tag):
+def pdb(cloud_xyzqt, mp):
     """
     Returns a PDB formatted string
 
@@ -142,15 +150,14 @@ def pdb(cloud_xyzq, tag):
     """
     _pdb_format = '{:6}{:5d}{:>5}{:1}{:>3} {:1}{:4d}{:1}   {:>8.3f}{:>8.3f}{:>8.3f}{:>6.2f}{:>6.2f}          {:>2}{:>2}\n'
 
-    n_points = cloud_xyzq.shape[0]
+    n_points = cloud_xyzqt.shape[0]
     bfactor = 99
-    name = 'D'
-    element = 'D'
     s = ''
     for k in range(n_points):
-        if tag[k] == 2:
+        if cloud_xyzqt[k, 4] == 2:
             resn = 'CV'
         else:
             resn = 'FV'
-        s += _pdb_format.format('ATOM', k, name, ' ', resn, ' ', tag[k], ' ', cloud_xyzq[k, 0], cloud_xyzq[k, 1], cloud_xyzq[k, 2], bfactor, cloud_xyzq[k, 3], element, ' ')
+        s += _pdb_format.format('ATOM', k, NAME, ' ', resn, ' ', int(cloud_xyzqt[k, 4]), ' ', cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], bfactor, cloud_xyzqt[k, 3], ELEMENT, ' ')
+    s += _pdb_format.format('ATOM', k, NAME_MP, ' ', 'MP', ' ', 0, ' ', mp[0], mp[1], mp[2], bfactor, -1, ELEMENT_MP, ' ')
     return s
