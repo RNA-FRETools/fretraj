@@ -80,32 +80,32 @@ def mean_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6):
 
     """
     if R_DA is None:
-        print('> calculating R_DAs')
         R_DA = dists_DA(acv1, acv2, n_dist)
+        print('> calculating R_DAs')
     mean_R_DA = np.dot(R_DA[:, 0], R_DA[:, 1]) / R_DA[:, 1].sum()
     return mean_R_DA
 
 
 def std_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6):
     if R_DA is None:
-        print('> calculating R_DAs')
         R_DA = dists_DA(acv1, acv2, n_dist)
+        print('> calculating R_DAs')
     std_R_DA = np.sqrt(np.dot(R_DA[:, 0]**2, R_DA[:, 1]) - np.dot(R_DA[:, 0], R_DA[:, 1])**2)
     return std_R_DA
 
 
 def FRET_DA(acv1, acv2, R_DA=None, R0=54, n_dist=10**6):
     if R_DA is None:
-        print('> calculating R_DAs')
         R_DA = dists_DA(acv1, acv2, n_dist)
+        print('> calculating R_DAs')
     E_DA = np.vstack((R0**6 / (R0**6 + R_DA[:, 0]**6), R_DA[:, 1])).T
     return E_DA
 
 
 def mean_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6):
     if E_DA is None:
-        print('> calculating E_DAs')
         E_DA = FRET_DA(acv1, acv2, R_DA, R0, n_dist)
+        print('> calculating E_DAs')
     mean_E_DA = np.dot(E_DA[:, 0], E_DA[:, 1]) / E_DA[:, 1].sum()
     return mean_E_DA
 
@@ -132,8 +132,8 @@ def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None, R0=5
 
     """
     if mean_E_DA is None:
-        print('> calculating mean_E_DA')
         mean_E_DA = mean_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist)
+        print('> calculating mean_E_DA')
     mean_R_DA_E = R0 * (1 / mean_E_DA - 1)**(1 / 6)
     return mean_R_DA_E
 
