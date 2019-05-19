@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 
-# Compute and analyze accessible volume clouds on an MD trajectory or a individual PDB structures
-
-# F.Steffen, University of Zurich
+"""
+Compute and analyze accessible volume clouds on an MD trajectory or a individual PDB structures
+"""
 
 import numpy as np
 import os
-import sys
 import argparse
 import json
 import mdtraj as md
 import LabelLib as ll
 import numba as nb
-import warnings
 import copy
 
 from fretraj import export
+from fretraj import fret
 
 
 DISTANCE_SAMPLES = 200000
@@ -158,6 +157,15 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', le
              length of progress bar
     fill : str, optional
            fill character of progress bar
+
+    Examples
+    --------
+
+    >>> printProgressBar(0, n)
+    >>> for i in range(n):
+            doSomething
+            printProgressBar(i + 1, n)
+
     """
     percent = '{:0.0f}'.format(100 * iteration / total)
     filledLength = int(length * iteration // total)
@@ -308,21 +316,81 @@ class ACV:
         return tag_1d
 
 
-class Molecule:
+class FRET_Trajectory:
+    """
+    Parameters
+    ----------
+    volume1 : instance of the Volume class
+    volume2 : instance of the Volume class
+    R_DA : ndarray
+           donor acceptor distance distribution and associate weights (optional)
+    use_LabelLib : bool
+                   make use of LabelLib library to compute FRET values and distances [1]_ [2]_
+
+    Attributes
+    ----------
+    R_DA : ndarray
+    mean_R_DA : float
+                mean FRET 
+    mean_E_DA : float
+    mean_R_DA_E : float
+
+
+    Examples
+    --------
+
+    >>> ft.Molecule(volume1, volume2)
+
+    >>> ft.Molecule(volume1, volume2, use_LabelLib=False)
+
+
+    """
+
     def __init__(self, volume1, volume2, R_DA=None, use_LabelLib=True):
-        self.volume1 = volume1
-        self.volume2 = volume2
-        if use_LabelLib:
-            self.mean_R_DA = mean_dist_DA_ll(volume1.acv1, volume1.acv2, n_dist=10**6)
-            self.mean_E_DA = mean_FRET_DA_ll(volume1.acv1, volume2.acv2, R0=54, n_dist=10**6)
-            self.dists_DA = dists_DA_ll(volume1.acv, volume2.acv, n_dist=10**6)
-            # check sample inverse to get distribution
+        try:
+            if volume1.acv is None or volume2.acv is None:
+                raise TypeError
+        except TypeError:
+            print('One accessible volume is empty')
         else:
-            self.R_DA = dists_DA(volume1.acv, volume2.acv, n_dist=10**6)
-            self.mean_R_DA = mean_dist_DA(volume1.acv1, volume2.acv2, R_DA=self.R_DA)
-            self.E_DA = FRET_DA(volume1.acv1, volume1.acv2, R_DA=self.R_DA, R0=54)
-            self.mean_E_DA = mean_FRET_DA(volume1.acv1, volume1.acv2, E_DA=self.E_DA)
-            self.mean_R_DA_E = mean_dist_DA_fromFRET(volume1.acv1, volume1.acv2, mean_E_DA=self.mean_E_DA, R0=54)
+            self.volume1 = volume1
+            self.volume2 = volume2
+            if use_LabelLib:
+                self.R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=10**6, return_weights=True)
+                self.mean_R_DA = fret.mean_dist_DA_ll(volume1.acv, volume2.acv, n_dist=10**6)
+                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=54)
+                self.mean_E_DA = fret.mean_FRET_DA_ll(volume1.acv, volume2.acv, R0=54, n_dist=10**6)
+            else:
+                self.R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=10**6, return_weights=True)
+                self.mean_R_DA = fret.mean_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
+                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=54)
+                self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
+            self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=54)
+            self.R_attach = fret.dist_attach(volume1.attach_xyz, volume2.attach_xyz)
+            self.R_mp = fret.dist_mp(volume1.acv, volume2.acv)
+
+    @classmethod
+    def from_volumes(cls, volume_list1, volume_list2, R_DA=None, use_LabelLib=True):
+        """
+        """
+        n_vols1 = len(volume_list1)
+        n_vols2 = len(volume_list2)
+        try:
+            if n_vols1 != n_vols2:
+                raise ValueError
+        except ValueError:
+            print('The length of volume_list1 and volume_list2 is not the same')
+        else:
+            printProgressBar(0, n_vols1)
+            fret_trajectory = []
+            for i in range(n_vols1):
+                fret_value = FRET_Trajectory(volume_list1[i], volume_list2[i], R_DA, use_LabelLib)
+                if volume_list1[i].acv is None or volume_list2[i].acv is None:
+                    print('Skip list entry {:d}'.format(i))
+                else:
+                    fret_trajectory.append(fret_value)
+                printProgressBar(i + 1, n_vols1)
+            return fret_trajectory
 
 
 class Volume:
@@ -417,6 +485,7 @@ class Volume:
                                 raise ValueError
                         except ValueError:
                             print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
+                            self.acv = None
                         else:
                             self.acv = self.calc_acv()
         else:
@@ -442,11 +511,11 @@ class Volume:
         """
         n_fr = len(frames)
         printProgressBar(0, n_fr)
-        traj = []
+        multiframe_volumes = []
         for i, frame in enumerate(frames):
-            traj.append(Volume(structure, frame, site, labels))
+            multiframe_volumes.append(Volume(structure, frame, site, labels))
             printProgressBar(i + 1, n_fr)
-        return traj
+        return multiframe_volumes
 
     @classmethod
     def from_attachID(cls, structure, frame, labels, attachID):
@@ -483,13 +552,13 @@ class Volume:
 
             n_aID = len(attachID)
             printProgressBar(0, n_aID)
-            locs = []
+            multisite_volumes = []
             for i, aID in enumerate(attachID):
                 glabels['Position'][str(aID)] = global_params
                 glabels['Position'][str(aID)]['attach_id'] = aID
-                locs.append(cls(structure, frame, str(aID), glabels))
+                multisite_volumes.append(cls(structure, frame, str(aID), glabels))
                 printProgressBar(i + 1, n_aID)
-            return locs
+            return multisite_volumes
 
     @classmethod
     def from_cloud_xyz(cls, file_str):
