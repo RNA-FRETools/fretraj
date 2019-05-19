@@ -36,22 +36,6 @@ fretraj.export module
     :undoc-members:
     :show-inheritance:
 
-fretraj.traj module
--------------------
-
-.. automodule:: fretraj.traj
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-fretraj.trial module
---------------------
-
-.. automodule:: fretraj.trial
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------
