@@ -11,7 +11,7 @@ setuptools.setup(
     description="Calculating accessible-contact volumes of fluorescent dyes on biomolecules",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/fdsteffen/acv",
+    url="https://github.com/fdsteffen/fretraj",
     packages=setuptools.find_packages(exclude=['docs', 'tests']),
     classifiers=[
         "Programming Language :: Python :: 3",
