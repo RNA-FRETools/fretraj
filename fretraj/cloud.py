@@ -32,7 +32,7 @@ _label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None), 'linke
                                        'dye_radius2': ((int, float), None), 'dye_radius3': ((int, float), None),
                                        'cv_thickness': ((int, float), 0), 'grid_spacing': ((int, float), 0.5),
                                        'mol_selection': (str, 'all'), 'simulation_type': (str, 'AV3'),
-                                       'cv_fraction': (float, 0)}},
+                                       'cv_fraction': ((int, float), 0)}},
                'Distance': {'pd_key': {'R0': ((int, float), None)}}}
 
 _label_dict_vals = {field: {'pd_key': {key: val[1] for key, val in _label_dict[field]['pd_key'].items()}} for field in _label_dict.keys()}
@@ -290,8 +290,12 @@ class ACV:
         """
         n_CV = np.count_nonzero(grid_1d > 1.0)
         if n_CV != 0:
-            n_FV = np.count_nonzero([(grid_1d > 0) & (grid_1d <= 1)])
-            weight_cv = n_FV / n_CV * cv_fraction / (1.0 - cv_fraction)
+            n_FV = np.count_nonzero([(grid_1d > 0.0) & (grid_1d <= 1.0)])
+            if n_FV != 0:
+                weight_cv = n_FV / n_CV * cv_fraction / (1.0 - cv_fraction)
+            else:
+                print('no fraction of free dyes, all stacked')
+                weight_cv = 2
         else:
             weight_cv = 1
         return weight_cv
@@ -469,12 +473,16 @@ class Volume:
                         raise IndexError
                 except IndexError:
                     print('The frame {:d} is out of range, select a frame within 0 - {:d}'.format(self.frame, self.structure.n_frames - 1))
+                    self.av = None
+                    self.acv = None
                 else:
                     try:
                         if self.attach_id < 1 or self.attach_id > self.n_atoms:
                             raise IndexError
                     except IndexError:
-                        print('The attachment position {:d} is out of range, select an index within 1 - {:d}'.format(self.attach_id, n_atoms))
+                        print('The attachment position {:d} is out of range, select an index within 1 - {:d}'.format(self.attach_id, self.n_atoms))
+                        self.av = None
+                        self.acv = None
                     else:
                         self.attach_id_mdtraj = labels['Position'][site]['attach_id'] - 1
                         self.resi_atom = self.structure.top.atom(self.attach_id_mdtraj)
