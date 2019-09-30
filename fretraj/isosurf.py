@@ -2,6 +2,7 @@
 
 from pymol import cmd
 
+
 def smooth_map_from_xyz(name, selection, isolevel):
     """
     Creates a map object from a selection with xyz coordinates (e.g. a PDB or XYZ object) 
@@ -17,7 +18,7 @@ def smooth_map_from_xyz(name, selection, isolevel):
     """
     grid_spacing = 0.9
     gaussRes = 3.0
-    name_surf = name + '_surf'
+    name_surf = name + '_isosurf'
     name_map = name + '_map'
     cmd.alter(selection, 'b=100')
     gaussRes_default = cmd.get('gaussian_resolution')
@@ -40,7 +41,7 @@ def draw_map(name, isomap, isolevel):
               e.g. an ccp4 or open-dx map
     level : float
     """
-    name_surf = name + '_surf'
+    name_surf = name + '_isosurf'
     cmd.isosurface(name_surf, isomap, isolevel)
 
 
