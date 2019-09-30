@@ -33,7 +33,9 @@ _label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None), 'linke
                                        'cv_thickness': ((int, float), 0), 'grid_spacing': ((int, float), 0.5),
                                        'mol_selection': (str, 'all'), 'simulation_type': (str, 'AV3'),
                                        'cv_fraction': ((int, float), 0)}},
-               'Distance': {'pd_key': {'R0': ((int, float), None)}}}
+               'Distance': {'pd_key': {'R0': ((int, float), None),
+                                       'use_LabelLib': (bool, True),
+                                       'n_dist': (int, 10**6)}}}
 
 _label_dict_vals = {field: {'pd_key': {key: val[1] for key, val in _label_dict[field]['pd_key'].items()}} for field in _label_dict.keys()}
 _default_params = {key: val[1] for key, val in _label_dict['Position']['pd_key'].items() if val[1] is not None}
@@ -135,6 +137,7 @@ def check_labels(labels):
                             raise TypeError('\'{}\' in {} {} must be of one of the following types: {}'.format(key, field, pos, t))
         else:
             labels[field] = None
+            print('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
     return labels
 
 
@@ -350,7 +353,7 @@ class FRET_Trajectory:
 
     """
 
-    def __init__(self, volume1, volume2, R_DA=None, use_LabelLib=True):
+    def __init__(self, volume1, volume2, R_DA=None, R0=54, n_dist=10**6, use_LabelLib=True):
         try:
             if volume1.acv is None or volume2.acv is None:
                 raise TypeError
@@ -360,16 +363,24 @@ class FRET_Trajectory:
             self.volume1 = volume1
             self.volume2 = volume2
             if use_LabelLib:
-                self.R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=10**6, return_weights=True)
-                self.mean_R_DA = fret.mean_dist_DA_ll(volume1.acv, volume2.acv, n_dist=10**6)
-                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=54)
-                self.mean_E_DA = fret.mean_FRET_DA_ll(volume1.acv, volume2.acv, R0=54, n_dist=10**6)
+                if R_DA is None:
+                    self.R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=n_dist, return_weights=True)
+                else:
+                    self.R_DA = R_DA
+                self.mean_R_DA = fret.mean_dist_DA_ll(volume1.acv, volume2.acv, n_dist=n_dist)
+                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
+                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=R0)
+                self.mean_E_DA = fret.mean_FRET_DA_ll(volume1.acv, volume2.acv, R0=R0, n_dist=n_dist)
             else:
-                self.R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=10**6, return_weights=True)
+                if R_DA is None:
+                    self.R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=n_dist, return_weights=True)
+                else:
+                    self.R_DA = R_DA
                 self.mean_R_DA = fret.mean_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=54)
+                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
+                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=R0)
                 self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
-            self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=54)
+            self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=R0)
             self.R_attach = fret.dist_attach(volume1.attach_xyz, volume2.attach_xyz)
             self.R_mp = fret.dist_mp(volume1.acv, volume2.acv)
 
