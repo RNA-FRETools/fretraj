@@ -6,16 +6,22 @@ import LabelLib as ll
 
 def dist_mp(acv1, acv2):
     """
+    Compute distance between mean dye positions of two accessible contact volumes
+
     Parameters
     ----------
+    acv1 : fretraj.cloud.ACV
+    acv2 : fretraj.cloud.ACV
 
     Returns
     -------
+    R_mp : float
+           distance between mean dye positions of acv1 and acv2
 
     Examples
     --------
 
-    >>> Rmp()
+    >>> avobj.dist_mp(acv1, acv2)
 
     """
     R_mp = np.sqrt(sum((acv1.mp - acv2.mp)**2))
@@ -24,17 +30,18 @@ def dist_mp(acv1, acv2):
 
 def mean_dist_DA_ll(acv1, acv2, n_dist=10**6):
     """
-    Compute a randomly subsampled donor-acceptor distance distribution for the two accessible volume clouds
+    Mean donor-acceptor distance between acv1 and acv2
 
     Parameters
     ----------
-    av1 : n x 3 array of xyz coordinates
-    av1 : m x 3 array of xyz coordinates
-    nof_dist : integer number of distances to calculate
+    acv1 : fretraj.cloud.ACV
+    acv2 : fretraj.cloud.ACV
+    n_dist : int, optional
+             integer number of distances to calculate
 
     Returns
     -------
-    1D array of distances between av1 and av2
+    mean_R_DA : float
     """
     mean_R_DA = ll.meanDistance(acv1.ll_Grid3D, acv2.ll_Grid3D, n_dist)
     return mean_R_DA
@@ -46,16 +53,16 @@ def dists_DA(acv1, acv2, n_dist=10**6, return_weights=True):
 
     Parameters
     ----------
-    av1 : n x 3 array of xyz coordinates
-    av1 : m x 3 array of xyz coordinates
-    nof_dist : int, optional
-               integer number of distances to calculate
+    acv1 : fretraj.cloud.ACV
+    acv2 : fretraj.cloud.ACV
+    n_dist : int, optional
+             integer number of distances to calculate
 
     Returns
     -------
-    1D array of distances between av1 and av2
+    mean_R_DA : ndarray
+                1D array of length n_dist containing distances between acv1 and acv2
     """
-
     if return_weights:
         idx1 = np.random.choice(len(acv1.cloud_xyzqt), n_dist)
         idx2 = np.random.choice(len(acv2.cloud_xyzqt), n_dist)

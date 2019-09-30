@@ -58,7 +58,7 @@ def open_dx(grid_3d, xyz_min, d_xyz):
 
 def xyz(cloud_xyzqt, mp, write_weights=True):
     """
-    Returns an XYZ formatted string
+    Return an XYZ formatted string
 
     Parameters
     ----------
