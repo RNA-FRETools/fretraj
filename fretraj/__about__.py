@@ -1,0 +1,9 @@
+__title__ = 'fretraj'
+__version__ = '1.0.0'
+__license__ = 'MIT'
+__author__ = 'Fabio D. Steffen'
+__email__ = 'fabio.steffen@chem.uzh.ch'
+__description__ = 'Calculating accessible-contact volumes of fluorescent dyes on biomolecules'
+__keywords__ = 'accessible volume, contact volume, MD, trajectory, ACV, FRET, PDB'
+__url__ = 'https://github.com/fdsteffen/fretraj'
+__copyright__ = '2019 {}'.format(__author__)

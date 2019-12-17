@@ -9,18 +9,30 @@ import os
 import argparse
 import json
 import mdtraj as md
-import LabelLib as ll
 import numba as nb
 import copy
+import scipy as sp
+
+try:
+    import LabelLib as ll
+except ModuleNotFoundError:
+    print('\nNote: LabelLib module is not found. \nACV calculation uses a Python-only algorithm\n')
+    _LabelLib_found = False
+else:
+    _LabelLib_found = True
 
 from fretraj import export
 from fretraj import fret
+from fretraj import grid
 
 
 DISTANCE_SAMPLES = 200000
-VERSION = 1.0
 
 package_directory = os.path.dirname(os.path.abspath(__file__))
+
+about = {}
+with open(os.path.join(package_directory, '__about__.py')) as a:
+    exec(a.read(), about)
 
 with open(os.path.join(package_directory, 'periodic_table.json')) as f:
     _periodic_table = json.load(f)
@@ -32,13 +44,13 @@ _label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None), 'linke
                                        'dye_radius2': ((int, float), None), 'dye_radius3': ((int, float), None),
                                        'cv_thickness': ((int, float), 0), 'grid_spacing': ((int, float), 0.5),
                                        'mol_selection': (str, 'all'), 'simulation_type': (str, 'AV3'),
-                                       'cv_fraction': ((int, float), 0)}},
+                                       'cv_fraction': ((int, float), 0), 'frame': (int, 0),
+                                       'use_LabelLib': (bool, True)}},
                'Distance': {'pd_key': {'R0': ((int, float), None),
-                                       'use_LabelLib': (bool, True),
                                        'n_dist': (int, 10**6)}}}
 
 _label_dict_vals = {field: {'pd_key': {key: val[1] for key, val in _label_dict[field]['pd_key'].items()}} for field in _label_dict.keys()}
-_default_params = {key: val[1] for key, val in _label_dict['Position']['pd_key'].items() if val[1] is not None}
+_default_params = {field: {key: val[1] for key, val in _label_dict[field]['pd_key'].items() if val[1] is not None} for field in ['Position', 'Distance']}
 
 
 def parseCmd():
@@ -54,7 +66,7 @@ def parseCmd():
         description='compute accessible-contact clouds for \
                      an MD trajectory or a given PDB structure')
     parser.add_argument('--version', action='version',
-                        version='%(prog)s ' + str(VERSION))
+                        version='%(prog)s ' + str(about["__version__"]))
     parser.add_argument(
         '-i', '--input', help='Input PDB structure (.pdb)', required=True)
     parser.add_argument('-p', '--parameters',
@@ -127,9 +139,9 @@ def check_labels(labels):
                     pass
                 for key, (t, d) in _label_dict[field]['pd_key'].items():
                     if key not in labels[field][pos]:
-                        if key in _default_params.keys():
-                            labels[field][pos][key] = _default_params[key]
-                            print('Missing Key: \'{}\' in {} {}. Falling back to {}'.format(key, field, pos, _default_params[key]))
+                        if key in _default_params[field].keys():
+                            labels[field][pos][key] = copy.copy(_default_params[field][key])
+                            print('Missing Key: \'{}\' in {} {}. Falling back to \"{}\"'.format(key, field, pos, _default_params[field][key]))
                         else:
                             raise KeyError(key, pos, field)
                     else:
@@ -184,7 +196,7 @@ class ACV:
 
     Parameters
     ----------
-    ll_acv : LabelLib.Grid3D
+    grid_acv : LabelLib.Grid3D
              accessible volume with added weight labels for free and contact volume
              (density label FV: 1.0, density label CV: 2.0); the two volumes are subsequently reweighted
     cv_thickness : float
@@ -193,6 +205,11 @@ class ACV:
     cv_fraction : float
                   fraction of dyes that are within the contact volume
                   (e.g. as determined by fluorescence anisotropy)
+    cloud_xyzq : numpy.ndarray
+                 array of x-,y-,z-coordinates and corresponding weights
+                 with a shape [n_gridpts(+), 4]
+    use_LabelLib : bool
+                   make use of LabelLib library to compute FRET values and distances [1]_ [2]_
 
     Attributes
     ----------
@@ -208,34 +225,36 @@ class ACV:
     n_gridpts : int
                 total number of grid points
 
-    grid_1d : ndarray
+    grid_1d : numpy.ndarray
               one-dimensional array of grid points of length n_gridpts
-    grid_3d : ndarray
+    grid_3d : numpy.ndarray
               3-dimensional array of grid points with a shape given by n_xyz
-    tag_3d : ndarray
+    tag_3d : numpy.ndarray
              one-dimensional array of length n_gridpts
-    cloud_xyzq : ndarray
+    cloud_xyzq : numpy.ndarray
                  array of x-,y-,z-coordinates and corresponding weights
                  with a shape [n_gridpts(+), 4]
     ll_Grid3D : LabelLib.Grid3D
                 reweighted LabelLib.Grid3D class with attributes (shape, originXYZ, discStep, grid)
     """
 
-    def __init__(self, ll_acv=None, cv_thickness=0, cv_fraction=0, cloud_xyzqt=None):
-        if ll_acv is not None:
-            self.grid = ll_acv.grid
-            self.shape = ll_acv.shape
-            self.originXYZ = ll_acv.originXYZ
-            self.discStep = ll_acv.discStep
+    def __init__(self, grid_acv=None, cv_thickness=0, cv_fraction=0, cloud_xyzqt=None, use_LabelLib=True):
+        if grid_acv is not None:
+            self.grid = grid_acv.grid
+            self.shape = grid_acv.shape
+            self.originXYZ = grid_acv.originXYZ
+            self.discStep = grid_acv.discStep
 
             self.n_gridpts = np.prod(self.shape)
             self.grid_1d, self.tag_1d = self._reweight_cv(cv_thickness, cv_fraction)
             self.grid_3d = Volume.reshape_grid(self.grid_1d, self.shape)
             self.tag_3d = Volume.reshape_grid(self.tag_1d, self.shape)
             self.cloud_xyzqt = Volume.grid2pts(self.grid_3d, self.originXYZ, [self.discStep] * 3, self.tag_3d)
-
-            self.ll_Grid3D = ll.Grid3D(self.shape, self.originXYZ, self.discStep)
-            self.ll_Grid3D.grid = self.grid_1d
+            if use_LabelLib and _LabelLib_found:
+                self.ll_Grid3D = ll.Grid3D(self.shape, self.originXYZ, self.discStep)
+                self.ll_Grid3D.grid = self.grid_1d
+            else:
+                self.ll_Grid3D = None
         else:
             self.cloud_xyzqt = cloud_xyzqt
         self.mp = Volume.mean_pos(self.cloud_xyzqt)
@@ -260,7 +279,7 @@ class ACV:
         """
         grid_1d = np.array(self.grid)
         tag_1d = self._tag_volume(grid_1d)
-        if cv_thickness != 0 or cv_fraction != 0:
+        if cv_thickness > 0:
             weight_cv = self._weight_factor(grid_1d, cv_fraction)
             grid_1d[grid_1d > 1.0] = weight_cv
         grid_1d = np.clip(grid_1d, 0, None)
@@ -353,7 +372,7 @@ class FRET_Trajectory:
 
     """
 
-    def __init__(self, volume1, volume2, R_DA=None, R0=54, n_dist=10**6, use_LabelLib=True):
+    def __init__(self, volume1, volume2, fret_pair, labels, R_DA=None):
         try:
             if volume1.acv is None or volume2.acv is None:
                 raise TypeError
@@ -362,31 +381,36 @@ class FRET_Trajectory:
         else:
             self.volume1 = volume1
             self.volume2 = volume2
-            if use_LabelLib:
+            self.fret_pair = fret_pair
+            self.R0 = labels['Distance'][fret_pair]["R0"]
+            self.n_dist = labels['Distance'][fret_pair]["n_dist"]
+            self.use_LabelLib = np.all([volume1.use_LabelLib, volume2.use_LabelLib])
+            if self.use_LabelLib and _LabelLib_found:
                 if R_DA is None:
-                    self.R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=n_dist, return_weights=True)
+                    self.R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
                 else:
                     self.R_DA = R_DA
-                self.mean_R_DA = fret.mean_dist_DA_ll(volume1.acv, volume2.acv, n_dist=n_dist)
+                self.mean_R_DA = fret.mean_dist_DA_ll(volume1.acv, volume2.acv, n_dist=self.n_dist)
                 self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=R0)
-                self.mean_E_DA = fret.mean_FRET_DA_ll(volume1.acv, volume2.acv, R0=R0, n_dist=n_dist)
+                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
+                self.mean_E_DA = fret.mean_FRET_DA_ll(volume1.acv, volume2.acv, R0=self.R0, n_dist=self.n_dist)
             else:
                 if R_DA is None:
-                    self.R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=n_dist, return_weights=True)
+                    self.R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
                 else:
                     self.R_DA = R_DA
                 self.mean_R_DA = fret.mean_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
                 self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=R0)
+                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
                 self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
-            self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=R0)
+            self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=self.R0)
             self.R_attach = fret.dist_attach(volume1.attach_xyz, volume2.attach_xyz)
             self.R_mp = fret.dist_mp(volume1.acv, volume2.acv)
 
     @classmethod
-    def from_volumes(cls, volume_list1, volume_list2, R_DA=None, use_LabelLib=True):
+    def from_volumes(cls, volume_list1, volume_list2, fret_pair, labels, R_DA=None):
         """
+        fret_pair : str
         """
         n_vols1 = len(volume_list1)
         n_vols2 = len(volume_list2)
@@ -399,7 +423,7 @@ class FRET_Trajectory:
             printProgressBar(0, n_vols1)
             fret_trajectory = []
             for i in range(n_vols1):
-                fret_value = FRET_Trajectory(volume_list1[i], volume_list2[i], R_DA, use_LabelLib)
+                fret_value = FRET_Trajectory(volume_list1[i], volume_list2[i], fret_pair, labels, R_DA)
                 if volume_list1[i].acv is None or volume_list2[i].acv is None:
                     print('Skip list entry {:d}'.format(i))
                 else:
@@ -416,8 +440,6 @@ class Volume:
     ----------
     structure : mdtraj.Trajectory
                 trajectory of atom coordinates loaded from a pdb, xtc or other file
-    frame : int
-            frame number of the mdtraj.Trajectory object
     site : str
            reference identifier for the labeling position
     labels : dict
@@ -456,13 +478,15 @@ class Volume:
     cv_fraction : float
                   fraction of dyes that are within the contact volume
                   (e.g. as determined by fluorescence anisotropy)
+    frame : int
+            frame number of the mdtraj.Trajectory object (0 based indexing)
     """
 
-    def __init__(self, structure=None, frame=None, site='pd_key', labels=_label_dict_vals, cloud_xyzqt=None):
+    def __init__(self, structure, site, labels, cloud_xyzqt=None):
         self.structure = structure
         self.attach_id = labels['Position'][site]['attach_id']
 
-        if structure is not None and self.attach_id is not None:
+        if self.attach_id is not None:
             self.labeling_site = site
             self.mol_selection = labels['Position'][site]['mol_selection']
             self.linker_length = labels['Position'][site]['linker_length']
@@ -470,15 +494,16 @@ class Volume:
             self.simulation_type = labels['Position'][site]['simulation_type']
             self.dye_radii = np.array([labels['Position'][site]['dye_radius1'], labels['Position'][site]['dye_radius2'], labels['Position'][site]['dye_radius3']])
             self.grid_spacing = labels['Position'][site]['grid_spacing']
-            self.cv_thickness = labels['Position'][site]["cv_thickness"]
-            self.cv_fraction = labels['Position'][site]["cv_fraction"]
+            self.cv_thickness = labels['Position'][site]['cv_thickness']
+            self.cv_fraction = labels['Position'][site]['cv_fraction']
+            self.frame = labels['Position'][site]['frame']
+            self.use_LabelLib = labels['Position'][site]['use_LabelLib']
 
             try:
                 self.n_atoms = self.structure.n_atoms
             except:
                 print('{} is no valid mdtraj.Trajectory object'.format(self.structure))
             else:
-                self.frame = frame
                 try:
                     if self.frame > self.structure.n_frames - 1:
                         raise IndexError
@@ -498,7 +523,7 @@ class Volume:
                         self.attach_id_mdtraj = labels['Position'][site]['attach_id'] - 1
                         self.resi_atom = self.structure.top.atom(self.attach_id_mdtraj)
 
-                        self.av = self.calc_av()
+                        self.av = self.calc_av(self.use_LabelLib)
                         try:
                             if not any(np.array(self.av.grid) > 0):
                                 raise ValueError
@@ -506,15 +531,15 @@ class Volume:
                             print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
                             self.acv = None
                         else:
-                            self.acv = self.calc_acv()
+                            self.acv = self.calc_acv(self.use_LabelLib)
         else:
-            print('Molecular structure or attachment point are unknown')
+            print('Attachment point is unknown')
 
         if cloud_xyzqt is not None:
             self.acv = ACV(cloud_xyzqt=cloud_xyzqt)
 
     @classmethod
-    def from_frames(cls, structure, frames, site, labels):
+    def from_frames(cls, structure, site, labels, frames):
         """
         Trajectory
 
@@ -531,13 +556,15 @@ class Volume:
         n_fr = len(frames)
         printProgressBar(0, n_fr)
         multiframe_volumes = []
+        _labels = copy.copy(labels)
         for i, frame in enumerate(frames):
-            multiframe_volumes.append(Volume(structure, frame, site, labels))
+            _labels['Position'][site]['frame'] = frame
+            multiframe_volumes.append(cls(structure, site, _labels))
             printProgressBar(i + 1, n_fr)
         return multiframe_volumes
 
     @classmethod
-    def from_attachID(cls, structure, frame, labels, attachID):
+    def from_attachID(cls, structure, site, labels, attachID):
         """
         Alternative constructor for the ft.cloud.Volume class by reading in one or multiple
         attachment points using the same dye and grid parameters
@@ -557,27 +584,15 @@ class Volume:
         >>> from_attachID(struct, 0, labelsglobals, [2,929])
 
         """
-        site = 'global'
-        try:
-            global_params = copy.deepcopy(labels['Position'][site])
-        except KeyError as e:
-            print('Site key missing: {}. Cannot initalize Volume.'.format(e))
-        else:
-            glabels = {'Position': {}}
-            try:
-                iter(attachID)
-            except TypeError:
-                attachID = [attachID]
-
-            n_aID = len(attachID)
-            printProgressBar(0, n_aID)
-            multisite_volumes = []
-            for i, aID in enumerate(attachID):
-                glabels['Position'][str(aID)] = global_params
-                glabels['Position'][str(aID)]['attach_id'] = aID
-                multisite_volumes.append(cls(structure, frame, str(aID), glabels))
-                printProgressBar(i + 1, n_aID)
-            return multisite_volumes
+        n_aID = len(attachID)
+        printProgressBar(0, n_aID)
+        multisite_volumes = []
+        _labels = copy.copy(labels)
+        for i, attach_id in enumerate(attachID):
+            _labels['Position'][site]['attach_id'] = attach_id
+            multisite_volumes.append(cls(structure, site, _labels))
+            printProgressBar(i + 1, n_aID)
+        return multisite_volumes
 
     @classmethod
     def from_cloud_xyz(cls, file_str):
@@ -726,7 +741,7 @@ class Volume:
 
         Returns
         -------
-        xyzr : ndarray
+        xyzr : numpy.ndarray
                array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
 
         Examples
@@ -737,17 +752,21 @@ class Volume:
         """
         frame = self.frame
         struct = self.structure
-        # sele = struct.top.select(self.mol_selection)
-        # cutoff = 3
-        # sele = md.compute_neighbors(struct, cutoff, [self.attach_id])
-        # xyz = struct.xyz[frame][sele[frame]]
-        xyz = struct.xyz[frame] * 10
 
-        radii = np.array([VDW_RADIUS[atom.element.symbol] /
-                          100 for atom in struct.top.atoms], ndmin=2).T
+        radii = np.array([VDW_RADIUS[atom.element.symbol] / 100 for atom in struct.top.atoms], ndmin=2).T
         radii[self.attach_id_mdtraj] = 0.0
-        xyzr = np.hstack((xyz, radii))
-        return xyzr
+        try:
+            sele = struct.top.select(self.mol_selection)
+        except ValueError:
+            print('{} is not a valid expression, please see http://mdtraj.org/latest/atom_selection.html'.format(self.mol_selection))
+            print('Falling back to \"all\"')
+            sele = struct.top.select('all')
+        finally:
+            if self.attach_id_mdtraj not in sele:
+                np.append(sele, self.attach_id_mdtraj)
+            xyz = struct.xyz[frame] * 10
+            xyzr = np.hstack((xyz[sele], radii[sele]))
+            return xyzr
 
     @property
     def attach_xyz(self):
@@ -757,7 +776,7 @@ class Volume:
         Returns
         -------
         xyz : ndarray
-              one-dimensional array of x-,y-,z-coordinates of length 3
+              one-dimensional array of x-,y-,z-coordinates of the attachment point
 
         Examples
         --------
@@ -766,7 +785,7 @@ class Volume:
 
         """
         xyz = self.structure.xyz[self.frame][self.attach_id_mdtraj] * 10
-        return xyz
+        return xyz.astype(np.float64)
 
     def save_acv(self, filename, format='xyz', **kwargs):
         """
@@ -801,7 +820,7 @@ class Volume:
         with open(filename, 'w') as fname:
             fname.write(file_str)
 
-    def calc_av(self):
+    def calc_av(self, use_LabelLib):
         """
         Calculate the dye accessible volume [1]_ [2]_
 
@@ -834,12 +853,16 @@ class Volume:
         """
         mol_xyzr = self.mol_xyzr
         attach_xyz = self.attach_xyz
-        if self.simulation_type == 'AV1':
-            av = ll.dyeDensityAV1(mol_xyzr.T, attach_xyz, self.linker_length,
-                                  self.linker_width, self.dye_radii[0], self.grid_spacing)
+
+        if use_LabelLib and _LabelLib_found:
+            if self.simulation_type == 'AV1':
+                av = ll.dyeDensityAV1(mol_xyzr.T, attach_xyz, self.linker_length,
+                                      self.linker_width, self.dye_radii[0], self.grid_spacing)
+            else:
+                av = ll.dyeDensityAV3(mol_xyzr.T, attach_xyz, self.linker_length,
+                                      self.linker_width, self.dye_radii, self.grid_spacing)
         else:
-            av = ll.dyeDensityAV3(mol_xyzr.T, attach_xyz, self.linker_length,
-                                  self.linker_width, self.dye_radii, self.grid_spacing)
+            av = grid.Grid3D(self.mol_xyzr, self.attach_xyz, self.linker_length, self.linker_width, self.dye_radii, self.grid_spacing)
         return av
 
     def _dye_acc_surf(self):
@@ -847,9 +870,9 @@ class Volume:
         Calculate dye accessible surface by padding the vdW radius with the thickness of the contact volume
 
         Returns
-        -------
-        das_xyz : numpy.ndarray([5,n_atoms])
-                   array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)
+        ------
+-       das_xyzrm : numpy.ndarray([5,n_atoms])
+                    array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)
         """
         cv_label = 2.0
         das_marker = np.full(self.mol_xyzr.shape[0], cv_label)
@@ -857,7 +880,7 @@ class Volume:
         das_xyzrm[3] += self.cv_thickness
         return das_xyzrm
 
-    def calc_acv(self):
+    def calc_acv(self, use_LabelLib):
         """
         Partition the accessible volume into a free and a contact volume [3]_ [4]_
 
@@ -893,9 +916,13 @@ class Volume:
 
         """
         das_xyzrm = self._dye_acc_surf()
-        ll_acv = ll.addWeights(self.av, das_xyzrm)
-
-        acv = ACV(ll_acv, self.cv_thickness, self.cv_fraction)
+        if use_LabelLib and _LabelLib_found:
+            grid_acv = ll.addWeights(self.av, das_xyzrm)
+        else:
+            self.av.grid_3d = self.av.addWeights(das_xyzrm.T)
+            self.av.grid = self.av.grid_3d.flatten(order='F')
+            grid_acv = self.av
+        acv = ACV(grid_acv, self.cv_thickness, self.cv_fraction, use_LabelLib=use_LabelLib)
         return acv
 
     @staticmethod
@@ -905,10 +932,14 @@ class Volume:
 
         Parameters
         ----------
+        cloud_xyzq : ndarray
+                     array of x-,y-,z-coordinates and corresponding weights
+                     with a shape [n_gridpts(+), 4]
 
         Returns
         -------
-        mp : 
+        mp : ndarray
+             mean position
         """
         #mp = np.mean(cloud_xyzqt[:, 0:3], 0)
         x = np.dot(cloud_xyzqt[:, 0], cloud_xyzqt[:, 3])

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>796</width>
+    <width>893</width>
     <height>623</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>521</width>
+      <width>621</width>
       <height>580</height>
      </rect>
     </property>
@@ -87,6 +87,26 @@
             <string>AV3</string>
            </property>
           </item>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_library">
+          <property name="text">
+           <string>AV library</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="checkBox_useLabelLib">
+          <property name="text">
+           <string>use LabelLib</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="tristate">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -217,7 +237,7 @@
            <double>0.100000000000000</double>
           </property>
           <property name="value">
-           <double>3.000000000000000</double>
+           <double>6.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -239,6 +259,9 @@
           <property name="singleStep">
            <double>0.100000000000000</double>
           </property>
+          <property name="value">
+           <double>0.800000000000000</double>
+          </property>
          </widget>
         </item>
        </layout>
@@ -250,129 +273,7 @@
         <string>PDB stucture and position</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_molSelection">
-          <property name="text">
-           <string>mol. selection</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="7">
-         <widget class="QPushButton" name="push_deleteLabel">
-          <property name="text">
-           <string>Delete label</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="7">
-         <widget class="QComboBox" name="comboBox_labelName">
-          <property name="editable">
-           <bool>false</bool>
-          </property>
-          <property name="currentText">
-           <string>default</string>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <property name="maxVisibleItems">
-           <number>10</number>
-          </property>
-          <property name="insertPolicy">
-           <enum>QComboBox::InsertAtBottom</enum>
-          </property>
-          <item>
-           <property name="text">
-            <string>default</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="4" column="1" colspan="4">
-         <widget class="QLineEdit" name="lineEdit_molSelection">
-          <property name="text">
-           <string>all</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="5">
-         <widget class="QPushButton" name="push_computeACV">
-          <property name="text">
-           <string>Compute ACV</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="5">
-         <widget class="QPushButton" name="push_loadParameterFile">
-          <property name="text">
-           <string>Load Param.</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="4">
-         <widget class="QLineEdit" name="lineEdit_pdbFile">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="placeholderText">
-           <string>PDB file</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="label_statePDB">
-          <property name="text">
-           <string>state</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_atomID">
-          <property name="text">
-           <string>atom ID</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="7">
-         <widget class="QLineEdit" name="lineEdit_paramFile">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="placeholderText">
-           <string>Param. file</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="5">
-         <widget class="QLineEdit" name="lineEdit_labelName">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="echoMode">
-           <enum>QLineEdit::Normal</enum>
-          </property>
-          <property name="placeholderText">
-           <string>new label</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1" colspan="2">
-         <widget class="QSpinBox" name="spinBox_atomID">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>9999</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4">
          <widget class="QSpinBox" name="spinBox_statePDB">
           <property name="minimum">
            <number>0</number>
@@ -385,14 +286,14 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="push_loadPDB">
+        <item row="4" column="9">
+         <widget class="QPushButton" name="push_computeACV">
           <property name="text">
-           <string>Load PDB</string>
+           <string>Compute ACV</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="0" colspan="8">
+        <item row="6" column="0" colspan="12">
          <widget class="QTableWidget" name="tableWidget_MeanPos">
           <property name="enabled">
            <bool>true</bool>
@@ -439,14 +340,98 @@
           </column>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="push_setRootDirectory">
+        <item row="2" column="9">
+         <widget class="QLineEdit" name="lineEdit_labelName">
           <property name="text">
-           <string>Set root folder</string>
+           <string/>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Normal</enum>
+          </property>
+          <property name="placeholderText">
+           <string>new label</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" colspan="7">
+        <item row="4" column="11">
+         <widget class="QPushButton" name="push_deleteLabel">
+          <property name="text">
+           <string>Delete label</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_molSelection">
+          <property name="text">
+           <string>mol. selection</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="11">
+         <widget class="QLineEdit" name="lineEdit_paramFile">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>Param. file</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="9">
+         <widget class="QPushButton" name="push_loadParameterFile">
+          <property name="text">
+           <string>Load Param.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="11">
+         <widget class="QComboBox" name="comboBox_labelName">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentText">
+           <string>default</string>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="maxVisibleItems">
+           <number>10</number>
+          </property>
+          <property name="insertPolicy">
+           <enum>QComboBox::InsertAtBottom</enum>
+          </property>
+          <item>
+           <property name="text">
+            <string>default</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_atomID">
+          <property name="text">
+           <string>atom ID</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLineEdit" name="lineEdit_pdbAtom">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>atom</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="11">
          <widget class="QLineEdit" name="lineEdit_rootDirectory">
           <property name="text">
            <string/>
@@ -462,6 +447,85 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="1" colspan="7">
+         <widget class="QLineEdit" name="lineEdit_pdbFile">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>PDB file</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="2">
+         <widget class="QSpinBox" name="spinBox_atomID">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1" colspan="7">
+         <widget class="QLineEdit" name="lineEdit_molSelection">
+          <property name="text">
+           <string>all</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="push_setRootDirectory">
+          <property name="text">
+           <string>Set root folder</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="push_loadPDB">
+          <property name="text">
+           <string>Load PDB</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="4">
+         <widget class="QLabel" name="label_statePDB">
+          <property name="text">
+           <string>state</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="6" colspan="2">
+         <widget class="QPushButton" name="push_transfer">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>20</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>&gt;</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -470,7 +534,7 @@
    <widget class="QGroupBox" name="groupBox_FRET">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>640</x>
       <y>10</y>
       <width>241</width>
       <height>371</height>
@@ -480,28 +544,17 @@
      <string>FRET trajectory</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="8" column="0">
-      <widget class="QComboBox" name="comboBox_donorName">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_donor">
+       <property name="text">
+        <string>donor</string>
        </property>
-       <property name="editable">
-        <bool>false</bool>
-       </property>
-       <property name="currentText">
-        <string/>
-       </property>
-       <property name="currentIndex">
-        <number>-1</number>
-       </property>
-       <property name="maxVisibleItems">
-        <number>10</number>
-       </property>
-       <property name="insertPolicy">
-        <enum>QComboBox::InsertAtBottom</enum>
+      </widget>
+     </item>
+     <item row="6" column="0" colspan="2">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
@@ -530,13 +583,6 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_useLabelLib">
-       <property name="text">
-        <string># distances</string>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="1">
       <widget class="QDoubleSpinBox" name="doubleSpinBox_R0">
        <property name="decimals">
@@ -553,13 +599,6 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_donor">
-       <property name="text">
-        <string>donor</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0">
       <widget class="QLineEdit" name="lineEdit_distanceName">
        <property name="text">
@@ -573,42 +612,24 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="0" colspan="2">
-      <widget class="QPushButton" name="push_calculateFRET">
+     <item row="2" column="1">
+      <widget class="QPushButton" name="push_deleteFRETparam">
        <property name="text">
-        <string>calculate FRET</string>
+        <string>Delete param.</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="0" colspan="2">
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+     <item row="4" column="1">
+      <widget class="QSpinBox" name="spinBox_nDist">
+       <property name="minimum">
+        <number>10000</number>
        </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="comboBox_distanceName">
-       <property name="editable">
-        <bool>false</bool>
+       <property name="maximum">
+        <number>10000000</number>
        </property>
-       <property name="currentText">
-        <string>default param.</string>
+       <property name="value">
+        <number>1000000</number>
        </property>
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <property name="maxVisibleItems">
-        <number>10</number>
-       </property>
-       <property name="insertPolicy">
-        <enum>QComboBox::InsertAtBottom</enum>
-       </property>
-       <item>
-        <property name="text">
-         <string>default param.</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item row="7" column="1">
@@ -618,7 +639,7 @@
        </property>
       </widget>
      </item>
-     <item row="10" column="0" colspan="2">
+     <item row="11" column="0" colspan="2">
       <widget class="QTableWidget" name="tableWidget_FRET">
        <property name="enabled">
         <bool>true</bool>
@@ -636,7 +657,7 @@
         <number>0</number>
        </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>120</number>
+        <number>80</number>
        </attribute>
        <attribute name="horizontalHeaderHighlightSections">
         <bool>true</bool>
@@ -690,13 +711,6 @@
        </column>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="push_deleteFRETparam">
-       <property name="text">
-        <string>Delete param.</string>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_R0">
        <property name="text">
@@ -704,29 +718,73 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QCheckBox" name="checkBox_useLabelLib">
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_useLabelLib">
        <property name="text">
-        <string>use LabelLib</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-       <property name="tristate">
-        <bool>false</bool>
+        <string># distances</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QSpinBox" name="spinBox_nDist">
-       <property name="minimum">
-        <number>10000</number>
+     <item row="8" column="0">
+      <widget class="QComboBox" name="comboBox_donorName">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="maximum">
-        <number>10000000</number>
+       <property name="editable">
+        <bool>false</bool>
        </property>
-       <property name="value">
-        <number>1000000</number>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="currentIndex">
+        <number>-1</number>
+       </property>
+       <property name="maxVisibleItems">
+        <number>10</number>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAtBottom</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="comboBox_distanceName">
+       <property name="editable">
+        <bool>false</bool>
+       </property>
+       <property name="currentText">
+        <string>default param.</string>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="maxVisibleItems">
+        <number>10</number>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAtBottom</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string>default param.</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QPushButton" name="push_deleteFRET">
+       <property name="text">
+        <string>delete FRET</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QPushButton" name="push_calculateFRET">
+       <property name="text">
+        <string>calculate FRET</string>
        </property>
       </widget>
      </item>
@@ -735,9 +793,9 @@
    <widget class="QGroupBox" name="groupBox_visualization">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>640</x>
       <y>390</y>
-      <width>231</width>
+      <width>241</width>
       <height>191</height>
      </rect>
     </property>
@@ -746,14 +804,14 @@
     </property>
     <layout class="QFormLayout" name="formLayout_5">
      <item row="0" column="0">
-      <widget class="QLabel" name="label_isoValue">
+      <widget class="QLabel" name="label_contourValue">
        <property name="text">
-        <string>iso value</string>
+        <string>contour level AV (σ)</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_isoValue">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_contourValue">
        <property name="decimals">
         <number>1</number>
        </property>
@@ -761,7 +819,87 @@
         <double>0.100000000000000</double>
        </property>
        <property name="value">
-        <double>1.000000000000000</double>
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="spinBox_bfactor">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_bfactor">
+       <property name="text">
+        <string>b-factor (1-100)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_gaussRes">
+       <property name="text">
+        <string>gauss. resolution</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QSpinBox" name="spinBox_gaussRes">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>2</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_contourValue_CV">
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.700000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_contourValue_CV">
+       <property name="text">
+        <string>contour level CV (σ)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_gridBuffer">
+       <property name="text">
+        <string>grid buffer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_gridBuffer">
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>2.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -773,7 +911,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>796</width>
+     <width>893</width>
      <height>21</height>
     </rect>
    </property>

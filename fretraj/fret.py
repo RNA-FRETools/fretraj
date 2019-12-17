@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 import numpy as np
-import LabelLib as ll
+try:
+    import LabelLib as ll
+except ModuleNotFoundError:
+    _LabelLib_found = False
+else:
+    _LabelLib_found = True
 
 
 def dist_mp(acv1, acv2):

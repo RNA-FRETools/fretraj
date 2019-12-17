@@ -62,7 +62,11 @@ def xyz(cloud_xyzqt, mp, write_weights=True):
 
     Parameters
     ----------
-    points : numpy.ndarray()
+    cloud_xyzq : ndarray
+                 array of x-,y-,z-coordinates and corresponding weights
+                 with a shape [n_gridpts(+), 4]
+    mp : ndarray
+         mean position
     write_weights : bool
                     include weights in XYZ file (5th column)
 
