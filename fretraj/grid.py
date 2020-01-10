@@ -8,7 +8,7 @@ _dist_list = np.sqrt(np.array([1, 2, 3, 5, 6]))  # reduction to 74 neighbors
 
 class Grid3D:
     """
-    Class object holding a 3D grid 
+    Class object holding a 3D grid
 
     Parameters
     ----------
@@ -19,11 +19,11 @@ class Grid3D:
                 (corresponds to the center of the grid)
     linker_length : float
                     length of the dye linker in Angstrom
-    linker_width : float 
+    linker_width : float
                    diameter of the dye linker in Angstrom
     dye_radii : ndarray([3,1])
                 array of dye radii in Angstrom with shape [3,1]
-    grid_spacing : 
+    grid_spacing :
 
     Attributes
     ----------
@@ -34,18 +34,20 @@ class Grid3D:
         - grid : numpy.array       (flattened list of grid point values)
     """
 
-    def __init__(self, mol_xyzr, attach_xyz, linker_length, linker_width, dye_radii, grid_spacing):
+    def __init__(self, mol_xyzr, attach_xyz, linker_length, linker_width, dye_radii, grid_spacing, simulation_type):
         self.discStep = grid_spacing
         self.attach_xyz = attach_xyz
         self.grid_3d, self.originXYZ, self.originAdj = self.make_grid(attach_xyz, linker_length, grid_spacing)
         self.shape = np.array(self.grid_3d.shape)
-        self.halfCubeLength = min(self.shape - 1) * self.discStep * 0.5
+        self.halfCubeLength = min(self.shape) * self.discStep * 0.5
         self.grid_3d = self.block_molecule(mol_xyzr, 0.5 * linker_width)
         maxR = 3 * grid_spacing
         maxR_source = linker_width + grid_spacing
-        self.grid_3d = self.dijkstraInit(maxR, maxR_source)
+        self.grid_3d = self.dijkstra_init(maxR, maxR_source)
         self.grid_3d = self.setAboveTreshold(self.grid_3d, linker_length, -4)
         self.grid_3d = self.setAboveTreshold(self.grid_3d, 0, 1)
+        if simulation_type == 'AV1':
+            dye_radii = [dye_radii[0]]
         self.grid_3d = self.excludeConcentricSpheres(mol_xyzr, dye_radii, 1)
         self.grid = self.grid_3d.flatten(order='F')
 
@@ -74,7 +76,7 @@ class Grid3D:
         ll_padRound = np.ceil(ll_pad / grid_spacing) * grid_spacing  # round to next higher grid value
         xyz_min = attach_xyz - ll_padRound
         originAdj = xyz_min - 0.5 * grid_spacing
-        gridptsPerEdge = 2 * int(ll_padRound / grid_spacing + 0.5) + 1
+        gridptsPerEdge = 2 * int(ll_padRound / grid_spacing + 0.5)  # + 1
         grid_3d = np.full([gridptsPerEdge] * 3, np.inf)
         for i in range(gridptsPerEdge):
             for j in range(gridptsPerEdge):
@@ -88,12 +90,15 @@ class Grid3D:
         return grid_3d, xyz_min, originAdj
 
     @staticmethod
-    @nb.jit(nopython=True)
-    def _xyz2idx(xyz, originAdj, grid_spacing):
+    def _xyz2idx(xyz, originAdj, grid_spacing, decimals=6):
         """
-        Get the ijk grid indices for a set of xyz values 
+        Get the ijk grid indices for a set of xyz values
+
+        Note
+        ----
+        Round to n-decimal places (here: 4) before casting to integer
         """
-        return ((xyz - originAdj) / grid_spacing).astype(np.int64)
+        return np.round(((xyz - originAdj) / grid_spacing), decimals).astype(np.int64)
 
     def block_molecule(self, mol_xyzr, extraClash):
         """
@@ -123,7 +128,7 @@ class Grid3D:
     @nb.jit(nopython=True)
     def _carve_VdWextraClash(grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, originAdj, grid_shape, grid_spacing):
         """
-        Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius 
+        Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius
         plus an extraClash value
         """
         for m in range(mol_xyzr.shape[0]):
@@ -134,11 +139,11 @@ class Grid3D:
                     break
                 ijk_n = ijk_atom[m] + n[1]
                 i, j, k = ijk_n
-                if not np.any(ijk_n) < 0 and not np.any(grid_shape - ijk_n <= 0):
+                if not np.any(ijk_n < 0) and not np.any(grid_shape - ijk_n <= 0):
                     grid_3d[i, j, k] = -1
         return grid_3d
 
-    def dijkstraInit(self, maxR, maxR_source):
+    def dijkstra_init(self, maxR, maxR_source):
         """
         Inititialize the Dijkstra search algorithm
 
@@ -203,10 +208,10 @@ class Grid3D:
 
         Notes
         -----
-        The neighbor list is built from an origin set at (0,0,0). imaxR defines the number of indices 
+        The neighbor list is built from an origin set at (0,0,0). imaxR defines the number of indices
         along one axis (i,j or k) to build the index cube.
-        For example: if imaxR=3 then a cube of 7*7*7=343 indices is built initially. 
-        From these indices only accept those that with a squared norm less or equal than maxR squared, 
+        For example: if imaxR=3 then a cube of 7*7*7=343 indices is built initially.
+        From these indices only accept those that with a squared norm less or equal than maxR squared,
         which leaves us with 123 indices from the original 343 indices.
 
         For imaxR=3, first a cube of 7*7*7=343 indices is built (1).
@@ -219,9 +224,9 @@ class Grid3D:
         maxRSq = maxR**2
         imaxR = int(maxR / grid_spacing + 0.5)  # rounds to next integer
         # (1) build a cube with (2*imaxR+1)**3 indices
-        for i in range(-imaxR, imaxR + 1, 1):
+        for k in range(-imaxR, imaxR + 1, 1):
             for j in range(-imaxR, imaxR + 1, 1):
-                for k in range(-imaxR, imaxR + 1, 1):
+                for i in range(-imaxR, imaxR + 1, 1):
                     ijk = np.array([i, j, k], dtype=int)
                     # (2) only accept indices with 0 < dS < imaxRSq
                     dSq = sum(ijk**2) * grid_spacing**2
@@ -240,13 +245,13 @@ class Grid3D:
                the tuples contain the ijk indices and the distance from the origin (0,0,0)
 
         idxs_ess : list of 2-tuples of numpy.ndarray and float
-                   list n essential neighbors from the origin (0,0,0) 
+                   list n essential neighbors from the origin (0,0,0)
 
         Notes
         -----
         If dist_list=sqrt([1, 2, 3, 5, 6]) then the the neighbor list is reduced to 74 neighbors
         which make up a spherical shape and are a good compromise between neighbor space and time efficiency
-        in the Dijkstra algorithm. The smaller this list the faster the Dijkstra algorithm will run 
+        in the Dijkstra algorithm. The smaller this list the faster the Dijkstra algorithm will run
         at the expense of the accuracy of the resulting accessible volume (i.e. its "sphericalness")
         """
         idxs_ess = []
@@ -266,7 +271,7 @@ class Grid3D:
         ----------
         grid_3d : numpy.ndarray
                   3-dimensional array of grid points with a shape given by n_xyz
-        edges_ess : list of 2-tuples of numpy.ndarray and float 
+        edges_ess : list of 2-tuples of numpy.ndarray and float
                     list n essential neighbors from the origin (0,0,0)
         edges_src : list of 2-tuples of numpy.ndarray and float
                     list of neighbors in the initialization round of the Dijkstra algorithm
@@ -345,8 +350,7 @@ class Grid3D:
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
         outdistSq = (self.halfCubeLength + maxVdW_extraClash)**2
         distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
-        grid_3d = self._assignRho2(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos,
-                                   distSq, outdistSq, self.shape)
+        grid_3d = self._assignRho(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos, distSq, outdistSq, self.shape)
         return grid_3d
 
     @staticmethod
@@ -364,44 +368,15 @@ class Grid3D:
                 s = 0
                 for r in range(n_radii):
                     effR = dye_radii_sorted[r] + mol_xyzr[m, 3]
-                    for h in range(s, n):
-                        if neighbor_list[h][0] <= effR:
-                            ijk_n = ijk_atom[m] + neighbor_list[h][1]
-                            i, j, k = ijk_n
-                            if not np.any(ijk_n) < 0 and not np.any(grid_shape - ijk_n <= 0):
-                                gridval = grid_3d[i, j, k]
-                                if rhos[r] < gridval:
-                                    grid_3d[i, j, k] = rhos[r]
-                        else:
-                            break
-                        s += 1
-        return grid_3d
-
-    @staticmethod
-    @nb.jit(nopython=True)
-    def _assignRho2(grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos, distSq, outdistSq, grid_shape):
-        """
-        Loop through the atoms and radii and reassign the grid values with a number 0 < rho < 1 
-        """
-        n = len(neighbor_list)
-        n_radii = len(dye_radii_sorted)
-        for m in range(mol_xyzr.shape[0]):
-            if distSq[m] > outdistSq:
-                continue
-            else:
-                s = 0
-                for r in range(n_radii):
-                    effR = dye_radii_sorted[r] + mol_xyzr[m, 3]
                     while neighbor_list[s][0] <= effR:
-                        if s >= n - 1:
-                            break
                         ijk_n = ijk_atom[m] + neighbor_list[s][1]
                         i, j, k = ijk_n
-                        if not np.any(ijk_n) < 0 and not np.any(grid_shape - ijk_n <= 1):
-                            # if rhos[r] < grid_3d[i, j, k]:
-                            grid_3d[i, j, k] = min(rhos[r], grid_3d[i, j, k])
+                        if not np.any(ijk_n < 0) and not np.any(grid_shape - ijk_n <= 0):
+                            gridval = grid_3d[i, j, k]
+                            grid_3d[i, j, k] = min(rhos[r], gridval)
                         s += 1
-
+                        if s >= n:
+                            break
         return grid_3d
 
     def addWeights(self, das_xyzrm):
@@ -432,18 +407,20 @@ class Grid3D:
         """
         Loop through the atoms and assign the density
         """
+        n = len(neighbor_list)
         for m in range(das_xyzrm.shape[0]):
             if distSq[m] > outDistSq:
                 continue
             else:
-                for n in neighbor_list:
-                    if n[0] <= das_xyzrm[m, 3]:
-                        ijk_n = ijk_atom[m] + n[1]
-                        i, j, k = ijk_n
-                        if not np.any(ijk_n) < 0 and not np.any(grid_shape - ijk_n <= 0):
-                            gridval = grid_3d[i, j, k]
-                            if gridval > 0:
-                                grid_3d[i, j, k] += das_xyzrm[m, 4]
-                    else:
+                s = 0
+                while neighbor_list[s][0] <= das_xyzrm[m, 3]:
+                    ijk_n = ijk_atom[m] + neighbor_list[s][1]
+                    i, j, k = ijk_n
+                    if not np.any(ijk_n < 0) and not np.any(grid_shape - ijk_n <= 0):
+                        gridval = grid_3d[i, j, k]
+                        if gridval > 0:
+                            grid_3d[i, j, k] += das_xyzrm[m, 4]
+                    s += 1
+                    if s >= n:
                         break
         return grid_3d

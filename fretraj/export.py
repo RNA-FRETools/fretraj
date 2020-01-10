@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import json
+
 NAME = 'D'
 ELEMENT = 'D'
 NAME_MP = 'H'
@@ -165,3 +167,22 @@ def pdb(cloud_xyzqt, mp):
         s += _pdb_format.format('ATOM', k, NAME, ' ', resn, ' ', int(cloud_xyzqt[k, 4]), ' ', cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], bfactor, cloud_xyzqt[k, 3], ELEMENT, ' ')
     s += _pdb_format.format('ATOM', k, NAME_MP, ' ', 'MP', ' ', 0, ' ', mp[0], mp[1], mp[2], bfactor, -1, ELEMENT_MP, ' ')
     return s
+
+
+def save_labels(filename, labels):
+    """
+    Write the ACV parameters to a .json file
+
+    Parameters
+    ----------
+    filename : str
+    labels : dict
+             position of labels, dye and grid parameters
+
+    Examples
+    --------
+
+    >>> obj.save_labels('parameters.json')
+    """
+    with open(filename, 'w') as f:
+        json.dump(labels, f)

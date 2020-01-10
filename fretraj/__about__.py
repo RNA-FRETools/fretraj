@@ -6,4 +6,4 @@ __email__ = 'fabio.steffen@chem.uzh.ch'
 __description__ = 'Calculating accessible-contact volumes of fluorescent dyes on biomolecules'
 __keywords__ = 'accessible volume, contact volume, MD, trajectory, ACV, FRET, PDB'
 __url__ = 'https://github.com/fdsteffen/fretraj'
-__copyright__ = '2019 {}'.format(__author__)
+__copyright__ = '2020, {}, University of Zurich'.format(__author__)

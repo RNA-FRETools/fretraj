@@ -39,18 +39,31 @@ with open(os.path.join(package_directory, 'periodic_table.json')) as f:
 
 VDW_RADIUS = dict((key, _periodic_table[key]["vdw_radius"]) for key in _periodic_table.keys())
 
-_label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None), 'linker_length': ((int, float), None),
-                                       'linker_width': ((int, float), None), 'dye_radius1': ((int, float), None),
-                                       'dye_radius2': ((int, float), None), 'dye_radius3': ((int, float), None),
-                                       'cv_thickness': ((int, float), 0), 'grid_spacing': ((int, float), 0.5),
-                                       'mol_selection': (str, 'all'), 'simulation_type': (str, 'AV3'),
-                                       'cv_fraction': ((int, float), 0), 'frame': (int, 0),
-                                       'use_LabelLib': (bool, True)}},
+# set None if the parameter is required
+_label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None),
+                                       'linker_length': ((int, float), None),
+                                       'linker_width': ((int, float), None),
+                                       'dye_radius1': ((int, float), None),
+                                       'dye_radius2': ((int, float), None),
+                                       'dye_radius3': ((int, float), None),
+                                       'cv_thickness': ((int, float), 0),
+                                       'grid_spacing': ((int, float), 0.5),
+                                       'mol_selection': (str, 'all'),
+                                       'simulation_type': (str, 'AV3'),
+                                       'cv_fraction': ((int, float), 0),
+                                       'state': (int, 0),
+                                       'frame_mdtraj': (int, 1),
+                                       'use_LabelLib': (bool, True),
+                                       'contour_level_AV': ((int, float), 0),
+                                       'contour_level_CV': ((int, float), 0.7),
+                                       'b_factor': (int, 100),
+                                       'gaussian_resolution': (int, 2),
+                                       'grid_buffer': ((int, float), 2.0)}},
                'Distance': {'pd_key': {'R0': ((int, float), None),
                                        'n_dist': (int, 10**6)}}}
 
 _label_dict_vals = {field: {'pd_key': {key: val[1] for key, val in _label_dict[field]['pd_key'].items()}} for field in _label_dict.keys()}
-_default_params = {field: {key: val[1] for key, val in _label_dict[field]['pd_key'].items() if val[1] is not None} for field in ['Position', 'Distance']}
+_default_params = {field: {key: val[1] for key, val in _label_dict[field]['pd_key'].items() if val[1] is not None} for field in _label_dict.keys()}
 
 
 def parseCmd():
@@ -103,10 +116,11 @@ def labeling_params(param_file):
     try:
         labels = check_labels(labels_json)
     except KeyError as e:
-        key = e.args[0]
-        pos = e.args[1]
-        field = e.args[2]
-        print('Missing Key: \'{}\' in {} {}. Exiting...'.format(key, field, pos))
+        error_type = e.args[0]
+        key = e.args[1]
+        pos = e.args[2]
+        field = e.args[3]
+        print('{}: \'{}\' in {} {}. Exiting...'.format(error_type, key, field, pos))
     except TypeError as e:
         print('Wrong data type: {}'.format(e))
     else:
@@ -134,23 +148,34 @@ def check_labels(labels):
                             labels[field][pos]['dye_radius2'] = 0
                             labels[field][pos]['dye_radius3'] = 0
                     else:
-                        raise KeyError('simulation_type', pos, field)
+                        raise KeyError('Missing Key', 'simulation_type', pos, field)
+                    if 'state' in labels[field][pos] and 'frame_mdtraj' not in labels[field][pos]:
+                        labels[field][pos]['frame_mdtraj'] = labels[field][pos]['state'] - 1
+                    if 'frame_mdtraj' in labels[field][pos] and 'state' not in labels[field][pos]:
+                        labels[field][pos]['state'] = labels[field][pos]['frame_mdtraj'] + 1
                 elif field == 'Distance':
                     pass
+
+                # check if all keys that are needed are defined
                 for key, (t, d) in _label_dict[field]['pd_key'].items():
                     if key not in labels[field][pos]:
                         if key in _default_params[field].keys():
                             labels[field][pos][key] = copy.copy(_default_params[field][key])
                             print('Missing Key: \'{}\' in {} {}. Falling back to \"{}\"'.format(key, field, pos, _default_params[field][key]))
                         else:
-                            raise KeyError(key, pos, field)
+                            raise KeyError('Missing Key', key, pos, field)
                     else:
                         if not isinstance(labels[field][pos][key], t):
                             raise TypeError('\'{}\' in {} {} must be of one of the following types: {}'.format(key, field, pos, t))
+
+                # check if there are any unrecognized keys
+                for key in labels[field][pos].keys():
+                    if key not in _label_dict_vals[field]['pd_key'].keys():
+                        raise KeyError('Unrecognized key', key, pos, field)
         else:
             labels[field] = None
             print('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
-    return labels
+    return {field: labels[field] for field in _label_dict.keys()}
 
 
 def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', length=20, fill='█'):
@@ -451,8 +476,10 @@ class Volume:
                     reference identifier for the labeling position
     structure : mdtraj.Trajectory
                 trajectory of atom coordinates loaded from a pdb, xtc or other file
-    frame : int
-            frame number of the mdtraj.Trajectory object
+    state : int
+            state in the pdb file (1 based indexing) 
+    frame_mdtraj : int
+                   frame number of the mdtraj.Trajectory object (0 based indexing)
     attach_id : int
                 serial atom id of the attachment point in the pdb file (1 based indexing)
     attach_id_mdtraj : int
@@ -496,7 +523,8 @@ class Volume:
             self.grid_spacing = labels['Position'][site]['grid_spacing']
             self.cv_thickness = labels['Position'][site]['cv_thickness']
             self.cv_fraction = labels['Position'][site]['cv_fraction']
-            self.frame = labels['Position'][site]['frame']
+            self.state = labels['Position'][site]['state']
+            self.frame_mdtraj = labels['Position'][site]['frame_mdtraj']
             self.use_LabelLib = labels['Position'][site]['use_LabelLib']
 
             try:
@@ -505,33 +533,41 @@ class Volume:
                 print('{} is no valid mdtraj.Trajectory object'.format(self.structure))
             else:
                 try:
-                    if self.frame > self.structure.n_frames - 1:
-                        raise IndexError
-                except IndexError:
-                    print('The frame {:d} is out of range, select a frame within 0 - {:d}'.format(self.frame, self.structure.n_frames - 1))
+                    if (self.frame_mdtraj != self.state - 1):
+                        raise ValueError
+                except ValueError:
+                    print('The state {:d} and frame_mdtraj {:d} are not compatible. The frame_mdtraj should be equal to state - 1'.format(self.state, self.frame_mdtraj))
                     self.av = None
                     self.acv = None
                 else:
                     try:
-                        if self.attach_id < 1 or self.attach_id > self.n_atoms:
+                        if self.state > self.structure.n_frames:
                             raise IndexError
                     except IndexError:
-                        print('The attachment position {:d} is out of range, select an index within 1 - {:d}'.format(self.attach_id, self.n_atoms))
+                        print('The state {:d} and mdtraj frame {:d} are out of range, select a state within the range 1 - {:d} or a mdtraj frame within the range 0 - {:d}'.format(self.state, self.frame_mdtraj, self.structure.n_frames, self.structure.n_frames - 1))
                         self.av = None
                         self.acv = None
                     else:
-                        self.attach_id_mdtraj = labels['Position'][site]['attach_id'] - 1
-                        self.resi_atom = self.structure.top.atom(self.attach_id_mdtraj)
-
-                        self.av = self.calc_av(self.use_LabelLib)
                         try:
-                            if not any(np.array(self.av.grid) > 0):
-                                raise ValueError
-                        except ValueError:
-                            print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
+                            if self.attach_id < 1 or self.attach_id > self.n_atoms:
+                                raise IndexError
+                        except IndexError:
+                            print('The attachment position {:d} is out of range, select an index within 1 - {:d}'.format(self.attach_id, self.n_atoms))
+                            self.av = None
                             self.acv = None
                         else:
-                            self.acv = self.calc_acv(self.use_LabelLib)
+                            self.attach_id_mdtraj = labels['Position'][site]['attach_id'] - 1
+                            self.resi_atom = self.structure.top.atom(self.attach_id_mdtraj)
+
+                            self.av = self.calc_av(self.use_LabelLib)
+                            try:
+                                if not any(np.array(self.av.grid) > 0):
+                                    raise ValueError
+                            except ValueError:
+                                print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
+                                self.acv = None
+                            else:
+                                self.acv = self.calc_acv(self.use_LabelLib)
         else:
             print('Attachment point is unknown')
 
@@ -539,26 +575,28 @@ class Volume:
             self.acv = ACV(cloud_xyzqt=cloud_xyzqt)
 
     @classmethod
-    def from_frames(cls, structure, site, labels, frames):
+    def from_frames(cls, structure, site, labels, frames_mdtraj):
         """
         Trajectory
 
         Parameters
         ----------
         structure : mdtraj.Trajectory
-        frames : int or list
+        frames_mdtraj : int or list
+                        mdtraj.Trajectory (0 based indexing)
         site : str
         labels : dict
 
         Examples
         --------
         """
-        n_fr = len(frames)
+        n_fr = len(frames_mdtraj)
         printProgressBar(0, n_fr)
         multiframe_volumes = []
         _labels = copy.copy(labels)
-        for i, frame in enumerate(frames):
-            _labels['Position'][site]['frame'] = frame
+        for i, frame in enumerate(frames_mdtraj):
+            _labels['Position'][site]['frames_mdtraj'] = frame
+            _labels['Position'][site]['state'] = frame + 1
             multiframe_volumes.append(cls(structure, site, _labels))
             printProgressBar(i + 1, n_fr)
         return multiframe_volumes
@@ -666,7 +704,7 @@ class Volume:
         return grid_3d
 
     @staticmethod
-    @nb.jit
+    @nb.jit(forceobj=True)
     def grid2pts(grid_3d, xyz_min, d_xyz, *args):
         """
         Convert 3D-grid with density values to xyz coordinates with a weight (q)
@@ -750,7 +788,7 @@ class Volume:
         >>> avobj.mol_xyzr
 
         """
-        frame = self.frame
+        frame_mdtraj = self.frame_mdtraj
         struct = self.structure
 
         radii = np.array([VDW_RADIUS[atom.element.symbol] / 100 for atom in struct.top.atoms], ndmin=2).T
@@ -764,7 +802,7 @@ class Volume:
         finally:
             if self.attach_id_mdtraj not in sele:
                 np.append(sele, self.attach_id_mdtraj)
-            xyz = struct.xyz[frame] * 10
+            xyz = struct.xyz[frame_mdtraj] * 10
             xyzr = np.hstack((xyz[sele], radii[sele]))
             return xyzr
 
@@ -784,7 +822,7 @@ class Volume:
         >>> avobj.attach_xyz
 
         """
-        xyz = self.structure.xyz[self.frame][self.attach_id_mdtraj] * 10
+        xyz = self.structure.xyz[self.frame_mdtraj][self.attach_id_mdtraj] * 10
         return xyz.astype(np.float64)
 
     def save_acv(self, filename, format='xyz', **kwargs):
@@ -862,7 +900,7 @@ class Volume:
                 av = ll.dyeDensityAV3(mol_xyzr.T, attach_xyz, self.linker_length,
                                       self.linker_width, self.dye_radii, self.grid_spacing)
         else:
-            av = grid.Grid3D(self.mol_xyzr, self.attach_xyz, self.linker_length, self.linker_width, self.dye_radii, self.grid_spacing)
+            av = grid.Grid3D(self.mol_xyzr, self.attach_xyz, self.linker_length, self.linker_width, self.dye_radii, self.grid_spacing, self.simulation_type)
         return av
 
     def _dye_acc_surf(self):
