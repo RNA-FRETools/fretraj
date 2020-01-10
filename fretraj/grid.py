@@ -2,6 +2,9 @@
 import numpy as np
 import numba as nb
 import heapq
+import packaging.version
+
+_hasTypedList = packaging.version.parse(nb.__version__) >= packaging.version.parse('0.45.0')
 
 _dist_list = np.sqrt(np.array([1, 2, 3, 5, 6]))  # reduction to 74 neighbors
 
@@ -52,7 +55,7 @@ class Grid3D:
         self.grid = self.grid_3d.flatten(order='F')
 
     @staticmethod
-    @nb.jit
+    @nb.jit(forceobj=True)
     def make_grid(attach_xyz, linker_length, grid_spacing):
         """
         Build a 3D grid around the attachment point
@@ -117,7 +120,11 @@ class Grid3D:
                   3-dimensional array of grid points with a shape of 2*adjL+1
         """
         maxVdW_extraClash = np.max(mol_xyzr[:, 3]) + extraClash
-        neighbor_list = self.sortedNeighborIdx(maxVdW_extraClash)
+        if _hasTypedList:
+            neighbor_list = nb.typed.List()
+            [neighbor_list.append(n) for n in self.sortedNeighborIdx(maxVdW_extraClash)]
+        else:
+            neighbor_list = self.sortedNeighborIdx(maxVdW_extraClash)
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
         outDistSq = (self.halfCubeLength + maxVdW_extraClash)**2
         distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
@@ -162,8 +169,14 @@ class Grid3D:
         ai, aj, ak = self._xyz2idx(self.attach_xyz, self.originAdj, self.discStep)
         self.grid_3d[ai, aj, ak] = 0
         priority_queue = [(0.0, (ai, aj, ak))]
-        edges_ess = self.essential_neighbors(self.sortedNeighborIdx(maxR), _dist_list)
-        edges_src = self.sortedNeighborIdx(maxR_source)
+        if _hasTypedList:
+            edges_ess = nb.typed.List()
+            [edges_ess.append(x) for x in self.essential_neighbors(self.sortedNeighborIdx(maxR), _dist_list)]
+            edges_src = nb.typed.List()
+            [edges_src.append(x) for x in self.sortedNeighborIdx(maxR_source)]
+        else:
+            edges_ess = self.essential_neighbors(self.sortedNeighborIdx(maxR), _dist_list)
+            edges_src = self.sortedNeighborIdx(maxR_source)
         grid_3d = self.dijkstra(self.grid_3d, edges_ess, edges_src, priority_queue, (ai, aj, ak))
         return grid_3d
 
@@ -187,7 +200,7 @@ class Grid3D:
         return idxs
 
     @staticmethod
-    @nb.jit
+    @nb.jit(forceobj=True)
     def _neighborIdx(maxR, grid_spacing):
         """
         Build a list of neighboring indices to the origin (0,0,0)
@@ -229,7 +242,7 @@ class Grid3D:
                 for i in range(-imaxR, imaxR + 1, 1):
                     ijk = np.array([i, j, k], dtype=int)
                     # (2) only accept indices with 0 < dS < imaxRSq
-                    dSq = sum(ijk**2) * grid_spacing**2
+                    dSq = np.sum(ijk**2) * grid_spacing**2
                     if dSq <= maxRSq:  # and dSq > 0:
                         d = np.sqrt(dSq)
                         idxs.append((d, ijk))
@@ -262,7 +275,7 @@ class Grid3D:
         return idxs_ess
 
     @staticmethod
-    @nb.jit
+    @nb.jit(forceobj=True)  # (nopython=True) can be changed to nopython when heapq support for typed list is implemented in numba
     def dijkstra(grid_3d, edges_ess, edges_src, priority_queue, start_ijk):
         """
         Djikstra algorithm with a priority queue
@@ -271,10 +284,10 @@ class Grid3D:
         ----------
         grid_3d : numpy.ndarray
                   3-dimensional array of grid points with a shape given by n_xyz
-        edges_ess : list of 2-tuples of numpy.ndarray and float
+        edges_ess : nb.typed.List of 2-tuples of numpy.ndarray and float
                     list n essential neighbors from the origin (0,0,0)
         edges_src : list of 2-tuples of numpy.ndarray and float
-                    list of neighbors in the initialization round of the Dijkstra algorithm
+                    nb.typed.List of neighbors in the initialization round of the Dijkstra algorithm
         priority_queue : list of 2-tuples of numpy.ndarray and float
                          list with distance and index of origin
 
@@ -344,8 +357,14 @@ class Grid3D:
                   3-dimensional array of grid points with a shape given by n_xyz
         """
         maxVdW_extraClash = np.max(mol_xyzr[:, 3]) + np.max(dye_radii)
-        neighbor_list = self.sortedNeighborIdx(maxVdW_extraClash)
-        dye_radii_sorted = sorted(dye_radii)
+        if _hasTypedList:
+            neighbor_list = nb.typed.List()
+            [neighbor_list.append(n) for n in self.sortedNeighborIdx(maxVdW_extraClash)]
+            dye_radii_sorted = nb.typed.List()
+            [dye_radii_sorted.append(x) for x in sorted(dye_radii)]
+        else:
+            neighbor_list = self.sortedNeighborIdx(maxVdW_extraClash)
+            dye_radii_sorted = sorted(dye_radii)
         rhos = np.linspace(0, maxRho, len(dye_radii) + 1)
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
         outdistSq = (self.halfCubeLength + maxVdW_extraClash)**2
@@ -394,7 +413,11 @@ class Grid3D:
                   3-dimensional array of grid points with a shape given by n_xyz
         """
         maxClash = np.max(das_xyzrm[:, 3]) + self.discStep
-        neighbor_list = self.sortedNeighborIdx(maxClash)
+        if _hasTypedList:
+            neighbor_list = nb.typed.List()
+            [neighbor_list.append(n) for n in self.sortedNeighborIdx(maxClash)]
+        else:
+            neighbor_list = self.sortedNeighborIdx(maxClash)
         ijk_atom = self._xyz2idx(das_xyzrm[:, 0:3], self.originAdj, self.discStep)
         outDistSq = (self.halfCubeLength + maxClash)**2
         distSq = np.sum((das_xyzrm[:, 0:3] - self.attach_xyz)**2, 1)
