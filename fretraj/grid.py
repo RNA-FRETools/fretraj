@@ -170,6 +170,8 @@ class Grid3D:
         self.grid_3d[ai, aj, ak] = 0
         priority_queue = [(0.0, (ai, aj, ak))]
         if _hasTypedList:
+            #priority_queue = nb.typed.List()
+            #[priority_queue.append(x) for x in [(0.0, (ai, aj, ak))]]
             edges_ess = nb.typed.List()
             [edges_ess.append(x) for x in self.essential_neighbors(self.sortedNeighborIdx(maxR), _dist_list)]
             edges_src = nb.typed.List()
@@ -274,8 +276,11 @@ class Grid3D:
                 idxs_ess.append(e)
         return idxs_ess
 
+    # Note: # dijkstra cannot run in nopython mode on numba >=0.45 since heapq for typed list is not yet supported
+    # Solution: tie numba to version < 0.45 until heapq for typed list is properly implemented
+    # the jit nopython mode speeds up the calculation significantly
     @staticmethod
-    @nb.jit(forceobj=True)  # (nopython=True) can be changed to nopython when heapq support for typed list is implemented in numba
+    @nb.jit(nopython=True) 
     def dijkstra(grid_3d, edges_ess, edges_src, priority_queue, start_ijk):
         """
         Djikstra algorithm with a priority queue

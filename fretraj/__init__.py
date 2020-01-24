@@ -1,9 +1,9 @@
-from fretraj.cloud import *
-from fretraj.export import *
-from fretraj.fret import *
-from fretraj.fit import *
-from fretraj.isosurf import *
-from fretraj.gui import *
+from . import cloud
+from . import export
+from . import fret
+from . import isosurf
+from . import gui
+from . import grid
 
 dialog = None
 
@@ -22,5 +22,5 @@ def run_plugin_gui():
     """
     global dialog
     if dialog is None:
-        dialog = App(_pymol_running=True)
+        dialog = gui.App(_pymol_running=True)
     dialog.show()

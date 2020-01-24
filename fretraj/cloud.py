@@ -21,9 +21,14 @@ except ModuleNotFoundError:
 else:
     _LabelLib_found = True
 
-from fretraj import export
-from fretraj import fret
-from fretraj import grid
+try:
+    from fretraj import export
+    from fretraj import fret
+    from fretraj import grid
+except ImportError: # for PyMOL plugin
+    from . import export
+    from . import fret
+    from . import grid
 
 
 DISTANCE_SAMPLES = 200000
@@ -560,8 +565,9 @@ class Volume:
                             self.resi_atom = self.structure.top.atom(self.attach_id_mdtraj)
 
                             self.av = self.calc_av(self.use_LabelLib)
+                            #print(any(np.array(self.av.grid) > 0))
                             try:
-                                if not any(np.array(self.av.grid) > 0):
+                                if not np.any(self.av.grid_3d > 0):
                                     raise ValueError
                             except ValueError:
                                 print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))

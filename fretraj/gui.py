@@ -9,9 +9,14 @@ import webbrowser
 import re
 import functools
 
-from fretraj import cloud
-from fretraj import isosurf
-from fretraj import export
+try: 
+    from fretraj import cloud
+    from fretraj import isosurf
+    from fretraj import export
+except ModuleNotFoundError: # for PyMOL Plugin
+    from . import cloud
+    from . import isosurf
+    from . import export
 
 try:
     import LabelLib as ll
@@ -32,14 +37,19 @@ class App(QtWidgets.QMainWindow):
 
     def __init__(self, _pymol_running=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.uiIconPath = '{}/../docs/source/_static/fretraj_logo'.format(package_directory)
-        self.exampleDataPath = '{}/../data/'.format(package_directory)
+        self.uiIconPath = '{}/icon'.format(package_directory)
+        self.exampleDataPath = '{}/data/'.format(package_directory)
         fretrajUI = os.path.join(os.path.dirname(__file__), 'fretraj.ui')
+        self.settingsUI = os.path.join(os.path.dirname(__file__), 'settings.ui')
         utils.loadUi(fretrajUI, self)
+        self.setWindowTitle("FRETraj")
         self.setWindowIcon(utils.QtGui.QIcon(self.uiIconPath))
         self._pymol_running = _pymol_running
         self.statusBar().showMessage("Ready", 2000)
-        self.docsPath = '../docs/index.html'
+        self.readTheDocsURL = None
+        self.settingsWindow = QtWidgets.QDialog(self)
+        utils.loadUi(self.settingsUI, self.settingsWindow)
+        self.settingsWindow.setWindowTitle("FRETraj - Settings")
 
         # initialize labels dictionary with defaults from GUI
         self.struct = None
@@ -54,17 +64,18 @@ class App(QtWidgets.QMainWindow):
         self.labels_default = copy.copy(self.labels)
 
         # set root path
-        self.settings = {'root_path': None, 'browser': None}
-        if os.path.isfile('fretraj_settings.conf'):
-            with open('fretraj_settings.conf', 'r') as f:
+        self.settings = {'root_path': None, 'browser': None, 'local_docs': None}
+        if os.path.isfile('{}/.fretraj_settings.conf'.format(package_directory)):
+            with open('{}/.fretraj_settings.conf'.format(package_directory), 'r') as f:
                 self.settings = json.load(f)
                 self.lineEdit_rootDirectory.setText(self.settings['root_path'])
+                self.settingsWindow.lineEdit_rootDirectory.setText(self.settings['root_path'])
         else:
             self.setRootDirectory()
             if not self.settings['root_path']:
                 raise ValueError('No root directory specified. FRETraj is not initialized.')
 
-        #self.exampleEntries = {}
+        # examples
         n_examples = 0
         fileformat = '.pdb'
         self.exampleQAction = {}
@@ -119,6 +130,8 @@ class App(QtWidgets.QMainWindow):
         self.spinBox_atomID.valueChanged.connect(self.update_atom)
         self.push_transfer.clicked.connect(self.transferToLabel)
         self.push_deleteFRET.clicked.connect(self.deleteFRET)
+        self.actionSettings.triggered.connect(self.openSettings)
+
 
     def update_labelDict(self, pos=None):
         """
@@ -151,7 +164,7 @@ class App(QtWidgets.QMainWindow):
         self.labels['Position'][pos]['contour_level_CV'] = self.doubleSpinBox_contourValue_CV.value()
         self.labels['Position'][pos]['b_factor'] = self.spinBox_bfactor.value()
         self.labels['Position'][pos]['gaussian_resolution'] = self.spinBox_gaussRes.value()
-        self.labels['Position'][pos]['grid_buffer'] = self.doubleSpinBox_gridBuffer.value()
+        self.labels['Position'][pos]['grid_buffer'] = self.doubleSpinBox_gridBuffer.value()       
 
     def update_comboBox(self):
         self.update_labelDict()
@@ -573,11 +586,26 @@ class App(QtWidgets.QMainWindow):
         rootDir = QtWidgets.QFileDialog.getExistingDirectory(self, 'Set root directory')
         if rootDir:
             self.lineEdit_rootDirectory.setText(rootDir)
+            self.settingsWindow.lineEdit_rootDirectory.setText(self.settings['root_path'])
             self.settings['root_path'] = rootDir
-            with open('fretraj_settings.conf', 'w') as f:
+            with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
                 json.dump(self.settings, f)
 
     def openDocumentation(self):
+        if not self.readTheDocsURL:
+            if not self.settings['local_docs']:
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Information)
+                msg.setWindowTitle("Location of docs not configured")
+                msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+                msg.setText('Press <OK> and specify the path of the local docs.')
+                returnValue = msg.exec_()
+                if returnValue == QtWidgets.QMessageBox.Ok:
+                    docs_path = QtWidgets.QFileDialog.getExistingDirectory(self, 'Select docs directory')
+                    self.settings['local_docs'] = re.escape(docs_path)
+                    with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+                        json.dump(self.settings, f)
+
         if not self.settings['browser']:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -588,16 +616,22 @@ class App(QtWidgets.QMainWindow):
             if returnValue == QtWidgets.QMessageBox.Ok:
                 browser_path, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Search for default browser')
                 self.settings['browser'] = re.escape(browser_path)
-                with open('fretraj_settings.conf', 'w') as f:
+                with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
                     json.dump(self.settings, f)
 
         if self.settings['browser']:
             try:
                 browser = webbrowser.get('{} %s'.format(self.settings['browser']))
-                browser.open(self.docsPath)
-            except:
+                browser.open('file://{}/index.html'.format(self.settings['local_docs']))
+            except webbrowser.Error:
                 self.settings['browser'] = None
-                with open('fretraj_settings.conf', 'w') as f:
+                print('Browser not found!')
+                with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+                    json.dump(self.settings, f)
+            except FileNotFoundError:
+                self.settings['local_docs'] = None
+                print('Local docs not found!')
+                with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
                     json.dump(self.settings, f)
 
     def openAbout(self):
@@ -645,6 +679,19 @@ class App(QtWidgets.QMainWindow):
                         returnValue = msg.exec_()
                         self.comboBox_donorName.setStyleSheet('')
                         self.comboBox_acceptorName.setStyleSheet('')
+
+    def openSettings(self):
+        self.settingsWindow.lineEdit_rootDirectory.setText(self.settings['root_path'])
+        self.settingsWindow.lineEdit_browser.setText(self.settings['browser'])
+        self.settingsWindow.lineEdit_localdocs.setText(self.settings['local_docs'])
+        isOK = self.settingsWindow.exec_()
+        if isOK:
+            self.settings['root_path'] = self.settingsWindow.lineEdit_rootDirectory.text()
+            self.settings['browser'] = self.settingsWindow.lineEdit_browser.text()
+            self.settings['local_docs'] = self.settingsWindow.lineEdit_localdocs.text()
+            self.lineEdit_rootDirectory.setText(self.settings['root_path'])
+            with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+                json.dump(self.settings, f)
 
     def openErrorWin(self, title, message):
         """
