@@ -55,7 +55,7 @@ class Grid3D:
         self.grid = self.grid_3d.flatten(order='F')
 
     @staticmethod
-    @nb.jit(forceobj=True)
+    @nb.jit#(forceobj=True)
     def make_grid(attach_xyz, linker_length, grid_spacing):
         """
         Build a 3D grid around the attachment point
@@ -128,6 +128,7 @@ class Grid3D:
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
         outDistSq = (self.halfCubeLength + maxVdW_extraClash)**2
         distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
+
         grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, self.originAdj, self.shape, self.discStep)
         return grid_3d
 
@@ -202,7 +203,7 @@ class Grid3D:
         return idxs
 
     @staticmethod
-    @nb.jit(forceobj=True)
+    @nb.jit#(forceobj=True)
     def _neighborIdx(maxR, grid_spacing):
         """
         Build a list of neighboring indices to the origin (0,0,0)

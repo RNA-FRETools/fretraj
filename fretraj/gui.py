@@ -41,6 +41,7 @@ class App(QtWidgets.QMainWindow):
         self.exampleDataPath = '{}/data/'.format(package_directory)
         fretrajUI = os.path.join(os.path.dirname(__file__), 'fretraj.ui')
         self.settingsUI = os.path.join(os.path.dirname(__file__), 'settings.ui')
+        self.textUI = os.path.join(os.path.dirname(__file__), 'textpad.ui')
         utils.loadUi(fretrajUI, self)
         self.setWindowTitle("FRETraj")
         self.setWindowIcon(utils.QtGui.QIcon(self.uiIconPath))
@@ -50,6 +51,9 @@ class App(QtWidgets.QMainWindow):
         self.settingsWindow = QtWidgets.QDialog(self)
         utils.loadUi(self.settingsUI, self.settingsWindow)
         self.settingsWindow.setWindowTitle("FRETraj - Settings")
+        self.textWindow = QtWidgets.QDialog(self)
+        utils.loadUi(self.textUI, self.textWindow)
+        
 
         # initialize labels dictionary with defaults from GUI
         self.struct = None
@@ -61,19 +65,26 @@ class App(QtWidgets.QMainWindow):
         self.distanceName = self.comboBox_distanceName.currentText()
         self.distanceName_default = self.comboBox_distanceName.currentText()
         self.update_labelDict()
-        self.labels_default = copy.copy(self.labels)
+        self.labels_default = copy.deepcopy(self.labels)
 
         # set root path
+        root_err = 'No root directory specified. FRETraj is not initialized.'
         self.settings = {'root_path': None, 'browser': None, 'local_docs': None}
         if os.path.isfile('{}/.fretraj_settings.conf'.format(package_directory)):
             with open('{}/.fretraj_settings.conf'.format(package_directory), 'r') as f:
                 self.settings = json.load(f)
-                self.lineEdit_rootDirectory.setText(self.settings['root_path'])
-                self.settingsWindow.lineEdit_rootDirectory.setText(self.settings['root_path'])
+                if os.path.isdir(self.settings['root_path']):
+                    self.lineEdit_rootDirectory.setText(self.settings['root_path'])
+                    self.settingsWindow.lineEdit_rootDirectory.setText(self.settings['root_path'])
+                else:
+                    self.settings['root_path'] = None
+                    self.setRootDirectory()
+                    if not self.settings['root_path']:
+                        raise ValueError(root_err)
         else:
             self.setRootDirectory()
             if not self.settings['root_path']:
-                raise ValueError('No root directory specified. FRETraj is not initialized.')
+                raise ValueError(root_err)
 
         # examples
         n_examples = 0
@@ -100,6 +111,7 @@ class App(QtWidgets.QMainWindow):
         self.spinBox_atomID.setEnabled(False)
         self.push_transfer.setEnabled(False)
         self.push_loadParameterFile.setEnabled(False)
+        self.push_showText.setEnabled(False)
         if not _LabelLib_found:
             self.checkBox_useLabelLib.setEnabled(False)
             self.checkBox_useLabelLib.setChecked(False)
@@ -131,6 +143,7 @@ class App(QtWidgets.QMainWindow):
         self.push_transfer.clicked.connect(self.transferToLabel)
         self.push_deleteFRET.clicked.connect(self.deleteFRET)
         self.actionSettings.triggered.connect(self.openSettings)
+        self.push_showText.clicked.connect(self.openPDBFile)
 
 
     def update_labelDict(self, pos=None):
@@ -164,7 +177,8 @@ class App(QtWidgets.QMainWindow):
         self.labels['Position'][pos]['contour_level_CV'] = self.doubleSpinBox_contourValue_CV.value()
         self.labels['Position'][pos]['b_factor'] = self.spinBox_bfactor.value()
         self.labels['Position'][pos]['gaussian_resolution'] = self.spinBox_gaussRes.value()
-        self.labels['Position'][pos]['grid_buffer'] = self.doubleSpinBox_gridBuffer.value()       
+        self.labels['Position'][pos]['grid_buffer'] = self.doubleSpinBox_gridBuffer.value()
+
 
     def update_comboBox(self):
         self.update_labelDict()
@@ -201,6 +215,7 @@ class App(QtWidgets.QMainWindow):
         self.spinBox_gaussRes.setValue(self.labels['Position'][pos]['gaussian_resolution'])
         self.doubleSpinBox_gridBuffer.setValue(self.labels['Position'][pos]['grid_buffer'])
 
+        
     def loadPDB(self, fileNamePath_pdb=False):
         """
         Load PDB of CIF file. CIF files will be converted to PDB internally
@@ -228,6 +243,9 @@ class App(QtWidgets.QMainWindow):
                 self.spinBox_atomID.setEnabled(True)
                 self.push_transfer.setEnabled(True)
                 self.push_loadParameterFile.setEnabled(True)
+                with open(self.fileNamePath_pdb, 'r') as f:
+                    self.pdbText = f.read()
+                self.push_showText.setEnabled(True)
                 if self._pymol_running:
                     cmd.reinitialize()
                     cmd.load(self.fileNamePath_pdb)
@@ -271,7 +289,6 @@ class App(QtWidgets.QMainWindow):
             self.fileNamePath_param = fileNamePath_param
         if self.fileNamePath_param:
             self.fileName_param = self.fileNamePath_param.split("/")[-1]
-
             try:
                 with open(self.fileNamePath_param) as f:
                     try:
@@ -282,7 +299,6 @@ class App(QtWidgets.QMainWindow):
                     else:
                         self.lineEdit_paramFile.setText(self.fileName_param)
                         error_msg = "The specified file \"{}\" has a wrong format".format(self.fileName_param)
-
                         for field in labels_json.keys():
                             if field == 'Distance':
                                 name_default = self.distanceName_default
@@ -293,19 +309,27 @@ class App(QtWidgets.QMainWindow):
                                 self.openErrorWin('Parameter File Error', error_msg)
                                 return 0
 
+                            #print(self.labels_default)
                             for pos_dis in labels_json[field].keys():
+                                
+                                #if pos_dis != name_default:
+
                                 self.labels[field][pos_dis] = {}
+                                #print(self.labels_default)
+                                #print(self.labels_default[field][name_default].keys())
+                                
                                 for key in self.labels_default[field][name_default].keys():
                                     if isinstance(labels_json[field][pos_dis], dict):
                                         if key in labels_json[field][pos_dis].keys():
                                             self.labels[field][pos_dis][key] = labels_json[field][pos_dis][key]
+
                                         else:
-                                            self.labels[field][pos_dis][key] = copy.copy(self.labels_default[field][name_default][key])
+                                            self.labels[field][pos_dis][key] = copy.deepcopy(self.labels_default[field][name_default][key])
                                     else:
                                         self.openErrorWin('Parameter File Error', error_msg)
                                         return 0
-
                     for newlabel in self.labels['Position'].keys():
+                        #self.update_GUIfields()
                         self.addLabel(newlabel)
                     for newdistance in self.labels['Distance'].keys():
                         self.addFRETparam(newdistance)
@@ -316,7 +340,7 @@ class App(QtWidgets.QMainWindow):
 
     def transferToLabel(self):
         newlabel = '{:d}-{}'.format(self.spinBox_statePDB.value(), self.lineEdit_pdbAtom.text())
-        self.labels['Position'][newlabel] = copy.copy(self.labels['Position'][self.labelName])
+        self.labels['Position'][newlabel] = copy.deepcopy(self.labels['Position'][self.labelName])
         self.update_labelDict(newlabel)
         self.update_GUIfields()
         self.addLabel(newlabel)
@@ -326,7 +350,7 @@ class App(QtWidgets.QMainWindow):
         Create new label from edit box string
         """
         newlabel = self.lineEdit_labelName.text()
-        self.labels['Position'][newlabel] = copy.copy(self.labels['Position'][self.labelName])
+        self.labels['Position'][newlabel] = copy.deepcopy(self.labels['Position'][self.labelName])
         self.update_labelDict(newlabel)
         self.update_GUIfields()
         self.addLabel(newlabel)
@@ -344,7 +368,8 @@ class App(QtWidgets.QMainWindow):
             self.push_computeACV.setEnabled(True)
         if self.tableWidget_MeanPos.rowCount() > 1 and self.struct:
             self.push_calculateFRET.setEnabled(True)
-        self.update_labelDict()
+        self.update_GUIfields()
+        #self.update_labelDict()
 
     def deleteLabel(self):
         """
@@ -411,7 +436,7 @@ class App(QtWidgets.QMainWindow):
         Create new FRET parameters from edit box string
         """
         newdistance = self.lineEdit_distanceName.text()
-        self.labels['Distance'][newdistance] = copy.copy(self.labels_default['Distance'][self.distanceName_default])
+        self.labels['Distance'][newdistance] = copy.deepcopy(self.labels_default['Distance'][self.distanceName_default])
         self.addFRETparam(newdistance)
 
     def addFRETparam(self, newdistance):
@@ -517,6 +542,8 @@ class App(QtWidgets.QMainWindow):
         self.update_labelDict()
         msg = 'Busy...'
         self.statusBar().showMessage(msg, 3000)
+        param_filename = '{}/parameters.json'.format(self.settings['root_path'])
+        export.save_labels(param_filename, self.labels)
         self.av[self.labelName] = cloud.Volume(self.struct, self.labelName, self.labels)
         if self.av[self.labelName].acv is None:
             msg = 'ACV could not be calculated!'
@@ -525,9 +552,7 @@ class App(QtWidgets.QMainWindow):
         else:
             av_name = self.labelName.replace('\'', 'p')
             av_filename = '{}/{}.pdb'.format(self.settings['root_path'], av_name)
-            labels_filename = '{}/{}_labels.json'.format(self.settings['root_path'], av_name)
             self.av[self.labelName].save_acv(av_filename, format='pdb')
-            export.save_labels(labels_filename, self.labels)
 
             self.addLabelToList(self.av[self.labelName])
             self.define_DA()
@@ -547,6 +572,7 @@ class App(QtWidgets.QMainWindow):
         self.traj[(self.donorName, self.acceptorName)] = cloud.FRET_Trajectory(self.av[self.donorName], self.av[self.acceptorName], self.distanceName, self.labels)
         self.addDistanceToList(self.traj[(self.donorName, self.acceptorName)])
         self.define_DA()
+        self.traj[(self.donorName, self.acceptorName)].save_fret('{}/{}-{}.json'.format(self.settings['root_path'], self.donorName, self.acceptorName))
 
     def deleteFRET(self):
         DA = '{} -> {}'.format(self.donorName, self.acceptorName)
@@ -692,6 +718,11 @@ class App(QtWidgets.QMainWindow):
             self.lineEdit_rootDirectory.setText(self.settings['root_path'])
             with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
                 json.dump(self.settings, f)
+
+    def openPDBFile(self):
+        self.textWindow.textBrowser_pdbFile.setText(self.pdbText)
+        self.textWindow.setWindowTitle("FRETraj - {}".format(self.fileName_pdb))
+        isOK = self.textWindow.exec_()
 
     def openErrorWin(self, title, message):
         """

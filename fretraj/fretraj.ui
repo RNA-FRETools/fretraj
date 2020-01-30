@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>893</width>
+    <width>897</width>
     <height>623</height>
    </rect>
   </property>
@@ -450,19 +450,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1" colspan="7">
-         <widget class="QLineEdit" name="lineEdit_pdbFile">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="placeholderText">
-           <string>PDB file</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="1" colspan="2">
          <widget class="QSpinBox" name="spinBox_atomID">
           <property name="minimum">
@@ -529,6 +516,26 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="5">
+         <widget class="QPushButton" name="push_showText">
+          <property name="text">
+           <string>Show Text</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="4">
+         <widget class="QLineEdit" name="lineEdit_pdbFile">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>PDB file</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
@@ -547,13 +554,6 @@
      <string>FRET trajectory</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_donor">
-       <property name="text">
-        <string>donor</string>
-       </property>
-      </widget>
-     </item>
      <item row="6" column="0" colspan="2">
       <widget class="Line" name="line">
        <property name="orientation">
@@ -586,19 +586,10 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_R0">
-       <property name="decimals">
-        <number>0</number>
-       </property>
-       <property name="minimum">
-        <double>0.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>1000.000000000000000</double>
-       </property>
-       <property name="value">
-        <double>54.000000000000000</double>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_donor">
+       <property name="text">
+        <string>donor</string>
        </property>
       </widget>
      </item>
@@ -615,13 +606,6 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="push_deleteFRETparam">
-       <property name="text">
-        <string>Delete param.</string>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="1">
       <widget class="QSpinBox" name="spinBox_nDist">
        <property name="minimum">
@@ -632,6 +616,29 @@
        </property>
        <property name="value">
         <number>1000000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_R0">
+       <property name="decimals">
+        <number>0</number>
+       </property>
+       <property name="minimum">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>54.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="push_deleteFRETparam">
+       <property name="text">
+        <string>Delete param.</string>
        </property>
       </widget>
      </item>
@@ -753,6 +760,13 @@
        </property>
       </widget>
      </item>
+     <item row="9" column="1">
+      <widget class="QPushButton" name="push_deleteFRET">
+       <property name="text">
+        <string>delete FRET</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="1">
       <widget class="QComboBox" name="comboBox_distanceName">
        <property name="editable">
@@ -775,13 +789,6 @@
          <string>default param.</string>
         </property>
        </item>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="QPushButton" name="push_deleteFRET">
-       <property name="text">
-        <string>delete FRET</string>
-       </property>
       </widget>
      </item>
      <item row="9" column="0">
@@ -911,8 +918,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>893</width>
-     <height>21</height>
+     <width>897</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">

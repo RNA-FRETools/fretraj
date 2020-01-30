@@ -1,3 +1,11 @@
+"""
+FRETraj PyMOL Plugin 
+
+Calculate accessible contact volumes and predict FRET efficiencies
+
+(c) Fabio Steffen, University of Zurich, 2020
+"""
+
 from . import cloud
 from . import export
 from . import fret

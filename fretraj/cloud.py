@@ -385,6 +385,13 @@ class FRET_Trajectory:
 
     Attributes
     ----------
+    volume1 : instance of the Volume class
+    volume2 : instance of the Volume class
+    R_DA : ndarray
+           donor acceptor distance distribution and associate weights (optional)
+    use_LabelLib : bool
+                   make use of LabelLib library to compute FRET values and distances [1]_ [2]_
+
     R_DA : ndarray
     mean_R_DA : float
                 mean FRET 
@@ -460,6 +467,30 @@ class FRET_Trajectory:
                     fret_trajectory.append(fret_value)
                 printProgressBar(i + 1, n_vols1)
             return fret_trajectory
+
+    def save_fret(self, filename):
+        """
+        Write the FRET calculation to a json file
+
+        Parameters
+        ----------
+        filename : str
+
+        Examples
+        --------
+
+        >>> obj.save_FRET('parameters.json')
+        """
+        fret_results = {'fret_pair': self.fret_pair,
+                        'R0': float('{:0.1f}'.format(self.R0)),
+                        '<R_DA>': float('{:0.1f}'.format(self.mean_R_DA)),
+                        'sigma_R_DA': float('{:0.1f}'.format(self.sigma_R_DA)),
+                        '<E_DA>': float('{:0.2f}'.format(self.mean_E_DA)),
+                        '<R_DA_E>': float('{:0.1f}'.format(self.mean_R_DA_E)),
+                        'R_attach': float('{:0.1f}'.format(self.R_attach)),
+                        'R_mp': float('{:0.1f}'.format(self.R_mp))}
+        with open(filename, 'w') as f:
+            json.dump(fret_results, f)
 
 
 class Volume:
@@ -565,6 +596,7 @@ class Volume:
                             self.resi_atom = self.structure.top.atom(self.attach_id_mdtraj)
 
                             self.av = self.calc_av(self.use_LabelLib)
+
                             #print(any(np.array(self.av.grid) > 0))
                             try:
                                 if not np.any(self.av.grid_3d > 0):
@@ -710,7 +742,7 @@ class Volume:
         return grid_3d
 
     @staticmethod
-    @nb.jit(forceobj=True)
+    @nb.jit#(forceobj=True)
     def grid2pts(grid_3d, xyz_min, d_xyz, *args):
         """
         Convert 3D-grid with density values to xyz coordinates with a weight (q)
