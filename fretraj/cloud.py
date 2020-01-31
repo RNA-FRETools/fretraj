@@ -481,14 +481,13 @@ class FRET_Trajectory:
 
         >>> obj.save_FRET('parameters.json')
         """
-        fret_results = {'fret_pair': self.fret_pair,
-                        'R0': float('{:0.1f}'.format(self.R0)),
-                        '<R_DA>': float('{:0.1f}'.format(self.mean_R_DA)),
-                        'sigma_R_DA': float('{:0.1f}'.format(self.sigma_R_DA)),
+        fret_results = {'R0 (A)': float('{:0.1f}'.format(self.R0)),
+                        '<R_DA> (A)': float('{:0.1f}'.format(self.mean_R_DA)),
+                        'sigma_R_DA (A)': float('{:0.1f}'.format(self.sigma_R_DA)),
                         '<E_DA>': float('{:0.2f}'.format(self.mean_E_DA)),
-                        '<R_DA_E>': float('{:0.1f}'.format(self.mean_R_DA_E)),
-                        'R_attach': float('{:0.1f}'.format(self.R_attach)),
-                        'R_mp': float('{:0.1f}'.format(self.R_mp))}
+                        '<R_DA_E> (A)': float('{:0.1f}'.format(self.mean_R_DA_E)),
+                        'R_attach (A)': float('{:0.1f}'.format(self.R_attach)),
+                        'R_mp (A)': float('{:0.1f}'.format(self.R_mp))}
         with open(filename, 'w') as f:
             json.dump(fret_results, f)
 
