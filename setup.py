@@ -22,6 +22,6 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    keywords=about['__keywords__']
+    keywords=about['__keywords__'],
     include_package_data=True
 )
