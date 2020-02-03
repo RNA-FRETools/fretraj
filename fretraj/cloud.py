@@ -598,7 +598,7 @@ class Volume:
 
                             #print(any(np.array(self.av.grid) > 0))
                             try:
-                                if not np.any(self.av.grid_3d > 0):
+                                if not np.any(np.array(self.av.grid) > 0):    
                                     raise ValueError
                             except ValueError:
                                 print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
