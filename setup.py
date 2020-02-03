@@ -23,4 +23,5 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     keywords=about['__keywords__']
+    include_package_data=True
 )
