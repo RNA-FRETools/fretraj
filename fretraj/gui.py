@@ -528,9 +528,11 @@ class App(QtWidgets.QMainWindow):
                     cmd.set_color('don_green', [108, 179, 129])
                     cmd.set_color('acc_red', [194, 84, 73])
                     cmd.color('don_green', don_name + '_isosurf')
-                    cmd.color('don_green', don_name + '_CV_isosurf')
                     cmd.color('acc_red', acc_name + '_isosurf')
-                    cmd.color('acc_red', acc_name + '_CV_isosurf')
+                    if any(self.av[self.donorName].acv.tag_1d > 1):
+                        cmd.color('don_green', don_name + '_CV_isosurf')
+                    if any(self.av[self.acceptorName].acv.tag_1d > 1):
+                        cmd.color('acc_red', acc_name + '_CV_isosurf')
 
         else:
             self.push_calculateFRET.setEnabled(False)
@@ -567,7 +569,6 @@ class App(QtWidgets.QMainWindow):
             self.av[self.labelName].save_acv(av_filename, format='pdb')
 
             self.addLabelToList(self.av[self.labelName])
-            self.define_DA()
             msg = 'ACV successfully calculated!'
             self.statusBar().showMessage(msg, 3000)
             if self._pymol_running:
@@ -578,6 +579,7 @@ class App(QtWidgets.QMainWindow):
                 self.spinBox_gaussRes.setEnabled(True)
                 self.doubleSpinBox_gridBuffer.setEnabled(True)
                 self.pymol_update_isosurface()
+            self.define_DA()
 
     def calculateFRET(self):
         self.update_labelDict()
