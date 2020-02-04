@@ -505,13 +505,15 @@ class App(QtWidgets.QMainWindow):
         if self.tableWidget_MeanPos.rowCount() > 1:
             if self.donorName == self.acceptorName:
                 self.push_calculateFRET.setEnabled(False)
+                if self._pymol_running:
+                    cmd.color('white', '*_isosurf')
             else:
                 self.push_calculateFRET.setEnabled(True)
                 row_don = self.tableWidget_MeanPos.findItems(self.donorName, QtCore.Qt.MatchExactly)[0].row()
                 row_acc = self.tableWidget_MeanPos.findItems(self.acceptorName, QtCore.Qt.MatchExactly)[0].row()
                 for j in range(self.tableWidget_MeanPos.columnCount()):
-                    self.tableWidget_MeanPos.item(row_don, j).setBackground(utils.QtGui.QColor(102, 184, 99))
-                    self.tableWidget_MeanPos.item(row_acc, j).setBackground(utils.QtGui.QColor(212, 76, 81))
+                    self.tableWidget_MeanPos.item(row_don, j).setBackground(utils.QtGui.QColor(108, 179, 129))
+                    self.tableWidget_MeanPos.item(row_acc, j).setBackground(utils.QtGui.QColor(194, 84, 73))
 
                 DA = '{} -> {}'.format(self.donorName, self.acceptorName)
                 for r in range(self.tableWidget_FRET.rowCount()):
@@ -519,6 +521,16 @@ class App(QtWidgets.QMainWindow):
                         for j in range(self.tableWidget_FRET.columnCount()):
                             self.tableWidget_FRET.item(r, j).setBackground(utils.QtGui.QColor(200, 200, 200))
                         break
+
+                if self._pymol_running:
+                    don_name = self.donorName.replace('\'', 'p')
+                    acc_name = self.acceptorName.replace('\'', 'p')
+                    cmd.set_color('don_green', [108, 179, 129])
+                    cmd.set_color('acc_red', [194, 84, 73])
+                    cmd.color('don_green', don_name + '_isosurf')
+                    cmd.color('don_green', don_name + '_CV_isosurf')
+                    cmd.color('acc_red', acc_name + '_isosurf')
+                    cmd.color('acc_red', acc_name + '_CV_isosurf')
 
         else:
             self.push_calculateFRET.setEnabled(False)
