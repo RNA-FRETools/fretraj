@@ -556,7 +556,7 @@ class App(QtWidgets.QMainWindow):
         self.update_labelDict()
         msg = 'Busy...'
         self.statusBar().showMessage(msg, 3000)
-        param_filename = '{}/parameters.json'.format(self.settings['root_path'])
+        param_filename = '{}/{}_parameters.json'.format(self.settings['root_path'], self.fileName_pdb[-4:])
         export.save_labels(param_filename, self.labels)
         self.av[self.labelName] = cloud.Volume(self.struct, self.labelName, self.labels)
         if self.av[self.labelName].acv is None:
