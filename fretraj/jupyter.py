@@ -17,3 +17,5 @@ def connect2pymol():
         cmd.cd(curr_wd)
     except:
         cmd.cd(re.sub(r'/mnt/([a-z])', r'\1:', curr_wd))
+    return cmd
+    
