@@ -489,7 +489,7 @@ class FRET_Trajectory:
                         'R_attach (A)': float('{:0.1f}'.format(self.R_attach)),
                         'R_mp (A)': float('{:0.1f}'.format(self.R_mp))}
         with open(filename, 'w') as f:
-            json.dump(fret_results, f)
+            json.dump(fret_results, f, indent=2)
 
 
 class Volume:
@@ -627,13 +627,15 @@ class Volume:
         Examples
         --------
         """
+        print('asdf')
         n_fr = len(frames_mdtraj)
         printProgressBar(0, n_fr)
         multiframe_volumes = []
         _labels = copy.copy(labels)
         for i, frame in enumerate(frames_mdtraj):
-            _labels['Position'][site]['frames_mdtraj'] = frame
+            _labels['Position'][site]['frame_mdtraj'] = frame
             _labels['Position'][site]['state'] = frame + 1
+            print(_labels)
             multiframe_volumes.append(cls(structure, site, _labels))
             printProgressBar(i + 1, n_fr)
         return multiframe_volumes

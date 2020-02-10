@@ -185,4 +185,4 @@ def save_labels(filename, labels):
     >>> obj.save_labels('parameters.json')
     """
     with open(filename, 'w') as f:
-        json.dump(labels, f)
+        json.dump(labels, f, indent=2)

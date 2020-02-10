@@ -629,7 +629,7 @@ class App(QtWidgets.QMainWindow):
             self.settingsWindow.lineEdit_rootDirectory.setText(self.settings['root_path'])
             self.settings['root_path'] = rootDir
             with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
-                json.dump(self.settings, f)
+                json.dump(self.settings, f, indent=2)
 
     def openDocumentation(self):
         if not self.readTheDocsURL:
@@ -644,7 +644,7 @@ class App(QtWidgets.QMainWindow):
                     docs_path = QtWidgets.QFileDialog.getExistingDirectory(self, 'Select docs directory')
                     self.settings['local_docs'] = re.escape(docs_path)
                     with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
-                        json.dump(self.settings, f)
+                        json.dump(self.settings, f, indent=2)
 
         if not self.settings['browser']:
             msg = QtWidgets.QMessageBox()
@@ -657,7 +657,7 @@ class App(QtWidgets.QMainWindow):
                 browser_path, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Search for default browser')
                 self.settings['browser'] = re.escape(browser_path)
                 with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
-                    json.dump(self.settings, f)
+                    json.dump(self.settings, f, indent=2)
 
         if self.settings['browser']:
             try:
@@ -667,12 +667,12 @@ class App(QtWidgets.QMainWindow):
                 self.settings['browser'] = None
                 print('Browser not found!')
                 with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
-                    json.dump(self.settings, f)
+                    json.dump(self.settings, f, indent=2)
             except FileNotFoundError:
                 self.settings['local_docs'] = None
                 print('Local docs not found!')
                 with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
-                    json.dump(self.settings, f)
+                    json.dump(self.settings, f, indent=2)
 
     def openAbout(self):
         """
@@ -731,7 +731,7 @@ class App(QtWidgets.QMainWindow):
             self.settings['local_docs'] = self.settingsWindow.lineEdit_localdocs.text()
             self.lineEdit_rootDirectory.setText(self.settings['root_path'])
             with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
-                json.dump(self.settings, f)
+                json.dump(self.settings, f, indent=2)
 
     def openPDBFile(self):
         self.textWindow.textBrowser_pdbFile.setText(self.pdbText)
