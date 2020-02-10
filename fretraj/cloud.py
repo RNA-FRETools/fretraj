@@ -627,7 +627,6 @@ class Volume:
         Examples
         --------
         """
-        print('asdf')
         n_fr = len(frames_mdtraj)
         printProgressBar(0, n_fr)
         multiframe_volumes = []
@@ -635,7 +634,6 @@ class Volume:
         for i, frame in enumerate(frames_mdtraj):
             _labels['Position'][site]['frame_mdtraj'] = frame
             _labels['Position'][site]['state'] = frame + 1
-            print(_labels)
             multiframe_volumes.append(cls(structure, site, _labels))
             printProgressBar(i + 1, n_fr)
         return multiframe_volumes
