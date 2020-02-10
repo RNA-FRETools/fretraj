@@ -409,12 +409,13 @@ class FRET_Trajectory:
 
     """
 
-    def __init__(self, volume1, volume2, fret_pair, labels, R_DA=None):
+    def __init__(self, volume1, volume2, fret_pair, labels, R_DA=None, verbose=True):
         try:
             if volume1.acv is None or volume2.acv is None:
                 raise TypeError
         except TypeError:
-            print('One accessible volume is empty')
+            if verbose:
+                print('One accessible volume is empty')
         else:
             self.volume1 = volume1
             self.volume2 = volume2
@@ -544,7 +545,7 @@ class Volume:
             frame number of the mdtraj.Trajectory object (0 based indexing)
     """
 
-    def __init__(self, structure, site, labels, cloud_xyzqt=None):
+    def __init__(self, structure, site, labels, cloud_xyzqt=None, verbose=True):
         self.structure = structure
         self.attach_id = labels['Position'][site]['attach_id']
 
@@ -601,7 +602,8 @@ class Volume:
                                 if not np.any(np.array(self.av.grid) > 0):    
                                     raise ValueError
                             except ValueError:
-                                print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
+                                if verbose:
+                                    print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
                                 self.acv = None
                             else:
                                 self.acv = self.calc_acv(self.use_LabelLib)
