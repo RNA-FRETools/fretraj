@@ -6,6 +6,8 @@ Calculate accessible contact volumes and predict FRET efficiencies
 (c) Fabio Steffen, University of Zurich, 2020
 """
 
+from .__about__ import __version__, __author__ 
+
 from . import cloud
 from . import export
 from . import fret

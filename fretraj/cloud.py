@@ -679,7 +679,8 @@ class Volume:
 
         Parameters
         ----------
-        file_str : path to accessible volume object
+        file_str : str
+                   path to accessible volume object
 
         Examples
         --------
