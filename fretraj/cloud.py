@@ -432,6 +432,7 @@ class FRET_Trajectory:
                 self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
                 self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
                 self.mean_E_DA = fret.mean_FRET_DA_ll(volume1.acv, volume2.acv, R0=self.R0, n_dist=self.n_dist)
+                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
             else:
                 if R_DA is None:
                     self.R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
@@ -441,7 +442,9 @@ class FRET_Trajectory:
                 self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
                 self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
                 self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
+                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
             self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=self.R0)
+            self.sigma_R_DA_E = fret.std_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, sigma_E_DA=self.sigma_E_DA, R0=self.R0)
             self.R_attach = fret.dist_attach(volume1.attach_xyz, volume2.attach_xyz)
             self.R_mp = fret.dist_mp(volume1.acv, volume2.acv)
 
@@ -597,7 +600,6 @@ class Volume:
 
                             self.av = self.calc_av(self.use_LabelLib)
 
-                            #print(any(np.array(self.av.grid) > 0))
                             try:
                                 if not np.any(np.array(self.av.grid) > 0):    
                                     raise ValueError

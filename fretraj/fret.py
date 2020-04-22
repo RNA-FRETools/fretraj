@@ -147,6 +147,17 @@ def mean_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6, verbose=
         mean_E_DA = np.mean(E_DA)
     return mean_E_DA
 
+def std_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6, verbose=False):
+    if E_DA is None:
+        E_DA = FRET_DA(acv1, acv2, R_DA, R0, n_dist, verbose)
+        if verbose:
+            print('> calculating E_DAs')
+    if E_DA.ndim > 1:
+        std_E_DA = np.sqrt(np.dot(E_DA[:, 0]**2, E_DA[:, 1]) - np.dot(E_DA[:, 0], E_DA[:, 1])**2)
+    else:
+        std_E_DA = np.std(E_DA)
+    return std_E_DA
+
 
 def mean_FRET_DA_ll(acv1, acv2, R0=54, n_dist=10**6):
     return ll.meanEfficiency(acv1.ll_Grid3D, acv2.ll_Grid3D, R0, n_dist)
@@ -175,6 +186,15 @@ def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None, R0=5
             print('> calculating mean_E_DA')
     mean_R_DA_E = R0 * (1 / mean_E_DA - 1)**(1 / 6)
     return mean_R_DA_E
+
+def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None, R_DA=None, R0=54, n_dist=10**6, verbose=False):
+    if (mean_E_DA is None) or (sigma_E_DA is None):
+        mean_E_DA = mean_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist, verbose)
+        sigma_E_DA = std_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist, verbose)
+        if verbose:
+            print('> calculating mean_E_DA and sigma_E_DA')
+    std_R_DA_E = np.sqrt((R0 / (6 * ( 1 / mean_E_DA - 1)**(5 / 6) * mean_E_DA**2 ))**2 * sigma_E_DA**2)  # error propagation: sqrt( (df/dx)^2 * sigma_x^2 ) 
+    return std_R_DA_E
 
 
 def dists_DA_ll(acv1, acv2, n_dist=10**6, return_weights=True):
