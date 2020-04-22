@@ -58,7 +58,7 @@ def open_dx(grid_3d, xyz_min, d_xyz):
     return s
 
 
-def xyz(cloud_xyzqt, mp, write_weights=True):
+def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
     """
     Return an XYZ formatted string
 
@@ -83,11 +83,25 @@ def xyz(cloud_xyzqt, mp, write_weights=True):
     s += '# Accessible contact volume\n'
     if write_weights:
         for k in range(n_points):
-            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], cloud_xyzqt[k, 3])
+            if encode_element:
+                if cloud_xyzqt[k, 4] == 2:
+                    element = 'H'
+                else:
+                    element = ELEMENT
+            else:
+                element = ELEMENT
+                s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], cloud_xyzqt[k, 3])
         s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2], -1)
     else:
         for k in range(n_points):
-            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2])
+            if encode_element:
+                if cloud_xyzqt[k, 4] == 2:
+                    element = 'H'
+                else:
+                    element = ELEMENT
+            else:
+                element = ELEMENT
+                s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2])
         s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2])
     return s
 

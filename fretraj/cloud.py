@@ -651,7 +651,7 @@ class Volume:
         Parameters
         ----------
         structure : mdtraj.Trajectory
-        frame : int
+        site : str
         labels : dict
         attachID : int or list
 
