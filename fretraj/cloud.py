@@ -890,7 +890,11 @@ class Volume:
                 write_weights = kwargs['write_weights']
             except KeyError:
                 write_weights = True
-            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, write_weights)
+            try:
+                encode_element = kwargs['encode_element']
+            except KeyError:
+                encode_element = True
+            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, write_weights, encode_element)
         elif format == 'open_dx':
             d_xyz = [self.grid_spacing] * 3
             xyz_min = self.acv.originXYZ
