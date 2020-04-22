@@ -878,6 +878,7 @@ class Volume:
             default: xyz
         **kwargs
             - write_weights : bool
+            - encode_element : bool
 
         Examples
         --------
@@ -893,7 +894,7 @@ class Volume:
             try:
                 encode_element = kwargs['encode_element']
             except KeyError:
-                encode_element = True
+                encode_element = False
             file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, write_weights, encode_element)
         elif format == 'open_dx':
             d_xyz = [self.grid_spacing] * 3

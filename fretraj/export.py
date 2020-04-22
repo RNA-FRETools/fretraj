@@ -90,7 +90,7 @@ def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
                     element = ELEMENT
             else:
                 element = ELEMENT
-                s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], cloud_xyzqt[k, 3])
+            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], cloud_xyzqt[k, 3])
         s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2], -1)
     else:
         for k in range(n_points):
@@ -101,7 +101,7 @@ def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
                     element = ELEMENT
             else:
                 element = ELEMENT
-                s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2])
+            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2])
         s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2])
     return s
 
