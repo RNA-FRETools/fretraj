@@ -85,21 +85,17 @@ def parseCmd():
                      an MD trajectory or a given PDB structure')
     parser.add_argument('--version', action='version',
                         version='%(prog)s ' + str(about["__version__"]))
-    parser.add_argument(
-        '-i', '--input', help='Input PDB structure (.pdb)', required=True)
+    parser.add_argument('-i', '--input', help='Input PDB structure (.pdb)', required=True)
     parser.add_argument('-p', '--parameters',
                         help='Parameter file (.json)', required=True)
     parser.add_argument('-o', '--output',
                         help='Output file of accessible contact volume (.pdb, .xyz, .dx)',
                         required=False)
-    parser.add_argument('-d', '--distance',
-                        help='Distance file (.json)', required=False)
     args = parser.parse_args()
     in_filePDB = args.input
     param_fileJSON = args.parameters
     out_fileACV = args.output
-    out_fileDist = args.distance
-    return in_filePDB, param_fileJSON, out_fileACV, out_fileDist
+    return in_filePDB, param_fileJSON, out_fileACV
 
 
 def labeling_params(param_file):

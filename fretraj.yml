@@ -1,0 +1,13 @@
+name: fretraj
+channels:
+  - conda-forge
+  - schrodinger
+dependencies:
+  - numpy
+  - numba<=0.44
+  - pymol
+  - mdtraj
+  - packaging
+  - pip:
+    - "--editable=git+https://github.com/fdsteffen/fretraj.git"
+
