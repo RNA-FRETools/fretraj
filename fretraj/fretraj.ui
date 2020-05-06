@@ -434,22 +434,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1" colspan="11">
-         <widget class="QLineEdit" name="lineEdit_rootDirectory">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="placeholderText">
-           <string>root folder</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="1" colspan="2">
          <widget class="QSpinBox" name="spinBox_atomID">
           <property name="minimum">
@@ -464,13 +448,6 @@
          <widget class="QLineEdit" name="lineEdit_molSelection">
           <property name="text">
            <string>all</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="push_setRootDirectory">
-          <property name="text">
-           <string>Set root folder</string>
           </property>
          </widget>
         </item>
@@ -530,6 +507,29 @@
           </property>
           <property name="placeholderText">
            <string>PDB file</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="push_setRootDirectory">
+          <property name="text">
+           <string>Set folder</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="11">
+         <widget class="QLineEdit" name="lineEdit_rootDirectory">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>root folder</string>
           </property>
           <property name="clearButtonEnabled">
            <bool>false</bool>

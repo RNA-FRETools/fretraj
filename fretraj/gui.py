@@ -218,7 +218,7 @@ class App(QtWidgets.QMainWindow):
         
     def loadPDB(self, fileNamePath_pdb=False):
         """
-        Load PDB of CIF file. CIF files will be converted to PDB internally
+        Load PDB or CIF file. CIF files will be converted to PDB internally
         """
         if not fileNamePath_pdb:
             self.fileNamePath_pdb, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Load PDB / CIF', '', "PDB / CIF file (*.pdb *cif);;All Files (*)")
@@ -249,6 +249,22 @@ class App(QtWidgets.QMainWindow):
                 if self._pymol_running:
                     cmd.reinitialize()
                     cmd.load(self.fileNamePath_pdb)
+
+                    cmd.set_color('ft_blue', [51, 83, 183])
+                    cmd.set_color('ft_gray', [181, 189, 197])
+                    cmd.set_color('ft_orange', [227, 128, 82])
+                    cmd.hide("nonbonded")
+                    cmd.show("cartoon")
+                    cmd.cartoon('oval')
+                    cmd.set('cartoon_oval_length', 1)
+                    cmd.set('cartoon_oval_width', 0.25)
+                    cmd.set("cartoon_ring_finder", 2)
+                    cmd.set("cartoon_ring_mode", 1)
+                    cmd.set("cartoon_ring_transparency", 0.5)
+                    cmd.set("cartoon_ring_width", 0.3)
+                    cmd.show('sticks', 'name C6+N6+O6+C2+N2+O2+C4+O4+N4 and polymer.nucleic')
+                    cmd.set('stick_radius', 0.15, 'polymer.nucleic')
+                    cmd.spectrum('count', 'ft_orange ft_gray ft_blue')
                 return 1
 
     def cif2pdb(self, pathtoPDBfile):
@@ -309,15 +325,9 @@ class App(QtWidgets.QMainWindow):
                                 self.openErrorWin('Parameter File Error', error_msg)
                                 return 0
 
-                            #print(self.labels_default)
                             for pos_dis in labels_json[field].keys():
                                 
-                                #if pos_dis != name_default:
-
                                 self.labels[field][pos_dis] = {}
-                                #print(self.labels_default)
-                                #print(self.labels_default[field][name_default].keys())
-                                
                                 for key in self.labels_default[field][name_default].keys():
                                     if isinstance(labels_json[field][pos_dis], dict):
                                         if key in labels_json[field][pos_dis].keys():
@@ -329,7 +339,6 @@ class App(QtWidgets.QMainWindow):
                                         self.openErrorWin('Parameter File Error', error_msg)
                                         return 0
                     for newlabel in self.labels['Position'].keys():
-                        #self.update_GUIfields()
                         self.addLabel(newlabel)
                     for newdistance in self.labels['Distance'].keys():
                         self.addFRETparam(newdistance)
