@@ -7,6 +7,14 @@ about = {}
 with open('fretraj/__about__.py') as a:
     exec(a.read(), about)
 
+INSTALL_REQUIRES = [
+    'numpy',
+    'mdtraj',
+    'numba<=0.44',
+    'pymol',
+    'packaging'
+    ]
+
 setuptools.setup(
     name=about['__title__'],
     version=about['__version__'],
@@ -17,11 +25,8 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url=about['__url__'],
     packages=setuptools.find_packages(exclude=['docs', 'tests']),
-    classifiers=[
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-    ],
+    install_requires=INSTALL_REQUIRES,
+    classifiers=about['__classifiers__'],
     keywords=about['__keywords__'],
     include_package_data=True
 )
