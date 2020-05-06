@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/fdsteffen/FRETraj/master/fretraj/icon.png" width="50">FRETraj
+# <img src="docs/source/_static/fretraj_logo.png" width="50">FRETraj
 
 ## What is FRETraj?
 FRETraj is a high-level Python API to the **LabelLib** library (https://github.com/Fluorescence-Tools/LabelLib) to simulate fluorophores which are coupled to a biomolecule of interest. The package features a user-friendly **PyMOL plugin** which can be used to explore different labeling positions in the process of designing new FRET experiments. FRETraj further implements a **Python-only** version of LabelLib for trying out new features for the accessible volume (AV) algorithm. In an AV simulation the fluorophore distribution is estimated by a shortest path search (Dijkstra algorithm) using a coarse-grained dye probe. 
