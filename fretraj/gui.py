@@ -378,7 +378,6 @@ class App(QtWidgets.QMainWindow):
         if self.tableWidget_MeanPos.rowCount() > 1 and self.struct:
             self.push_calculateFRET.setEnabled(True)
         self.update_GUIfields()
-        #self.update_labelDict()
 
     def deleteLabel(self):
         """
@@ -532,6 +531,7 @@ class App(QtWidgets.QMainWindow):
                         break
 
                 if self._pymol_running:
+                    cmd.color('white', '*_isosurf')
                     don_name = self.donorName.replace('\'', 'p')
                     acc_name = self.acceptorName.replace('\'', 'p')
                     cmd.set_color('don_green', [108, 179, 129])

@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>897</width>
+    <width>946</width>
     <height>623</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>FRETraj</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox_ACV">
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>621</width>
+      <width>661</width>
       <height>580</height>
      </rect>
     </property>
@@ -276,6 +276,16 @@
         <string>PDB stucture and position</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
+        <item row="2" column="1" colspan="2">
+         <widget class="QSpinBox" name="spinBox_atomID">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="5">
          <widget class="QSpinBox" name="spinBox_statePDB">
           <property name="minimum">
@@ -293,6 +303,33 @@
          <widget class="QPushButton" name="push_computeACV">
           <property name="text">
            <string>Compute ACV</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="11">
+         <widget class="QPushButton" name="push_deleteLabel">
+          <property name="text">
+           <string>Delete label</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="9">
+         <widget class="QLineEdit" name="lineEdit_labelName">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Normal</enum>
+          </property>
+          <property name="placeholderText">
+           <string>new label</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_molSelection">
+          <property name="text">
+           <string>mol. selection</string>
           </property>
          </widget>
         </item>
@@ -343,33 +380,6 @@
           </column>
          </widget>
         </item>
-        <item row="2" column="9">
-         <widget class="QLineEdit" name="lineEdit_labelName">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="echoMode">
-           <enum>QLineEdit::Normal</enum>
-          </property>
-          <property name="placeholderText">
-           <string>new label</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="11">
-         <widget class="QPushButton" name="push_deleteLabel">
-          <property name="text">
-           <string>Delete label</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_molSelection">
-          <property name="text">
-           <string>mol. selection</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="11">
          <widget class="QLineEdit" name="lineEdit_paramFile">
           <property name="readOnly">
@@ -383,10 +393,23 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="9">
-         <widget class="QPushButton" name="push_loadParameterFile">
+        <item row="2" column="3">
+         <widget class="QLineEdit" name="lineEdit_pdbAtom">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>atom</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_atomID">
           <property name="text">
-           <string>Load Param.</string>
+           <string>atom ID</string>
           </property>
          </widget>
         </item>
@@ -414,40 +437,10 @@
           </item>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_atomID">
+        <item row="1" column="9">
+         <widget class="QPushButton" name="push_loadParameterFile">
           <property name="text">
-           <string>atom ID</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLineEdit" name="lineEdit_pdbAtom">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="placeholderText">
-           <string>atom</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1" colspan="2">
-         <widget class="QSpinBox" name="spinBox_atomID">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>9999</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1" colspan="7">
-         <widget class="QLineEdit" name="lineEdit_molSelection">
-          <property name="text">
-           <string>all</string>
+           <string>Load Param.</string>
           </property>
          </widget>
         </item>
@@ -458,10 +451,10 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="4">
-         <widget class="QLabel" name="label_statePDB">
+        <item row="4" column="1" colspan="7">
+         <widget class="QLineEdit" name="lineEdit_molSelection">
           <property name="text">
-           <string>state</string>
+           <string>all</string>
           </property>
          </widget>
         </item>
@@ -493,10 +486,26 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="5">
-         <widget class="QPushButton" name="push_showText">
+        <item row="2" column="4">
+         <widget class="QLabel" name="label_statePDB">
           <property name="text">
-           <string>Show Text</string>
+           <string>state</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="11">
+         <widget class="QLineEdit" name="lineEdit_rootDirectory">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>root folder</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -520,19 +529,10 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1" colspan="11">
-         <widget class="QLineEdit" name="lineEdit_rootDirectory">
+        <item row="1" column="5">
+         <widget class="QPushButton" name="push_showText">
           <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="placeholderText">
-           <string>root folder</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
+           <string>Show Text</string>
           </property>
          </widget>
         </item>
@@ -544,9 +544,9 @@
    <widget class="QGroupBox" name="groupBox_FRET">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>680</x>
       <y>10</y>
-      <width>241</width>
+      <width>251</width>
       <height>371</height>
      </rect>
     </property>
@@ -803,9 +803,9 @@
    <widget class="QGroupBox" name="groupBox_visualization">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>680</x>
       <y>390</y>
-      <width>241</width>
+      <width>251</width>
       <height>191</height>
      </rect>
     </property>
@@ -918,7 +918,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>897</width>
+     <width>946</width>
      <height>26</height>
     </rect>
    </property>
