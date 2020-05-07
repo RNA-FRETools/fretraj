@@ -15,7 +15,7 @@ FRETraj can be installed platform independently as a Python module or as a Plugi
 
 You can get the latest version of PyMOL from [Schrödinger](https://pymol.org/). Start the **Anaconda prompt** which comes bundled with PyMOL 2.x and install the necessary dependencies:
 ```
-conda install numpy numba<=0.44 mdtraj packaging -c conda-forge
+conda install numpy "numba<=0.44" mdtraj packaging -c conda-forge
 ```
 For a faster calculation of the AVs you may additionally install LabelLib, but this is not required as FRETraj also runs its own implementation of the AV algorithm.
 ```
