@@ -144,6 +144,9 @@ class App(QtWidgets.QMainWindow):
         self.push_deleteFRET.clicked.connect(self.deleteFRET)
         self.actionSettings.triggered.connect(self.openSettings)
         self.push_showText.clicked.connect(self.openPDBFile)
+        self.settingsWindow.push_root.clicked.connect(self.setRootDirectory)
+        self.settingsWindow.push_browser.clicked.connect(self.set_browser)
+        self.settingsWindow.push_localdocs.clicked.connect(self.set_localdocsDir)
 
 
     def update_labelDict(self, pos=None):
@@ -635,8 +638,24 @@ class App(QtWidgets.QMainWindow):
         rootDir = QtWidgets.QFileDialog.getExistingDirectory(self, 'Set root directory')
         if rootDir:
             self.lineEdit_rootDirectory.setText(rootDir)
-            self.settingsWindow.lineEdit_rootDirectory.setText(self.settings['root_path'])
-            self.settings['root_path'] = rootDir
+            self.settingsWindow.lineEdit_rootDirectory.setText(rootDir)
+            self.settings['root_path'] = re.escape(rootDir)
+            with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+                json.dump(self.settings, f, indent=2)
+
+    def set_browser(self):
+        browser_path, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Search for default browser')
+        if browser_path:
+            self.settingsWindow.lineEdit_browser.setText(browser_path)
+            self.settings['browser'] = re.escape(browser_path)
+            with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+                json.dump(self.settings, f, indent=2)
+
+    def set_localdocsDir(self):
+        docs_path = QtWidgets.QFileDialog.getExistingDirectory(self, 'Select docs directory')
+        if docs_path:
+            self.settingsWindow.lineEdit_localdocs.setText(docs_path)
+            self.settings['local_docs'] = re.escape(docs_path)
             with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
                 json.dump(self.settings, f, indent=2)
 
@@ -650,11 +669,8 @@ class App(QtWidgets.QMainWindow):
                 msg.setText('Press <OK> and specify the path of the local docs.')
                 returnValue = msg.exec_()
                 if returnValue == QtWidgets.QMessageBox.Ok:
-                    docs_path = QtWidgets.QFileDialog.getExistingDirectory(self, 'Select docs directory')
-                    self.settings['local_docs'] = re.escape(docs_path)
-                    with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
-                        json.dump(self.settings, f, indent=2)
-
+                    self.set_localdocsDir()
+                
         if not self.settings['browser']:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -663,10 +679,7 @@ class App(QtWidgets.QMainWindow):
             msg.setText('For the documentation to be displayed, the path to a web browser needs to be configured. Press <OK> and search for the browser executable (Firefox, Chrome or Edge).')
             returnValue = msg.exec_()
             if returnValue == QtWidgets.QMessageBox.Ok:
-                browser_path, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Search for default browser')
-                self.settings['browser'] = re.escape(browser_path)
-                with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
-                    json.dump(self.settings, f, indent=2)
+                self.set_browser()
 
         if self.settings['browser']:
             try:
