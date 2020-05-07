@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>946</width>
-    <height>623</height>
+    <height>642</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -806,7 +806,7 @@
       <x>680</x>
       <y>390</y>
       <width>251</width>
-      <height>191</height>
+      <height>201</height>
      </rect>
     </property>
     <property name="title">
@@ -907,6 +907,19 @@
        </property>
        <property name="value">
         <double>2.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QCheckBox" name="checkBox_transparentAV">
+       <property name="text">
+        <string>transparent AV</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+       <property name="tristate">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

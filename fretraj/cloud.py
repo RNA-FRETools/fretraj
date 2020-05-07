@@ -63,7 +63,8 @@ _label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None),
                                        'contour_level_CV': ((int, float), 0.7),
                                        'b_factor': (int, 100),
                                        'gaussian_resolution': (int, 2),
-                                       'grid_buffer': ((int, float), 2.0)}},
+                                       'grid_buffer': ((int, float), 2.0),
+                                       'transparent_AV': (bool, True)}},
                'Distance': {'pd_key': {'R0': ((int, float), None),
                                        'n_dist': (int, 10**6)}}}
 

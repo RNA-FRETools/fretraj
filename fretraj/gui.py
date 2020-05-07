@@ -105,6 +105,7 @@ class App(QtWidgets.QMainWindow):
         self.doubleSpinBox_contourValue_CV.setEnabled(False)
         self.spinBox_bfactor.setEnabled(False)
         self.spinBox_gaussRes.setEnabled(False)
+        self.checkBox_transparentAV.setEnabled(False)
         self.doubleSpinBox_gridBuffer.setEnabled(False)
         self.push_calculateFRET.setEnabled(False)
         self.spinBox_statePDB.setEnabled(False)
@@ -129,6 +130,7 @@ class App(QtWidgets.QMainWindow):
         self.spinBox_bfactor.valueChanged.connect(self.pymol_update_isosurface)
         self.spinBox_gaussRes.valueChanged.connect(self.pymol_update_isosurface)
         self.doubleSpinBox_gridBuffer.valueChanged.connect(self.pymol_update_isosurface)
+        self.checkBox_transparentAV.toggled.connect(self.pymol_update_isosurface)
         self.lineEdit_labelName.returnPressed.connect(self.makeLabel)
         self.lineEdit_distanceName.returnPressed.connect(self.makeFRETparam)
         self.comboBox_labelName.currentIndexChanged.connect(self.update_comboBox)
@@ -181,7 +183,7 @@ class App(QtWidgets.QMainWindow):
         self.labels['Position'][pos]['b_factor'] = self.spinBox_bfactor.value()
         self.labels['Position'][pos]['gaussian_resolution'] = self.spinBox_gaussRes.value()
         self.labels['Position'][pos]['grid_buffer'] = self.doubleSpinBox_gridBuffer.value()
-
+        self.labels['Position'][pos]['transparent_AV'] = self.checkBox_transparentAV.isChecked()
 
     def update_comboBox(self):
         self.update_labelDict()
@@ -217,6 +219,7 @@ class App(QtWidgets.QMainWindow):
         self.spinBox_bfactor.setValue(self.labels['Position'][pos]['b_factor'])
         self.spinBox_gaussRes.setValue(self.labels['Position'][pos]['gaussian_resolution'])
         self.doubleSpinBox_gridBuffer.setValue(self.labels['Position'][pos]['grid_buffer'])
+        self.checkBox_transparentAV.setChecked(self.labels['Position'][pos]['transparent_AV'])
 
         
     def loadPDB(self, fileNamePath_pdb=False):
@@ -590,8 +593,10 @@ class App(QtWidgets.QMainWindow):
                 self.spinBox_bfactor.setEnabled(True)
                 self.spinBox_gaussRes.setEnabled(True)
                 self.doubleSpinBox_gridBuffer.setEnabled(True)
+                self.checkBox_transparentAV.setEnabled(True)
                 self.pymol_update_isosurface()
             self.define_DA()
+        cmd.zoom(self.fileName_pdb[:-4])
 
     def calculateFRET(self):
         self.update_labelDict()
@@ -629,10 +634,16 @@ class App(QtWidgets.QMainWindow):
                 contour_level_CV = self.doubleSpinBox_contourValue_CV.value()
                 sele_CV = '{} and resn CV'.format(av_name)
                 isosurf.smooth_map_from_xyz(av_name + '_CV', sele_CV, contour_level_CV, grid_spacing, bfactor, gaussRes, gridBuffer)
-                cmd.set('transparency', 0.4, av_name + '_isosurf')
+                if self.checkBox_transparentAV.isChecked():
+                    cmd.set('transparency', 0.4, av_name + '_isosurf')
+                else:
+                    cmd.set('transparency', 0, av_name + '_isosurf')
             else:
                 self.doubleSpinBox_contourValue_CV.setEnabled(False)
-                cmd.set('transparency', 0, av_name + '_isosurf')
+                if self.checkBox_transparentAV.isChecked():
+                    cmd.set('transparency', 0.4, av_name + '_isosurf')
+                else:
+                    cmd.set('transparency', 0, av_name + '_isosurf')
 
     def setRootDirectory(self):
         rootDir = QtWidgets.QFileDialog.getExistingDirectory(self, 'Set root directory')
