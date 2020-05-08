@@ -3,8 +3,13 @@ import numpy as np
 import numba as nb
 import heapq
 import packaging.version
+import warnings
 
 _hasTypedList = packaging.version.parse(nb.__version__) >= packaging.version.parse('0.45.0')
+
+if not _hasTypedList:
+    warnings.simplefilter('ignore', category=nb.errors.NumbaDeprecationWarning)
+    warnings.simplefilter('ignore', category=nb.errors.NumbaPendingDeprecationWarning)
 
 _dist_list = np.sqrt(np.array([1, 2, 3, 5, 6]))  # reduction to 74 neighbors
 
@@ -55,7 +60,7 @@ class Grid3D:
         self.grid = self.grid_3d.flatten(order='F')
 
     @staticmethod
-    @nb.jit#(forceobj=True)
+    @nb.jit(forceobj=True)
     def make_grid(attach_xyz, linker_length, grid_spacing):
         """
         Build a 3D grid around the attachment point
@@ -203,7 +208,7 @@ class Grid3D:
         return idxs
 
     @staticmethod
-    @nb.jit#(forceobj=True)
+    @nb.jit(forceobj=True)
     def _neighborIdx(maxR, grid_spacing):
         """
         Build a list of neighboring indices to the origin (0,0,0)

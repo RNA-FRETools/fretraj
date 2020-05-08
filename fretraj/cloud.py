@@ -743,7 +743,7 @@ class Volume:
         return grid_3d
 
     @staticmethod
-    @nb.jit#(forceobj=True)
+    @nb.jit(forceobj=True)
     def grid2pts(grid_3d, xyz_min, d_xyz, *args):
         """
         Convert 3D-grid with density values to xyz coordinates with a weight (q)

@@ -9,7 +9,7 @@ A recent addition to the original AV model (Kalinin et al. *Nat. Methods*, 2012)
 
 ## Installation
 
-FRETraj can be installed platform independently as a Python module or as a Plugin to PyMOL.
+FRETraj can be installed platform independently as a Python module or as a Plugin to PyMOL. If you would like to predict FRET efficiencies from a single PDB file (including multiple states), then the PyMOL Plugin provides you with the easiest and fastest access to FRETraj. If you rather like to integrate FRETraj in your Python analysis workflow (e.g. to calculate multiple accesible volumes along an MD trajectory), then install FRETraj as a module.
 
 ### PyMOL plugin
 
@@ -31,6 +31,7 @@ To use the **FRETraj PyMOL plugin** simply download the .zip archive from Github
 <img src="docs/source/_static/PyMOL_interface.PNG" height="250"> <img src="docs/source/_static/PyMOL_Plugin.PNG" height="250">
 
 ### Python module
+
 You may install the latest development version of FRETraj as a Python module from Github using pip
 
 ```
