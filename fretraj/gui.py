@@ -538,8 +538,8 @@ class App(QtWidgets.QMainWindow):
 
                 if self._pymol_running:
                     cmd.color('white', '*_isosurf')
-                    don_name = self.donorName.replace('\'', 'p')
-                    acc_name = self.acceptorName.replace('\'', 'p')
+                    don_name = self.fileName_pdb[:-4]+'-'+self.donorName.replace('\'', 'p')
+                    acc_name = self.fileName_pdb[:-4]+'-'+self.acceptorName.replace('\'', 'p')
                     cmd.set_color('don_green', [108, 179, 129])
                     cmd.set_color('acc_red', [194, 84, 73])
                     cmd.color('don_green', don_name + '_isosurf')
@@ -580,7 +580,7 @@ class App(QtWidgets.QMainWindow):
             print(msg)
         else:
             av_name = self.labelName.replace('\'', 'p')
-            av_filename = '{}/{}.pdb'.format(self.settings['root_path'], av_name)
+            av_filename = '{}/{}-{}.pdb'.format(self.settings['root_path'], self.fileName_pdb[:-4], av_name)
             self.av[self.labelName].save_acv(av_filename, format='pdb')
 
             self.addLabelToList(self.av[self.labelName])
@@ -603,7 +603,7 @@ class App(QtWidgets.QMainWindow):
         self.traj[(self.donorName, self.acceptorName)] = cloud.FRET_Trajectory(self.av[self.donorName], self.av[self.acceptorName], self.distanceName, self.labels)
         self.addDistanceToList(self.traj[(self.donorName, self.acceptorName)])
         self.define_DA()
-        self.traj[(self.donorName, self.acceptorName)].save_fret('{}/{}-{}.json'.format(self.settings['root_path'], self.donorName, self.acceptorName))
+        self.traj[(self.donorName, self.acceptorName)].save_fret('{}/{}_{}_{}_fret.json'.format(self.settings['root_path'], self.fileName_pdb[:-4], self.donorName, self.acceptorName))
 
     def deleteFRET(self):
         DA = '{} -> {}'.format(self.donorName, self.acceptorName)
@@ -622,7 +622,7 @@ class App(QtWidgets.QMainWindow):
         The spin box is only active when PYMOL is running.
         """
         if self.av:
-            av_name = self.labelName.replace('\'', 'p')
+            av_name = self.fileName_pdb[:-4]+'-'+self.labelName.replace('\'', 'p')
             contour_level = self.doubleSpinBox_contourValue.value()
             bfactor = self.spinBox_bfactor.value()
             gaussRes = self.spinBox_gaussRes.value()
@@ -633,7 +633,7 @@ class App(QtWidgets.QMainWindow):
                 self.doubleSpinBox_contourValue_CV.setEnabled(True)
                 contour_level_CV = self.doubleSpinBox_contourValue_CV.value()
                 sele_CV = '{} and resn CV'.format(av_name)
-                isosurf.smooth_map_from_xyz(av_name + '_CV', sele_CV, contour_level_CV, grid_spacing, bfactor, gaussRes, gridBuffer)
+                isosurf.smooth_map_from_xyz(av_name+'_CV', sele_CV, contour_level_CV, grid_spacing, bfactor, gaussRes, gridBuffer)
                 if self.checkBox_transparentAV.isChecked():
                     cmd.set('transparency', 0.4, av_name + '_isosurf')
                 else:
