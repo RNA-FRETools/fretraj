@@ -579,7 +579,7 @@ class App(QtWidgets.QMainWindow):
             self.statusBar().showMessage(msg, 3000)
             print(msg)
         else:
-            av_name = self.labelName.replace('\'', 'p')
+            av_name = self.fileName_pdb[:-4]+'-'self.labelName.replace('\'', 'p')
             av_filename = '{}/{}-{}.pdb'.format(self.settings['root_path'], self.fileName_pdb[:-4], av_name)
             self.av[self.labelName].save_acv(av_filename, format='pdb')
 
