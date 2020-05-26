@@ -438,7 +438,7 @@ class App(QtWidgets.QMainWindow):
                 i += 1
 
     def deleteIsosurface(self):
-        av_name = self.labelName.replace('\'', 'p')
+        av_name = self.fileName_pdb[:-4]+'-'+self.labelName.replace('\'', 'p')
         cmd.delete(av_name)
         cmd.delete(av_name + '_map')
         cmd.delete(av_name + '_isosurf')
