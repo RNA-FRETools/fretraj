@@ -28,5 +28,6 @@ setuptools.setup(
     install_requires=INSTALL_REQUIRES,
     classifiers=about['__classifiers__'],
     keywords=about['__keywords__'],
-    include_package_data=True
+    include_package_data=True,
+    scripts=['skripts/vmd_vis.sh', 'skripts/pymol_vis.sh']
 )
