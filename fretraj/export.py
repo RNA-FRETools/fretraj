@@ -8,6 +8,8 @@ NAME_MP = 'H'
 ELEMENT_MP = 'H'
 OCCUPANCY_MP = -1
 
+_pdb_format = '{:6}{:5d}{:>5}{:1}{:>3} {:1}{:4d}{:1}   {:>8.3f}{:>8.3f}{:>8.3f}{:>6.2f}{:>6.2f}          {:>2}{:>2}\n'
+
 
 def open_dx(grid_3d, xyz_min, d_xyz):
     """
@@ -168,8 +170,6 @@ def pdb(cloud_xyzqt, mp):
     +--------------------------+------------+-----------+
 
     """
-    _pdb_format = '{:6}{:5d}{:>5}{:1}{:>3} {:1}{:4d}{:1}   {:>8.3f}{:>8.3f}{:>8.3f}{:>6.2f}{:>6.2f}          {:>2}{:>2}\n'
-
     n_points = cloud_xyzqt.shape[0]
     bfactor = 99
     s = ''

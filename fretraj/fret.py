@@ -208,3 +208,10 @@ def dists_DA_ll(acv1, acv2, n_dist=10**6, return_weights=True):
 def dist_attach(attach1_xyz, attach2_xyz):
     R_attach = np.sqrt(sum((attach1_xyz - attach2_xyz)**2))
     return R_attach
+
+def R_DAE_to_Rmp(mean_R_DA_E):
+    """
+    Conversion function for <R_DA,E> to R_mp from kalinin, Nat.Methods (2012)
+    """
+    R_mp = 1.109*10**-5*mean_R_DA_E**3 - 7.286*10**-3*mean_R_DA_E**2 + 1.979*mean_R_DA_E - 34.345
+    return R_mp

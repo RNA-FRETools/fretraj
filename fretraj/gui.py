@@ -13,11 +13,14 @@ try:
     from fretraj import cloud
     from fretraj import isosurf
     from fretraj import export
+    from fretraj import restraints
+    from fretraj import fret
 except ModuleNotFoundError: # for PyMOL Plugin
     from . import cloud
     from . import isosurf
     from . import export
-
+    from . import restraints
+    from . import fret
 try:
     import LabelLib as ll
 except ModuleNotFoundError:
@@ -26,7 +29,7 @@ else:
     _LabelLib_found = True
 
 # class App(QtWidgets.QWidget):
-package_directory = os.path.dirname(os.path.abspath(cloud.__file__))
+package_directory = os.path.dirname(os.path.abspath(__file__))
 
 about = {}
 with open(os.path.join(package_directory, '__about__.py')) as a:
@@ -37,14 +40,15 @@ class App(QtWidgets.QMainWindow):
 
     def __init__(self, _pymol_running=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.uiIconPath = '{}/icon'.format(package_directory)
-        self.exampleDataPath = '{}/data/'.format(package_directory)
-        fretrajUI = os.path.join(os.path.dirname(__file__), 'fretraj.ui')
-        self.settingsUI = os.path.join(os.path.dirname(__file__), 'settings.ui')
-        self.textUI = os.path.join(os.path.dirname(__file__), 'textpad.ui')
+        self.uiIcon = os.path.join(package_directory, 'UI', 'icon.png')
+        self.exampleDataPath = os.path.join(package_directory, 'examples')
+        fretrajUI = os.path.join(package_directory, 'UI', 'fretraj.ui')
+        self.settingsUI = os.path.join(package_directory, 'UI', 'settings.ui')
+        self.textUI = os.path.join(package_directory, 'UI','textpad.ui')
+        self.restraintsUI = os.path.join(package_directory, 'UI', 'restraints.ui')
         utils.loadUi(fretrajUI, self)
         self.setWindowTitle("FRETraj")
-        self.setWindowIcon(utils.QtGui.QIcon(self.uiIconPath))
+        self.setWindowIcon(utils.QtGui.QIcon(self.uiIcon))
         self._pymol_running = _pymol_running
         self.statusBar().showMessage("Ready", 2000)
         self.readTheDocsURL = None
@@ -53,6 +57,9 @@ class App(QtWidgets.QMainWindow):
         self.settingsWindow.setWindowTitle("FRETraj - Settings")
         self.textWindow = QtWidgets.QDialog(self)
         utils.loadUi(self.textUI, self.textWindow)
+        self.restraintsWindow = QtWidgets.QDialog(self)
+        utils.loadUi(self.restraintsUI, self.restraintsWindow)
+        self.restraintsWindow.setWindowTitle("FRETraj - Restraints")
         
 
         # initialize labels dictionary with defaults from GUI
@@ -113,6 +120,7 @@ class App(QtWidgets.QMainWindow):
         self.push_transfer.setEnabled(False)
         self.push_loadParameterFile.setEnabled(False)
         self.push_showText.setEnabled(False)
+        self.actionRestraints.setEnabled(False)
         if not _LabelLib_found:
             self.checkBox_useLabelLib.setEnabled(False)
             self.checkBox_useLabelLib.setChecked(False)
@@ -149,6 +157,9 @@ class App(QtWidgets.QMainWindow):
         self.settingsWindow.push_root.clicked.connect(self.setRootDirectory)
         self.settingsWindow.push_browser.clicked.connect(self.set_browser)
         self.settingsWindow.push_localdocs.clicked.connect(self.set_localdocsDir)
+        self.actionRestraints.triggered.connect(self.openRestraints)
+        self.restraintsWindow.push_writePlumed.clicked.connect(self.save_plumed)
+        self.restraintsWindow.doubleSpinBox_fretTarget.valueChanged.connect(self.predict_RDAE_Rmp)
 
 
     def update_labelDict(self, pos=None):
@@ -237,9 +248,12 @@ class App(QtWidgets.QMainWindow):
             try:
                 self.struct = md.load_pdb(self.fileNamePath_pdb)
             except IndexError:
-                self.openErrorWin("PDB File Error", "The specified file \"{}.pdb\" cannot be loaded".format(name))
+                self.openErrorWin("File Error", "The specified file \"{}\" cannot be loaded".format(self.fileName_pdb[-3:]))
                 return 0
             else:
+                self.struct_original = copy.deepcopy(self.struct)
+                self.struct.remove_solvent(inplace=True)
+
                 self.lineEdit_pdbFile.setText(self.fileName_pdb)
                 self.spinBox_statePDB.setMaximum(self.struct.n_frames)
                 self.spinBox_atomID.setMaximum(self.struct.n_atoms)
@@ -255,6 +269,7 @@ class App(QtWidgets.QMainWindow):
                 if self._pymol_running:
                     cmd.reinitialize()
                     cmd.load(self.fileNamePath_pdb)
+                    cmd.remove('solvent or inorganic')
 
                     cmd.set_color('ft_blue', [51, 83, 183])
                     cmd.set_color('ft_gray', [181, 189, 197])
@@ -579,8 +594,8 @@ class App(QtWidgets.QMainWindow):
             self.statusBar().showMessage(msg, 3000)
             print(msg)
         else:
-            av_name = self.fileName_pdb[:-4]+'-'self.labelName.replace('\'', 'p')
-            av_filename = '{}/{}-{}.pdb'.format(self.settings['root_path'], self.fileName_pdb[:-4], av_name)
+            av_name = self.fileName_pdb[:-4]+'-'+self.labelName.replace('\'', 'p')
+            av_filename = '{}/{}.pdb'.format(self.settings['root_path'], av_name)
             self.av[self.labelName].save_acv(av_filename, format='pdb')
 
             self.addLabelToList(self.av[self.labelName])
@@ -604,6 +619,7 @@ class App(QtWidgets.QMainWindow):
         self.addDistanceToList(self.traj[(self.donorName, self.acceptorName)])
         self.define_DA()
         self.traj[(self.donorName, self.acceptorName)].save_fret('{}/{}_{}_{}_fret.json'.format(self.settings['root_path'], self.fileName_pdb[:-4], self.donorName, self.acceptorName))
+        self.actionRestraints.setEnabled(True)
 
     def deleteFRET(self):
         DA = '{} -> {}'.format(self.donorName, self.acceptorName)
@@ -615,6 +631,8 @@ class App(QtWidgets.QMainWindow):
                 rowCount -= 1
             else:
                 r += 1
+        if self.tableWidget_FRET.rowCount() < 1:
+            self.actionRestraints.setEnabled(False)
 
     def pymol_update_isosurface(self):
         """
@@ -712,7 +730,7 @@ class App(QtWidgets.QMainWindow):
         Open About Window
         """
         msg = QtWidgets.QMessageBox()
-        pixmap = utils.QtGui.QPixmap(self.uiIconPath)
+        pixmap = utils.QtGui.QPixmap(self.uiIcon)
         msg.setIconPixmap(pixmap.scaledToWidth(64))
         msg.setWindowTitle("About FRETraj")
         msg.setText('{} {}\n\n{}\n\n(C) {}'.format(about['__title__'], str(about['__version__']), about['__description__'], about['__copyright__']))
@@ -781,6 +799,40 @@ class App(QtWidgets.QMainWindow):
         msg.setText(message)
         msg.exec_()
 
+    def openRestraints(self):
+        self.restraintsWindow.lineEdit_donor.setText(self.donorName)
+        self.restraintsWindow.lineEdit_acceptor.setText(self.acceptorName)
+        mean_E_DA = self.traj[(self.donorName, self.acceptorName)].mean_E_DA
+        self.restraintsWindow.lineEdit_fretValue.setText('{:0.2f}'.format(mean_E_DA))
+        self.restraintsWindow.lineEdit_mpValue.setText('{:0.1f}'.format(self.traj[(self.donorName, self.acceptorName)].R_mp))
+        self.restraintsWindow.lineEdit_rdaValue.setText('{:0.1f}'.format(self.traj[(self.donorName, self.acceptorName)].mean_R_DA))
+        self.restraintsWindow.doubleSpinBox_fretTarget.setValue(mean_E_DA)
+        isOK = self.restraintsWindow.exec_()
+
+    def predict_RDAE_Rmp(self):
+        mean_E_DA = self.restraintsWindow.doubleSpinBox_fretTarget.value()
+        R_DA_E = fret.mean_dist_DA_fromFRET(None,None,mean_E_DA, None, None, self.doubleSpinBox_R0.value())
+        self.restraintsWindow.lineEdit_rdaTarget.setText('{:0.1f}'.format(R_DA_E))    
+        self.restraintsWindow.lineEdit_mpTarget.setText('{:0.1f}'.format(fret.R_DAE_to_Rmp(R_DA_E)))
+
+    def save_plumed(self):
+        frame_mdtraj = self.labels['Position'][self.labelName]['frame_mdtraj']
+        plumed = restraints.Plumed(self.struct[frame_mdtraj], [self.av[self.donorName], self.av[self.acceptorName]], 
+                                   self.restraintsWindow.lineEdit_selection.text(), self.restraintsWindow.doubleSpinBox_cutoff.value())
+        try:
+            pair = '_{}-{}'.format(self.donorName.split('-')[1], self.acceptorName.split('-')[1])
+        except IndexError:
+            pair = ''
+        R_mp = float(self.restraintsWindow.lineEdit_mpTarget.text())
+        plumed.write_plumed('{}/plumed_{}{}.dat'.format(self.settings['root_path'], self.fileName_pdb[:-4], pair), 
+                            R_mp, self.restraintsWindow.spinBox_distForceConst.value(), self.restraintsWindow.spinBox_RmpForceConst.value())
+
+        if self.restraintsWindow.checkBox_includeff.isChecked():
+            plumed.write_pseudo('{}/MP.pdb'.format(self.settings['root_path']), '{}/MP.itp'.format(self.settings['root_path']))
+            self.av[self.donorName].save_mp('{}/MP_D.dat'.format(self.settings['root_path']), units='nm', format='plain')
+            self.av[self.acceptorName].save_mp('{}/MP_A.dat'.format(self.settings['root_path']), units='nm', format='plain')
+        self.statusBar().showMessage('Plumed restraint file saved to disk', 3000)
+        self.restraintsWindow.close()
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

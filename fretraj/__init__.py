@@ -15,6 +15,7 @@ from . import isosurf
 from . import gui
 from . import grid
 from . import jupyter
+from . import restraints
 
 dialog = None
 

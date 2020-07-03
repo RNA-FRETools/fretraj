@@ -8,8 +8,9 @@ import warnings
 _hasTypedList = packaging.version.parse(nb.__version__) >= packaging.version.parse('0.45.0')
 
 if not _hasTypedList:
-    warnings.simplefilter('ignore', category=nb.errors.NumbaDeprecationWarning)
-    warnings.simplefilter('ignore', category=nb.errors.NumbaPendingDeprecationWarning)
+    if packaging.version.parse(nb.__version__) >= packaging.version.parse('0.44.0'):
+        warnings.simplefilter('ignore', category=nb.errors.NumbaDeprecationWarning)
+        warnings.simplefilter('ignore', category=nb.errors.NumbaPendingDeprecationWarning)
 
 _dist_list = np.sqrt(np.array([1, 2, 3, 5, 6]))  # reduction to 74 neighbors
 

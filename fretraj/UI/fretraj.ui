@@ -561,31 +561,6 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
-      <widget class="QComboBox" name="comboBox_acceptorName">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="editable">
-        <bool>false</bool>
-       </property>
-       <property name="currentText">
-        <string/>
-       </property>
-       <property name="currentIndex">
-        <number>-1</number>
-       </property>
-       <property name="maxVisibleItems">
-        <number>10</number>
-       </property>
-       <property name="insertPolicy">
-        <enum>QComboBox::InsertAtBottom</enum>
-       </property>
-      </widget>
-     </item>
      <item row="7" column="0">
       <widget class="QLabel" name="label_donor">
        <property name="text">
@@ -639,13 +614,6 @@
       <widget class="QPushButton" name="push_deleteFRETparam">
        <property name="text">
         <string>Delete param.</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLabel" name="label_acceptor">
-       <property name="text">
-        <string>acceptor</string>
        </property>
       </widget>
      </item>
@@ -721,17 +689,41 @@
        </column>
       </widget>
      </item>
+     <item row="7" column="1">
+      <widget class="QLabel" name="label_acceptor">
+       <property name="text">
+        <string>acceptor</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="comboBox_distanceName">
+       <property name="editable">
+        <bool>false</bool>
+       </property>
+       <property name="currentText">
+        <string>default param.</string>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="maxVisibleItems">
+        <number>10</number>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAtBottom</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string>default param.</string>
+        </property>
+       </item>
+      </widget>
+     </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_R0">
        <property name="text">
         <string>R0 (A)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_useLabelLib">
-       <property name="text">
-        <string># distances</string>
        </property>
       </widget>
      </item>
@@ -760,23 +752,29 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
-      <widget class="QPushButton" name="push_deleteFRET">
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_useLabelLib">
        <property name="text">
-        <string>delete FRET</string>
+        <string># distances</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="comboBox_distanceName">
+     <item row="8" column="1">
+      <widget class="QComboBox" name="comboBox_acceptorName">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="editable">
         <bool>false</bool>
        </property>
        <property name="currentText">
-        <string>default param.</string>
+        <string/>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>-1</number>
        </property>
        <property name="maxVisibleItems">
         <number>10</number>
@@ -784,17 +782,19 @@
        <property name="insertPolicy">
         <enum>QComboBox::InsertAtBottom</enum>
        </property>
-       <item>
-        <property name="text">
-         <string>default param.</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item row="9" column="0">
       <widget class="QPushButton" name="push_calculateFRET">
        <property name="text">
         <string>calculate FRET</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QPushButton" name="push_deleteFRET">
+       <property name="text">
+        <string>delete FRET</string>
        </property>
       </widget>
      </item>
@@ -949,8 +949,16 @@
     <addaction name="actionAbout_FRETraj"/>
     <addaction name="menuLoad_Example"/>
     <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuRestraints">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionRestraints"/>
+    <addaction name="separator"/>
     <addaction name="actionSettings"/>
    </widget>
+   <addaction name="menuRestraints"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -978,6 +986,11 @@
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionRestraints">
+   <property name="text">
+    <string>Restraints</string>
    </property>
   </action>
  </widget>

@@ -872,7 +872,7 @@ class Volume:
         ----------
         filename : str
         format : str
-            default: xyz
+                 default: xyz
         **kwargs
             - write_weights : bool
             - encode_element : bool
@@ -1030,6 +1030,34 @@ class Volume:
         mp = np.array((x, y, z)) / cloud_xyzqt[:, 3].sum()
         return mp
 
+
+    def save_mp(self, filename, format='plain', units='A'):
+        """
+        Write mean dye position to file
+
+        Parameters
+        ----------
+        filename : str
+        format : ndarray
+                 mean position
+        units : str 
+                distance units ('A': Angstroms, 'nm': nanometers)
+
+        Examples
+        --------
+        >>> avobj.save_mp('mp.dat')
+        
+        """
+        if units == 'nm':
+            mp = self.acv.mp / 10
+        else:
+            mp = self.acv.mp
+        with open(filename, 'w') as f:
+            if format == 'json':
+                mp_dict = {'x':round(mp[0],3), 'y':round(mp[1],3), 'z':round(mp[2],3)}
+                json.dump(mp_dict, f)
+            else:
+                f.write('{:0.3f}   {:0.3f}   {:0.3f}\n'.format(*mp))
 
 if __name__ == "__main__":
     in_filePDB, param_fileJSON, out_fileACV, out_fileDist = parseCmd()
