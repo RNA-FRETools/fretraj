@@ -286,6 +286,20 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="4">
+         <widget class="QLabel" name="label_statePDB">
+          <property name="text">
+           <string>state</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1" colspan="8">
+         <widget class="QLineEdit" name="lineEdit_molSelection">
+          <property name="text">
+           <string>all</string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="5">
          <widget class="QSpinBox" name="spinBox_statePDB">
           <property name="minimum">
@@ -299,21 +313,49 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="9">
+        <item row="4" column="10">
          <widget class="QPushButton" name="push_computeACV">
           <property name="text">
            <string>Compute ACV</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="11">
+        <item row="2" column="7" colspan="2">
+         <widget class="QPushButton" name="push_transfer">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>20</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>&gt;</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="12">
          <widget class="QPushButton" name="push_deleteLabel">
           <property name="text">
            <string>Delete label</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="9">
+        <item row="2" column="10">
          <widget class="QLineEdit" name="lineEdit_labelName">
           <property name="text">
            <string/>
@@ -333,7 +375,14 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="0" colspan="12">
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_atomID">
+          <property name="text">
+           <string>atom ID</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" colspan="13">
          <widget class="QTableWidget" name="tableWidget_MeanPos">
           <property name="enabled">
            <bool>true</bool>
@@ -380,40 +429,14 @@
           </column>
          </widget>
         </item>
-        <item row="1" column="11">
-         <widget class="QLineEdit" name="lineEdit_paramFile">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="placeholderText">
-           <string>Param. file</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLineEdit" name="lineEdit_pdbAtom">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="placeholderText">
-           <string>atom</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_atomID">
+        <item row="1" column="0">
+         <widget class="QPushButton" name="push_loadPDB">
           <property name="text">
-           <string>atom ID</string>
+           <string>Load PDB</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="11">
+        <item row="2" column="12">
          <widget class="QComboBox" name="comboBox_labelName">
           <property name="editable">
            <bool>false</bool>
@@ -437,63 +460,14 @@
           </item>
          </widget>
         </item>
-        <item row="1" column="9">
-         <widget class="QPushButton" name="push_loadParameterFile">
+        <item row="0" column="0">
+         <widget class="QPushButton" name="push_setRootDirectory">
           <property name="text">
-           <string>Load Param.</string>
+           <string>Set folder</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="push_loadPDB">
-          <property name="text">
-           <string>Load PDB</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1" colspan="7">
-         <widget class="QLineEdit" name="lineEdit_molSelection">
-          <property name="text">
-           <string>all</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="6" colspan="2">
-         <widget class="QPushButton" name="push_transfer">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>20</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>&gt;</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4">
-         <widget class="QLabel" name="label_statePDB">
-          <property name="text">
-           <string>state</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" colspan="11">
+        <item row="0" column="1" colspan="12">
          <widget class="QLineEdit" name="lineEdit_rootDirectory">
           <property name="text">
            <string/>
@@ -509,7 +483,27 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1" colspan="4">
+        <item row="2" column="6">
+         <widget class="QLineEdit" name="lineEdit_pdbAtom">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>atom</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="6">
+         <widget class="QPushButton" name="push_showText">
+          <property name="text">
+           <string>Show Text</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="5">
          <widget class="QLineEdit" name="lineEdit_pdbFile">
           <property name="readOnly">
            <bool>true</bool>
@@ -522,17 +516,23 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="push_setRootDirectory">
+        <item row="1" column="12">
+         <widget class="QPushButton" name="push_loadParameterFile">
           <property name="text">
-           <string>Set folder</string>
+           <string>Load Parameter</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="5">
-         <widget class="QPushButton" name="push_showText">
-          <property name="text">
-           <string>Show Text</string>
+        <item row="1" column="7" colspan="4">
+         <widget class="QLineEdit" name="lineEdit_paramFile">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>Parameter file</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>

@@ -8,6 +8,7 @@ import copy
 import webbrowser
 import re
 import functools
+import string
 
 try: 
     from fretraj import cloud
@@ -257,7 +258,7 @@ class App(QtWidgets.QMainWindow):
                 self.lineEdit_pdbFile.setText(self.fileName_pdb)
                 self.spinBox_statePDB.setMaximum(self.struct.n_frames)
                 self.spinBox_atomID.setMaximum(self.struct.n_atoms)
-                self.update_atom()
+                self.atom_chainIDs = [chain.index for chain in self.struct.top.chains for i in range(chain.n_atoms)]
                 self.push_computeACV.setEnabled(True)
                 self.spinBox_statePDB.setEnabled(True)
                 self.spinBox_atomID.setEnabled(True)
@@ -270,6 +271,8 @@ class App(QtWidgets.QMainWindow):
                     cmd.reinitialize()
                     cmd.load(self.fileNamePath_pdb)
                     cmd.remove('solvent or inorganic')
+                    chain_startIDs = [1, *[chain.n_atoms+1 for chain in self.struct.top.chains][:-1]]
+                    self.chain_names = [cmd.get_chains('id {}'.format(i))[0] for i in chain_startIDs]
 
                     cmd.set_color('ft_blue', [51, 83, 183])
                     cmd.set_color('ft_gray', [181, 189, 197])
@@ -286,6 +289,9 @@ class App(QtWidgets.QMainWindow):
                     cmd.show('sticks', 'name C6+N6+O6+C2+N2+O2+C4+O4+N4 and polymer.nucleic')
                     cmd.set('stick_radius', 0.15, 'polymer.nucleic')
                     cmd.spectrum('count', 'ft_orange ft_gray ft_blue')
+                else:
+                    self.chain_names = list(string.ascii_uppercase[0:self.struct.top.n_chains])
+                self.update_atom()
                 return 1
 
     def cif2pdb(self, pathtoPDBfile):
@@ -314,7 +320,10 @@ class App(QtWidgets.QMainWindow):
             cmd.set('state', self.labels['Position'][self.labelName]['state'])
 
     def update_atom(self):
-        self.lineEdit_pdbAtom.setText(str(self.struct.top.atom(self.spinBox_atomID.value() - 1)))
+        atom_id = self.spinBox_atomID.value() - 1
+        chain_id = self.atom_chainIDs[atom_id]
+        chain = self.chain_names[chain_id]
+        self.lineEdit_pdbAtom.setText('{}-{}'.format(self.chain_names[chain_id], str(self.struct.top.atom(atom_id))))
 
     def loadParameterFile(self, fileNamePath_param=False):
         """
@@ -610,8 +619,9 @@ class App(QtWidgets.QMainWindow):
                 self.doubleSpinBox_gridBuffer.setEnabled(True)
                 self.checkBox_transparentAV.setEnabled(True)
                 self.pymol_update_isosurface()
+                cmd.zoom(self.fileName_pdb[:-4])
             self.define_DA()
-        cmd.zoom(self.fileName_pdb[:-4])
+
 
     def calculateFRET(self):
         self.update_labelDict()
