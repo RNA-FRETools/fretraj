@@ -55,8 +55,6 @@ else
     stride=1
 fi
 
-echo $start
-echo $stop
 
 # xtc argument specified
 if [ ! -z "$xtc_file" ]; then

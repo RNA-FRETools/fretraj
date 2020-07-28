@@ -11,6 +11,7 @@ while getopts ":c:x:v:s:h" opt; do
         c) 
             gro_file=$OPTARG
             gro_base=${gro_file##*/}
+            gro_path=${gro_file%$gro_base}
             gro_name=${gro_base%.*}
             ;;
         x)
@@ -43,7 +44,10 @@ if [ -z "$gro_file" ]; then
     usage
 fi
 
+echo "$gro_path"
 echo "cmd.load('$gro_file')" > tmp_vis.py
+
+pwd
 
 # start,stop,stride specified
 if [ ! -z "$sss" ]; then

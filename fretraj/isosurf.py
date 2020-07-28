@@ -3,7 +3,7 @@
 from pymol import cmd
 
 
-def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=100, gaussRes=3, grid_buffer=0):
+def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=100, gaussRes=3, grid_buffer=2):
     """
     Creates a map object from a selection with xyz coordinates (e.g. a PDB or XYZ object) 
     and draws a smooth isosurface at the specified contour level.
