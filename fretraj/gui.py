@@ -122,6 +122,7 @@ class App(QtWidgets.QMainWindow):
         self.push_loadParameterFile.setEnabled(False)
         self.push_showText.setEnabled(False)
         self.actionRestraints.setEnabled(False)
+        self.push_clear.setEnabled(False)
         if not _LabelLib_found:
             self.checkBox_useLabelLib.setEnabled(False)
             self.checkBox_useLabelLib.setChecked(False)
@@ -149,6 +150,7 @@ class App(QtWidgets.QMainWindow):
         self.comboBox_distanceName.currentIndexChanged.connect(self.update_comboBox)
         self.spinBox_statePDB.valueChanged.connect(self.update_PDBstate)
         self.push_setRootDirectory.clicked.connect(self.setRootDirectory)
+        self.push_clear.clicked.connect(self.clear_pymol)
         self.actionDocumentation.triggered.connect(self.openDocumentation)
         self.spinBox_atomID.valueChanged.connect(self.update_atom)
         self.push_transfer.clicked.connect(self.transferToLabel)
@@ -264,6 +266,7 @@ class App(QtWidgets.QMainWindow):
                 self.spinBox_atomID.setEnabled(True)
                 self.push_transfer.setEnabled(True)
                 self.push_loadParameterFile.setEnabled(True)
+                self.push_clear.setEnabled(True)
                 with open(self.fileNamePath_pdb, 'r') as f:
                     self.pdbText = f.read()
                 self.push_showText.setEnabled(True)
@@ -463,11 +466,12 @@ class App(QtWidgets.QMainWindow):
 
     def deleteIsosurface(self):
         av_name = self.fileName_pdb[:-4]+'-'+self.labelName.replace('\'', 'p')
-        cmd.delete(av_name)
-        cmd.delete(av_name + '_map')
-        cmd.delete(av_name + '_isosurf')
-        cmd.delete(av_name + '_CV_map')
-        cmd.delete(av_name + '_CV_isosurf')
+        if av_name in cmd.get_names('objects'):
+            cmd.delete(av_name)
+            cmd.delete(av_name + '_map')
+            cmd.delete(av_name + '_isosurf')
+            cmd.delete(av_name + '_CV_map')
+            cmd.delete(av_name + '_CV_isosurf')
 
     def makeFRETparam(self):
         """
@@ -656,22 +660,39 @@ class App(QtWidgets.QMainWindow):
             gaussRes = self.spinBox_gaussRes.value()
             gridBuffer = self.doubleSpinBox_gridBuffer.value()
             grid_spacing = self.labels['Position'][self.labelName]['grid_spacing']
-            isosurf.smooth_map_from_xyz(av_name, av_name, contour_level, grid_spacing, bfactor, gaussRes, gridBuffer)
-            if any(self.av[self.labelName].acv.tag_1d > 1):
-                self.doubleSpinBox_contourValue_CV.setEnabled(True)
-                contour_level_CV = self.doubleSpinBox_contourValue_CV.value()
-                sele_CV = '{} and resn CV'.format(av_name)
-                isosurf.smooth_map_from_xyz(av_name+'_CV', sele_CV, contour_level_CV, grid_spacing, bfactor, gaussRes, gridBuffer)
-                if self.checkBox_transparentAV.isChecked():
-                    cmd.set('transparency', 0.4, av_name + '_isosurf')
+            if av_name in cmd.get_names('objects'):
+                isosurf.smooth_map_from_xyz(av_name, av_name, contour_level, grid_spacing, bfactor, gaussRes, gridBuffer)
+                if any(self.av[self.labelName].acv.tag_1d > 1):
+                    self.doubleSpinBox_contourValue_CV.setEnabled(True)
+                    contour_level_CV = self.doubleSpinBox_contourValue_CV.value()
+                    sele_CV = '{} and resn CV'.format(av_name)
+                    isosurf.smooth_map_from_xyz(av_name+'_CV', sele_CV, contour_level_CV, grid_spacing, bfactor, gaussRes, gridBuffer)
+                    if self.checkBox_transparentAV.isChecked():
+                        cmd.set('transparency', 0.4, av_name + '_isosurf')
+                    else:
+                        cmd.set('transparency', 0, av_name + '_isosurf')
                 else:
-                    cmd.set('transparency', 0, av_name + '_isosurf')
-            else:
-                self.doubleSpinBox_contourValue_CV.setEnabled(False)
-                if self.checkBox_transparentAV.isChecked():
-                    cmd.set('transparency', 0.4, av_name + '_isosurf')
-                else:
-                    cmd.set('transparency', 0, av_name + '_isosurf')
+                    self.doubleSpinBox_contourValue_CV.setEnabled(False)
+                    if self.checkBox_transparentAV.isChecked():
+                        cmd.set('transparency', 0.4, av_name + '_isosurf')
+                    else:
+                        cmd.set('transparency', 0, av_name + '_isosurf')
+
+    def clear_pymol(self):
+        self.lineEdit_pdbFile.clear()
+        self.lineEdit_paramFile.clear()
+        self.push_computeACV.setEnabled(False)
+        self.spinBox_statePDB.setValue(1)
+        self.spinBox_atomID.setValue(1)
+        self.spinBox_statePDB.setEnabled(False)
+        self.spinBox_atomID.setEnabled(False)
+        self.push_transfer.setEnabled(False)
+        self.push_loadParameterFile.setEnabled(False)
+        self.push_showText.setEnabled(False)
+        self.lineEdit_pdbAtom.clear()
+        for item in range(self.comboBox_labelName.count()):
+            self.deleteLabel()
+        cmd.reinitialize()
 
     def setRootDirectory(self):
         rootDir = QtWidgets.QFileDialog.getExistingDirectory(self, 'Set root directory')

@@ -276,95 +276,10 @@
         <string>PDB stucture and position</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="2" column="1" colspan="2">
-         <widget class="QSpinBox" name="spinBox_atomID">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>9999</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4">
-         <widget class="QLabel" name="label_statePDB">
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_atomID">
           <property name="text">
-           <string>state</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1" colspan="8">
-         <widget class="QLineEdit" name="lineEdit_molSelection">
-          <property name="text">
-           <string>all</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="5">
-         <widget class="QSpinBox" name="spinBox_statePDB">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="value">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="10">
-         <widget class="QPushButton" name="push_computeACV">
-          <property name="text">
-           <string>Compute ACV</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="7" colspan="2">
-         <widget class="QPushButton" name="push_transfer">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>20</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>&gt;</string>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="12">
-         <widget class="QPushButton" name="push_deleteLabel">
-          <property name="text">
-           <string>Delete label</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="10">
-         <widget class="QLineEdit" name="lineEdit_labelName">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="echoMode">
-           <enum>QLineEdit::Normal</enum>
-          </property>
-          <property name="placeholderText">
-           <string>new label</string>
+           <string>atom ID</string>
           </property>
          </widget>
         </item>
@@ -375,14 +290,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_atomID">
-          <property name="text">
-           <string>atom ID</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0" colspan="13">
+        <item row="6" column="0" colspan="14">
          <widget class="QTableWidget" name="tableWidget_MeanPos">
           <property name="enabled">
            <bool>true</bool>
@@ -429,14 +337,7 @@
           </column>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="push_loadPDB">
-          <property name="text">
-           <string>Load PDB</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="12">
+        <item row="2" column="13">
          <widget class="QComboBox" name="comboBox_labelName">
           <property name="editable">
            <bool>false</bool>
@@ -460,6 +361,50 @@
           </item>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="push_loadPDB">
+          <property name="text">
+           <string>Load PDB</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="2">
+         <widget class="QSpinBox" name="spinBox_atomID">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>9999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="4">
+         <widget class="QLabel" name="label_statePDB">
+          <property name="text">
+           <string>state</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="5">
+         <widget class="QSpinBox" name="spinBox_statePDB">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="13">
+         <widget class="QPushButton" name="push_deleteLabel">
+          <property name="text">
+           <string>Delete label</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QPushButton" name="push_setRootDirectory">
           <property name="text">
@@ -467,7 +412,14 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1" colspan="12">
+        <item row="1" column="13">
+         <widget class="QPushButton" name="push_loadParameterFile">
+          <property name="text">
+           <string>Load param.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="13">
          <widget class="QLineEdit" name="lineEdit_rootDirectory">
           <property name="text">
            <string/>
@@ -483,7 +435,20 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="6">
+        <item row="2" column="9" colspan="3">
+         <widget class="QLineEdit" name="lineEdit_labelName">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Normal</enum>
+          </property>
+          <property name="placeholderText">
+           <string>new label</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="6" colspan="2">
          <widget class="QLineEdit" name="lineEdit_pdbAtom">
           <property name="readOnly">
            <bool>true</bool>
@@ -496,14 +461,14 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="6">
-         <widget class="QPushButton" name="push_showText">
+        <item row="4" column="9" colspan="3">
+         <widget class="QPushButton" name="push_computeACV">
           <property name="text">
-           <string>Show Text</string>
+           <string>Compute ACV</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1" colspan="5">
+        <item row="1" column="1" colspan="4">
          <widget class="QLineEdit" name="lineEdit_pdbFile">
           <property name="readOnly">
            <bool>true</bool>
@@ -516,14 +481,49 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="12">
-         <widget class="QPushButton" name="push_loadParameterFile">
+        <item row="1" column="5">
+         <widget class="QPushButton" name="push_clear">
           <property name="text">
-           <string>Load Parameter</string>
+           <string>clear</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="7" colspan="4">
+        <item row="1" column="7">
+         <widget class="QPushButton" name="push_showText">
+          <property name="text">
+           <string>show PDB</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="8">
+         <widget class="QPushButton" name="push_transfer">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>20</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>&gt;</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="8" colspan="4">
          <widget class="QLineEdit" name="lineEdit_paramFile">
           <property name="readOnly">
            <bool>true</bool>
@@ -533,6 +533,13 @@
           </property>
           <property name="clearButtonEnabled">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1" colspan="8">
+         <widget class="QLineEdit" name="lineEdit_molSelection">
+          <property name="text">
+           <string>all</string>
           </property>
          </widget>
         </item>
