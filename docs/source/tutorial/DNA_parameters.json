@@ -1,0 +1,54 @@
+{
+  "Position": {
+    "1-DC44-O3'": {
+      "attach_id": 1397,
+      "linker_length": 17.0,
+      "linker_width": 4.5,
+      "cv_thickness": 0.0,
+      "cv_fraction": 0.0,
+      "simulation_type": "AV3",
+      "grid_spacing": 0.9,
+      "dye_radius1": 10.0,
+      "dye_radius2": 3.5,
+      "dye_radius3": 3.0,
+      "mol_selection": "all",
+      "state": 1,
+      "frame_mdtraj": 0,
+      "use_LabelLib": false,
+      "contour_level_AV": 0.0,
+      "contour_level_CV": 0.7,
+      "b_factor": 100,
+      "gaussian_resolution": 2,
+      "grid_buffer": 2.0,
+      "transparent_AV": true
+    },
+    "1-DT20-P": {
+      "attach_id": 607,
+      "linker_length": 17.0,
+      "linker_width": 4.5,
+      "cv_thickness": 0.0,
+      "cv_fraction": 0.0,
+      "simulation_type": "AV3",
+      "grid_spacing": 0.9,
+      "dye_radius1": 8.0,
+      "dye_radius2": 3.5,
+      "dye_radius3": 3.0,
+      "mol_selection": "all",
+      "state": 1,
+      "frame_mdtraj": 0,
+      "use_LabelLib": false,
+      "contour_level_AV": 0.0,
+      "contour_level_CV": 0.7,
+      "b_factor": 100,
+      "gaussian_resolution": 2,
+      "grid_buffer": 2.0,
+      "transparent_AV": true
+    }
+  },
+  "Distance": {
+    "default param.": {
+      "R0": 54.0,
+      "n_dist": 1000000
+    }
+  }
+}
