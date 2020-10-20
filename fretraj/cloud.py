@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-Compute and analyze accessible volume clouds on an MD trajectory or a individual PDB structures
-"""
-
 import numpy as np
 import os
 import argparse
@@ -52,12 +48,12 @@ _label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None),
                                        'dye_radius2': ((int, float), None),
                                        'dye_radius3': ((int, float), None),
                                        'cv_thickness': ((int, float), 0),
-                                       'grid_spacing': ((int, float), 0.5),
+                                       'grid_spacing': ((int, float), 1.0),
                                        'mol_selection': (str, 'all'),
                                        'simulation_type': (str, 'AV3'),
                                        'cv_fraction': ((int, float), 0),
-                                       'state': (int, 0),
-                                       'frame_mdtraj': (int, 1),
+                                       'state': (int, 1),
+                                       'frame_mdtraj': (int, 0),
                                        'use_LabelLib': (bool, True),
                                        'contour_level_AV': ((int, float), 0),
                                        'contour_level_CV': ((int, float), 0.7),
@@ -129,13 +125,14 @@ def labeling_params(param_file):
         return labels
 
 
-def check_labels(labels):
+def check_labels(labels, verbose=True):
     """
     Check integrity of parameter dictionary
 
     Parameters
     ----------
     labels : dict
+    verbose : bool
 
     Returns
     -------
@@ -145,12 +142,12 @@ def check_labels(labels):
         if field in labels.keys():
             for pos in labels[field].keys():
                 if field == 'Position':
-                    if 'simulation_type' in labels[field][pos]:
+                    if 'simulation_type' not in labels[field][pos]:
+                        labels[field][pos]['simulation_type'] = copy.copy(_default_params[field]['simulation_type'])
+                    else:
                         if labels[field][pos]['simulation_type'] == 'AV1':
                             labels[field][pos]['dye_radius2'] = 0
                             labels[field][pos]['dye_radius3'] = 0
-                    else:
-                        raise KeyError('Missing Key', 'simulation_type', pos, field)
                     if 'state' in labels[field][pos] and 'frame_mdtraj' not in labels[field][pos]:
                         labels[field][pos]['frame_mdtraj'] = labels[field][pos]['state'] - 1
                     if 'frame_mdtraj' in labels[field][pos] and 'state' not in labels[field][pos]:
@@ -163,7 +160,8 @@ def check_labels(labels):
                     if key not in labels[field][pos]:
                         if key in _default_params[field].keys():
                             labels[field][pos][key] = copy.copy(_default_params[field][key])
-                            print('Missing Key: \'{}\' in {} {}. Falling back to \"{}\"'.format(key, field, pos, _default_params[field][key]))
+                            if verbose:
+                                print('Missing Key: \'{}\' in {} {}. Falling back to \"{}\"'.format(key, field, pos, _default_params[field][key]))
                         else:
                             raise KeyError('Missing Key', key, pos, field)
                     else:
@@ -375,23 +373,26 @@ class FRET_Trajectory:
     ----------
     volume1 : instance of the Volume class
     volume2 : instance of the Volume class
+    fret_pair : str
+                Distance key specifying the donor acceptor pair
+    labels : dict
+             dye, linker and setup parameters for the accessible volume calculation
     R_DA : ndarray
            donor acceptor distance distribution and associate weights (optional)
-    use_LabelLib : bool
-                   make use of LabelLib library to compute FRET values and distances [1]_ [2]_
+    verbose : bool
 
     Attributes
     ----------
     volume1 : instance of the Volume class
     volume2 : instance of the Volume class
     R_DA : ndarray
-           donor acceptor distance distribution and associate weights (optional)
+           donor acceptor distance distribution in (A) and associate weights (optional)
     use_LabelLib : bool
                    make use of LabelLib library to compute FRET values and distances [1]_ [2]_
 
     R_DA : ndarray
     mean_R_DA : float
-                mean FRET 
+                mean FRET
     mean_E_DA : float
     mean_R_DA_E : float
 
@@ -448,6 +449,8 @@ class FRET_Trajectory:
     @classmethod
     def from_volumes(cls, volume_list1, volume_list2, fret_pair, labels, R_DA=None):
         """
+        
+
         fret_pair : str
         """
         n_vols1 = len(volume_list1)
@@ -624,15 +627,19 @@ class Volume:
     @classmethod
     def from_frames(cls, structure, site, labels, frames_mdtraj):
         """
-        Trajectory
+        Alternative constructor for the ft.cloud.Volume class by reading in one or multiple
+        frames using the same dye and grid parameters
 
         Parameters
         ----------
         structure : mdtraj.Trajectory
-        frames_mdtraj : int or list
-                        mdtraj.Trajectory (0 based indexing)
+                    trajectory of atom coordinates loaded from a pdb, xtc or other file
         site : str
+               reference identifier for the labeling position
         labels : dict
+                 dye, linker and setup parameters for the accessible volume calculation
+        frames_mdtraj : int or list
+                        list of frames on the trajectory to be used for the ACV calculation
 
         Examples
         --------
@@ -657,9 +664,13 @@ class Volume:
         Parameters
         ----------
         structure : mdtraj.Trajectory
+                    trajectory of atom coordinates loaded from a pdb, xtc or other file
         site : str
+               reference identifier for the labeling position
         labels : dict
+                 dye, linker and setup parameters for the accessible volume calculation
         attachID : int or list
+                   list of attachment ids on the structure to be used for the ACV calculation
 
         Examples
         --------

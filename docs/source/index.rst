@@ -1,20 +1,45 @@
-.. FRETraj documentation master file, created by
-   sphinx-quickstart on Sat Apr 13 15:33:37 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
-Welcome to FRETraj's documentation!
-===================================
+.. include::
+   README.rst
+
+.. toctree::
+   :hidden:
+
+   self 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Documentation
+   :hidden:
 
+   accessible_volume
+   contact_volume
+   parameter_file
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Tutorials
+   :hidden:
 
-Indices and tables
-==================
+   tutorial/single/accessible_contact_volume
+   tutorial/trajectory/multiple_ACV
+   tutorial/restraints/FRET_restraints
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+   :maxdepth: 2
+   :caption: Code
+   :hidden:
+
+   module_grid
+   module_cloud
+   module_fret
+   module_restraints
+   module_utilities
+
+.. toctree::
+   :maxdepth: 2
+   :caption: References
+   :hidden:
+
+   references
+
