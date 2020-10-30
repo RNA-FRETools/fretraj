@@ -11,7 +11,8 @@ A recent addition to the original AV model (Kalinin et al. *Nat. Methods*, 2012)
 
 FRETraj can be installed platform independently as a Python module or as a Plugin to PyMOL. If you would like to predict FRET efficiencies from a single PDB file (including multiple states), then the PyMOL Plugin provides you with the easiest and fastest access to FRETraj. If you like to integrate FRETraj in your Python analysis workflow (e.g. to calculate multiple accessible volumes along an MD trajectory), then install FRETraj as a module.
 
-### PyMOL plugin
+
+### Install PyMOL plugin
 
 You can get the latest version of PyMOL from [Schrödinger](https://pymol.org/). Start the **Anaconda prompt** which comes bundled with PyMOL 2.x and install the necessary dependencies:
 ```
@@ -24,19 +25,31 @@ or
 pip install git+https://github.com/fdsteffen/labellib.git@src-neighbour-nodes
 ```
 
-> **Note:** On Windows make sure you have *tqdm* installed otherwise *conda* might throw a error. In case, install it with pip `pip install tqdm`.
-
 To use the **FRETraj PyMOL plugin** simply download the .zip archive from Github and install it via PyMOL's Plugin manager: `Plugin` &rarr; `Plugin manager` &rarr; `Install New Plugin` &rarr; `Choose file...` and select the .zip archive. Upon first startup FRETraj will prompt you to select a root directory where to store the calculated ACVs and parameter files.
 
 <img src="docs/source/_static/PyMOL_interface.PNG" height="250"> <img src="docs/source/_static/PyMOL_Plugin.PNG" height="250">
 
-### Python module
+### Install Python module from source
 
-You may install the latest development version of FRETraj as a Python module from Github using pip
+Download and unpack the .zip archive from Github or clone the repository with
 
 ```
-pip install -e git+https://github.com/fdsteffen/fretraj.git
+git clone https://github.com/fdsteffen/fretraj.git
 ```
+
+Using *conda* create a new environment from the `fretraj.yml` file and activate it
+
+```
+conda env create -f fretraj.yml
+conda activate fret-env
+```
+
+Finally install FRETraj into the new environment
+
+```
+pip install .
+```
+
 
 ## Bug reports
 Please report any *bugs* via the [issue tracker](https://github.com/fdsteffen/fretraj/issues)

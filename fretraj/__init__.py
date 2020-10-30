@@ -12,7 +12,6 @@ from . import cloud
 from . import export
 from . import fret
 from . import isosurf
-from . import gui
 from . import grid
 from . import jupyter
 from . import restraints
@@ -24,6 +23,7 @@ def __init_plugin__(app=None):
     """
     Add FRETraj plugin to the Plugins Menu
     """
+    from . import gui
     from pymol.plugins import addmenuitemqt
     addmenuitemqt('FRETraj', run_plugin_gui)
 

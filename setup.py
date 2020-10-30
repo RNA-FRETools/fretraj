@@ -11,7 +11,6 @@ INSTALL_REQUIRES = [
     'numpy',
     'mdtraj',
     'numba<=0.44',
-    'pymol',
     'packaging'
     ]
 

@@ -1,4 +1,4 @@
-name: fretraj
+name: fret-env
 channels:
   - conda-forge
   - schrodinger
@@ -8,6 +8,3 @@ dependencies:
   - pymol
   - mdtraj
   - packaging
-  - pip:
-    - "--editable=git+https://github.com/fdsteffen/fretraj.git"
-
