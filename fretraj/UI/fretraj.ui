@@ -273,7 +273,7 @@
      <item row="0" column="0" colspan="2">
       <widget class="QGroupBox" name="groupBox_pdbStructure">
        <property name="title">
-        <string>PDB stucture and position</string>
+        <string>PDB structure and position</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="2" column="0">
@@ -561,21 +561,21 @@
      <string>FRET trajectory</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="6" column="0" colspan="2">
+     <item row="10" column="0" colspan="2">
       <widget class="Line" name="line">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="label_donor">
        <property name="text">
         <string>donor</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
+     <item row="4" column="0">
       <widget class="QLineEdit" name="lineEdit_distanceName">
        <property name="text">
         <string/>
@@ -588,43 +588,14 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QSpinBox" name="spinBox_nDist">
-       <property name="minimum">
-        <number>10000</number>
-       </property>
-       <property name="maximum">
-        <number>10000000</number>
-       </property>
-       <property name="value">
-        <number>1000000</number>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_R0">
-       <property name="decimals">
-        <number>0</number>
-       </property>
-       <property name="minimum">
-        <double>0.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>1000.000000000000000</double>
-       </property>
-       <property name="value">
-        <double>54.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
+     <item row="6" column="1">
       <widget class="QPushButton" name="push_deleteFRETparam">
        <property name="text">
         <string>Delete param.</string>
        </property>
       </widget>
      </item>
-     <item row="11" column="0" colspan="2">
+     <item row="15" column="0" colspan="2">
       <widget class="QTableWidget" name="tableWidget_FRET">
        <property name="enabled">
         <bool>true</bool>
@@ -696,45 +667,14 @@
        </column>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="11" column="1">
       <widget class="QLabel" name="label_acceptor">
        <property name="text">
         <string>acceptor</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="comboBox_distanceName">
-       <property name="editable">
-        <bool>false</bool>
-       </property>
-       <property name="currentText">
-        <string>default param.</string>
-       </property>
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <property name="maxVisibleItems">
-        <number>10</number>
-       </property>
-       <property name="insertPolicy">
-        <enum>QComboBox::InsertAtBottom</enum>
-       </property>
-       <item>
-        <property name="text">
-         <string>default param.</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_R0">
-       <property name="text">
-        <string>R0 (A)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
+     <item row="12" column="0">
       <widget class="QComboBox" name="comboBox_donorName">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -759,14 +699,31 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_useLabelLib">
-       <property name="text">
-        <string># distances</string>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="comboBox_distanceName">
+       <property name="editable">
+        <bool>false</bool>
        </property>
+       <property name="currentText">
+        <string>default param.</string>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="maxVisibleItems">
+        <number>10</number>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAtBottom</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string>default param.</string>
+        </property>
+       </item>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="12" column="1">
       <widget class="QComboBox" name="comboBox_acceptorName">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -791,17 +748,60 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="0">
+     <item row="13" column="0">
       <widget class="QPushButton" name="push_calculateFRET">
        <property name="text">
-        <string>calculate FRET</string>
+        <string>Calculate FRET</string>
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="13" column="1">
       <widget class="QPushButton" name="push_deleteFRET">
        <property name="text">
-        <string>delete FRET</string>
+        <string>Delete FRET</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="spinBox_nDist">
+       <property name="minimum">
+        <number>10000</number>
+       </property>
+       <property name="maximum">
+        <number>10000000</number>
+       </property>
+       <property name="value">
+        <number>1000000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_R0">
+       <property name="decimals">
+        <number>0</number>
+       </property>
+       <property name="minimum">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>54.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_R0">
+       <property name="text">
+        <string>R0 (A)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_useLabelLib">
+       <property name="text">
+        <string># distances</string>
        </property>
       </widget>
      </item>

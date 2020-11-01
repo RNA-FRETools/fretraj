@@ -183,20 +183,3 @@ def pdb(cloud_xyzqt, mp):
     return s
 
 
-def save_labels(filename, labels):
-    """
-    Write the ACV parameters to a .json file
-
-    Parameters
-    ----------
-    filename : str
-    labels : dict
-             position of labels, dye and grid parameters
-
-    Examples
-    --------
-
-    >>> obj.save_labels('parameters.json')
-    """
-    with open(filename, 'w') as f:
-        json.dump(labels, f, indent=2)

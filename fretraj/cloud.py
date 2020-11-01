@@ -178,6 +178,26 @@ def check_labels(labels, verbose=True):
     return {field: labels[field] for field in _label_dict.keys()}
 
 
+
+def save_labels(filename, labels):
+    """
+    Write the ACV parameters to a .json file
+
+    Parameters
+    ----------
+    filename : str
+    labels : dict
+             position of labels, dye and grid parameters
+
+    Examples
+    --------
+
+    >>> obj.save_labels('parameters.json')
+    """
+    with open(filename, 'w') as f:
+        json.dump(labels, f, indent=2)
+        
+
 def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', length=20, fill='█'):
     """
     Command line progress bar
@@ -188,7 +208,6 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', le
                 current iteration
     total : int
             total number of iterations
-                  - Required  : total iterations (Int)
     prefix : str, optional
              string before progress bar
     suffix : str, optional
@@ -214,6 +233,27 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', le
     if iteration == total:
         print()
 
+def save_mp_traj(filename, volume_list, units='A'):
+    """
+    Save a trajectory of dye mean positions as a xyz file
+
+    Parameters
+    ----------
+    filename : str
+    volume_list : array_like
+                  list of Volume instances
+    units : {'A', 'nm'}
+            distance units (Angstrom or nanometer)
+    """
+    mps = np.array([volume_list[i].acv.mp for i in range(len(volume_list)) if hasattr(don[i].acv, 'mp')])
+    
+    if units == 'nm':
+        mps = mps / 10
+    with open(filename, 'w') as f:
+        for i in range(len(acv_list)):
+            f.write('1\n')
+            f.write('D   {:0.3f}   {:0.3f}   {:0.3f}\n'.format(*mps[i,:]))
+
 
 class ACV:
     """
@@ -234,7 +274,7 @@ class ACV:
                  array of x-,y-,z-coordinates and corresponding weights
                  with a shape [n_gridpts(+), 4]
     use_LabelLib : bool
-                   make use of LabelLib library to compute FRET values and distances [1]_ [2]_
+                   make use of LabelLib library to compute FRET values and distances
 
     Attributes
     ----------
@@ -388,7 +428,7 @@ class FRET_Trajectory:
     R_DA : ndarray
            donor acceptor distance distribution in (A) and associate weights (optional)
     use_LabelLib : bool
-                   make use of LabelLib library to compute FRET values and distances [1]_ [2]_
+                   make use of LabelLib library to compute FRET values and distances
 
     R_DA : ndarray
     mean_R_DA : float
@@ -449,9 +489,19 @@ class FRET_Trajectory:
     @classmethod
     def from_volumes(cls, volume_list1, volume_list2, fret_pair, labels, R_DA=None):
         """
+        Alternative constructor for the ft.cloud.FRET_Trajectory class by reading in a list of donor and acceptor volumes
         
-
+        Parameters
+        ----------
+        volume_list1 : array_like
+                       list of Volume instances
+        volume_list2 : array_like
+                       list of Volume instances
         fret_pair : str
+        labels : dict
+                 dye, linker and setup parameters for the accessible volume calculation
+        R_DA : ndarray
+               donor acceptor distance distribution and associate weights (optional)
         """
         n_vols1 = len(volume_list1)
         n_vols2 = len(volume_list2)
@@ -640,9 +690,6 @@ class Volume:
                  dye, linker and setup parameters for the accessible volume calculation
         frames_mdtraj : int or list
                         list of frames on the trajectory to be used for the ACV calculation
-
-        Examples
-        --------
         """
         n_fr = len(frames_mdtraj)
         printProgressBar(0, n_fr)
@@ -924,7 +971,7 @@ class Volume:
 
     def calc_av(self, use_LabelLib):
         """
-        Calculate the dye accessible volume [1]_ [2]_
+        Calculate the dye accessible volume [#]_ [#]_
 
         Returns
         -------
@@ -941,9 +988,9 @@ class Volume:
 
         References
         ----------
-        .. [1] Kalinin, S. et al. "A toolkit and benchmark study for FRET-restrained high-precision \
+        .. [#] Kalinin, S. et al. "A toolkit and benchmark study for FRET-restrained high-precision \
         structural modeling", *Nat. Methods* **9**, 1218–1225 (2012).
-        .. [2] Sindbert, S. et al. "Accurate distance determination of nucleic acids via Förster \
+        .. [#] Sindbert, S. et al. "Accurate distance determination of nucleic acids via Förster \
         resonance energy transfer: implications of dye linker length and rigidity", \
         *J. Am. Chem. Soc.* **133**, 2463–2480 (2011).
 
@@ -984,7 +1031,7 @@ class Volume:
 
     def calc_acv(self, use_LabelLib):
         """
-        Partition the accessible volume into a free and a contact volume [3]_ [4]_
+        Partition the accessible volume into a free and a contact volume [#]_ [#]_
 
         Returns
         -------
@@ -1006,9 +1053,9 @@ class Volume:
 
         References
         ----------
-        .. [3] Steffen, F. D., Sigel, R. K. O. & Börner, R. "An atomistic view on carbocyanine \
+        .. [#] Steffen, F. D., Sigel, R. K. O. & Börner, R. "An atomistic view on carbocyanine \
         photophysics in the realm of RNA", *Phys. Chem. Chem. Phys.* **18**, 29045–29055 (2016).
-        .. [4] Dimura, M. et al. Quantitative FRET studies and integrative modeling unravel the structure \
+        .. [#] Dimura, M. et al. Quantitative FRET studies and integrative modeling unravel the structure \
         and dynamics of biomolecular systems", *Curr. Opin. Struct. Biol.* **40**, 163–185 (2016).
 
         Examples

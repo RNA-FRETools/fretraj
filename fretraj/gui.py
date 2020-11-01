@@ -346,7 +346,6 @@ class App(QtWidgets.QMainWindow):
                         self.openErrorWin('Parameter File Error', "The specified file \"{}\" is not of type JSON".format(self.fileName_param))
                         return 0
                     else:
-                        self.lineEdit_paramFile.setText(self.fileName_param)
                         error_msg = "The specified file \"{}\" has a wrong format".format(self.fileName_param)
                         for field in labels_json.keys():
                             if field == 'Distance':
@@ -371,6 +370,7 @@ class App(QtWidgets.QMainWindow):
                                     else:
                                         self.openErrorWin('Parameter File Error', error_msg)
                                         return 0
+                        self.lineEdit_paramFile.setText(self.fileName_param)
                     for newlabel in self.labels['Position'].keys():
                         self.addLabel(newlabel)
                     for newdistance in self.labels['Distance'].keys():
@@ -600,7 +600,7 @@ class App(QtWidgets.QMainWindow):
         msg = 'Busy...'
         self.statusBar().showMessage(msg, 3000)
         param_filename = '{}/{}_parameters.json'.format(self.settings['root_path'], self.fileName_pdb[:-4])
-        export.save_labels(param_filename, self.labels)
+        cloud.save_labels(param_filename, self.labels)
         self.av[self.labelName] = cloud.Volume(self.struct, self.labelName, self.labels)
         if self.av[self.labelName].acv is None:
             msg = 'ACV could not be calculated!'

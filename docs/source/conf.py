@@ -57,6 +57,9 @@ extensions = [
 napoleon_use_ivar = True
 napoleon_use_rtype = False
 napoleon_use_param = False
+napoleon_use_admonition_for_notes = True
+napoleon_use_admonition_for_examples = True
+napoleon_use_admonition_for_references = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -65,7 +68,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['build', '**.ipynb_checkpoints']
+exclude_patterns = ['build', '**.ipynb_checkpoints', 'README.rst']
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -93,4 +96,5 @@ html_css_files = ['css/custom.css']
 # include __init__ method
 autoclass_content = 'both'
 
-html_theme_options = {'style_nav_header_background': '#333'}
+html_theme_options = {'style_nav_header_background': '#333',
+'sticky_navigation': False,}

@@ -3,11 +3,6 @@
    README.rst
 
 .. toctree::
-   :hidden:
-
-   self 
-
-.. toctree::
    :maxdepth: 2
    :caption: Documentation
    :hidden:
@@ -24,6 +19,7 @@
    tutorial/single/accessible_contact_volume
    tutorial/trajectory/multiple_ACV
    tutorial/restraints/FRET_restraints
+   pymol_plugin
 
 .. toctree::
    :maxdepth: 2
