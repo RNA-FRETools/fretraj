@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The parameter file &mdash; FRETraj 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PyMOL Plugin" href="pymol_plugin.html" />
+    <link rel="prev" title="Dye interactions" href="contact_volume.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #333" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> FRETraj
+          
+
+          
+            
+            <img src="_static/fretraj_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="accessible_volume.html">The accessible volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_volume.html">Dye interactions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The parameter file</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pymol_plugin.html">PyMOL Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="module_grid.html">Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_cloud.html">Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_fret.html">FRET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Publications and related projects</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FRETraj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>The parameter file</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/parameter_file.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="the-parameter-file">
+<h1>The parameter file<a class="headerlink" href="#the-parameter-file" title="Permalink to this headline">¶</a></h1>
+<p>FRETraj uses a json-formatted parameter file to define the settings for the ACV calculation. The general structure is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Position&quot;</span><span class="p">:</span>
+    <span class="p">{</span><span class="s2">&quot;&lt;string defining the dye position&gt;&quot;</span><span class="p">:</span>
+        <span class="p">{</span><span class="s2">&quot;attach_id&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+         <span class="s2">&quot;linker_length&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+         <span class="s2">&quot;linker_width&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+         <span class="s2">&quot;dye_radius1&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+         <span class="s2">&quot;dye_radius2&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+         <span class="s2">&quot;dye_radius3&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;Distance&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;&lt;string defining the fret pair&gt;&quot;</span><span class="p">:</span>
+        <span class="p">{</span><span class="s2">&quot;R0&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The parameters above need to be defined by the user. Other parameters have default values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Position&quot;</span><span class="p">:</span>
+    <span class="p">{</span><span class="s2">&quot;&lt;string defining the dye position&gt;&quot;</span><span class="p">:</span>
+        <span class="p">{</span><span class="s2">&quot;cv_thickness&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+         <span class="s2">&quot;cv_fraction&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+         <span class="s2">&quot;simulation_type&quot;</span><span class="p">:</span> <span class="s2">&quot;AV3&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;grid_spacing&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+         <span class="s2">&quot;mol_selection&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+         <span class="s2">&quot;frame_mdtraj&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+         <span class="s2">&quot;use_LabelLib&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+    <span class="p">},</span>
+  <span class="s2">&quot;Distance&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;&lt;string defining the fret pair&gt;&quot;</span><span class="p">:</span>
+        <span class="p">{</span><span class="s2">&quot;n_dist&quot;</span><span class="p">:</span> <span class="mf">10E+6</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The distance unit of FRETraj is Angstrom (MDtraj in contrast uses nanometers). The time unit is <strong>picosecond</strong>.</p>
+</div>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">simulation_type:</span> <span class="pre">&quot;AV1&quot;</span></code> the dye is only defined by a single radius <code class="docutils literal notranslate"><span class="pre">dye_radius1</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mol_selection</span></code> takes a valid atom selection expression compatible with <a class="reference external" href="http://mdtraj.org/1.9.3/atom_selection.html">MDTraj</a></p></li>
+</ul>
+<p>Further details about the simulation settings are given in the respective <a class="reference internal" href="module_cloud.html#module-cloud"><span class="std std-ref">code documentation</span></a>.</p>
+<p>Finally, some parameters are solely used for visualization in PyMOL:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Position&quot;</span><span class="p">:</span>
+    <span class="p">{</span><span class="s2">&quot;&lt;string defining the dye position&gt;&quot;</span><span class="p">:</span>
+        <span class="p">{</span><span class="s2">&quot;contour_level_AV&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+         <span class="s2">&quot;contour_level_CV&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+         <span class="s2">&quot;b_factor&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+         <span class="s2">&quot;gaussian_resolution&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+         <span class="s2">&quot;grid_buffer&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+         <span class="s2">&quot;transparent_AV&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pymol_plugin.html" class="btn btn-neutral float-right" title="PyMOL Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="contact_volume.html" class="btn btn-neutral float-left" title="Dye interactions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Fabio D. Steffen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyMOL Plugin &mdash; FRETraj 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Grid" href="module_grid.html" />
+    <link rel="prev" title="The parameter file" href="parameter_file.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #333" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> FRETraj
+          
+
+          
+            
+            <img src="_static/fretraj_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="accessible_volume.html">The accessible volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_volume.html">Dye interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameter_file.html">The parameter file</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PyMOL Plugin</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#acv-calculation">ACV calculation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#predict-fret">Predict FRET</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="module_grid.html">Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_cloud.html">Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_fret.html">FRET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Publications and related projects</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FRETraj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>PyMOL Plugin</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/pymol_plugin.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="pymol-plugin">
+<h1>PyMOL Plugin<a class="headerlink" href="#pymol-plugin" title="Permalink to this headline">¶</a></h1>
+<p>The PyMOL plugin allows the user to interact with the molecular viewer while calculating accessible volumes.</p>
+<a class="reference internal image-reference" href="_images/PyMOL_Plugin.PNG"><img alt="_images/PyMOL_Plugin.PNG" class="align-center" src="_images/PyMOL_Plugin.PNG" style="width: 90%;" /></a>
+<p>The interface is divided into two sections (1) <strong>Accessible contact clouds</strong> and (2) <strong>FRET trajectory</strong>. Under the subpanel <em>PDB structure and position</em> the labeling positions are defined. The panels below define the <em>dye</em>, <em>linker</em>, <em>simulation</em> and <em>contact volume</em> parameters. All these settings are saved into the <a class="reference internal" href="parameter_file.html"><span class="doc">parameter file</span></a>.</p>
+<p>The following steps will guide you through the workflow of calculating ACVs and predicting FRET efficiencies:</p>
+<div class="section" id="acv-calculation">
+<h2>ACV calculation<a class="headerlink" href="#acv-calculation" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Set folder</strong>: define the root folder where the ACVs and the parameter file are saved</p></li>
+<li><p><strong>Load PDB</strong>: import a single or multi-state PDB/CIF file</p></li>
+<li><p><strong>Show Text</strong>: Show the PDB text file in a integrated viewer to help with the atom ID selection</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you already have a json formatted <a class="reference internal" href="parameter_file.html"><span class="doc">parameter file</span></a> you can load this file with the <strong>Load Param</strong> button proceed directly to step .</p>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>atom ID</strong>: select the attachment atom on the biomolecule by its serial ID</p></li>
+<li><p><strong>state</strong>: select a different state of the PDB file</p></li>
+<li><p>Add the new position to the label dropdown by pressing on <cite>&gt;</cite></p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you wish to remove a label position from the list press on <strong>Delete label</strong> (note: this does not remove any associated ACV-PDB file from the root folder)</p>
+</div>
+<ol class="arabic simple" start="7">
+<li><p><strong>mol. selection</strong>: consider only a subregion of your biomolecule while computing ACVs. While this may speed up the calculation, usually you want to leave select <em>all</em> for simplicity.</p></li>
+<li><p><strong>Dye parameters</strong>: Set the radii of the dye</p></li>
+<li><p><strong>Linker parameters</strong>: Set the length and width of the carbon linker</p></li>
+<li><p><strong>Simulation</strong>:</p>
+<ul class="simple">
+<li><p><strong>grid spacing</strong>: distance between two grid points</p></li>
+<li><p><strong>simulation type</strong>: select between a single-radius (AV1) or a three-radii (AV3) dye probe</p></li>
+<li><p><strong>AV library</strong>: if the library has been <a class="reference internal" href="index.html#pymol-plugin-installation"><span class="std std-ref">installed</span></a> you may select <em>use LabelLib</em> to speed up the calculations. Otherwise a pure <a class="reference internal" href="module_grid.html"><span class="doc">Python version</span></a> of the ACV algorithm is used.</p></li>
+</ul>
+</li>
+<li><p><strong>Contact volume</strong>: Choose the thickness and relative fraction of the <a class="reference internal" href="contact_volume.html"><span class="doc">contact volume</span></a></p></li>
+<li><p><strong>Compute ACV</strong>: start the calculation (note: the first run can take slightly longer than subsequent ones). The calculated ACV is automatically saved to the selected root folder. Once the calculation has finished the ACV cloud is displayed in the molecular viewer and the <em>mean position (MP)</em> is indicated in the table</p></li>
+</ol>
+</div>
+<div class="section" id="predict-fret">
+<h2>Predict FRET<a class="headerlink" href="#predict-fret" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>R0</strong>: Förster radius of the dye pair</p></li>
+<li><p><strong># distances</strong>: number of distances to sample for the FRET calculation. The algorithm chooses <em>n</em> pairs of randomly distributed points in the donor and acceptor cloud and calculates their distance</p></li>
+<li><p>choose the <strong>donor</strong> and <strong>acceptor</strong> cloud from the drop down</p></li>
+<li><p><strong>Calculate FRET</strong>: start the FRET calculation. The mean FRET efficiency <span class="math notranslate nohighlight">\(\langle E\rangle\)</span>, the mean inter-dye distance <span class="math notranslate nohighlight">\(\langle R_{DA}\rangle\)</span> as well as the distances between the mean dye positions <span class="math notranslate nohighlight">\(\langle R_{MP}\rangle\)</span> or the two attachment sites are displayed in the table.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The style of the ACV clouds can be tuned with the <em>ACV visualization</em> settings:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>contour levels</strong> of the accessible and contact volume</p></li>
+<li><p><strong>b-factor</strong> and the <strong>gaussian resolution</strong> define the smoothness of the cloud</p></li>
+<li><p><strong>grid buffer</strong> around the ACV</p></li>
+<li><p><strong>transparency</strong> of the cloud</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="module_grid.html" class="btn btn-neutral float-right" title="Grid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="parameter_file.html" class="btn btn-neutral float-left" title="The parameter file" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Fabio D. Steffen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

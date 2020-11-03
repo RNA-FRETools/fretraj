@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FRETraj - Predicting FRET in silico &mdash; FRETraj 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The accessible volume" href="accessible_volume.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #333" >
+          
+
+          
+            <a href="#" class="icon icon-home" alt="Documentation Home"> FRETraj
+          
+
+          
+            
+            <img src="_static/fretraj_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="accessible_volume.html">The accessible volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_volume.html">Dye interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameter_file.html">The parameter file</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pymol_plugin.html">PyMOL Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="module_grid.html">Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_cloud.html">Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_fret.html">FRET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="references.html">Publications and related projects</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">FRETraj</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>FRETraj - Predicting FRET <em>in silico</em></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="fretraj-predicting-fret-in-silico">
+<h1>FRETraj - Predicting FRET <em>in silico</em><a class="headerlink" href="#fretraj-predicting-fret-in-silico" title="Permalink to this headline">¶</a></h1>
+<p>FRETraj is a high-level Python API to the <strong>LabelLib</strong> library (<a class="reference external" href="https://github.com/Fluorescence-Tools/LabelLib">https://github.com/Fluorescence-Tools/LabelLib</a>) to simulate fluorophores which are coupled to a biomolecule of interest. The package features a user-friendly <strong>PyMOL plugin</strong> <a class="footnote-reference brackets" href="#id2" id="id1">1</a> which can be used to explore different labeling positions while designing new FRET experiments. In an AV simulation the fluorophore distribution is estimated by a shortest path search (Djikstra algorithm) using a coarse-grained dye probe. FRETraj further implements a <strong>Python-only</strong> version of the geometrical clash search used in LabelLib. This should facilitate prototyping of new features for the ACV algorithm.</p>
+<a class="reference internal image-reference" href="_images/graphical_abstract.png"><img alt="_images/graphical_abstract.png" class="align-center" src="_images/graphical_abstract.png" style="width: 90%;" /></a>
+</div>
+<div class="section" id="plugin-installation">
+<span id="pymol-plugin-installation"></span><h1>Plugin Installation<a class="headerlink" href="#plugin-installation" title="Permalink to this headline">¶</a></h1>
+<p>You can get the latest version of PyMOL from <a class="reference external" href="https://pymol.org/">Schrödinger</a>. Start the <strong>Anaconda prompt</strong> which comes bundled with PyMOL 2.x and install the necessary dependencies.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">numpy</span> <span class="s2">&quot;numba&lt;=0.44&quot;</span> <span class="n">mdtraj</span> <span class="n">packaging</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+</pre></div>
+</div>
+<p>For a faster calculation of the AVs you may additionally install <a class="reference external" href="https://github.com/Fluorescence-Tools/LabelLib">LabelLib</a>, but this is not required as FRETraj also runs its own implementation of the AV algorithm.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">tpeulen</span> <span class="n">labellib</span>
+</pre></div>
+</div>
+<p>To use the FRETraj PyMOL plugin simply download the .zip archive from Github and install it via PyMOL’s Plugin manager: <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> <span class="raw-html">&rarr;</span> <code class="docutils literal notranslate"><span class="pre">Plugin</span> <span class="pre">manager</span></code> <span class="raw-html">&rarr;</span> <code class="docutils literal notranslate"><span class="pre">Install</span> <span class="pre">New</span> <span class="pre">Plugin</span></code> <span class="raw-html">&rarr;</span> <code class="docutils literal notranslate"><span class="pre">Choose</span> <span class="pre">file...</span></code> and select the .zip archive. Upon first startup FRETraj will prompt you to select a root directory where to store the calculated ACVs and parameter files. You can load a <strong>demo project</strong> by going to <code class="docutils literal notranslate"><span class="pre">Help</span></code> <span class="raw-html">&rarr;</span> <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">Example</span></code>. You may also want to have a look at this <a class="reference internal" href="pymol_plugin.html"><span class="doc">step-by-step tutorial</span></a>.</p>
+<a class="reference internal image-reference" href="_images/PyMOL_interface.PNG"><img alt="_images/PyMOL_interface.PNG" class="align-left" src="_images/PyMOL_interface.PNG" style="height: 225px;" /></a>
+<a class="reference internal image-reference" href="_images/PyMOL_Plugin.PNG"><img alt="_images/PyMOL_Plugin.PNG" class="align-right" src="_images/PyMOL_Plugin.PNG" style="height: 225px;" /></a>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>PyMOL is a trademark of Schrodinger, LLC.</p>
+</dd>
+</dl>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="accessible_volume.html" class="btn btn-neutral float-right" title="The accessible volume" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Fabio D. Steffen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
