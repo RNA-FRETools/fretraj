@@ -18,7 +18,7 @@ For a faster calculation of the AVs you may additionally install LabelLib, but t
 conda install -c tpeulen labellib
 ```
 
-To use the **FRETraj PyMOL plugin** simply download the .zip archive from Github and install it via PyMOL's Plugin manager: `Plugin` &rarr; `Plugin manager` &rarr; `Install New Plugin` &rarr; `Choose file...` and select the .zip archive. Upon first startup FRETraj will prompt you to select a root directory where to store the calculated ACVs and parameter files.
+To use the **FRETraj PyMOL plugin** simply download the .zip archive from Github and install it via PyMOL's Plugin manager: `Plugin` &rarr; `Plugin manager` &rarr; `Install New Plugin` &rarr; `Choose file...` and select the .zip archive. Upon first startup FRETraj will prompt you to select a root directory where to store the calculated ACVs and parameter files. You can load a **demo project** by going to ``Help`` :raw-html:`&rarr;` ``Load Example``. You may also want to have a look at this [step-by-step tutorial](https://fdsteffen.github.io/fretraj/pymol_plugin).
 
 <img src="docs/source/_static/PyMOL_interface.PNG" height="250"> <img src="docs/source/_static/PyMOL_Plugin.PNG" height="250">
 
@@ -34,7 +34,7 @@ The accessible volume is described in:
 - S. Kalinin, T. Peulen, C.A.M. Seidel et al. *Nat. Methods*, **2012**, *9*, 1218-1225. [![](https://img.shields.io/badge/DOI-10.1038/nmeth.2222-blue.svg)](https://doi.org/10.1038/nmeth.2222)
 
 Fast-NPS (nano-positioning system) uses a Bayesian model to locate a dye with respect to a biomolecule: 
-- T. Eilert, M. Beckers, F. Drechsler, J. Michaelis, **Comput. Phys. Commun., **2017**, *219*, 377–389. [![](https://img.shields.io/badge/DOI-10.1016/j.cpc.2017.05.027-blue.svg)](https://doi.org/10.1016/j.cpc.2017.05.027)
+- T. Eilert, M. Beckers, F. Drechsler, J. Michaelis, *Comput. Phys. Commun.*, **2017**, *219*, 377–389. [![](https://img.shields.io/badge/DOI-10.1016/j.cpc.2017.05.027-blue.svg)](https://doi.org/10.1016/j.cpc.2017.05.027)
 
 Various dye models have been reviewed in:
 - M. Dimura, T. Peulen, C.A.M. Seidel et al. *Curr. Opin. Struct. Biol.* **2016**, *40*, 163-185. [![](https://img.shields.io/badge/DOI-10.1016/j.sbi.2016.11.012-blue.svg)](https://doi.org/10.1016/j.sbi.2016.11.012)

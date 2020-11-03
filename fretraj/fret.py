@@ -320,13 +320,16 @@ def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None, R0=5
     Examples
     --------
 
-    # with known mean_E_DA (fastest)
+    with known mean_E_DA (fastest)
+
     >>> mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=mymean_E_DA)
 
-    # with known E_DA (mean_E_DA is calculated on-the-fly)
+    with known E_DA (mean_E_DA is calculated on-the-fly)
+
     >>> mean_dist_DA_fromFRET(acv1, acv2, E_DA=myE_DA)
 
-    # with known R_DA (E_DA and mean E_DA are calculated on-the-fly)
+    with known R_DA (E_DA and mean E_DA are calculated on-the-fly)
+
     >>> mean_dist_DA_fromFRET(acv1, acv2, R_DA=myR_DA)
 
 

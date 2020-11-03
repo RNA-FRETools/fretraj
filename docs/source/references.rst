@@ -35,7 +35,7 @@ The original accessible volume approach is described in:
 
 
 Fast-NPS (nano-positioning system) uses a Bayesian model to locate a dye with respect to a biomolecule: 
- T. Eilert, M. Beckers, F. Drechsler, J. Michaelis, **Comput. Phys. Commun., **2017**, *219*, 377–389. 
+ T. Eilert, M. Beckers, F. Drechsler, J. Michaelis, *Comput. Phys. Commun.*, **2017**, *219*, 377–389. 
  |Eilert2017| 
 
 
