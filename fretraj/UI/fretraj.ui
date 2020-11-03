@@ -961,8 +961,6 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionRestraints"/>
-    <addaction name="separator"/>
     <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuRestraints"/>

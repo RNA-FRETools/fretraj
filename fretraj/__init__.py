@@ -14,7 +14,6 @@ from . import fret
 from . import isosurf
 from . import grid
 from . import jupyter
-from . import restraints
 
 dialog = None
 
