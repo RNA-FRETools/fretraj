@@ -29,11 +29,11 @@ For a faster calculation of the AVs you may additionally install `LabelLib <http
 To use the FRETraj PyMOL plugin simply download the .zip archive from Github and install it via PyMOL's Plugin manager: ``Plugin`` :raw-html:`&rarr;` ``Plugin manager`` :raw-html:`&rarr;` ``Install New Plugin`` :raw-html:`&rarr;` ``Choose file...`` and select the .zip archive. Upon first startup FRETraj will prompt you to select a root directory where to store the calculated ACVs and parameter files. You can load a **demo project** by going to ``Help`` :raw-html:`&rarr;` ``Load Example``. You may also want to have a look at this :doc:`step-by-step tutorial <pymol_plugin>`.
 
 .. image:: _static/PyMOL_interface.PNG
-   :height: 225
+   :height: 240
    :align: left
 
 .. image:: _static/PyMOL_Plugin.PNG
-   :height: 225
+   :height: 240
    :align: right
 
 
