@@ -4,8 +4,8 @@ PyMOL Plugin
 The PyMOL plugin allows the user to interact with the molecular viewer while calculating accessible volumes. 
 
 .. image:: _static/PyMOL_Plugin.PNG
-   :width: 100pc
-   :align: left
+   :width: 90%
+   :align: center
 
 The interface is divided into two sections (1) **Accessible contact clouds** and (2) **FRET trajectory**. Under the subpanel *PDB structure and position* the labeling positions are defined. The panels below define the *dye*, *linker*, *simulation* and *contact volume* parameters. All these settings are saved into the :doc:`parameter file <parameter_file>`.
 
