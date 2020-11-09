@@ -1,6 +1,6 @@
 __title__ = 'fretraj'
-__version__ = '1.0.0'
-__license__ = 'MIT'
+__version__ = '0.1.0'
+__license__ = 'GPLv3'
 __author__ = 'Fabio D. Steffen'
 __email__ = 'fabio.steffen@chem.uzh.ch'
 __description__ = 'Calculating accessible-contact volumes of fluorescent dyes on biomolecules'
