@@ -1,6 +1,6 @@
 # <img src="docs/source/_static/fretraj_logo.png" width="200">
 
-FRETraj is a high-level Python API to the **LabelLib** library (https://github.com/Fluorescence-Tools/LabelLib) to simulate fluorophores which are coupled to a biomolecule of interest. The package features a user-friendly **PyMOL plugin**<sup>[1](#pymol)</sup> which can be used to explore different labeling positions while designing new FRET experiments. In an AV simulation the fluorophore distribution is estimated by a shortest path search (Djikstra algorithm) using a coarse-grained dye probe. FRETraj further implements a **Python-only** version of the geometrical clash search used in LabelLib. This should facilitate prototyping of new features for the ACV algorithm.  
+FRETraj is a Python API to the **LabelLib** library (https://github.com/Fluorescence-Tools/LabelLib) to simulate fluorophores which are coupled to a biomolecule of interest. The package features a user-friendly **PyMOL plugin**<sup>[1](#pymol)</sup> which can be used to explore different labeling positions while designing new FRET experiments. In an AV simulation the fluorophore distribution is estimated by a shortest path search (Djikstra algorithm) using a coarse-grained dye probe. FRETraj further implements a **Python-only** version of the geometrical clash search used in LabelLib. This should facilitate prototyping new features for the ACV algorithm.  
 
 <img src="docs/source/_static/graphical_abstract.png" height="350">
      
@@ -18,7 +18,7 @@ For a faster calculation of the AVs you may additionally install LabelLib, but t
 conda install -c tpeulen labellib
 ```
 
-To use the **FRETraj PyMOL plugin** simply download the .zip archive from Github and install it via PyMOL's Plugin manager: `Plugin` &rarr; `Plugin manager` &rarr; `Install New Plugin` &rarr; `Choose file...` and select the .zip archive. Upon first startup FRETraj will prompt you to select a root directory where to store the calculated ACVs and parameter files. You can load a **demo project** by going to ``Help`` :raw-html:`&rarr;` ``Load Example``. You may also want to have a look at this [step-by-step tutorial](https://fdsteffen.github.io/fretraj/pymol_plugin).
+To use the **FRETraj PyMOL plugin** simply download the .zip archive from Github and install it via PyMOL's Plugin manager: `Plugin` &rarr; `Plugin manager` &rarr; `Install New Plugin` &rarr; `Choose file...` and select the .zip archive. Upon first startup FRETraj will prompt you to select a root directory where to store the calculated ACVs and parameter files. You can load a **demo project** by going to ``Help`` &rarr; ``Load Example``. You may also want to have a look at this [step-by-step tutorial](https://fdsteffen.github.io/fretraj/pymol_plugin).
 
 <img src="docs/source/_static/PyMOL_interface.PNG" height="250"> <img src="docs/source/_static/PyMOL_Plugin.PNG" height="250">
 
@@ -39,5 +39,9 @@ Fast-NPS (nano-positioning system) uses a Bayesian model to locate a dye with re
 Various dye models have been reviewed in:
 - M. Dimura, T. Peulen, C.A.M. Seidel et al. *Curr. Opin. Struct. Biol.* **2016**, *40*, 163-185. [![](https://img.shields.io/badge/DOI-10.1016/j.sbi.2016.11.012-blue.svg)](https://doi.org/10.1016/j.sbi.2016.11.012)
 - T. Peulen, O. Opanasyuk, C.A.M Seidel, *J. Phys. Chem . B.*, **2017**, *121*, 8211-8241.[![](https://img.shields.io/badge/DOI-10.1021/acs.jpcb.7b03441-blue.svg)](https://doi.org/10.1021/acs.jpcb.7b03441)
+
+A recent benchmark for FRET-assisted modeling of proteins is described in:
+- M. Dimura, T. Peulen, C.A.M Seidel et al. *Nat. Commun.* **2020**, *11*, 5394.
+[![](https://img.shields.io/badge/DOI-10.1038/s41467--020--19023--1-blue.svg)](https://doi.org/10.1038/s41467-020-19023-1)
 
 <sup><a name="pymol">1</a></sup> PyMOL is a trademark of Schrödinger, LLC.
