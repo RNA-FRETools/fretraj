@@ -33,7 +33,7 @@ def dist_mp(acv1, acv2):
     return R_mp
 
 
-def dists_DA(acv1, acv2, n_dist=10**6, include_weights=True):
+def dists_DA(acv1, acv2, n_dist=10**6, return_weights=True):
     """
     Compute a randomly subsampled donor-acceptor distance distribution for the two accessible volume clouds
 
@@ -43,8 +43,8 @@ def dists_DA(acv1, acv2, n_dist=10**6, include_weights=True):
     acv2 : fretraj.cloud.ACV
     n_dist : int, optional
              number of distances to calculate
-    include_weights : bool
-                      additional vector with weights
+    return_weights : bool
+                     additional vector with weights
 
     Returns
     -------
