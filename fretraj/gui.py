@@ -255,7 +255,9 @@ class App(QtWidgets.QMainWindow):
                 return 0
             else:
                 self.struct_original = copy.deepcopy(self.struct)
-                self.struct.remove_solvent(inplace=True)
+                nucleic_str = ' or '.join([f'resn {r}' for r in ['A','G','C','U','RA','RG','RC','RU','DA','DG','DC','DT']])
+                idx_protein_nucleic = self.struct.top.select(f'protein or {nucleic_str}')
+                self.struct = self.struct.atom_slice(idx_protein_nucleic)
 
                 self.lineEdit_pdbFile.setText(self.fileName_pdb)
                 self.spinBox_statePDB.setMaximum(self.struct.n_frames)
@@ -420,8 +422,10 @@ class App(QtWidgets.QMainWindow):
         self.deleteDistanceFromList()
         self.deleteIsosurface()
         if self.labelName != self.labelName_default:
+            todelete= self.labelName
             self.comboBox_labelName.removeItem(self.comboBox_labelName.currentIndex())
             self.lineEdit_labelName.clear()
+            self.labels['Position'].pop(todelete)
 
     def addLabelToList(self, av):
         """
