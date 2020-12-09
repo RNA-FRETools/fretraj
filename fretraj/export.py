@@ -6,6 +6,7 @@ NAME = 'D'
 ELEMENT = 'D'
 NAME_MP = 'H'
 ELEMENT_MP = 'H'
+ELEMENT_MDP = 'H'
 OCCUPANCY_MP = -1
 
 _pdb_format = '{:6}{:5d}{:>5}{:1}{:>3} {:1}{:4d}{:1}   {:>8.3f}{:>8.3f}{:>8.3f}{:>6.2f}{:>6.2f}          {:>2}{:>2}\n'
@@ -60,7 +61,7 @@ def open_dx(grid_3d, xyz_min, d_xyz):
     return s
 
 
-def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
+def xyz(cloud_xyzqt, mp, mdp, write_weights=True, encode_element=False, include_mdp=False):
     """
     Return an XYZ formatted string
 
@@ -94,6 +95,8 @@ def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
                 element = ELEMENT
             s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], cloud_xyzqt[k, 3])
         s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2], -1)
+        if include_mdp:
+            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MDP, mdp[0], mdp[1], mdp[2], -1)
     else:
         for k in range(n_points):
             if encode_element:
@@ -105,10 +108,12 @@ def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
                 element = ELEMENT
             s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2])
         s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2])
+        if include_mdp:
+            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MDP, mdp[0], mdp[1], mdp[2])
     return s
 
 
-def pdb(cloud_xyzqt, mp):
+def pdb(cloud_xyzqt, mp, mdp, include_mdp=False):
     """
     Returns a PDB formatted string
 
@@ -180,6 +185,6 @@ def pdb(cloud_xyzqt, mp):
             resn = 'FV'
         s += _pdb_format.format('ATOM', k, NAME, ' ', resn, ' ', int(cloud_xyzqt[k, 4]), ' ', cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], bfactor, cloud_xyzqt[k, 3], ELEMENT, ' ')
     s += _pdb_format.format('ATOM', k, NAME_MP, ' ', 'MP', ' ', 0, ' ', mp[0], mp[1], mp[2], bfactor, -1, ELEMENT_MP, ' ')
+    if include_mdp:
+        s += _pdb_format.format('ATOM', k, NAME_MP, ' ', 'MDP', ' ', 0, ' ', mdp[0], mdp[1], mdp[2], bfactor, -1, ELEMENT_MDP, ' ')
     return s
-
-

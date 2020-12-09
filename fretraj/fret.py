@@ -211,7 +211,7 @@ def dist_attach(attach1_xyz, attach2_xyz):
 
 def R_DAE_to_Rmp(mean_R_DA_E):
     """
-    Conversion function for <R_DA,E> to R_mp from kalinin, Nat.Methods (2012)
+    Conversion function for <R_DA,E> to R_mp from Kalinin, Nat.Methods (2012)
     """
     R_mp = 1.109*10**-5*mean_R_DA_E**3 - 7.286*10**-3*mean_R_DA_E**2 + 1.979*mean_R_DA_E - 34.345
     return R_mp
