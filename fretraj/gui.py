@@ -255,7 +255,12 @@ class App(QtWidgets.QMainWindow):
                 return 0
             else:
                 self.struct_original = copy.deepcopy(self.struct)
-                nucleic_str = ' or '.join([f'resn {r}' for r in ['A','G','C','U','RA','RG','RC','RU','DA','DG','DC','DT']])
+                NA_list = ['A','G','C','U',
+                           'RA','RG','RC','RU',
+                           'DA','DG','DC','DT', 
+                           'ATP', 'GTP', 'CTP', 'UTP',
+                           'ADP', 'GDP', 'CDP', 'UDP']
+                nucleic_str = ' or '.join([f'resn {r}' for r in NA_list])
                 idx_protein_nucleic = self.struct.top.select(f'protein or {nucleic_str}')
                 self.struct = self.struct.atom_slice(idx_protein_nucleic)
 
@@ -277,7 +282,7 @@ class App(QtWidgets.QMainWindow):
                     cmd.load(self.fileNamePath_pdb)
                     cmd.remove('solvent or inorganic')
                     chain_startIDs = [1, *[chain.n_atoms+1 for chain in self.struct.top.chains][:-1]]
-                    self.chain_names = [cmd.get_chains('id {}'.format(i))[0] for i in chain_startIDs]
+                    self.chain_names = [cmd.get_chains('index {}'.format(i))[0] for i in chain_startIDs]
 
                     cmd.set_color('ft_blue', [51, 83, 183])
                     cmd.set_color('ft_gray', [181, 189, 197])
