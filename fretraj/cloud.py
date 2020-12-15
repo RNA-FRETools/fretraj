@@ -241,7 +241,7 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', le
 
 def save_mp_traj(filename, volume_list, units='A'):
     """
-    Save a trajectory of dye mean positions as a xyz file
+    Save a trajectory of dye mean positions as an xyz file
 
     Parameters
     ----------
@@ -251,14 +251,38 @@ def save_mp_traj(filename, volume_list, units='A'):
     units : {'A', 'nm'}
             distance units (Angstrom or nanometer)
     """
-    mps = np.array([volume_list[i].acv.mp for i in range(len(volume_list)) if hasattr(don[i].acv, 'mp')])
+    mps = np.vstack([volume_list[i].acv.mp for i in range(len(volume_list)) if hasattr(volume_list[i].acv, 'mp')])
+    mps = np.hstack((mps, np.ones((mps.shape[0], 1))))
+    mean_mp = np.mean(mps, 0)
+
+    xyz_str = export.xyz(mps, mean_mp, None)
+    with open(filename, 'w') as fname:
+        fname.write(xyz_str)
     
-    if units == 'nm':
-        mps = mps / 10
-    with open(filename, 'w') as f:
-        for i in range(len(acv_list)):
-            f.write('1\n')
-            f.write('D   {:0.3f}   {:0.3f}   {:0.3f}\n'.format(*mps[i,:]))
+
+def save_acv_traj(filename, volume_list, **kwargs):
+    """
+    Save a trajectory of ACVs as a multi model PDB
+
+    Parameters
+    ----------
+    filename : str
+    volume_list : array_like
+                  list of Volume instances
+    **kwargs
+            - include_mdp : bool
+    """
+    try:
+        include_mdp = kwargs['include_mdp']
+    except KeyError:
+        include_mdp = False
+    file_str = ''
+    for i, volume in enumerate(volume_list):
+        file_str += f'MODEL {i+1}\n'
+        file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp, volume.acv.mdp, include_mdp=include_mdp)
+        file_str += f'ENDMDL\n\n'
+    with open(filename, 'w') as fname:
+        fname.write(file_str)
 
 
 class ACV:
