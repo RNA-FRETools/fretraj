@@ -103,7 +103,7 @@ def parseCmd():
 
 def labeling_params(param_file):
     """
-    Parse the parameter file to get the configuration settings for acvCloud
+    Parse the parameter file to get the configuration settings
 
     Parameters
     ----------
@@ -140,9 +140,6 @@ def check_labels(labels, verbose=True):
     labels : dict
     verbose : bool
 
-    Returns
-    -------
-    labels_checked : dict
     """
     for field in _label_dict.keys():
         if field in labels.keys():
@@ -180,8 +177,7 @@ def check_labels(labels, verbose=True):
                         raise KeyError('Unrecognized key', key, pos, field)
         else:
             labels[field] = None
-            print('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
-    return {field: labels[field] for field in _label_dict.keys()}
+            raise ValueError('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
 
 
 
@@ -700,11 +696,13 @@ class Volume:
                                 self.acv = None
                             else:
                                 self.acv = self.calc_acv(self.use_LabelLib)
+
+        elif cloud_xyzqt is not None:
+            self.acv = ACV(cloud_xyzqt=cloud_xyzqt)
         else:
             print('Attachment point is unknown')
 
-        if cloud_xyzqt is not None:
-            self.acv = ACV(cloud_xyzqt=cloud_xyzqt)
+        
 
     @classmethod
     def from_frames(cls, structure, site, labels, frames_mdtraj):
