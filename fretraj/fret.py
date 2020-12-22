@@ -187,7 +187,7 @@ def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None, R0=5
     mean_R_DA_E = R0 * (1 / mean_E_DA - 1)**(1 / 6)
     return mean_R_DA_E
 
-def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None, R_DA=None, R0=54, n_dist=10**6, verbose=False):
+def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None, E_DA=None, R_DA=None, R0=54, n_dist=10**6, verbose=False):
     if (mean_E_DA is None) or (sigma_E_DA is None):
         mean_E_DA = mean_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist, verbose)
         sigma_E_DA = std_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist, verbose)

@@ -34,5 +34,5 @@ def run_plugin_gui():
     """
     global dialog
     if dialog is None:
-        dialog = gui.App(_pymol_running=True)
+        dialog = gui.App(_pymol_running=True) # noqa: F821
     dialog.show()
