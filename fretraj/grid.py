@@ -159,7 +159,7 @@ class Grid3D:
 
     def dijkstra_init(self, maxR, maxR_source):
         """
-        Inititialize the Dijkstra search algorithm
+        Initialize the Dijkstra search algorithm
 
         Parameters
         ----------

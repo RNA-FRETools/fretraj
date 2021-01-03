@@ -1,6 +1,6 @@
 name: FRETraj build
 
-on: [push]
+on: [pull request, workflow_dispatch]
 
 jobs:
   build:
@@ -27,4 +27,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with unittest
       run: |
-        python -m unittest
+        pip install pytest
+        pip install pytest-cov
+        pytest --cov=./

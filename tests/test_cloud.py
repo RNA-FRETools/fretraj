@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import unittest
-import json
 import os
 import mdtraj as md
 from fretraj import cloud
@@ -152,6 +151,7 @@ class FRETCheck(unittest.TestCase):
                                 {"R0": 54}
                                 }
                              }
+
         cloud.check_labels(self.minimal_labels, verbose=False)
         self.struct = md.load_pdb(os.path.join(_TEST_DIR, 'testdata/DNA.pdb'))
         self.vol_Cy3 = cloud.Volume(self.struct, 'Cy3', self.minimal_labels)
