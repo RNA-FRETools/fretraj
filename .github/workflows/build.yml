@@ -1,6 +1,6 @@
 name: FRETraj build
 
-on: [pull request, workflow_dispatch]
+on: [pull_request, workflow_dispatch]
 
 jobs:
   build:
