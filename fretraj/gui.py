@@ -638,7 +638,7 @@ class App(QtWidgets.QMainWindow):
 
     def calculateFRET(self):
         self.update_labelDict()
-        self.traj[(self.donorName, self.acceptorName)] = cloud.FRET_Trajectory(self.av[self.donorName], self.av[self.acceptorName], self.distanceName, self.labels)
+        self.traj[(self.donorName, self.acceptorName)] = cloud.FRET(self.av[self.donorName], self.av[self.acceptorName], self.distanceName, self.labels)
         self.addDistanceToList(self.traj[(self.donorName, self.acceptorName)])
         self.define_DA()
         self.traj[(self.donorName, self.acceptorName)].save_fret('{}/{}_{}_{}_fret.json'.format(self.settings['root_path'], self.fileName_pdb[:-4], self.donorName, self.acceptorName))

@@ -8,6 +8,11 @@ import mdtraj as md
 import numba as nb
 import copy
 import scipy as sp
+import packaging.version
+
+_typedListconflict = packaging.version.parse(nb.__version__) >= packaging.version.parse('0.51.0')
+if _typedListconflict:
+    raise ValueError(f'Numba version {nb.__version__} is currently incompatible with FRETraj due to the insufficient support for typed lists. Please downgrade to numba <= 0.50')
 
 try:
     import pandas as pd
@@ -118,7 +123,7 @@ def labeling_params(param_file):
         labels_json = json.load(f)
 
     try:
-        labels = check_labels(labels_json)
+        check_labels(labels_json)
     except KeyError as e:
         error_type = e.args[0]
         key = e.args[1]
@@ -128,7 +133,7 @@ def labeling_params(param_file):
     except TypeError as e:
         print('Wrong data type: {}'.format(e))
     else:
-        return labels
+        return labels_json
 
 
 def check_labels(labels, verbose=True):
@@ -279,6 +284,25 @@ def save_acv_traj(filename, volume_list, **kwargs):
         file_str += f'ENDMDL\n\n'
     with open(filename, 'w') as fname:
         fname.write(file_str)
+
+def save_structure_traj(filename, structure, frames, format='pdb'):
+    """
+    Save selected frames of a trajectory
+
+    Parameters
+    ----------
+    filename : str
+    structure : mdtraj.Trajectory
+                trajectory of atom coordinates loaded from a pdb, xtc or other file
+    format : str
+             trajectory file format. One of the following: 
+             'pdb': multi model PDB (default), 'xtc'
+    """
+    sliced_structure = structure.slice(frames)
+    if format=='xtc':
+        sliced_structure.save_xtc(filename)
+    else:
+        sliced_structure.save_pdb(filename)
 
 
 class ACV:
@@ -434,7 +458,7 @@ class ACV:
         return tag_1d
 
 
-class FRET_Trajectory:
+class FRET:
     """
     Parameters
     ----------
@@ -541,7 +565,7 @@ class FRET_Trajectory:
             printProgressBar(0, n_vols1)
             fret_trajectory = []
             for i in range(n_vols1):
-                fret_value = FRET_Trajectory(volume_list1[i], volume_list2[i], fret_pair, labels, R_DA)
+                fret_value = FRET(volume_list1[i], volume_list2[i], fret_pair, labels, R_DA)
                 if volume_list1[i].acv is None or volume_list2[i].acv is None:
                     print('Skip list entry {:d}'.format(i))
                 else:
@@ -581,6 +605,51 @@ class FRET_Trajectory:
             fret_results = pd.DataFrame(fret_results, index=['value', 'std'])
         return fret_results
 
+class Trajectory:
+    """
+    Parameters
+    ----------
+    fret : instance of the FRET class
+    timestep : int
+               time difference between two frames in picoseconds
+    """
+    def __init__(self, fret, timestep=None):
+        n = len(fret)
+        self.mean_E_DA = np.array([fret[i].mean_E_DA for i in range(n) if hasattr(fret[i], 'mean_E_DA')]).round(2)
+        self.mean_R_DA = np.array([fret[i].mean_R_DA for i in range(n) if hasattr(fret[i], 'mean_R_DA')]).round(1)
+        self.mean_R_DA_E = np.array([fret[i].mean_R_DA_E for i in range(n) if hasattr(fret[i], 'mean_R_DA_E')]).round(1)
+        self.R_attach = np.array([fret[i].R_attach for i in range(n) if hasattr(fret[i], 'R_attach')]).round(1)
+        self.R_mp = np.array([fret[i].R_mp for i in range(n) if hasattr(fret[i], 'R_mp')]).round(1)
+        self.timestep = timestep
+
+    @property
+    def dataframe(self):
+        """
+        Dataframe view of the Trajectory object
+
+        Returns
+        -------
+        df : pandas dataframe
+        """
+        if not _pandas_found:
+            print('Pandas is not installed')
+        else:
+            df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp), 
+                                  index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
+            if self.timestep:
+                df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
+            return df
+
+    def save_traj(self, filename):
+        """
+        Save the trajectory as a .csv file
+
+        Parameters
+        ----------
+        filename : str
+        """
+        with open(filename, 'w') as f:
+            f.write(self.dataframe.to_csv(index=False))
 
 
 class Volume:
@@ -826,7 +895,7 @@ class Volume:
         --------
 
         >>> grid = numpy.full(27,1)
-        >>> ft.Volume.reshape_grid(grid, (3,3,3))
+        >>> ft.cloud.Volume.reshape_grid(grid, (3,3,3))
         array([[[1., 1., 1.],
                 [1., 1., 1.],
                 [1., 1., 1.]],
@@ -853,7 +922,6 @@ class Volume:
                   origin coordinates of the grid
         d_xyz : list
                 grid spacing in x-,y- and z-direction
-
         Returns
         -------
         cloud_xyzqt : ndarray
@@ -866,14 +934,14 @@ class Volume:
         >>> grid_3d = numpy.zeros((3,3,3))
         >>> grid_3d[(1,1,1)] = 1   # FV
         >>> grid_3d[(1,2,1)] = 10  # CV
-        >>> ft.Volume.grid2pts(grid_3d, xyz_min=[0,0,0], d_xyz=[1,1,1])
+        >>> ft.cloud.Volume.grid2pts(grid_3d, [0,0,0], [1,1,1])
         array([[ 0.5,  0.5,  0.5,  1.  1],
                [ 0.5,  1. ,  0.5, 10.  1]])
 
         >>> tag_3d = numpy.zeros((3,3,3))
         >>> grid_3d[(1,1,1)] = 1   # FV
         >>> grid_3d[(1,1,1)] = 2   # CV
-        >>> ft.Volume.grid2pts(grid_3d, xyz_min=[0,0,0], d_xyz=[1,1,1], tag_3d)
+        >>> ft.cloud.Volume.grid2pts(grid_3d, [0,0,0], [1,1,1], tag_3d)
         array([[ 0.5,  0.5,  0.5,  1.  1],
                [ 0.5,  1. ,  0.5, 10.  2]])
 
