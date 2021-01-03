@@ -183,8 +183,8 @@ def pdb(cloud_xyzqt, mp, mdp, include_mdp=False):
             resn = 'CV'
         else:
             resn = 'FV'
-        s += _pdb_format.format('ATOM', k, NAME, ' ', resn, ' ', int(cloud_xyzqt[k, 4]), ' ', cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], bfactor, cloud_xyzqt[k, 3], ELEMENT, ' ')
-    s += _pdb_format.format('ATOM', k, NAME_MP, ' ', 'MP', ' ', 0, ' ', mp[0], mp[1], mp[2], bfactor, -1, ELEMENT_MP, ' ')
+        s += _pdb_format.format('ATOM', k+1, NAME, ' ', resn, ' ', int(cloud_xyzqt[k, 4]), ' ', cloud_xyzqt[k, 0], cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], bfactor, cloud_xyzqt[k, 3], ELEMENT, ' ')
+    s += _pdb_format.format('ATOM', k+2, NAME_MP, ' ', 'MP', ' ', 0, ' ', mp[0], mp[1], mp[2], bfactor, -1, ELEMENT_MP, ' ')
     if include_mdp:
-        s += _pdb_format.format('ATOM', k, NAME_MP, ' ', 'MDP', ' ', 0, ' ', mdp[0], mdp[1], mdp[2], bfactor, -1, ELEMENT_MDP, ' ')
+        s += _pdb_format.format('ATOM', k+3, NAME_MP, ' ', 'MDP', ' ', 0, ' ', mdp[0], mdp[1], mdp[2], bfactor, -1, ELEMENT_MDP, ' ')
     return s
