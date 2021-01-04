@@ -7,18 +7,11 @@ import json
 import mdtraj as md
 import numba as nb
 import copy
-import scipy as sp
 import packaging.version
 
 _typedListconflict = packaging.version.parse(nb.__version__) >= packaging.version.parse('0.51.0')
 if _typedListconflict:
     raise ValueError(f'Numba version {nb.__version__} is currently incompatible with FRETraj due to the insufficient support for typed lists. Please downgrade to numba <= 0.50')
-
-try:
-    import pandas as pd
-    _pandas_found = True
-except ModuleNotFoundError:
-    _pandas_found = False
 
 try:
     import LabelLib as ll
@@ -601,8 +594,7 @@ class FRET:
                         '<R_DA_E> (A)': (float(f'{self.mean_R_DA_E :0.1f}'), float(f'{self.sigma_R_DA_E :0.1f}')),
                         'R_attach (A)': (float(f'{self.R_attach :0.1f}'), np.nan),
                         'R_mp (A)': (float(f'{self.R_mp :0.1f}'), np.nan)}
-        if _pandas_found:
-            fret_results = pd.DataFrame(fret_results, index=['value', 'std'])
+        fret_results = pd.DataFrame(fret_results, index=['value', 'std'])
         return fret_results
 
 class Trajectory:
@@ -631,14 +623,11 @@ class Trajectory:
         -------
         df : pandas dataframe
         """
-        if not _pandas_found:
-            print('Pandas is not installed')
-        else:
-            df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp), 
-                                  index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
-            if self.timestep:
-                df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
-            return df
+        df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp), 
+                              index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
+        if self.timestep:
+            df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
+        return df
 
     def save_traj(self, filename):
         """
