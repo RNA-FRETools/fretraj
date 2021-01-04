@@ -16,7 +16,7 @@ from . import jupyter
 from . import restraints
 
 try:
-    import pymol
+    import pymol.cmd
 except ModuleNotFoundError:
     print('Pymol is not installed. Submodules fretraj.gui and fretraj.isosurf will not be imported.')
 else:

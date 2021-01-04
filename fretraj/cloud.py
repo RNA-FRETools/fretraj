@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import pandas as pd
 import os
 import argparse
 import json
@@ -254,29 +255,92 @@ def save_mp_traj(filename, volume_list, units='A'):
         fname.write(xyz_str)
     
 
-def save_acv_traj(filename, volume_list, **kwargs):
+def save_acv_traj(filename, volume_list, format='pdb', separate_CV=False, verbose=False, **kwargs):
     """
-    Save a trajectory of ACVs as a multi model PDB
+    Save a trajectory of ACVs as a full multi model PDB or a subsampled .xyz (with identical number of points over all volumes)
 
     Parameters
     ----------
     filename : str
     volume_list : array_like
                   list of Volume instances
+    format : str 
+             file format of the ACV (for 'pdb' the full cloud is saved without subsampling;
+             for 'xyz' k points in the volumes are randomly picked, where k is the number 
+             of points in the smallest volume)
+    separate_CV : bool
+                  Save contact and free volume in separate files 
+                  (choose this if you want to retain the CV information)
+    verbose: bool
     **kwargs
             - include_mdp : bool
     """
-    try:
-        include_mdp = kwargs['include_mdp']
-    except KeyError:
-        include_mdp = False
-    file_str = ''
-    for i, volume in enumerate(volume_list):
-        file_str += f'MODEL {i+1}\n'
-        file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp, volume.acv.mdp, include_mdp=include_mdp)
-        file_str += f'ENDMDL\n\n'
-    with open(filename, 'w') as fname:
-        fname.write(file_str)
+    if format == 'pdb':
+        if verbose:
+            print('With format \"PDB\" no subsampling is performed.')
+        try:
+            include_mdp = kwargs['include_mdp']
+        except KeyError:
+            include_mdp = False
+        file_str = ''
+        for i, volume in enumerate(volume_list):
+            file_str += f'MODEL {i+1}\n'
+            file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp, volume.acv.mdp, include_mdp=include_mdp)
+            file_str += f'ENDMDL\n\n'
+        with open(filename, 'w') as fname:
+            fname.write(file_str)
+    
+    elif format == 'xyz':
+        rng = np.random.default_rng()
+        if separate_CV and any(volume_list[0].acv.tag_1d > 1):
+            vols = ['FV', 'CV']
+            base, suffix = os.path.splitext(filename)
+            n_pts = []
+            for v in vols:
+                if v == 'CV':
+                    filename = f'{base}_CV{suffix}'
+                    n_pts_CV = min([volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]==2, 0:3].shape[0] for volume in volume_list])
+                    subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]==2, 0:3], n_pts_CV, replace=False) for volume in volume_list])
+                    n_pts.append(n_pts_CV)
+                    if verbose:
+                        print(f'{n_pts_CV} points sampled in CV')
+                else:
+                    filename = f'{base}_FV{suffix}'
+                    n_pts_FV = min([volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]<2, 0:3].shape[0] for volume in volume_list])
+                    subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]<2, 0:3], n_pts_FV, replace=False) for volume in volume_list]) 
+                    n_pts.append(n_pts_FV)
+                    if verbose:
+                        print(f'{n_pts_FV} points sampled in FV')
+                with md.formats.XYZTrajectoryFile(filename, 'w') as f:
+                    f.write(subsampled_cloud)
+        else:
+            n_pts = min([volume.acv.cloud_xyzqt.shape[0] for volume in volume_list])
+            subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[:, 0:3], n_pts, replace=False) for volume in volume_list]) 
+            if verbose:
+                print(f'{n_pts} points sampled in AV')
+            with md.formats.XYZTrajectoryFile(filename, 'w') as f:
+                f.write(subsampled_cloud)
+        return n_pts
+
+
+def create_volume_topology(n_atoms):
+    """
+    Create topology for an accessible-contact volume
+
+    Parameters
+    ----------
+    n_atoms : int
+              number of points in volume 
+    """
+    atoms = pd.concat((pd.Series(range(n_atoms), name='serial'), 
+                pd.Series(['D']*n_atoms, name='name'),
+                pd.Series(['D']*n_atoms, name='element'),
+                pd.Series([0]*n_atoms, name='resSeq'),   
+                pd.Series(['X']*n_atoms, name='resName'),
+                pd.Series([0]*n_atoms, name='chainID')), axis=1)
+    top = md.Topology.from_dataframe(atoms)
+    return top
+
 
 def save_structure_traj(filename, structure, frames, format='pdb'):
     """
