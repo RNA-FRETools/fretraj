@@ -348,18 +348,13 @@ class ACV:
 
     def __init__(self, grid_acv=None, cv_thickness=0, cv_fraction=0, cloud_xyzqt=None, use_LabelLib=True):
         if grid_acv is not None:
-            self.grid = grid_acv.grid
-            self.shape = grid_acv.shape
-            self.originXYZ = grid_acv.originXYZ
-            self.discStep = grid_acv.discStep
-
-            self.n_gridpts = np.prod(self.shape)
-            self.grid_1d, self.tag_1d = self._reweight_cv(cv_thickness, cv_fraction)
-            self.grid_3d = Volume.reshape_grid(self.grid_1d, self.shape)
-            self.tag_3d = Volume.reshape_grid(self.tag_1d, self.shape)
-            self.cloud_xyzqt = Volume.grid2pts(self.grid_3d, self.originXYZ, [self.discStep] * 3, self.tag_3d)
+            self.n_gridpts = np.prod(grid_acv.shape)
+            self.grid_1d, self.tag_1d = self._reweight_cv(grid_acv.grid, cv_thickness, cv_fraction)
+            self.grid_3d = Volume.reshape_grid(self.grid_1d, grid_acv.shape)
+            self.tag_3d = Volume.reshape_grid(self.tag_1d, grid_acv.shape)
+            self.cloud_xyzqt = Volume.grid2pts(self.grid_3d, grid_acv.originXYZ, [grid_acv.discStep] * 3, self.tag_3d)
             if use_LabelLib and _LabelLib_found:
-                self.ll_Grid3D = ll.Grid3D(self.shape, self.originXYZ, self.discStep)
+                self.ll_Grid3D = ll.Grid3D(grid_acv.shape, grid_acv.originXYZ, grid_acv.discStep)
                 self.ll_Grid3D.grid = self.grid_1d
             else:
                 self.ll_Grid3D = None
@@ -368,7 +363,7 @@ class ACV:
         self.mp = Volume.mean_pos(self.cloud_xyzqt)
         self.mdp = Volume.median_pos(self.cloud_xyzqt)
 
-    def _reweight_cv(self, cv_thickness, cv_fraction):
+    def _reweight_cv(self, grid, cv_thickness, cv_fraction):
         """
         Reweight the accessible volume based on contact and free volume
 
@@ -386,7 +381,7 @@ class ACV:
         grid_1d : ndarray
                   one-dimensional array of grid points of length n_gridpts
         """
-        grid_1d = np.array(self.grid)
+        grid_1d = np.array(grid)
         tag_1d = self._tag_volume(grid_1d)
         if cv_thickness > 0:
             weight_cv = self._weight_factor(grid_1d, cv_fraction)
@@ -499,32 +494,28 @@ class FRET:
             if verbose:
                 print('One accessible volume is empty')
         else:
-            self.volume1 = volume1
-            self.volume2 = volume2
+            #self.volume1 = volume1
+            #self.volume2 = volume2
             self.fret_pair = fret_pair
             self.R0 = labels['Distance'][fret_pair]["R0"]
             self.n_dist = labels['Distance'][fret_pair]["n_dist"]
             self.use_LabelLib = np.all([volume1.use_LabelLib, volume2.use_LabelLib])
             if self.use_LabelLib and _LabelLib_found:
                 if R_DA is None:
-                    self.R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
-                else:
-                    self.R_DA = R_DA
+                    R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
                 self.mean_R_DA = fret.mean_dist_DA_ll(volume1.acv, volume2.acv, n_dist=self.n_dist)
-                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
+                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=R_DA)
+                E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=R_DA, R0=self.R0)
                 self.mean_E_DA = fret.mean_FRET_DA_ll(volume1.acv, volume2.acv, R0=self.R0, n_dist=self.n_dist)
-                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
+                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=E_DA)
             else:
                 if R_DA is None:
-                    self.R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
-                else:
-                    self.R_DA = R_DA
-                self.mean_R_DA = fret.mean_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
-                self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
-                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
+                    R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
+                self.mean_R_DA = fret.mean_dist_DA(volume1.acv, volume2.acv, R_DA=R_DA)
+                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=R_DA)
+                E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=R_DA, R0=self.R0)
+                self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=E_DA)
+                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=E_DA)
             self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=self.R0)
             self.sigma_R_DA_E = fret.std_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, sigma_E_DA=self.sigma_E_DA, R0=self.R0)
             self.R_attach = fret.dist_attach(volume1.attach_xyz, volume2.attach_xyz)
