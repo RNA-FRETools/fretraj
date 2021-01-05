@@ -512,6 +512,8 @@ class ACV:
 
 class FRET:
     """
+    FRET efficiency and (FRET-averaged) donor-acceptor distance
+
     Parameters
     ----------
     volume1 : instance of the Volume class
@@ -547,7 +549,6 @@ class FRET:
 
     >>> ft.Molecule(volume1, volume2, use_LabelLib=False)
 
-
     """
 
     def __init__(self, volume1, volume2, fret_pair, labels, R_DA=None, verbose=True):
@@ -558,8 +559,6 @@ class FRET:
             if verbose:
                 print('One accessible volume is empty')
         else:
-            #self.volume1 = volume1
-            #self.volume2 = volume2
             self.fret_pair = fret_pair
             self.R0 = labels['Distance'][fret_pair]["R0"]
             self.n_dist = labels['Distance'][fret_pair]["n_dist"]
@@ -588,7 +587,7 @@ class FRET:
     @classmethod
     def from_volumes(cls, volume_list1, volume_list2, fret_pair, labels, R_DA=None):
         """
-        Alternative constructor for the ft.cloud.FRET_Trajectory class by reading in a list of donor and acceptor volumes
+        Alternative constructor for the ft.cloud.FRET class by reading in a list of donor and acceptor volumes
         
         Parameters
         ----------
@@ -611,15 +610,15 @@ class FRET:
             print('The length of volume_list1 and volume_list2 is not the same')
         else:
             printProgressBar(0, n_vols1)
-            fret_trajectory = []
+            fret = []
             for i in range(n_vols1):
                 fret_value = FRET(volume_list1[i], volume_list2[i], fret_pair, labels, R_DA)
                 if volume_list1[i].acv is None or volume_list2[i].acv is None:
                     print('Skip list entry {:d}'.format(i))
                 else:
-                    fret_trajectory.append(fret_value)
+                    fret.append(fret_value)
                 printProgressBar(i + 1, n_vols1)
-            return fret_trajectory
+            return fret
 
     def save_fret(self, filename):
         """
@@ -654,6 +653,8 @@ class FRET:
 
 class Trajectory:
     """
+    Trajectory of FRET efficiencies and (FRET-averaged) donor-acceptor distances
+
     Parameters
     ----------
     fret : instance of the FRET class
