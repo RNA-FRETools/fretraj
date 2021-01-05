@@ -158,12 +158,12 @@ class FRETCheck(unittest.TestCase):
         self.vol_Cy5 = cloud.Volume(self.struct, 'Cy5', self.minimal_labels)
 
     def test_FRET_LabelLib(self):
-         fret = cloud.FRET_Trajectory(self.vol_Cy3, self.vol_Cy5, 'Cy3-Cy5', self.minimal_labels)
+         fret = cloud.FRET(self.vol_Cy3, self.vol_Cy5, 'Cy3-Cy5', self.minimal_labels)
          self.assertTrue(hasattr(fret, 'R_mp'))
 
     def test_FRET_pythononly(self):
          self.vol_Cy3.use_LabelLib = False
-         fret = cloud.FRET_Trajectory(self.vol_Cy3, self.vol_Cy5, 'Cy3-Cy5', self.minimal_labels)
+         fret = cloud.FRET(self.vol_Cy3, self.vol_Cy5, 'Cy3-Cy5', self.minimal_labels)
          self.assertTrue(hasattr(fret, 'R_mp'))
 
 

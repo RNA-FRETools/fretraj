@@ -9,6 +9,7 @@ with open('fretraj/__about__.py') as a:
 
 INSTALL_REQUIRES = [
     'numpy',
+    'pandas',
     'mdtraj',
     'numba<=0.50',
     'packaging'

@@ -1,24 +1,18 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import pandas as pd
 import os
 import argparse
 import json
 import mdtraj as md
 import numba as nb
 import copy
-import scipy as sp
 import packaging.version
 
 _typedListconflict = packaging.version.parse(nb.__version__) >= packaging.version.parse('0.51.0')
 if _typedListconflict:
     raise ValueError(f'Numba version {nb.__version__} is currently incompatible with FRETraj due to the insufficient support for typed lists. Please downgrade to numba <= 0.50')
-
-try:
-    import pandas as pd
-    _pandas_found = True
-except ModuleNotFoundError:
-    _pandas_found = False
 
 try:
     import LabelLib as ll
@@ -261,29 +255,92 @@ def save_mp_traj(filename, volume_list, units='A'):
         fname.write(xyz_str)
     
 
-def save_acv_traj(filename, volume_list, **kwargs):
+def save_acv_traj(filename, volume_list, format='pdb', separate_CV=False, verbose=False, **kwargs):
     """
-    Save a trajectory of ACVs as a multi model PDB
+    Save a trajectory of ACVs as a full multi model PDB or a subsampled .xyz (with identical number of points over all volumes)
 
     Parameters
     ----------
     filename : str
     volume_list : array_like
                   list of Volume instances
+    format : str 
+             file format of the ACV (for 'pdb' the full cloud is saved without subsampling;
+             for 'xyz' k points in the volumes are randomly picked, where k is the number 
+             of points in the smallest volume)
+    separate_CV : bool
+                  Save contact and free volume in separate files 
+                  (choose this if you want to retain the CV information)
+    verbose: bool
     **kwargs
             - include_mdp : bool
     """
-    try:
-        include_mdp = kwargs['include_mdp']
-    except KeyError:
-        include_mdp = False
-    file_str = ''
-    for i, volume in enumerate(volume_list):
-        file_str += f'MODEL {i+1}\n'
-        file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp, volume.acv.mdp, include_mdp=include_mdp)
-        file_str += f'ENDMDL\n\n'
-    with open(filename, 'w') as fname:
-        fname.write(file_str)
+    if format == 'pdb':
+        if verbose:
+            print('With format \"PDB\" no subsampling is performed.')
+        try:
+            include_mdp = kwargs['include_mdp']
+        except KeyError:
+            include_mdp = False
+        file_str = ''
+        for i, volume in enumerate(volume_list):
+            file_str += f'MODEL {i+1}\n'
+            file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp, volume.acv.mdp, include_mdp=include_mdp)
+            file_str += f'ENDMDL\n\n'
+        with open(filename, 'w') as fname:
+            fname.write(file_str)
+    
+    elif format == 'xyz':
+        rng = np.random.default_rng()
+        if separate_CV and any(volume_list[0].acv.tag_1d > 1):
+            vols = ['FV', 'CV']
+            base, suffix = os.path.splitext(filename)
+            n_pts = []
+            for v in vols:
+                if v == 'CV':
+                    filename = f'{base}_CV{suffix}'
+                    n_pts_CV = min([volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]==2, 0:3].shape[0] for volume in volume_list])
+                    subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]==2, 0:3], n_pts_CV, replace=False) for volume in volume_list])
+                    n_pts.append(n_pts_CV)
+                    if verbose:
+                        print(f'{n_pts_CV} points sampled in CV')
+                else:
+                    filename = f'{base}_FV{suffix}'
+                    n_pts_FV = min([volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]<2, 0:3].shape[0] for volume in volume_list])
+                    subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]<2, 0:3], n_pts_FV, replace=False) for volume in volume_list]) 
+                    n_pts.append(n_pts_FV)
+                    if verbose:
+                        print(f'{n_pts_FV} points sampled in FV')
+                with md.formats.XYZTrajectoryFile(filename, 'w') as f:
+                    f.write(subsampled_cloud)
+        else:
+            n_pts = min([volume.acv.cloud_xyzqt.shape[0] for volume in volume_list])
+            subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[:, 0:3], n_pts, replace=False) for volume in volume_list]) 
+            if verbose:
+                print(f'{n_pts} points sampled in AV')
+            with md.formats.XYZTrajectoryFile(filename, 'w') as f:
+                f.write(subsampled_cloud)
+        return n_pts
+
+
+def create_volume_topology(n_atoms):
+    """
+    Create topology for an accessible-contact volume
+
+    Parameters
+    ----------
+    n_atoms : int
+              number of points in volume 
+    """
+    atoms = pd.concat((pd.Series(range(n_atoms), name='serial'), 
+                pd.Series(['D']*n_atoms, name='name'),
+                pd.Series(['D']*n_atoms, name='element'),
+                pd.Series([0]*n_atoms, name='resSeq'),   
+                pd.Series(['X']*n_atoms, name='resName'),
+                pd.Series([0]*n_atoms, name='chainID')), axis=1)
+    top = md.Topology.from_dataframe(atoms)
+    return top
+
 
 def save_structure_traj(filename, structure, frames, format='pdb'):
     """
@@ -355,18 +412,13 @@ class ACV:
 
     def __init__(self, grid_acv=None, cv_thickness=0, cv_fraction=0, cloud_xyzqt=None, use_LabelLib=True):
         if grid_acv is not None:
-            self.grid = grid_acv.grid
-            self.shape = grid_acv.shape
-            self.originXYZ = grid_acv.originXYZ
-            self.discStep = grid_acv.discStep
-
-            self.n_gridpts = np.prod(self.shape)
-            self.grid_1d, self.tag_1d = self._reweight_cv(cv_thickness, cv_fraction)
-            self.grid_3d = Volume.reshape_grid(self.grid_1d, self.shape)
-            self.tag_3d = Volume.reshape_grid(self.tag_1d, self.shape)
-            self.cloud_xyzqt = Volume.grid2pts(self.grid_3d, self.originXYZ, [self.discStep] * 3, self.tag_3d)
+            self.n_gridpts = np.prod(grid_acv.shape)
+            self.grid_1d, self.tag_1d = self._reweight_cv(grid_acv.grid, cv_thickness, cv_fraction)
+            self.grid_3d = Volume.reshape_grid(self.grid_1d, grid_acv.shape)
+            self.tag_3d = Volume.reshape_grid(self.tag_1d, grid_acv.shape)
+            self.cloud_xyzqt = Volume.grid2pts(self.grid_3d, grid_acv.originXYZ, [grid_acv.discStep] * 3, self.tag_3d)
             if use_LabelLib and _LabelLib_found:
-                self.ll_Grid3D = ll.Grid3D(self.shape, self.originXYZ, self.discStep)
+                self.ll_Grid3D = ll.Grid3D(grid_acv.shape, grid_acv.originXYZ, grid_acv.discStep)
                 self.ll_Grid3D.grid = self.grid_1d
             else:
                 self.ll_Grid3D = None
@@ -375,7 +427,7 @@ class ACV:
         self.mp = Volume.mean_pos(self.cloud_xyzqt)
         self.mdp = Volume.median_pos(self.cloud_xyzqt)
 
-    def _reweight_cv(self, cv_thickness, cv_fraction):
+    def _reweight_cv(self, grid, cv_thickness, cv_fraction):
         """
         Reweight the accessible volume based on contact and free volume
 
@@ -393,7 +445,7 @@ class ACV:
         grid_1d : ndarray
                   one-dimensional array of grid points of length n_gridpts
         """
-        grid_1d = np.array(self.grid)
+        grid_1d = np.array(grid)
         tag_1d = self._tag_volume(grid_1d)
         if cv_thickness > 0:
             weight_cv = self._weight_factor(grid_1d, cv_fraction)
@@ -460,6 +512,8 @@ class ACV:
 
 class FRET:
     """
+    FRET efficiency and (FRET-averaged) donor-acceptor distance
+
     Parameters
     ----------
     volume1 : instance of the Volume class
@@ -495,7 +549,6 @@ class FRET:
 
     >>> ft.Molecule(volume1, volume2, use_LabelLib=False)
 
-
     """
 
     def __init__(self, volume1, volume2, fret_pair, labels, R_DA=None, verbose=True):
@@ -506,32 +559,26 @@ class FRET:
             if verbose:
                 print('One accessible volume is empty')
         else:
-            self.volume1 = volume1
-            self.volume2 = volume2
             self.fret_pair = fret_pair
             self.R0 = labels['Distance'][fret_pair]["R0"]
             self.n_dist = labels['Distance'][fret_pair]["n_dist"]
             self.use_LabelLib = np.all([volume1.use_LabelLib, volume2.use_LabelLib])
             if self.use_LabelLib and _LabelLib_found:
                 if R_DA is None:
-                    self.R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
-                else:
-                    self.R_DA = R_DA
+                    R_DA = fret.dists_DA_ll(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
                 self.mean_R_DA = fret.mean_dist_DA_ll(volume1.acv, volume2.acv, n_dist=self.n_dist)
-                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
+                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=R_DA)
+                E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=R_DA, R0=self.R0)
                 self.mean_E_DA = fret.mean_FRET_DA_ll(volume1.acv, volume2.acv, R0=self.R0, n_dist=self.n_dist)
-                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
+                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=E_DA)
             else:
                 if R_DA is None:
-                    self.R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
-                else:
-                    self.R_DA = R_DA
-                self.mean_R_DA = fret.mean_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=self.R_DA)
-                self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
-                self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
-                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
+                    R_DA = fret.dists_DA(volume1.acv, volume2.acv, n_dist=self.n_dist, return_weights=True)
+                self.mean_R_DA = fret.mean_dist_DA(volume1.acv, volume2.acv, R_DA=R_DA)
+                self.sigma_R_DA = fret.std_dist_DA(volume1.acv, volume2.acv, R_DA=R_DA)
+                E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=R_DA, R0=self.R0)
+                self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=E_DA)
+                self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=E_DA)
             self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=self.R0)
             self.sigma_R_DA_E = fret.std_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, sigma_E_DA=self.sigma_E_DA, R0=self.R0)
             self.R_attach = fret.dist_attach(volume1.attach_xyz, volume2.attach_xyz)
@@ -540,7 +587,7 @@ class FRET:
     @classmethod
     def from_volumes(cls, volume_list1, volume_list2, fret_pair, labels, R_DA=None):
         """
-        Alternative constructor for the ft.cloud.FRET_Trajectory class by reading in a list of donor and acceptor volumes
+        Alternative constructor for the ft.cloud.FRET class by reading in a list of donor and acceptor volumes
         
         Parameters
         ----------
@@ -563,15 +610,15 @@ class FRET:
             print('The length of volume_list1 and volume_list2 is not the same')
         else:
             printProgressBar(0, n_vols1)
-            fret_trajectory = []
+            fret = []
             for i in range(n_vols1):
                 fret_value = FRET(volume_list1[i], volume_list2[i], fret_pair, labels, R_DA)
                 if volume_list1[i].acv is None or volume_list2[i].acv is None:
                     print('Skip list entry {:d}'.format(i))
                 else:
-                    fret_trajectory.append(fret_value)
+                    fret.append(fret_value)
                 printProgressBar(i + 1, n_vols1)
-            return fret_trajectory
+            return fret
 
     def save_fret(self, filename):
         """
@@ -601,12 +648,13 @@ class FRET:
                         '<R_DA_E> (A)': (float(f'{self.mean_R_DA_E :0.1f}'), float(f'{self.sigma_R_DA_E :0.1f}')),
                         'R_attach (A)': (float(f'{self.R_attach :0.1f}'), np.nan),
                         'R_mp (A)': (float(f'{self.R_mp :0.1f}'), np.nan)}
-        if _pandas_found:
-            fret_results = pd.DataFrame(fret_results, index=['value', 'std'])
+        fret_results = pd.DataFrame(fret_results, index=['value', 'std'])
         return fret_results
 
 class Trajectory:
     """
+    Trajectory of FRET efficiencies and (FRET-averaged) donor-acceptor distances
+
     Parameters
     ----------
     fret : instance of the FRET class
@@ -631,14 +679,11 @@ class Trajectory:
         -------
         df : pandas dataframe
         """
-        if not _pandas_found:
-            print('Pandas is not installed')
-        else:
-            df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp), 
-                                  index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
-            if self.timestep:
-                df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
-            return df
+        df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp), 
+                              index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
+        if self.timestep:
+            df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
+        return df
 
     def save_traj(self, filename):
         """
