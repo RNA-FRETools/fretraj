@@ -211,7 +211,7 @@ def _on_slider_value_change(change):
     -----
     See also: https://ipywidgets.readthedocs.io/en/latest/examples/Widget%20Events.html
     """
-    output = widgets.Output()
+    output = ipywidgets.Output()
     with output:
         _change_model(change['new'])
 
