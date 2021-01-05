@@ -12,9 +12,11 @@ from . import cloud
 from . import export
 from . import fret
 from . import grid
-from . import jupyter
 from . import restraints
 
+# Import modules that are not strictly required to run FRETraj from the command line 
+# (without the PyMOL GUI) and are therefore not listed as installation dependencies in setup.py
+# They provide visualization functionalities for Jupyter notebooks (nglview) and PyMOL 
 try:
     import pymol.cmd
 except ModuleNotFoundError:
@@ -22,6 +24,18 @@ except ModuleNotFoundError:
 else:
     from . import gui
     from . import isosurf
+
+try:
+    import nglview
+except ModuleNotFoundError:
+    print('nglview is not installed. Submodule fretraj.jupyter will not be imported.')
+else:
+    try:
+        import ipywidgets
+    except ModuleNotFoundError:
+        print('ipywidgets is not installed. Submodule fretraj.jupyter will not be imported.')
+    else:
+        from . import jupyter
 
 dialog = None
 

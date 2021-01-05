@@ -9,7 +9,7 @@
 import os
 import re
 import nglview
-import ipywidgets as widgets
+import ipywidgets
 
 def connect2pymol():
     """
@@ -178,13 +178,13 @@ def model_slider(n_models):
 
     Returns
     -------
-    int_slider: ipywidgets.widgets.IntSlider
+    int_slider: ipywidgets.IntSlider
 
     Notes
     -----
     See also: https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html
     """
-    int_slider = widgets.IntSlider(
+    int_slider = ipywidgets.IntSlider(
     value=0,
     min=0,
     max=n_models-1,
