@@ -21,6 +21,14 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
               (increasing the b-factor is more computationally efficient than increasing the gaussian resolution)
     gaussRes : int
                Gaussian resolution; higher numbers generate smoother surfaces
+
+    Notes
+    ----
+    If a map for each ACV of a multi-model PDB file should be generated, 
+    the PDB file must be loaded with the flag discrete=1 (load as discrete objects) 
+    to allow each ACV to have different numbers of grid points.
+    (see also https://www.pymolwiki.org/index.php/Discrete_objects)
+
     """
     name_surf = name + '_isosurf'
     name_map = name + '_map'
@@ -29,7 +37,7 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
     cmd.alter(selection, bfactor_str)
     gaussRes_default = cmd.get('gaussian_resolution')
     cmd.set('gaussian_resolution', gaussRes)
-    cmd.map_new(name_map, 'gaussian', grid_spacing, selection, state=0)
+    cmd.map_new(name_map, 'gaussian', grid_spacing, selection, state=0) # choose state=-3 if all ACVs should be combined into a single map
     cmd.isosurface(name_surf, name_map, contour_level, selection, buffer=grid_buffer)
     cmd.set('gaussian_resolution', gaussRes_default)
     cmd.disable(selection)
