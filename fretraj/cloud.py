@@ -9,6 +9,7 @@ import mdtraj as md
 import numba as nb
 import copy
 import packaging.version
+import pickle
 
 _typedListconflict = packaging.version.parse(nb.__version__) >= packaging.version.parse('0.51.0')
 if _typedListconflict:
@@ -178,7 +179,40 @@ def check_labels(labels, verbose=True):
             labels[field] = None
             raise ValueError('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
 
+def save_obj(filename, obj):
+    """
+    Save a serialized object to a binary file
 
+    Parameters
+    ----------
+    filename : str
+    obj : serializable object
+    """
+    with open(filename, 'wb') as f:
+        try:
+            pickle.dump(obj, f)
+        except TypeError:
+            try:
+                obj_tmp = copy.copy(obj)
+                obj_tmp.acv = copy.copy(obj.acv)
+                del obj_tmp.av
+                del obj_tmp.acv.ll_Grid3D
+                print('Note: the LabelLib.Grid objects have been removed as they cannot be pickled.')
+            except AttributeError:
+                print('Error: Cannot pickle the passed object')
+            else:
+                pickle.dump(obj_tmp, f)
+
+def load_obj(filename):
+    """
+    Load a serialized object from a binary file
+
+    Parameters
+    ----------
+    filename : str
+    """
+    with open(filename, 'rb') as f:
+        return pickle.load(f)
 
 def save_labels(filename, labels):
     """
@@ -234,6 +268,48 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', le
     if iteration == total:
         print()
 
+
+def pipeline_frames(structure, donor_site, acceptor_site, labels, frames, fret_pair):
+    """
+    Create a pipeline to compute multi-frame donor and acceptor ACVs and calculate a FRET trajectory
+
+    Parameters
+    ----------
+    structure : mdtraj.Trajectory
+                trajectory of atom coordinates loaded from a pdb, xtc or other file
+    donor_site : str
+                 reference identifier for the donor labeling position
+    acceptor_site : str
+                    reference identifier for the acceptor labeling position
+    labels : dict
+             dye, linker and setup parameters for the accessible volume calculation
+    frames_mdtraj : list
+                    list of frames on the trajectory to be used for the ACV calculation
+    fret_pair : str
+                Distance key specifying the donor acceptor pair
+
+    Note
+    ----
+    Running a pipeline more memory-efficient than running Volume.from_frames() 
+    because the ACVs are stored only until the FRET efficiency is calculated. 
+    On the downside, no ACV trajectories(.xtc / .xyz) can be saved.
+    """
+    _labels = copy.copy(labels)
+    acv = {}
+    fret = []
+    n_frames = len(frames)
+    printProgressBar(0, n_frames)
+    for i, frame in enumerate(frames):
+        for dye, site in zip(['D', 'A'], [donor_site, acceptor_site]):
+            _labels['Position'][site]['frame_mdtraj'] = frame
+            _labels['Position'][site]['state'] = frame + 1
+            acv[dye] = Volume(structure, site, _labels)
+        fret.append(FRET(acv['D'], acv['A'], fret_pair, labels))
+        printProgressBar(i + 1, n_frames)
+    return fret
+
+
+
 def save_mp_traj(filename, volume_list, units='A'):
     """
     Save a trajectory of dye mean positions as an xyz file
@@ -253,11 +329,62 @@ def save_mp_traj(filename, volume_list, units='A'):
     xyz_str = export.xyz(mps, mean_mp, None)
     with open(filename, 'w') as fname:
         fname.write(xyz_str)
-    
 
-def save_acv_traj(filename, volume_list, format='pdb', separate_CV=False, verbose=False, **kwargs):
+
+def acv_subsampling(volume_list, verbose=False):
     """
-    Save a trajectory of ACVs as a full multi model PDB or a subsampled .xyz (with identical number of points over all volumes)
+    Subsample the ACV to obtain identical number of points over all volumes. 
+    This allows to create mdtraj.Trajectory objects of the ACV which can be also save as .xtc or .xyz files
+
+    Parameters
+    ----------
+    volume_list : array_like
+                  list of Volume instances
+    verbose: bool
+             print number of subsamples
+    """
+    rng = np.random.default_rng()
+    vols = ['AV', 'FV', 'CV']
+    top = {}
+    xyz_sub = {}
+    for v in vols:
+        if v == 'CV':
+            xyz_list = list(map(lambda volume: volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]==2, 0:3], volume_list))
+        elif v == 'FV':
+            xyz_list = list(map(lambda volume: volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]<2, 0:3], volume_list))
+        else:
+            xyz_list = list(map(lambda volume: volume.acv.cloud_xyzqt[:, 0:3], volume_list))
+        n_pts = min([xyz.shape[0] for xyz in xyz_list])
+        top[v] = _create_volume_topology(n_pts)
+        xyz_sub[v] = np.stack([rng.choice(xyz, n_pts, replace=False) for xyz in xyz_list])
+        if verbose:
+            print(f'{n_pts} points sampled in {v}')
+    return xyz_sub, top
+
+
+def create_acv_traj(volume_list, verbose=False):
+    """
+    Create a mdtraj.Trajectory object from a volume list
+
+    Parameters
+    ----------
+    olume_list : array_like
+                  list of Volume instances
+    verbose: bool
+             print number of subsamples
+    """
+    acv_traj = {}
+    xyz_sub, top = acv_subsampling(volume_list, verbose=False)
+    acv_traj['AV'] = md.Trajectory(xyz_sub['AV']/10, top['AV'])
+    if any(volume_list[0].acv.tag_1d > 1):
+        acv_traj['FV'] = md.Trajectory(xyz_sub['FV']/10, top['FV'])
+        acv_traj['CV'] = md.Trajectory(xyz_sub['CV']/10, top['CV'])
+    return acv_traj
+
+
+def save_acv_traj(filename, volume_list, format='pdb', verbose=False, **kwargs):
+    """
+    Save a trajectory of ACVs as a full multi model PDB or a subsampled .xyz or .xtc (with identical number of points over all volumes)
 
     Parameters
     ----------
@@ -290,42 +417,45 @@ def save_acv_traj(filename, volume_list, format='pdb', separate_CV=False, verbos
         with open(filename, 'w') as fname:
             fname.write(file_str)
     
-    elif format == 'xyz':
-        rng = np.random.default_rng()
-        if separate_CV and any(volume_list[0].acv.tag_1d > 1):
-            vols = ['FV', 'CV']
-            base, suffix = os.path.splitext(filename)
-            n_pts = []
-            for v in vols:
-                if v == 'CV':
-                    filename = f'{base}_CV{suffix}'
-                    n_pts_CV = min([volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]==2, 0:3].shape[0] for volume in volume_list])
-                    subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]==2, 0:3], n_pts_CV, replace=False) for volume in volume_list])
-                    n_pts.append(n_pts_CV)
-                    if verbose:
-                        print(f'{n_pts_CV} points sampled in CV')
-                else:
-                    filename = f'{base}_FV{suffix}'
-                    n_pts_FV = min([volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]<2, 0:3].shape[0] for volume in volume_list])
-                    subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[volume.acv.cloud_xyzqt[:,4]<2, 0:3], n_pts_FV, replace=False) for volume in volume_list]) 
-                    n_pts.append(n_pts_FV)
-                    if verbose:
-                        print(f'{n_pts_FV} points sampled in FV')
+    elif (format == 'xyz') or (format == 'xtc'):
+        vols = ['AV']
+        if any(volume_list[0].acv.tag_1d > 1):
+            vols += ['FV', 'CV']
+        base, suffix = os.path.splitext(filename)
+        xyz_sub, top = acv_subsampling(volume_list, verbose=False)
+        for v in vols:
+            filename = f'{base}_{v}{suffix}'
+            if format == 'xtc':
+                with md.formats.XTCTrajectoryFile(filename, 'w') as f:
+                    f.write(xyz_sub[v]/10)
+            else:
                 with md.formats.XYZTrajectoryFile(filename, 'w') as f:
-                    f.write(subsampled_cloud)
-        else:
-            n_pts = min([volume.acv.cloud_xyzqt.shape[0] for volume in volume_list])
-            subsampled_cloud = np.stack([rng.choice(volume.acv.cloud_xyzqt[:, 0:3], n_pts, replace=False) for volume in volume_list]) 
-            if verbose:
-                print(f'{n_pts} points sampled in AV')
-            with md.formats.XYZTrajectoryFile(filename, 'w') as f:
-                f.write(subsampled_cloud)
-        return n_pts
+                    f.write(xyz_sub[v]) 
+            
+            first_frame = md.Trajectory(xyz_sub[v][0]/10, top[v])
+            first_frame.save_pdb(f'{base}_{v}.pdb')
 
 
-def create_volume_topology(n_atoms):
+def load_acv_traj(filename):
     """
-    Create topology for an accessible-contact volume
+    Load an AV, FV and CV from .xyz or .xtc file
+
+    Note
+    ----
+    Multi model PDB files cannot be loaded as a mdtraj.Trajectory 
+    because they are on purpose not subsampled and thus contain different number of points per volume
+    """
+    base, suffix = os.path.splitext(filename)
+    acv_traj = {}
+    for v in ['AV', 'FV', 'CV']:
+        acv_traj[v] = md.load(f'{base}_{v}{suffix}', top=f'{base}_{v}.pdb')
+    return acv_traj
+
+
+
+def _create_volume_topology(n_atoms):
+    """
+    Create a topology for an accessible-contact volume
 
     Parameters
     ----------
@@ -832,7 +962,7 @@ class Volume:
                reference identifier for the labeling position
         labels : dict
                  dye, linker and setup parameters for the accessible volume calculation
-        frames_mdtraj : int or list
+        frames_mdtraj : list
                         list of frames on the trajectory to be used for the ACV calculation
         """
         n_fr = len(frames_mdtraj)
@@ -860,7 +990,7 @@ class Volume:
                reference identifier for the labeling position
         labels : dict
                  dye, linker and setup parameters for the accessible volume calculation
-        attachID : int or list
+        attachID : list
                    list of attachment ids on the structure to be used for the ACV calculation
 
         Examples
