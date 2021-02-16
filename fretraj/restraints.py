@@ -26,9 +26,13 @@ class Plumed:
         self.n_atoms = self.struct.top.n_atoms
 
 
-    def distance_restraint(self, pseudo_serial, volume, selection='name P', cutoff=1.5):
+    def distance_restraint(self, pseudo_serial, volume, selection='name P', cutoff=15):
+        """
+        cutoff : float
+                 radius within which to search for atoms in the selection (in Angstrom)
+        """
         attach_id_mdtraj = volume.attach_id-1
-        neighbor_idx = md.compute_neighbors(self.struct, cutoff, [attach_id_mdtraj])[0]
+        neighbor_idx = md.compute_neighbors(self.struct, cutoff / 10, [attach_id_mdtraj])[0]
         atomsele_idx = volume.structure.top.select(selection)
         atoms_idx = np.array([idx for idx in neighbor_idx if idx in atomsele_idx])
         atoms_ser = atoms_idx+1

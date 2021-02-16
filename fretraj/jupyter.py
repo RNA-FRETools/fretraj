@@ -24,6 +24,16 @@ def connect2pymol():
         cmd.cd(re.sub(r'/mnt/([a-z])', r'\1:', curr_wd))
     return cmd
 
+def nglview_trajectory(traj_biomol):
+    view = nglview.NGLWidget()
+    view.add_trajectory(traj_biomol)
+    view.clear_representations(component=0)
+    view.add_simplified_base(component=0, selection='/0', disablePicking=True, colorScheme='atomindex')
+    view.add_cartoon(component=0, selection='/0', aspectRatio=4, disablePicking=True, colorScheme='atomindex')
+    view.stage.set_parameters(mouse_preset='pymol')
+    return view
+
+
 def nglview_trajectory_AV(traj_biomol, traj_volume1, traj_volume2, surface_representation=False):
     """
     Create a nglview trajectory scene with donor and acceptor accessible volumes (AV)
@@ -125,6 +135,7 @@ def nglview_multimodel_ACV(biomol_filename, volume1_filename, volume2_filename):
     Returns
     -------
     view : nglview.NGLWidget
+    n_model : int
     """
     global view
     view = nglview.NGLWidget()
