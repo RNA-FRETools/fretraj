@@ -274,7 +274,14 @@ class App(QtWidgets.QMainWindow):
                 return 0
             else:
                 self.struct_original = copy.deepcopy(self.struct)
-                self.struct.remove_solvent(inplace=True)
+                NA_list = ['A','G','C','U',
+                           'RA','RG','RC','RU',
+                           'DA','DG','DC','DT', 
+                           'ATP', 'GTP', 'CTP', 'UTP',
+                           'ADP', 'GDP', 'CDP', 'UDP']
+                nucleic_str = ' or '.join([f'resn {r}' for r in NA_list])
+                idx_protein_nucleic = self.struct.top.select(f'protein or {nucleic_str}')
+                self.struct = self.struct.atom_slice(idx_protein_nucleic)
 
                 self.lineEdit_pdbFile.setText(self.fileName_pdb)
                 self.spinBox_statePDB.setMaximum(self.struct.n_frames)
@@ -294,7 +301,7 @@ class App(QtWidgets.QMainWindow):
                     cmd.load(self.fileNamePath_pdb)
                     cmd.remove('solvent or inorganic')
                     chain_startIDs = [1, *[chain.n_atoms+1 for chain in self.struct.top.chains][:-1]]
-                    self.chain_names = [cmd.get_chains('id {}'.format(i))[0] for i in chain_startIDs]
+                    self.chain_names = [cmd.get_chains('index {}'.format(i))[0] for i in chain_startIDs]
 
                     cmd.set_color('ft_blue', [51, 83, 183])
                     cmd.set_color('ft_gray', [181, 189, 197])
@@ -439,8 +446,10 @@ class App(QtWidgets.QMainWindow):
         self.deleteDistanceFromList()
         self.deleteIsosurface()
         if self.labelName != self.labelName_default:
+            todelete= self.labelName
             self.comboBox_labelName.removeItem(self.comboBox_labelName.currentIndex())
             self.lineEdit_labelName.clear()
+            self.labels['Position'].pop(todelete)
 
     def addLabelToList(self, av):
         """
@@ -648,7 +657,7 @@ class App(QtWidgets.QMainWindow):
 
     def calculateFRET(self):
         self.update_labelDict()
-        self.traj[(self.donorName, self.acceptorName)] = cloud.FRET_Trajectory(self.av[self.donorName], self.av[self.acceptorName], self.distanceName, self.labels)
+        self.traj[(self.donorName, self.acceptorName)] = cloud.FRET(self.av[self.donorName], self.av[self.acceptorName], self.distanceName, self.labels)
         self.addDistanceToList(self.traj[(self.donorName, self.acceptorName)])
         self.define_DA()
         self.traj[(self.donorName, self.acceptorName)].save_fret('{}/{}_{}_{}_fret.json'.format(self.settings['root_path'], self.fileName_pdb[:-4], self.donorName, self.acceptorName))

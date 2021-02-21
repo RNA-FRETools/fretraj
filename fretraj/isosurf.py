@@ -21,6 +21,14 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
               (increasing the b-factor is more computationally efficient than increasing the gaussian resolution)
     gaussRes : int
                Gaussian resolution; higher numbers generate smoother surfaces
+
+    Notes
+    ----
+    If a map for each ACV of a multi-model PDB file should be generated, 
+    the PDB file must be loaded with the flag discrete=1 (load as discrete objects) 
+    to allow each ACV to have different numbers of grid points.
+    (see also https://www.pymolwiki.org/index.php/Discrete_objects)
+
     """
     name_surf = name + '_isosurf'
     name_map = name + '_map'
@@ -29,7 +37,7 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
     cmd.alter(selection, bfactor_str)
     gaussRes_default = cmd.get('gaussian_resolution')
     cmd.set('gaussian_resolution', gaussRes)
-    cmd.map_new(name_map, 'gaussian', grid_spacing, selection)
+    cmd.map_new(name_map, 'gaussian', grid_spacing, selection, state=0) # choose state=-3 if all ACVs should be combined into a single map
     cmd.isosurface(name_surf, name_map, contour_level, selection, buffer=grid_buffer)
     cmd.set('gaussian_resolution', gaussRes_default)
     cmd.disable(selection)
@@ -51,5 +59,46 @@ def draw_map(name, isomap, contour_level):
     cmd.isosurface(name_surf, isomap, contour_level)
 
 
+def set_acv_style(donor_name, acceptor_name, donor_site, acceptor_site, labels, volume_type='AV', transparency=False):
+    """
+    Set a default style for the ACV clouds
+
+    Parameters
+    ----------
+    donor_name : str
+    acceptor_name : str
+    donor_site : str
+                 reference identifier for the donor labeling position
+    acceptor_site : str
+                    reference identifier for the acceptor labeling position
+    labels : dict
+             dye, linker and setup parameters for the accessible volume calculation
+    volume_type : {'AV', 'CV'}
+                  entire accessible volume or contact volume
+    transparency : bool
+                   make volume transparent
+    """
+    cmd.set_color('donor_green', [108, 179, 129])
+    cmd.set_color('acceptor_red', [194, 84, 73])
+    if volume_type == 'CV':
+        contour_level = 'contour_level_CV'
+        donor_sele = '{} and resn CV'.format(donor_name)
+        acceptor_sele = '{} and resn CV'.format(acceptor_name)
+        donor_name = donor_name+'_CV'
+        acceptor_name = acceptor_name+'_CV'
+    else:
+        contour_level = 'contour_level_AV'
+        donor_sele = donor_name
+        acceptor_sele = acceptor_name
+    smooth_map_from_xyz(donor_name, donor_sele, labels['Position'][donor_site][contour_level], labels['Position'][donor_site]['grid_spacing'], labels['Position'][donor_site]['state'])
+    smooth_map_from_xyz(acceptor_name, acceptor_sele, labels['Position'][acceptor_site][contour_level], labels['Position'][acceptor_site]['grid_spacing'], labels['Position'][acceptor_site]['state'])
+    cmd.color('donor_green', donor_name+'_isosurf')
+    cmd.color('acceptor_red', acceptor_name+'_isosurf')
+    if transparency:
+        cmd.set('transparency', 0.4, donor_name+'_isosurf')
+        cmd.set('transparency', 0.4, acceptor_name+'_isosurf')
+
+
 cmd.extend("smooth_map_from_xyz", smooth_map_from_xyz)
 cmd.extend("draw_map", draw_map)
+cmd.extend("set_acv_style", set_acv_style)

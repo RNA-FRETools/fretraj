@@ -341,7 +341,7 @@ def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None, R0=5
     mean_R_DA_E = R0 * (1 / mean_E_DA - 1)**(1 / 6)
     return mean_R_DA_E
 
-def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None, R_DA=None, R0=54, n_dist=10**6, verbose=False):
+def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None, E_DA=None, R_DA=None, R0=54, n_dist=10**6, verbose=False):
     """
     Calculate the standard deviation of the FRET averaged donor acceptor distances sigma_R_DA_E by error propagation
 

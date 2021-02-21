@@ -87,7 +87,7 @@ def parseCmd():
 
 def labeling_params(param_file):
     """
-    Parse the parameter file to get the configuration settings for acvCloud
+    Parse the parameter file to get the configuration settings
 
     Parameters
     ----------
@@ -102,7 +102,7 @@ def labeling_params(param_file):
         labels_json = json.load(f)
 
     try:
-        labels = check_labels(labels_json)
+        check_labels(labels_json)
     except KeyError as e:
         error_type = e.args[0]
         key = e.args[1]
@@ -112,7 +112,7 @@ def labeling_params(param_file):
     except TypeError as e:
         print('Wrong data type: {}'.format(e))
     else:
-        return labels
+        return labels_json
 
 
 def check_labels(labels, verbose=True):
@@ -124,9 +124,6 @@ def check_labels(labels, verbose=True):
     labels : dict
     verbose : bool
 
-    Returns
-    -------
-    labels_checked : dict
     """
     for field in _label_dict.keys():
         if field in labels.keys():
@@ -164,8 +161,7 @@ def check_labels(labels, verbose=True):
                         raise KeyError('Unrecognized key', key, pos, field)
         else:
             labels[field] = None
-            print('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
-    return {field: labels[field] for field in _label_dict.keys()}
+            raise ValueError('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
 
 
 
@@ -225,7 +221,7 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', le
 
 def save_mp_traj(filename, volume_list, units='A'):
     """
-    Save a trajectory of dye mean positions as a xyz file
+    Save a trajectory of dye mean positions as an xyz file
 
     Parameters
     ----------
@@ -235,14 +231,57 @@ def save_mp_traj(filename, volume_list, units='A'):
     units : {'A', 'nm'}
             distance units (Angstrom or nanometer)
     """
-    mps = np.array([volume_list[i].acv.mp for i in range(len(volume_list)) if hasattr(don[i].acv, 'mp')])
+    mps = np.vstack([volume_list[i].acv.mp for i in range(len(volume_list)) if hasattr(volume_list[i].acv, 'mp')])
+    mps = np.hstack((mps, np.ones((mps.shape[0], 1))))
+    mean_mp = np.mean(mps, 0)
+
+    xyz_str = export.xyz(mps, mean_mp, None)
+    with open(filename, 'w') as fname:
+        fname.write(xyz_str)
     
-    if units == 'nm':
-        mps = mps / 10
-    with open(filename, 'w') as f:
-        for i in range(len(acv_list)):
-            f.write('1\n')
-            f.write('D   {:0.3f}   {:0.3f}   {:0.3f}\n'.format(*mps[i,:]))
+
+def save_acv_traj(filename, volume_list, **kwargs):
+    """
+    Save a trajectory of ACVs as a multi model PDB
+
+    Parameters
+    ----------
+    filename : str
+    volume_list : array_like
+                  list of Volume instances
+    **kwargs
+            - include_mdp : bool
+    """
+    try:
+        include_mdp = kwargs['include_mdp']
+    except KeyError:
+        include_mdp = False
+    file_str = ''
+    for i, volume in enumerate(volume_list):
+        file_str += f'MODEL {i+1}\n'
+        file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp, volume.acv.mdp, include_mdp=include_mdp)
+        file_str += f'ENDMDL\n\n'
+    with open(filename, 'w') as fname:
+        fname.write(file_str)
+
+def save_structure_traj(filename, structure, frames, format='pdb'):
+    """
+    Save selected frames of a trajectory
+
+    Parameters
+    ----------
+    filename : str
+    structure : mdtraj.Trajectory
+                trajectory of atom coordinates loaded from a pdb, xtc or other file
+    format : str
+             trajectory file format. One of the following: 
+             'pdb': multi model PDB (default), 'xtc'
+    """
+    sliced_structure = structure.slice(frames)
+    if format=='xtc':
+        sliced_structure.save_xtc(filename)
+    else:
+        sliced_structure.save_pdb(filename)
 
 
 class ACV:
@@ -313,6 +352,7 @@ class ACV:
         else:
             self.cloud_xyzqt = cloud_xyzqt
         self.mp = Volume.mean_pos(self.cloud_xyzqt)
+        self.mdp = Volume.median_pos(self.cloud_xyzqt)
 
     def _reweight_cv(self, cv_thickness, cv_fraction):
         """
@@ -397,7 +437,7 @@ class ACV:
         return tag_1d
 
 
-class FRET_Trajectory:
+class FRET:
     """
     Parameters
     ----------
@@ -504,7 +544,7 @@ class FRET_Trajectory:
             printProgressBar(0, n_vols1)
             fret_trajectory = []
             for i in range(n_vols1):
-                fret_value = FRET_Trajectory(volume_list1[i], volume_list2[i], fret_pair, labels, R_DA)
+                fret_value = FRET(volume_list1[i], volume_list2[i], fret_pair, labels, R_DA)
                 if volume_list1[i].acv is None or volume_list2[i].acv is None:
                     print('Skip list entry {:d}'.format(i))
                 else:
@@ -534,15 +574,61 @@ class FRET_Trajectory:
         """
         Returns a dictionary of FRET parameters
         """
-        fret_results = {'R0 (A)': float('{:0.1f}'.format(self.R0)),
-                        '<R_DA> (A)': float('{:0.1f}'.format(self.mean_R_DA)),
-                        'sigma_R_DA (A)': float('{:0.1f}'.format(self.sigma_R_DA)),
-                        '<E_DA>': float('{:0.2f}'.format(self.mean_E_DA)),
-                        '<R_DA_E> (A)': float('{:0.1f}'.format(self.mean_R_DA_E)),
-                        'R_attach (A)': float('{:0.1f}'.format(self.R_attach)),
-                        'R_mp (A)': float('{:0.1f}'.format(self.R_mp))}
+        fret_results = {'R0 (A)': (float(f'{self.R0 :0.1f}'), np.nan),
+                        '<R_DA> (A)': (float(f'{self.mean_R_DA :0.1f}'), float(f'{self.sigma_R_DA :0.1f}')),
+                        '<E_DA>': (float(f'{self.mean_E_DA :0.2f}'), float(f'{self.sigma_E_DA :0.2f}')),
+                        '<R_DA_E> (A)': (float(f'{self.mean_R_DA_E :0.1f}'), float(f'{self.sigma_R_DA_E :0.1f}')),
+                        'R_attach (A)': (float(f'{self.R_attach :0.1f}'), np.nan),
+                        'R_mp (A)': (float(f'{self.R_mp :0.1f}'), np.nan)}
+        if _pandas_found:
+            fret_results = pd.DataFrame(fret_results, index=['value', 'std'])
         return fret_results
 
+class Trajectory:
+    """
+    Parameters
+    ----------
+    fret : instance of the FRET class
+    timestep : int
+               time difference between two frames in picoseconds
+    """
+    def __init__(self, fret, timestep=None):
+        n = len(fret)
+        self.mean_E_DA = np.array([fret[i].mean_E_DA for i in range(n) if hasattr(fret[i], 'mean_E_DA')]).round(2)
+        self.mean_R_DA = np.array([fret[i].mean_R_DA for i in range(n) if hasattr(fret[i], 'mean_R_DA')]).round(1)
+        self.mean_R_DA_E = np.array([fret[i].mean_R_DA_E for i in range(n) if hasattr(fret[i], 'mean_R_DA_E')]).round(1)
+        self.R_attach = np.array([fret[i].R_attach for i in range(n) if hasattr(fret[i], 'R_attach')]).round(1)
+        self.R_mp = np.array([fret[i].R_mp for i in range(n) if hasattr(fret[i], 'R_mp')]).round(1)
+        self.timestep = timestep
+
+    @property
+    def dataframe(self):
+        """
+        Dataframe view of the Trajectory object
+
+        Returns
+        -------
+        df : pandas dataframe
+        """
+        if not _pandas_found:
+            print('Pandas is not installed')
+        else:
+            df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp), 
+                                  index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
+            if self.timestep:
+                df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
+            return df
+
+    def save_traj(self, filename):
+        """
+        Save the trajectory as a .csv file
+
+        Parameters
+        ----------
+        filename : str
+        """
+        with open(filename, 'w') as f:
+            f.write(self.dataframe.to_csv(index=False))
 
 
 class Volume:
@@ -658,11 +744,13 @@ class Volume:
                                 self.acv = None
                             else:
                                 self.acv = self.calc_acv(self.use_LabelLib)
+
+        elif cloud_xyzqt is not None:
+            self.acv = ACV(cloud_xyzqt=cloud_xyzqt)
         else:
             print('Attachment point is unknown')
 
-        if cloud_xyzqt is not None:
-            self.acv = ACV(cloud_xyzqt=cloud_xyzqt)
+        
 
     @classmethod
     def from_frames(cls, structure, site, labels, frames_mdtraj):
@@ -786,7 +874,7 @@ class Volume:
         --------
 
         >>> grid = numpy.full(27,1)
-        >>> ft.Volume.reshape_grid(grid, (3,3,3))
+        >>> ft.cloud.Volume.reshape_grid(grid, (3,3,3))
         array([[[1., 1., 1.],
                 [1., 1., 1.],
                 [1., 1., 1.]],
@@ -813,7 +901,6 @@ class Volume:
                   origin coordinates of the grid
         d_xyz : list
                 grid spacing in x-,y- and z-direction
-
         Returns
         -------
         cloud_xyzqt : ndarray
@@ -826,14 +913,14 @@ class Volume:
         >>> grid_3d = numpy.zeros((3,3,3))
         >>> grid_3d[(1,1,1)] = 1   # FV
         >>> grid_3d[(1,2,1)] = 10  # CV
-        >>> ft.Volume.grid2pts(grid_3d, xyz_min=[0,0,0], d_xyz=[1,1,1])
+        >>> ft.cloud.Volume.grid2pts(grid_3d, [0,0,0], [1,1,1])
         array([[ 0.5,  0.5,  0.5,  1.  1],
                [ 0.5,  1. ,  0.5, 10.  1]])
 
         >>> tag_3d = numpy.zeros((3,3,3))
         >>> grid_3d[(1,1,1)] = 1   # FV
         >>> grid_3d[(1,1,1)] = 2   # CV
-        >>> ft.Volume.grid2pts(grid_3d, xyz_min=[0,0,0], d_xyz=[1,1,1], tag_3d)
+        >>> ft.cloud.Volume.grid2pts(grid_3d, [0,0,0], [1,1,1], tag_3d)
         array([[ 0.5,  0.5,  0.5,  1.  1],
                [ 0.5,  1. ,  0.5, 10.  2]])
 
@@ -886,21 +973,25 @@ class Volume:
         """
         frame_mdtraj = self.frame_mdtraj
         struct = self.structure
-
-        radii = np.array([VDW_RADIUS[atom.element.symbol] / 100 for atom in struct.top.atoms], ndmin=2).T
-        radii[self.attach_id_mdtraj] = 0.0
         try:
-            sele = struct.top.select(self.mol_selection)
-        except ValueError:
-            print('{} is not a valid expression, please see http://mdtraj.org/latest/atom_selection.html'.format(self.mol_selection))
-            print('Falling back to \"all\"')
-            sele = struct.top.select('all')
-        finally:
-            if self.attach_id_mdtraj not in sele:
-                np.append(sele, self.attach_id_mdtraj)
-            xyz = struct.xyz[frame_mdtraj] * 10
-            xyzr = np.hstack((xyz[sele], radii[sele]))
-            return xyzr
+            radii = np.array([VDW_RADIUS[atom.element.symbol] / 100 for atom in struct.top.atoms], ndmin=2).T
+        except KeyError as e:
+            print(f'Atom symbol {e} in topology not recognized')
+            raise
+        else:
+            radii[self.attach_id_mdtraj] = 0.0
+            try:
+                sele = struct.top.select(self.mol_selection)
+            except ValueError:
+                print('{} is not a valid expression, please see http://mdtraj.org/latest/atom_selection.html'.format(self.mol_selection))
+                print('Falling back to \"all\"')
+                sele = struct.top.select('all')
+            finally:
+                if self.attach_id_mdtraj not in sele:
+                    np.append(sele, self.attach_id_mdtraj)
+                xyz = struct.xyz[frame_mdtraj] * 10
+                xyzr = np.hstack((xyz[sele], radii[sele]))
+                return xyzr
 
     @property
     def attach_xyz(self):
@@ -949,13 +1040,21 @@ class Volume:
                 encode_element = kwargs['encode_element']
             except KeyError:
                 encode_element = False
-            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, write_weights, encode_element)
+            try:
+                include_mdp = kwargs['include_mdp']
+            except KeyError:
+                include_mdp = False
+            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, self.acv.mdp, write_weights, encode_element, include_mdp)
         elif format == 'open_dx':
             d_xyz = [self.grid_spacing] * 3
             xyz_min = self.acv.originXYZ
             file_str = export.open_dx(self.acv.grid_3d, xyz_min, d_xyz)
         else:
-            file_str = export.pdb(self.acv.cloud_xyzqt, self.acv.mp)
+            try:
+                include_mdp = kwargs['include_mdp']
+            except KeyError:
+                include_mdp = False
+            file_str = export.pdb(self.acv.cloud_xyzqt, self.acv.mp, self.acv.mdp, include_mdp=include_mdp)
         with open(filename, 'w') as fname:
             fname.write(file_str)
 
@@ -1086,6 +1185,51 @@ class Volume:
         z = np.dot(cloud_xyzqt[:, 2], cloud_xyzqt[:, 3])
         mp = np.array((x, y, z)) / cloud_xyzqt[:, 3].sum()
         return mp
+
+    @staticmethod
+    def median_pos(cloud_xyzqt):
+        """
+        Calculate median dye position in accessible contact volume
+
+        Parameters
+        ----------
+        cloud_xyzq : ndarray
+                     array of x-,y-,z-coordinates and corresponding weights
+                     with a shape [n_gridpts(+), 4]
+
+        Returns
+        -------
+        mdp : ndarray
+              median position
+        """
+        quantile = 0.5
+        mdp = np.apply_along_axis(Volume._weighted_quantile_1D, 0, cloud_xyzqt[:, 0:3], cloud_xyzqt[:, 3], quantile)
+        return mdp
+
+    @staticmethod
+    def _weighted_quantile_1D(arr_1D, weights, quantile):
+        """
+        Compute the weighted quantile of a 1D-array
+
+        Parameters
+        ----------
+        data : ndarray
+        weights : ndarray
+        quantile : float
+        
+        Returns
+        -------
+        quantile : float
+        """
+        if ((quantile > 1) or (quantile < 0)):
+            raise ValueError('Quantiles must be in the range [0, 1]')
+
+        idx_sorted = np.argsort(arr_1D)
+        arr_1D_sorted = arr_1D[idx_sorted]
+        weights_sorted = weights[idx_sorted]
+        weights_cs = np.cumsum(weights_sorted)
+        xp = (weights_cs - (1-quantile)*weights_sorted) / weights_cs[-1]
+        return np.interp(quantile, xp, arr_1D_sorted)
 
 
     def save_mp(self, filename, format='plain', units='A'):
