@@ -1,28 +1,30 @@
-"""
-FRETraj PyMOL Plugin 
+try:
+    import importlib.metadata as ilm # Python >=3.8
+except ModuleNotFoundError:
+    import importlib_metadata as ilm # Python 3.7
 
-Calculate accessible contact volumes and predict FRET efficiencies
+metadata = ilm.metadata('fretraj')
 
-(c) Fabio Steffen, University of Zurich, 2020
-"""
-
-from .__about__ import __version__, __author__ 
+__version__ = metadata['Version']
+__author__ = metadata['Author']
+__keywords__ = metadata['Keywords']
+__license__ = metadata['License']
 
 from . import cloud
 from . import export
 from . import fret
 from . import grid
 from . import restraints
+from . import gui
 
 # Import modules that are not strictly required to run FRETraj from the command line 
-# (without the PyMOL GUI) and are therefore not listed as installation dependencies in setup.py
+# (without the PyMOL GUI) and are therefore listed as optional installation dependencies pyproject.toml 
 # They provide visualization functionalities for Jupyter notebooks (nglview) and PyMOL 
 try:
     import pymol.cmd
 except ModuleNotFoundError:
-    print('Pymol is not installed. Submodules fretraj.gui and fretraj.isosurf will not be imported.')
+    print('Pymol is not installed. Submodules fretraj.isosurf will not be imported.')
 else:
-    from . import gui
     from . import isosurf
 
 try:
@@ -36,23 +38,3 @@ else:
         print('ipywidgets is not installed. Submodule fretraj.jupyter will not be imported.')
     else:
         from . import jupyter
-
-dialog = None
-
-
-def __init_plugin__(app=None):
-    """
-    Add FRETraj plugin to the Plugins Menu
-    """
-    from pymol.plugins import addmenuitemqt
-    addmenuitemqt('FRETraj', run_plugin_gui)
-
-
-def run_plugin_gui():
-    """
-    Create the GUI Window
-    """
-    global dialog
-    if dialog is None:
-        dialog = gui.App(_pymol_running=True) # noqa: F821
-    dialog.show()

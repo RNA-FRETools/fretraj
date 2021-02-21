@@ -23,23 +23,14 @@ except ModuleNotFoundError:
 else:
     _LabelLib_found = True
 
-try:
-    from fretraj import export
-    from fretraj import fret
-    from fretraj import grid
-except ImportError: # for PyMOL plugin
-    from . import export
-    from . import fret
-    from . import grid
-
+from fretraj import export
+from fretraj import fret
+from fretraj import grid
+from fretraj import metadata
 
 DISTANCE_SAMPLES = 200000
 
 package_directory = os.path.dirname(os.path.abspath(__file__))
-
-about = {}
-with open(os.path.join(package_directory, '__about__.py')) as a:
-    exec(a.read(), about)
 
 with open(os.path.join(package_directory, 'periodic_table.json')) as f:
     _periodic_table = json.load(f)
@@ -87,7 +78,7 @@ def parseCmd():
         description='compute accessible-contact clouds for \
                      an MD trajectory or a given PDB structure')
     parser.add_argument('--version', action='version',
-                        version='%(prog)s ' + str(about["__version__"]))
+                        version='%(prog)s ' + str(metadata['Version']))
     parser.add_argument('-i', '--input', help='Input PDB structure (.pdb)', required=True)
     parser.add_argument('-p', '--parameters',
                         help='Parameter file (.json)', required=True)
@@ -1456,35 +1447,8 @@ class Volume:
             else:
                 f.write('{:0.3f}   {:0.3f}   {:0.3f}\n'.format(*mp))
 
-    def save_mdp(self, filename, format='plain', units='A'):
-        """
-        Write median dye position to file
 
-        Parameters
-        ----------
-        filename : str
-        format : ndarray
-                 mean position
-        units : str 
-                distance units ('A': Angstroms, 'nm': nanometers)
-
-        Examples
-        --------
-        >>> avobj.save_mdp('mp.dat')
-        
-        """
-        if units == 'nm':
-            mdp = self.acv.mdp / 10
-        else:
-            mdp = self.acv.mdp
-        with open(filename, 'w') as f:
-            if format == 'json':
-                mdp_dict = {'x':round(mdp[0],3), 'y':round(mdp[1],3), 'z':round(mdp[2],3)}
-                json.dump(mdp_dict, f)
-            else:
-                f.write('{:0.3f}   {:0.3f}   {:0.3f}\n'.format(*mdp))
-
-if __name__ == "__main__":
+def main():
     in_filePDB, param_fileJSON, out_fileACV, out_fileDist = parseCmd()
     labels = labeling_params(param_fileJSON)
     struct = md.load_pdb(in_filePDB)
@@ -1493,3 +1457,6 @@ if __name__ == "__main__":
     if out_fileACV:
         out_filenameACV, out_fileextACV = os.path.splitext(out_fileACV)
         av.save_acv(out_fileACV, format=out_fileextACV[1:])
+
+if __name__ == "__main__":
+    main()

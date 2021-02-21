@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "fretraj"
+version = "0.1.0"
+description = "Predicting FRET with accessible-contact volumes"
+authors = [
+    "Fabio Steffen <fabio.steffen@chem.uzh.ch>", 
+    "Roland K.O. Sigel <roland.sigel@chem.uzh.ch>", 
+    "Richard Börner <richard.boerner@hs-mittweida.de>"]
+maintainers = ["Fabio Steffen <fabio.steffen@chem.uzh.ch>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+homepage = "https://rna-fretools.github.io/"
+repository = "https://github.com/RNA-FRETools/fretraj"
+documentation = "https://rna-fretools.github.io/fretraj/"
+keywords = ["FRET", "single-molecule", "molecular dynamics", "PDB", "structure prediction"]
+classifiers = [
+    "Programming Language :: Python",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+    "Framework :: Jupyter",
+    "Topic :: Scientific/Engineering :: Bio-Informatics"
+]
+include = ["CHANGELOG.md", "skripts", "tests"]
+exclude = ["docs"]
+
+
+[tool.poetry.dependencies]
+python = "^3.7"
+mdtraj = "^1.9.5"
+numpy = "^1.20.1"
+numba = "<=0.50"
+PyQt5 = "^5.15.2"
+labellib = {git = "https://github.com/fdsteffen/LabelLib", rev = "src-neighbour-nodes", optional = true}
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.2"
+
+
+[tool.poetry.scripts]
+fretraj = "fretraj.cloud:main"
+fretraj_gui = "fretraj.gui:main"
+pymol_vis = "skripts.console:pymol_vis"
+vmd_vis = "skripts.console:vmd_vis"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
