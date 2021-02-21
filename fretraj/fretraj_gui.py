@@ -1,7 +1,14 @@
+"""
+FRETraj PyMOL Plugin 
+
+Calculate accessible contact volumes and predict FRET efficiencies
+
+(c) Fabio Steffen, University of Zurich, 2020-2021
+"""
+
 import sys
 import os
-from pymol import cmd
-from pymol.Qt import QtWidgets, utils, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui, uic
 import mdtraj as md
 import json
 import copy
@@ -9,17 +16,13 @@ import webbrowser
 import re
 import functools
 import string
+import datetime
 
-try: 
-    from fretraj import cloud
-    from fretraj import isosurf
-    from fretraj import export
-    from fretraj import fret
-except ModuleNotFoundError: # for PyMOL Plugin
-    from . import cloud
-    from . import isosurf
-    from . import export
-    from . import fret
+from fretraj import cloud
+from fretraj import export
+from fretraj import fret
+from fretraj import metadata
+
 try:
     import LabelLib as ll
 except ModuleNotFoundError:
@@ -27,34 +30,60 @@ except ModuleNotFoundError:
 else:
     _LabelLib_found = True
 
-# class App(QtWidgets.QWidget):
-package_directory = os.path.dirname(os.path.abspath(__file__))
+package_directory = os.path.dirname(os.path.abspath(cloud.__file__))
 
-about = {}
-with open(os.path.join(package_directory, '__about__.py')) as a:
-    exec(a.read(), about)
+
+try:
+    import pymol.cmd
+except ModuleNotFoundError:
+    print('Pymol is not installed. Submodule fretraj.isosurf will not be imported.')
+else:
+    from fretraj import isosurf
+
+
+dialog = None
+
+def __init_plugin__(app=None):
+    """
+    Add FRETraj plugin to the Plugins Menu
+    """
+    from pymol.plugins import addmenuitemqt
+    addmenuitemqt('FRETraj', run_plugin_gui)
+
+
+def run_plugin_gui():
+    """
+    Create the GUI Window
+    """
+    global dialog
+    if dialog is None:
+        dialog = App(_pymol_running=True)
+    dialog.show()
 
 
 class App(QtWidgets.QMainWindow):
 
     def __init__(self, _pymol_running=False, *args, **kwargs):
+        if _pymol_running:
+            from pymol import cmd
+            from fretraj import isosurf
         super().__init__(*args, **kwargs)
         self.uiIcon = os.path.join(package_directory, 'UI', 'icon.png')
         self.exampleDataPath = os.path.join(package_directory, 'examples')
         fretrajUI = os.path.join(package_directory, 'UI', 'fretraj.ui')
         self.settingsUI = os.path.join(package_directory, 'UI', 'settings.ui')
         self.textUI = os.path.join(package_directory, 'UI','textpad.ui')
-        utils.loadUi(fretrajUI, self)
+        uic.loadUi(fretrajUI, self)
         self.setWindowTitle("FRETraj")
-        self.setWindowIcon(utils.QtGui.QIcon(self.uiIcon))
+        self.setWindowIcon(QtGui.QIcon(self.uiIcon))
         self._pymol_running = _pymol_running
         self.statusBar().showMessage("Ready", 2000)
         self.readTheDocsURL = None
         self.settingsWindow = QtWidgets.QDialog(self)
-        utils.loadUi(self.settingsUI, self.settingsWindow)
+        uic.loadUi(self.settingsUI, self.settingsWindow)
         self.settingsWindow.setWindowTitle("FRETraj - Settings")
         self.textWindow = QtWidgets.QDialog(self)
-        utils.loadUi(self.textUI, self.textWindow)
+        uic.loadUi(self.textUI, self.textWindow)
         
 
         # initialize labels dictionary with defaults from GUI
@@ -528,11 +557,11 @@ class App(QtWidgets.QMainWindow):
         self.update_labelDict()
         for i in range(self.tableWidget_MeanPos.rowCount()):
             for j in range(self.tableWidget_MeanPos.columnCount()):
-                self.tableWidget_MeanPos.item(i, j).setBackground(utils.QtGui.QColor(255, 255, 255))
+                self.tableWidget_MeanPos.item(i, j).setBackground(QtGui.QColor(255, 255, 255))
 
         for i in range(self.tableWidget_FRET.rowCount()):
             for j in range(self.tableWidget_FRET.columnCount()):
-                self.tableWidget_FRET.item(i, j).setBackground(utils.QtGui.QColor(255, 255, 255))
+                self.tableWidget_FRET.item(i, j).setBackground(QtGui.QColor(255, 255, 255))
 
         if self.tableWidget_MeanPos.rowCount() > 1:
             if self.donorName == self.acceptorName:
@@ -544,14 +573,14 @@ class App(QtWidgets.QMainWindow):
                 row_don = self.tableWidget_MeanPos.findItems(self.donorName, QtCore.Qt.MatchExactly)[0].row()
                 row_acc = self.tableWidget_MeanPos.findItems(self.acceptorName, QtCore.Qt.MatchExactly)[0].row()
                 for j in range(self.tableWidget_MeanPos.columnCount()):
-                    self.tableWidget_MeanPos.item(row_don, j).setBackground(utils.QtGui.QColor(108, 179, 129))
-                    self.tableWidget_MeanPos.item(row_acc, j).setBackground(utils.QtGui.QColor(194, 84, 73))
+                    self.tableWidget_MeanPos.item(row_don, j).setBackground(QtGui.QColor(108, 179, 129))
+                    self.tableWidget_MeanPos.item(row_acc, j).setBackground(QtGui.QColor(194, 84, 73))
 
                 DA = '{} -> {}'.format(self.donorName, self.acceptorName)
                 for r in range(self.tableWidget_FRET.rowCount()):
                     if DA in self.tableWidget_FRET.item(r, 0).text():
                         for j in range(self.tableWidget_FRET.columnCount()):
-                            self.tableWidget_FRET.item(r, j).setBackground(utils.QtGui.QColor(200, 200, 200))
+                            self.tableWidget_FRET.item(r, j).setBackground(QtGui.QColor(200, 200, 200))
                         break
 
                 if self._pymol_running:
@@ -749,10 +778,11 @@ class App(QtWidgets.QMainWindow):
         Open About Window
         """
         msg = QtWidgets.QMessageBox()
-        pixmap = utils.QtGui.QPixmap(self.uiIcon)
+        pixmap = QtGui.QPixmap(self.uiIcon)
         msg.setIconPixmap(pixmap.scaledToWidth(64))
         msg.setWindowTitle("About FRETraj")
-        msg.setText('{} {}\n\n{}\n\n(C) {}'.format(about['__title__'], str(about['__version__']), about['__description__'], about['__copyright__']))
+        current_year = datetime.datetime.now().year
+        msg.setText(f"{metadata['Name']} {metadata['Version']}\n\n{metadata['Summary']}\n\nUniversity of Zurich, 2020-{current_year}")
         msg.exec_()
 
     def openExample(self, name, fileformat):
@@ -819,8 +849,11 @@ class App(QtWidgets.QMainWindow):
         msg.exec_()
 
 
-if __name__ == '__main__':
+def main():
     app = QtWidgets.QApplication(sys.argv)
     window = App()
     window.show()
     app.exec_()
+
+if __name__ == '__main__':
+    main()

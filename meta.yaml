@@ -1,0 +1,45 @@
+{% set name = "lifefit" %}
+{% set version = "1.0.4" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: 8d34b3c3bdfba34658c4b4255f1c2e7e2899cc7652bfb1bf9a7403ba406a6327
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - numpy
+    - pip
+    - python
+    - scipy
+    - uncertainties
+  run:
+    - numpy
+    - python
+    - scipy
+    - uncertainties
+
+test:
+  imports:
+    - lifefit
+    - tests
+
+about:
+  home: "https://github.com/fdsteffen/lifefit"
+  license: MIT
+  license_family: MIT
+  license_file: 
+  summary: "Reconvolution fitting of TCSPC histograms"
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here
