@@ -101,8 +101,9 @@ class App(QtWidgets.QMainWindow):
         # set root path
         root_err = 'No root directory specified. FRETraj is not initialized.'
         self.settings = {'root_path': None, 'browser': None, 'local_docs': None}
-        if os.path.isfile('{}/.fretraj_settings.conf'.format(package_directory)):
-            with open('{}/.fretraj_settings.conf'.format(package_directory), 'r') as f:
+        self.settings_file = '{}/.fretraj_settings.json'.format(package_directory)
+        if os.path.isfile(self.settings_file):
+            with open(self.settings_file, 'r') as f:
                 self.settings = json.load(f)
                 if os.path.isdir(self.settings['root_path']):
                     self.lineEdit_rootDirectory.setText(self.settings['root_path'])
@@ -726,7 +727,7 @@ class App(QtWidgets.QMainWindow):
             self.lineEdit_rootDirectory.setText(rootDir)
             self.settingsWindow.lineEdit_rootDirectory.setText(rootDir)
             self.settings['root_path'] = re.escape(rootDir)
-            with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+            with open(self.settings_file, 'w') as f:
                 json.dump(self.settings, f, indent=2)
 
     def set_browser(self):
@@ -734,7 +735,7 @@ class App(QtWidgets.QMainWindow):
         if browser_path:
             self.settingsWindow.lineEdit_browser.setText(browser_path)
             self.settings['browser'] = re.escape(browser_path)
-            with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+            with open(self.settings_file, 'w') as f:
                 json.dump(self.settings, f, indent=2)
 
     def set_localdocsDir(self):
@@ -742,7 +743,7 @@ class App(QtWidgets.QMainWindow):
         if docs_path:
             self.settingsWindow.lineEdit_localdocs.setText(docs_path)
             self.settings['local_docs'] = re.escape(docs_path)
-            with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+            with open(self.settings_file, 'w') as f:
                 json.dump(self.settings, f, indent=2)
 
     def openDocumentation(self):
@@ -774,12 +775,12 @@ class App(QtWidgets.QMainWindow):
             except webbrowser.Error:
                 self.settings['browser'] = None
                 print('Browser not found!')
-                with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+                with open(self.settings_file, 'w') as f:
                     json.dump(self.settings, f, indent=2)
             except FileNotFoundError:
                 self.settings['local_docs'] = None
                 print('Local docs not found!')
-                with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+                with open(self.settings_file, 'w') as f:
                     json.dump(self.settings, f, indent=2)
 
     def openAbout(self):
@@ -791,7 +792,7 @@ class App(QtWidgets.QMainWindow):
         msg.setIconPixmap(pixmap.scaledToWidth(64))
         msg.setWindowTitle("About FRETraj")
         current_year = datetime.datetime.now().year
-        msg.setText(f"{metadata['Name']} {metadata['Version']}\n\n{metadata['Summary']}\n\nUniversity of Zurich, 2020-{current_year}")
+        msg.setText(f"{metadata['Name']} {metadata['Version']}\n{metadata['Summary']}\n\n(C) {metadata['Author']}\nUniversity of Zurich, 2020-{current_year}")
         msg.exec_()
 
     def openExample(self, name, fileformat):
@@ -839,7 +840,7 @@ class App(QtWidgets.QMainWindow):
             self.settings['browser'] = self.settingsWindow.lineEdit_browser.text()
             self.settings['local_docs'] = self.settingsWindow.lineEdit_localdocs.text()
             self.lineEdit_rootDirectory.setText(self.settings['root_path'])
-            with open('{}/.fretraj_settings.conf'.format(package_directory), 'w') as f:
+            with open(self.settings_file, 'w') as f:
                 json.dump(self.settings, f, indent=2)
 
     def openPDBFile(self):
