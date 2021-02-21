@@ -14,24 +14,25 @@
 #
 import os
 import sys
+import datetime
 sys.path.insert(0, os.path.abspath('../../'))
 os.environ['PYTHONPATH'] = ':'.join((os.path.abspath('../..'), os.environ.get('PYTHONPATH', '')))
 
 # -- Project information -----------------------------------------------------
 
-
-
 # The full version, including alpha/beta/rc tags
-about = {}
-with open('../../fretraj/__about__.py') as a:
-    exec(a.read(), about)
+try:
+    import importlib.metadata as ilm # Python >=3.8
+except ModuleNotFoundError:
+    import importlib_metadata as ilm # Python 3.7
 
-release = about['__version__']
+metadata = ilm.metadata('fretraj')
 
-project = 'FRETraj'
-copyright = '2020, Fabio D. Steffen'
-author = 'Fabio D. Steffen'
-
+project = metadata['Name']
+version = metadata['Version']
+author = metadata['Author']
+current_year = datetime.datetime.now().year
+copyright = f"2020-{current_year}, {metadata['Author']}"
 
 # -- General configuration ---------------------------------------------------
 

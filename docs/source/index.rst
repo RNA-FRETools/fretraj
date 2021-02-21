@@ -16,9 +16,6 @@
    :caption: Tutorials
    :hidden:
 
-   tutorial/single/accessible_contact_volume
-   tutorial/trajectory/multiple_ACV
-   tutorial/restraints/FRET_restraints
    pymol_plugin
 
 .. toctree::
@@ -29,7 +26,6 @@
    module_grid
    module_cloud
    module_fret
-   module_restraints
    module_utilities
 
 .. toctree::

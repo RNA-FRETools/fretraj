@@ -1,0 +1,35 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.1.0
+      - name: Read Changelog
+        id: readlog
+        run: |
+             echo "Extract text between the first and second [x.y.z] pattern"
+             lines=(`grep -n \[[0-9]\.[0-9]\.[0-9]\] $GITHUB_WORKSPACE/CHANGELOG.md | cut -f1 -d:`)
+             start=`echo ${lines[0]}+1 | bc`
+             if [ -z ${lines[1]} ]; then end=$; else end=`echo ${lines[0]}+1 | bc`; fi
+             log=`sed -n "$start,$end p" $GITHUB_WORKSPACE/CHANGELOG.md`
+             log="${log//'%'/'%25'}"
+             log="${log//$'\n'/'%0A'}"
+             log="${log//$'\r'/'%0D'}"
+             echo "::set-output name=changelog::$log"
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ${{ steps.readlog.outputs.changelog }}
+          draft: false
+          prerelease: false
