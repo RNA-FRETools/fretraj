@@ -30,16 +30,14 @@ except ModuleNotFoundError:
 else:
     _LabelLib_found = True
 
-package_directory = os.path.dirname(os.path.abspath(cloud.__file__))
-
-
 try:
-    import pymol.cmd
+    from pymol import cmd
 except ModuleNotFoundError:
     print('Pymol is not installed. Submodule fretraj.isosurf will not be imported.')
 else:
     from fretraj import isosurf
 
+package_directory = os.path.dirname(os.path.abspath(cloud.__file__))
 
 dialog = None
 
@@ -57,16 +55,13 @@ def run_plugin_gui():
     """
     global dialog
     if dialog is None:
-        dialog = App(_pymol_running=True)
+        dialog = App(_pymol_running=True)    
     dialog.show()
 
 
 class App(QtWidgets.QMainWindow):
 
     def __init__(self, _pymol_running=False, *args, **kwargs):
-        if _pymol_running:
-            from pymol import cmd
-            from fretraj import isosurf
         super().__init__(*args, **kwargs)
         self.uiIcon = os.path.join(package_directory, 'UI', 'icon.png')
         self.exampleDataPath = os.path.join(package_directory, 'examples')

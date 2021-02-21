@@ -3,7 +3,10 @@ try:
 except ModuleNotFoundError:
     import importlib_metadata as ilm # Python 3.7
 
-metadata = ilm.metadata('fretraj')
+try:
+    metadata = ilm.metadata('fretraj')
+except ilm.PackageNotFoundError:
+    print('FRETraj is not installed yet.')
 
 __version__ = metadata['Version']
 __author__ = metadata['Author']

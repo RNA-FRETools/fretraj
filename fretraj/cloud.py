@@ -519,7 +519,7 @@ class FRET:
     @classmethod
     def from_volumes(cls, volume_list1, volume_list2, fret_pair, labels, R_DA=None):
         """
-        Alternative constructor for the ft.cloud.FRET_Trajectory class by reading in a list of donor and acceptor volumes
+        Alternative constructor for the ft.cloud.FRET class by reading in a list of donor and acceptor volumes
         
         Parameters
         ----------
