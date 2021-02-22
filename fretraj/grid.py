@@ -135,8 +135,12 @@ class Grid3D:
         outDistSq = (self.halfCubeLength + maxVdW_extraClash)**2
         distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
 
-        grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq,
-                                            outDistSq, self.originAdj, self.shape, self.discStep)
+        print(type(outDistSq))
+        print(type(self.originAdj))
+        print(type(self.shape))
+        print(type(self.discStep))
+        grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, self.originAdj, self.shape, self.discStep)
+        
         return grid_3d
 
     @staticmethod
