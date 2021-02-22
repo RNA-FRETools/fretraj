@@ -3,14 +3,14 @@ import numpy as np
 import numba as nb
 import heapq
 import packaging.version
-import warnings
+
+# Note: Reflected lists are deprecated in numba >=0.51. Typed lists are available from numba >=0.45.
+# The heapq used for the priority queue in the Dijkstra algorithm does not accept typed list though (numba issue #4926).
+# Thus, the Numba version needs to be pinned. Numba <=0.50 issues scheduled deprecation warnings
+# but does run the Dijkstra implementation in nopython mode with Python 3.7 and 3.8 (not 3.9, numba issue #6345).
+# Numba 0.50 requires numpy<1.20 (numba issue #6041)
 
 _hasTypedList = packaging.version.parse(nb.__version__) >= packaging.version.parse('0.45.0')
-
-if not _hasTypedList:
-    if packaging.version.parse(nb.__version__) >= packaging.version.parse('0.44.0'):
-        warnings.simplefilter('ignore', category=nb.errors.NumbaDeprecationWarning)
-        warnings.simplefilter('ignore', category=nb.errors.NumbaPendingDeprecationWarning)
 
 _dist_list = np.sqrt(np.array([1, 2, 3, 5, 6]))  # reduction to 74 neighbors
 
@@ -132,7 +132,7 @@ class Grid3D:
         else:
             neighbor_list = self.sortedNeighborIdx(maxVdW_extraClash)
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
-        outDistSq = float((self.halfCubeLength + maxVdW_extraClash)**2)
+        outDistSq = (self.halfCubeLength + maxVdW_extraClash)**2
         distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
         grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq,
                                             outDistSq, self.shape)
@@ -284,9 +284,6 @@ class Grid3D:
                 idxs_ess.append(e)
         return idxs_ess
 
-    # Note: # dijkstra cannot run in nopython mode on numba >=0.45 since heapq for typed list is not yet supported
-    # Solution: tie numba to version < 0.45 until heapq for typed list is properly implemented
-    # the jit nopython mode speeds up the calculation significantly
     @staticmethod
     @nb.jit(nopython=True)
     def dijkstra(grid_3d, edges_ess, edges_src, priority_queue, start_ijk):

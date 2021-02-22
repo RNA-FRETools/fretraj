@@ -25,11 +25,11 @@ exclude = ["docs"]
 
 
 [tool.poetry.dependencies]
-python = "^3.7.1"
+python = ">=3.7.1,<3.9"
 mdtraj = "^1.9.5"
-numpy = "^1.20.1"
+numpy = "<1.20.0"
 pandas = "^1.2.2"
-numba = "<=0.50"
+numba = "<=0.50.1"
 PyQt5 = "^5.15.2"
 labellib = {git = "https://github.com/fdsteffen/LabelLib", rev = "src-neighbour-nodes", optional = true}
 
