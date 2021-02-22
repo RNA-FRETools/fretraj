@@ -36,6 +36,7 @@ labellib = {git = "https://github.com/fdsteffen/LabelLib", rev = "src-neighbour-
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
+pytest-cov = "^2.11.1"
 
 
 [tool.poetry.scripts]
