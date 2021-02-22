@@ -5,7 +5,7 @@ from pymol import cmd
 
 def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=100, gaussRes=3, grid_buffer=2):
     """
-    Creates a map object from a selection with xyz coordinates (e.g. a PDB or XYZ object) 
+    Creates a map object from a selection with xyz coordinates (e.g. a PDB or XYZ object)
     and draws a smooth isosurface at the specified contour level.
 
     Parameters
@@ -17,15 +17,15 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
     contour_level : float
     grid_spacing : float
     bfactor : int
-              temperature factor; higher numbers generates smoother surfaces 
+              temperature factor; higher numbers generates smoother surfaces
               (increasing the b-factor is more computationally efficient than increasing the gaussian resolution)
     gaussRes : int
                Gaussian resolution; higher numbers generate smoother surfaces
 
     Notes
     ----
-    If a map for each ACV of a multi-model PDB file should be generated, 
-    the PDB file must be loaded with the flag discrete=1 (load as discrete objects) 
+    If a map for each ACV of a multi-model PDB file should be generated,
+    the PDB file must be loaded with the flag discrete=1 (load as discrete objects
     to allow each ACV to have different numbers of grid points.
     (see also https://www.pymolwiki.org/index.php/Discrete_objects)
 
@@ -37,7 +37,8 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
     cmd.alter(selection, bfactor_str)
     gaussRes_default = cmd.get('gaussian_resolution')
     cmd.set('gaussian_resolution', gaussRes)
-    cmd.map_new(name_map, 'gaussian', grid_spacing, selection, state=0) # choose state=-3 if all ACVs should be combined into a single map
+    # Note: choose state=-3 if all ACVs should be combined into a single map
+    cmd.map_new(name_map, 'gaussian', grid_spacing, selection, state=0)
     cmd.isosurface(name_surf, name_map, contour_level, selection, buffer=grid_buffer)
     cmd.set('gaussian_resolution', gaussRes_default)
     cmd.disable(selection)
@@ -90,8 +91,10 @@ def set_acv_style(donor_name, acceptor_name, donor_site, acceptor_site, labels, 
         contour_level = 'contour_level_AV'
         donor_sele = donor_name
         acceptor_sele = acceptor_name
-    smooth_map_from_xyz(donor_name, donor_sele, labels['Position'][donor_site][contour_level], labels['Position'][donor_site]['grid_spacing'], labels['Position'][donor_site]['state'])
-    smooth_map_from_xyz(acceptor_name, acceptor_sele, labels['Position'][acceptor_site][contour_level], labels['Position'][acceptor_site]['grid_spacing'], labels['Position'][acceptor_site]['state'])
+    smooth_map_from_xyz(donor_name, donor_sele, labels['Position'][donor_site][contour_level],
+                        labels['Position'][donor_site]['grid_spacing'], labels['Position'][donor_site]['state'])
+    smooth_map_from_xyz(acceptor_name, acceptor_sele, labels['Position'][acceptor_site][contour_level],
+                        labels['Position'][acceptor_site]['grid_spacing'], labels['Position'][acceptor_site]['state'])
     cmd.color('donor_green', donor_name+'_isosurf')
     cmd.color('acceptor_red', acceptor_name+'_isosurf')
     if transparency:

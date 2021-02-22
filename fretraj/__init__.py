@@ -1,7 +1,7 @@
 try:
-    import importlib.metadata as ilm # Python >=3.8
+    import importlib.metadata as ilm  # Python >=3.8
 except ModuleNotFoundError:
-    import importlib_metadata as ilm # Python 3.7
+    import importlib_metadata as ilm  # Python 3.7
 
 try:
     metadata = ilm.metadata('fretraj')

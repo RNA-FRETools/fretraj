@@ -55,8 +55,10 @@ _label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None),
                'Distance': {'pd_key': {'R0': ((int, float), None),
                                        'n_dist': (int, 10**6)}}}
 
-_label_dict_vals = {field: {'pd_key': {key: val[1] for key, val in _label_dict[field]['pd_key'].items()}} for field in _label_dict.keys()}
-_default_params = {field: {key: val[1] for key, val in _label_dict[field]['pd_key'].items() if val[1] is not None} for field in _label_dict.keys()}
+_label_dict_vals = {field: {'pd_key': {key: val[1] for key, val in _label_dict[field]['pd_key'].items()}}
+                    for field in _label_dict.keys()}
+_default_params = {field: {key: val[1] for key, val in _label_dict[field]['pd_key'].items() if val[1] is not None}
+                   for field in _label_dict.keys()}
 
 
 def parseCmd():
@@ -144,17 +146,19 @@ def check_labels(labels, verbose=True):
                     pass
 
                 # check if all keys that are needed are defined
-                for key, (t, d) in _label_dict[field]['pd_key'].items():
+                for key, (t, _) in _label_dict[field]['pd_key'].items():
                     if key not in labels[field][pos]:
                         if key in _default_params[field].keys():
                             labels[field][pos][key] = copy.copy(_default_params[field][key])
                             if verbose:
-                                print('Missing Key: \'{}\' in {} {}. Falling back to \"{}\"'.format(key, field, pos, _default_params[field][key]))
+                                print('Missing Key: \'{}\' in {} {}. Falling back to \"{}\"'.format(key, field, pos,
+                                      _default_params[field][key]))
                         else:
                             raise KeyError('Missing Key', key, pos, field)
                     else:
                         if not isinstance(labels[field][pos][key], t):
-                            raise TypeError('\'{}\' in {} {} must be of one of the following types: {}'.format(key, field, pos, t))
+                            raise TypeError('\'{}\' in {} {} must be of one of the following types: {}'.format(key,
+                                            field, pos, t))
 
                 # check if there are any unrecognized keys
                 for key in labels[field][pos].keys():
@@ -163,7 +167,6 @@ def check_labels(labels, verbose=True):
         else:
             labels[field] = None
             raise ValueError('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
-
 
 
 def save_labels(filename, labels):
@@ -183,7 +186,7 @@ def save_labels(filename, labels):
     """
     with open(filename, 'w') as f:
         json.dump(labels, f, indent=2)
-        
+
 
 def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', length=20, fill='█'):
     """
@@ -220,6 +223,7 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', le
     if iteration == total:
         print()
 
+
 def save_mp_traj(filename, volume_list, units='A'):
     """
     Save a trajectory of dye mean positions as an xyz file
@@ -239,7 +243,7 @@ def save_mp_traj(filename, volume_list, units='A'):
     xyz_str = export.xyz(mps, mean_mp, None)
     with open(filename, 'w') as fname:
         fname.write(xyz_str)
-    
+
 
 def save_acv_traj(filename, volume_list, **kwargs):
     """
@@ -261,9 +265,10 @@ def save_acv_traj(filename, volume_list, **kwargs):
     for i, volume in enumerate(volume_list):
         file_str += f'MODEL {i+1}\n'
         file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp, volume.acv.mdp, include_mdp=include_mdp)
-        file_str += f'ENDMDL\n\n'
+        file_str += 'ENDMDL\n\n'
     with open(filename, 'w') as fname:
         fname.write(file_str)
+
 
 def save_structure_traj(filename, structure, frames, format='pdb'):
     """
@@ -275,11 +280,11 @@ def save_structure_traj(filename, structure, frames, format='pdb'):
     structure : mdtraj.Trajectory
                 trajectory of atom coordinates loaded from a pdb, xtc or other file
     format : str
-             trajectory file format. One of the following: 
+             trajectory file format. One of the following:
              'pdb': multi model PDB (default), 'xtc'
     """
     sliced_structure = structure.slice(frames)
-    if format=='xtc':
+    if format == 'xtc':
         sliced_structure.save_xtc(filename)
     else:
         sliced_structure.save_pdb(filename)
@@ -388,9 +393,9 @@ class ACV:
 
         Extended summary
         ----------------
-        The weight factor corresponds to the factor by which the points of the contact volume (CV, dye trapped on surface)
-        are favored over those belonging the free volume (FV, free dye diffusion). This accounts for the (experimentally)
-        determined fraction of dyes populating the CV.
+        The weight factor corresponds to the factor by which the points of the contact volume
+        (CV, dye trapped on surface) are favored over those belonging the free volume (FV, free dye diffusion).
+        This accounts for the (experimentally) determined fraction of dyes populating the CV.
 
         Parameters
         ----------
@@ -512,8 +517,10 @@ class FRET:
                 self.E_DA = fret.FRET_DA(volume1.acv, volume2.acv, R_DA=self.R_DA, R0=self.R0)
                 self.mean_E_DA = fret.mean_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
                 self.sigma_E_DA = fret.std_FRET_DA(volume1.acv, volume2.acv, E_DA=self.E_DA)
-            self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, R0=self.R0)
-            self.sigma_R_DA_E = fret.std_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA, sigma_E_DA=self.sigma_E_DA, R0=self.R0)
+            self.mean_R_DA_E = fret.mean_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA,
+                                                          R0=self.R0)
+            self.sigma_R_DA_E = fret.std_dist_DA_fromFRET(volume1.acv, volume2.acv, mean_E_DA=self.mean_E_DA,
+                                                          sigma_E_DA=self.sigma_E_DA, R0=self.R0)
             self.R_attach = fret.dist_attach(volume1.attach_xyz, volume2.attach_xyz)
             self.R_mp = fret.dist_mp(volume1.acv, volume2.acv)
 
@@ -521,7 +528,7 @@ class FRET:
     def from_volumes(cls, volume_list1, volume_list2, fret_pair, labels, R_DA=None):
         """
         Alternative constructor for the ft.cloud.FRET class by reading in a list of donor and acceptor volumes
-        
+
         Parameters
         ----------
         volume_list1 : array_like
@@ -581,9 +588,9 @@ class FRET:
                         '<R_DA_E> (A)': (float(f'{self.mean_R_DA_E :0.1f}'), float(f'{self.sigma_R_DA_E :0.1f}')),
                         'R_attach (A)': (float(f'{self.R_attach :0.1f}'), np.nan),
                         'R_mp (A)': (float(f'{self.R_mp :0.1f}'), np.nan)}
-        if _pandas_found:
-            fret_results = pd.DataFrame(fret_results, index=['value', 'std'])
+        fret_results = pd.DataFrame(fret_results, index=['value', 'std'])
         return fret_results
+
 
 class Trajectory:
     """
@@ -611,14 +618,11 @@ class Trajectory:
         -------
         df : pandas dataframe
         """
-        if not _pandas_found:
-            print('Pandas is not installed')
-        else:
-            df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp), 
-                                  index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
-            if self.timestep:
-                df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
-            return df
+        df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp),
+                          index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
+        if self.timestep:
+            df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
+        return df
 
     def save_traj(self, filename):
         """
@@ -652,7 +656,7 @@ class Volume:
     structure : mdtraj.Trajectory
                 trajectory of atom coordinates loaded from a pdb, xtc or other file
     state : int
-            state in the pdb file (1 based indexing) 
+            state in the pdb file (1 based indexing)
     frame_mdtraj : int
                    frame number of the mdtraj.Trajectory object (0 based indexing)
     attach_id : int
@@ -694,7 +698,8 @@ class Volume:
             self.linker_length = labels['Position'][site]['linker_length']
             self.linker_width = labels['Position'][site]['linker_width']
             self.simulation_type = labels['Position'][site]['simulation_type']
-            self.dye_radii = np.array([labels['Position'][site]['dye_radius1'], labels['Position'][site]['dye_radius2'], labels['Position'][site]['dye_radius3']])
+            self.dye_radii = np.array([labels['Position'][site]['dye_radius1'], labels['Position'][site]['dye_radius2'],
+                                       labels['Position'][site]['dye_radius3']])
             self.grid_spacing = labels['Position'][site]['grid_spacing']
             self.cv_thickness = labels['Position'][site]['cv_thickness']
             self.cv_fraction = labels['Position'][site]['cv_fraction']
@@ -711,7 +716,8 @@ class Volume:
                     if (self.frame_mdtraj != self.state - 1):
                         raise ValueError
                 except ValueError:
-                    print('The state {:d} and frame_mdtraj {:d} are not compatible. The frame_mdtraj should be equal to state - 1'.format(self.state, self.frame_mdtraj))
+                    print('The state {:d} and frame_mdtraj {:d} are not compatible. \
+                    The frame_mdtraj should be equal to state - 1'.format(self.state, self.frame_mdtraj))
                     self.av = None
                     self.acv = None
                 else:
@@ -719,7 +725,11 @@ class Volume:
                         if self.state > self.structure.n_frames:
                             raise IndexError
                     except IndexError:
-                        print('The state {:d} and mdtraj frame {:d} are out of range, select a state within the range 1 - {:d} or a mdtraj frame within the range 0 - {:d}'.format(self.state, self.frame_mdtraj, self.structure.n_frames, self.structure.n_frames - 1))
+                        print('The state {:d} and mdtraj frame {:d} are out of range, \
+                            select a state within the range 1 - {:d} \
+                            or a mdtraj frame within the range 0 - {:d}'.format(self.state, self.frame_mdtraj,
+                                                                                self.structure.n_frames,
+                                                                                self.structure.n_frames - 1))
                         self.av = None
                         self.acv = None
                     else:
@@ -727,7 +737,8 @@ class Volume:
                             if self.attach_id < 1 or self.attach_id > self.n_atoms:
                                 raise IndexError
                         except IndexError:
-                            print('The attachment position {:d} is out of range, select an index within 1 - {:d}'.format(self.attach_id, self.n_atoms))
+                            print('The attachment position {:d} is out of range, \
+                                   select an index within 1 - {:d}'.format(self.attach_id, self.n_atoms))
                             self.av = None
                             self.acv = None
                         else:
@@ -737,11 +748,12 @@ class Volume:
                             self.av = self.calc_av(self.use_LabelLib)
 
                             try:
-                                if not np.any(np.array(self.av.grid) > 0):    
+                                if not np.any(np.array(self.av.grid) > 0):
                                     raise ValueError
                             except ValueError:
                                 if verbose:
-                                    print('Empty Accessible volume at position {:d}. Is your attachment point buried?'.format(self.attach_id))
+                                    print('Empty Accessible volume at position {:d}. \
+                                    Is your attachment point buried?'.format(self.attach_id))
                                 self.acv = None
                             else:
                                 self.acv = self.calc_acv(self.use_LabelLib)
@@ -750,8 +762,6 @@ class Volume:
             self.acv = ACV(cloud_xyzqt=cloud_xyzqt)
         else:
             print('Attachment point is unknown')
-
-        
 
     @classmethod
     def from_frames(cls, structure, site, labels, frames_mdtraj):
@@ -815,45 +825,6 @@ class Volume:
             multisite_volumes.append(cls(structure, site, _labels))
             printProgressBar(i + 1, n_aID)
         return multisite_volumes
-
-    @classmethod
-    def from_cloud_xyz(cls, file_str):
-        """
-        Alternative constructor for the ft.cloud.Volume class by reading in an accessible volume
-        object from an xyz or pdb file
-
-        Parameters
-        ----------
-        file_str : str
-                   path to accessible volume object
-
-        Examples
-        --------
-
-        >>> ft.cloud.Volume.from_cloud_xyz('data/2m23_resi1_Cy3.xyz')
-
-        """
-
-        for delimiter in (' ', '\t'):
-            try:
-                data = np.genfromtxt(file_str, dtype=[('element', 'U2'), ('x', 'f8'), ('y', 'f8'), ('z', 'f8'), ('q', 'f8')], delimiter=delimiter, skip_header=2)
-            except ValueError:
-                continue
-            else:
-                tag = [2 if p > 1 else 1 for p in data['q']]
-                cloud_xyzqt = np.array((data['x'], data['y'], data['z'], data['q'], tag)).T
-                return cls(cloud_xyzqt=cloud_xyzqt)
-
-        for delimiter in (' ', '\t'):
-            try:
-                data = np.genfromtxt(file_str, dtype=[('element', 'U2'), ('x', 'f8'), ('y', 'f8'), ('z', 'f8')], delimiter=delimiter, skip_header=2)
-            except ValueError:
-                continue
-            else:
-                weight = [1] * len(data['x'])
-                tag = [1] * len(data['x'])
-                cloud_xyzqt = np.array((data['x'], data['y'], data['z'], weight, tag)).T
-                return cls(cloud_xyzqt=cloud_xyzqt)
 
     @staticmethod
     def reshape_grid(grid, shape):
@@ -984,7 +955,8 @@ class Volume:
             try:
                 sele = struct.top.select(self.mol_selection)
             except ValueError:
-                print('{} is not a valid expression, please see http://mdtraj.org/latest/atom_selection.html'.format(self.mol_selection))
+                print('{} is not a valid expression, please see http://mdtraj.org/latest/atom_selection.html'.format(
+                    self.mol_selection))
                 print('Falling back to \"all\"')
                 sele = struct.top.select('all')
             finally:
@@ -1045,7 +1017,8 @@ class Volume:
                 include_mdp = kwargs['include_mdp']
             except KeyError:
                 include_mdp = False
-            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, self.acv.mdp, write_weights, encode_element, include_mdp)
+            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, self.acv.mdp, write_weights, encode_element,
+                                  include_mdp)
         elif format == 'open_dx':
             d_xyz = [self.grid_spacing] * 3
             xyz_min = self.acv.originXYZ
@@ -1101,7 +1074,8 @@ class Volume:
                 av = ll.dyeDensityAV3(mol_xyzr.T, attach_xyz, self.linker_length,
                                       self.linker_width, self.dye_radii, self.grid_spacing)
         else:
-            av = grid.Grid3D(self.mol_xyzr, self.attach_xyz, self.linker_length, self.linker_width, self.dye_radii, self.grid_spacing, self.simulation_type)
+            av = grid.Grid3D(self.mol_xyzr, self.attach_xyz, self.linker_length, self.linker_width, self.dye_radii,
+                             self.grid_spacing, self.simulation_type)
         return av
 
     def _dye_acc_surf(self):
@@ -1180,7 +1154,6 @@ class Volume:
         mp : ndarray
              mean position
         """
-        #mp = np.mean(cloud_xyzqt[:, 0:3], 0)
         x = np.dot(cloud_xyzqt[:, 0], cloud_xyzqt[:, 3])
         y = np.dot(cloud_xyzqt[:, 1], cloud_xyzqt[:, 3])
         z = np.dot(cloud_xyzqt[:, 2], cloud_xyzqt[:, 3])
@@ -1217,7 +1190,7 @@ class Volume:
         data : ndarray
         weights : ndarray
         quantile : float
-        
+
         Returns
         -------
         quantile : float
@@ -1232,7 +1205,6 @@ class Volume:
         xp = (weights_cs - (1-quantile)*weights_sorted) / weights_cs[-1]
         return np.interp(quantile, xp, arr_1D_sorted)
 
-
     def save_mp(self, filename, format='plain', units='A'):
         """
         Write mean dye position to file
@@ -1242,13 +1214,13 @@ class Volume:
         filename : str
         format : ndarray
                  mean position
-        units : str 
+        units : str
                 distance units ('A': Angstroms, 'nm': nanometers)
 
         Examples
         --------
         >>> avobj.save_mp('mp.dat')
-        
+
         """
         if units == 'nm':
             mp = self.acv.mp / 10
@@ -1256,21 +1228,22 @@ class Volume:
             mp = self.acv.mp
         with open(filename, 'w') as f:
             if format == 'json':
-                mp_dict = {'x':round(mp[0],3), 'y':round(mp[1],3), 'z':round(mp[2],3)}
+                mp_dict = {'x': round(mp[0], 3), 'y': round(mp[1], 3), 'z': round(mp[2], 3)}
                 json.dump(mp_dict, f)
             else:
                 f.write('{:0.3f}   {:0.3f}   {:0.3f}\n'.format(*mp))
 
 
 def main():
-    in_filePDB, param_fileJSON, out_fileACV, out_fileDist = parseCmd()
+    in_filePDB, param_fileJSON, out_fileACV = parseCmd()
     labels = labeling_params(param_fileJSON)
     struct = md.load_pdb(in_filePDB)
     av = Volume(struct, 0, '40', labels)
 
     if out_fileACV:
-        out_filenameACV, out_fileextACV = os.path.splitext(out_fileACV)
+        _, out_fileextACV = os.path.splitext(out_fileACV)
         av.save_acv(out_fileACV, format=out_fileextACV[1:])
+
 
 if __name__ == "__main__":
     main()

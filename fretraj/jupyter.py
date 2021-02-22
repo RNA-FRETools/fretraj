@@ -9,6 +9,7 @@
 import os
 import re
 
+
 def connect2pymol():
     import xmlrpc.client as xmlrpclib
     cmd = xmlrpclib.ServerProxy('http://localhost:9123')
@@ -18,4 +19,3 @@ def connect2pymol():
     except:
         cmd.cd(re.sub(r'/mnt/([a-z])', r'\1:', curr_wd))
     return cmd
-    

@@ -22,9 +22,9 @@ os.environ['PYTHONPATH'] = ':'.join((os.path.abspath('../..'), os.environ.get('P
 
 # The full version, including alpha/beta/rc tags
 try:
-    import importlib.metadata as ilm # Python >=3.8
+    import importlib.metadata as ilm  # Python >=3.8
 except ModuleNotFoundError:
-    import importlib_metadata as ilm # Python 3.7
+    import importlib_metadata as ilm  # Python 3.7
 
 metadata = ilm.metadata('fretraj')
 
@@ -52,7 +52,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
     'nbsphinx',
-    #'jupyter_sphinx',
+    # 'jupyter_sphinx',
 ]
 
 napoleon_use_ivar = True
@@ -98,4 +98,4 @@ html_css_files = ['css/custom.css']
 autoclass_content = 'both'
 
 html_theme_options = {'style_nav_header_background': '#333',
-'sticky_navigation': False,}
+                      'sticky_navigation': False}

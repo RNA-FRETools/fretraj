@@ -135,12 +135,14 @@ class Grid3D:
         outDistSq = (self.halfCubeLength + maxVdW_extraClash)**2
         distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
 
-        grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, self.originAdj, self.shape, self.discStep)
+        grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq,
+                                            outDistSq, self.originAdj, self.shape, self.discStep)
         return grid_3d
 
     @staticmethod
     @nb.jit(nopython=True)
-    def _carve_VdWextraClash(grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, originAdj, grid_shape, grid_spacing):
+    def _carve_VdWextraClash(grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, originAdj,
+                             grid_shape, grid_spacing):
         """
         Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius
         plus an extraClash value
@@ -177,8 +179,8 @@ class Grid3D:
         self.grid_3d[ai, aj, ak] = 0
         priority_queue = [(0.0, (ai, aj, ak))]
         if _hasTypedList:
-            #priority_queue = nb.typed.List()
-            #[priority_queue.append(x) for x in [(0.0, (ai, aj, ak))]]
+            # priority_queue = nb.typed.List()
+            # [priority_queue.append(x) for x in [(0.0, (ai, aj, ak))]]
             edges_ess = nb.typed.List()
             [edges_ess.append(x) for x in self.essential_neighbors(self.sortedNeighborIdx(maxR), _dist_list)]
             edges_src = nb.typed.List()
@@ -239,7 +241,8 @@ class Grid3D:
         For imaxR=3, first a cube of 7*7*7=343 indices is built (1).
         This is reduced in a second step to 123 indices that have a distance < imaxR from the origin (2).
         Finally, they are reduced 74 essential neighbors by the distances in _dist_list (3).
-        (this last reduction speeds up the Dikstra algorithm due to the shorter neighbor list without loosing much accuracy)
+        (this last reduction speeds up the Dikstra algorithm due to the shorter neighbor list without loosing much
+        accuracy)
 
         """
         idxs = []
@@ -287,7 +290,7 @@ class Grid3D:
     # Solution: tie numba to version < 0.45 until heapq for typed list is properly implemented
     # the jit nopython mode speeds up the calculation significantly
     @staticmethod
-    @nb.jit(nopython=True) 
+    @nb.jit(nopython=True)
     def dijkstra(grid_3d, edges_ess, edges_src, priority_queue, start_ijk):
         """
         Djikstra algorithm with a priority queue
@@ -381,7 +384,8 @@ class Grid3D:
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
         outdistSq = (self.halfCubeLength + maxVdW_extraClash)**2
         distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
-        grid_3d = self._assignRho(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos, distSq, outdistSq, self.shape)
+        grid_3d = self._assignRho(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos, distSq,
+                                  outdistSq, self.shape)
         return grid_3d
 
     @staticmethod

@@ -1,5 +1,5 @@
 """
-FRETraj PyMOL Plugin 
+FRETraj PyMOL Plugin
 
 Calculate accessible contact volumes and predict FRET efficiencies
 
@@ -19,8 +19,6 @@ import string
 import datetime
 
 from fretraj import cloud
-from fretraj import export
-from fretraj import fret
 from fretraj import metadata
 
 try:
@@ -41,6 +39,7 @@ package_directory = os.path.dirname(os.path.abspath(cloud.__file__))
 
 dialog = None
 
+
 def __init_plugin__(app=None):
     """
     Add FRETraj plugin to the Plugins Menu
@@ -55,7 +54,7 @@ def run_plugin_gui():
     """
     global dialog
     if dialog is None:
-        dialog = App(_pymol_running=True)    
+        dialog = App(_pymol_running=True)
     dialog.show()
 
 
@@ -67,7 +66,7 @@ class App(QtWidgets.QMainWindow):
         self.exampleDataPath = os.path.join(package_directory, 'examples')
         fretrajUI = os.path.join(package_directory, 'UI', 'fretraj.ui')
         self.settingsUI = os.path.join(package_directory, 'UI', 'settings.ui')
-        self.textUI = os.path.join(package_directory, 'UI','textpad.ui')
+        self.textUI = os.path.join(package_directory, 'UI', 'textpad.ui')
         uic.loadUi(fretrajUI, self)
         self.setWindowTitle("FRETraj")
         self.setWindowIcon(QtGui.QIcon(self.uiIcon))
@@ -79,7 +78,6 @@ class App(QtWidgets.QMainWindow):
         self.settingsWindow.setWindowTitle("FRETraj - Settings")
         self.textWindow = QtWidgets.QDialog(self)
         uic.loadUi(self.textUI, self.textWindow)
-        
 
         # initialize labels dictionary with defaults from GUI
         self.struct = None
@@ -120,7 +118,8 @@ class App(QtWidgets.QMainWindow):
         files = [f for f in os.listdir(self.exampleDataPath) if f.endswith(fileformat)]
         for example in files:
             self.exampleQAction[example] = self.menuLoad_Example.addAction(example.replace(fileformat, ''))
-            self.exampleQAction[example].triggered.connect(functools.partial(self.openExample, self.exampleQAction[example].text(), fileformat))
+            self.exampleQAction[example].triggered.connect(functools.partial(self.openExample,
+                                                           self.exampleQAction[example].text(), fileformat))
             n_examples += 1
         if n_examples > 0:
             self.menuLoad_Example.removeAction(self.example_placeholder)
@@ -178,7 +177,6 @@ class App(QtWidgets.QMainWindow):
         self.settingsWindow.push_root.clicked.connect(self.setRootDirectory)
         self.settingsWindow.push_browser.clicked.connect(self.set_browser)
         self.settingsWindow.push_localdocs.clicked.connect(self.set_localdocsDir)
-
 
     def update_labelDict(self, pos=None):
         """
@@ -250,13 +248,14 @@ class App(QtWidgets.QMainWindow):
         self.doubleSpinBox_gridBuffer.setValue(self.labels['Position'][pos]['grid_buffer'])
         self.checkBox_transparentAV.setChecked(self.labels['Position'][pos]['transparent_AV'])
 
-        
     def loadPDB(self, fileNamePath_pdb=False):
         """
         Load PDB or CIF file. CIF files will be converted to PDB internally
         """
         if not fileNamePath_pdb:
-            self.fileNamePath_pdb, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Load PDB / CIF', '', "PDB / CIF file (*.pdb *cif);;All Files (*)")
+            self.fileNamePath_pdb, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Load PDB / CIF', '',
+                                                                             "PDB / CIF file (*.pdb *cif);;\
+                                                                             All Files (*)")
         else:
             self.fileNamePath_pdb = fileNamePath_pdb
         if self.fileNamePath_pdb:
@@ -266,13 +265,14 @@ class App(QtWidgets.QMainWindow):
             try:
                 self.struct = md.load_pdb(self.fileNamePath_pdb)
             except IndexError:
-                self.openErrorWin("File Error", "The specified file \"{}\" cannot be loaded".format(self.fileName_pdb[-3:]))
+                self.openErrorWin("File Error", "The specified file \"{}\" cannot be loaded".format(
+                    self.fileName_pdb[-3:]))
                 return 0
             else:
                 self.struct_original = copy.deepcopy(self.struct)
-                NA_list = ['A','G','C','U',
-                           'RA','RG','RC','RU',
-                           'DA','DG','DC','DT', 
+                NA_list = ['A', 'G', 'C', 'U',
+                           'RA', 'RG', 'RC', 'RU',
+                           'DA', 'DG', 'DC', 'DT',
                            'ATP', 'GTP', 'CTP', 'UTP',
                            'ADP', 'GDP', 'CDP', 'UDP']
                 nucleic_str = ' or '.join([f'resn {r}' for r in NA_list])
@@ -347,7 +347,6 @@ class App(QtWidgets.QMainWindow):
     def update_atom(self):
         atom_id = self.spinBox_atomID.value() - 1
         chain_id = self.atom_chainIDs[atom_id]
-        chain = self.chain_names[chain_id]
         self.lineEdit_pdbAtom.setText('{}-{}'.format(self.chain_names[chain_id], str(self.struct.top.atom(atom_id))))
 
     def loadParameterFile(self, fileNamePath_param=False):
@@ -355,7 +354,8 @@ class App(QtWidgets.QMainWindow):
         Load dye, linker and simulation settings from parameter file
         """
         if not fileNamePath_param:
-            self.fileNamePath_param, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Load label parameter file', '', "JSON Files (*.json);;All Files (*)")
+            self.fileNamePath_param, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Load label parameter file', '',
+                                                                               "JSON Files (*.json);;All Files (*)")
         else:
             self.fileNamePath_param = fileNamePath_param
         if self.fileNamePath_param:
@@ -365,7 +365,8 @@ class App(QtWidgets.QMainWindow):
                     try:
                         labels_json = json.load(f)
                     except json.decoder.JSONDecodeError:
-                        self.openErrorWin('Parameter File Error', "The specified file \"{}\" is not of type JSON".format(self.fileName_param))
+                        self.openErrorWin('Parameter File Error',
+                                          'The specified file \"{}\" is not of type JSON'.format(self.fileName_param))
                         return 0
                     else:
                         error_msg = "The specified file \"{}\" has a wrong format".format(self.fileName_param)
@@ -380,15 +381,15 @@ class App(QtWidgets.QMainWindow):
                                 return 0
 
                             for pos_dis in labels_json[field].keys():
-                                
+
                                 self.labels[field][pos_dis] = {}
                                 for key in self.labels_default[field][name_default].keys():
                                     if isinstance(labels_json[field][pos_dis], dict):
                                         if key in labels_json[field][pos_dis].keys():
                                             self.labels[field][pos_dis][key] = labels_json[field][pos_dis][key]
-
                                         else:
-                                            self.labels[field][pos_dis][key] = copy.deepcopy(self.labels_default[field][name_default][key])
+                                            self.labels[field][pos_dis][key] = copy.deepcopy(
+                                                self.labels_default[field][name_default][key])
                                     else:
                                         self.openErrorWin('Parameter File Error', error_msg)
                                         return 0
@@ -399,7 +400,8 @@ class App(QtWidgets.QMainWindow):
                         self.addFRETparam(newdistance)
                     return 1
             except FileNotFoundError:
-                self.openErrorWin('Parameter File Error', "The specified file \"{}\" could not be found".format(self.fileName_param))
+                self.openErrorWin('Parameter File Error',
+                                  'The specified file \"{}\" could not be found'.format(self.fileName_param))
                 return 0
 
     def transferToLabel(self):
@@ -442,7 +444,7 @@ class App(QtWidgets.QMainWindow):
         self.deleteDistanceFromList()
         self.deleteIsosurface()
         if self.labelName != self.labelName_default:
-            todelete= self.labelName
+            todelete = self.labelName
             self.comboBox_labelName.removeItem(self.comboBox_labelName.currentIndex())
             self.lineEdit_labelName.clear()
             self.labels['Position'].pop(todelete)
@@ -459,7 +461,8 @@ class App(QtWidgets.QMainWindow):
             r = 0
             self.tableWidget_MeanPos.insertRow(r)
         self.tableWidget_MeanPos.setItem(r, 0, QtWidgets.QTableWidgetItem(self.labelName))
-        self.tableWidget_MeanPos.setItem(r, 1, QtWidgets.QTableWidgetItem(', '.join('{:.2f}'.format(p) for p in av.acv.mp)))
+        self.tableWidget_MeanPos.setItem(r, 1, QtWidgets.QTableWidgetItem(', '.join(
+            '{:.2f}'.format(p) for p in av.acv.mp)))
         if self.comboBox_donorName.findText(self.labelName) == -1:
             self.comboBox_donorName.addItem(self.labelName)
         if self.comboBox_acceptorName.findText(self.labelName) == -1:
@@ -534,7 +537,8 @@ class App(QtWidgets.QMainWindow):
         else:
             r = 0
             self.tableWidget_FRET.insertRow(r)
-        self.tableWidget_FRET.setItem(r, 0, QtWidgets.QTableWidgetItem('{} -> {}'.format(self.donorName, self.acceptorName)))
+        self.tableWidget_FRET.setItem(r, 0, QtWidgets.QTableWidgetItem('{} -> {}'.format(self.donorName,
+                                                                                         self.acceptorName)))
         self.tableWidget_FRET.setItem(r, 1, QtWidgets.QTableWidgetItem('{:.1f}'.format(traj.mean_R_DA)))
         self.tableWidget_FRET.setItem(r, 2, QtWidgets.QTableWidgetItem('{:.1f}'.format(traj.sigma_R_DA)))
         self.tableWidget_FRET.setItem(r, 3, QtWidgets.QTableWidgetItem('{:.2f}'.format(traj.mean_E_DA)))
@@ -650,13 +654,14 @@ class App(QtWidgets.QMainWindow):
                 cmd.zoom(self.fileName_pdb[:-4])
             self.define_DA()
 
-
     def calculateFRET(self):
         self.update_labelDict()
-        self.traj[(self.donorName, self.acceptorName)] = cloud.FRET(self.av[self.donorName], self.av[self.acceptorName], self.distanceName, self.labels)
+        self.traj[(self.donorName, self.acceptorName)] = cloud.FRET(self.av[self.donorName], self.av[self.acceptorName],
+                                                                    self.distanceName, self.labels)
         self.addDistanceToList(self.traj[(self.donorName, self.acceptorName)])
         self.define_DA()
-        self.traj[(self.donorName, self.acceptorName)].save_fret('{}/{}_{}_{}_fret.json'.format(self.settings['root_path'], self.fileName_pdb[:-4], self.donorName, self.acceptorName))
+        self.traj[(self.donorName, self.acceptorName)].save_fret('{}/{}_{}_{}_fret.json'.format(
+            self.settings['root_path'], self.fileName_pdb[:-4], self.donorName, self.acceptorName))
 
     def deleteFRET(self):
         DA = '{} -> {}'.format(self.donorName, self.acceptorName)
@@ -668,7 +673,6 @@ class App(QtWidgets.QMainWindow):
                 rowCount -= 1
             else:
                 r += 1
-
 
     def pymol_update_isosurface(self):
         """
@@ -683,12 +687,14 @@ class App(QtWidgets.QMainWindow):
             gridBuffer = self.doubleSpinBox_gridBuffer.value()
             grid_spacing = self.labels['Position'][self.labelName]['grid_spacing']
             if av_name in cmd.get_names('objects'):
-                isosurf.smooth_map_from_xyz(av_name, av_name, contour_level, grid_spacing, bfactor, gaussRes, gridBuffer)
+                isosurf.smooth_map_from_xyz(av_name, av_name, contour_level, grid_spacing, bfactor,
+                                            gaussRes, gridBuffer)
                 if any(self.av[self.labelName].acv.tag_1d > 1):
                     self.doubleSpinBox_contourValue_CV.setEnabled(True)
                     contour_level_CV = self.doubleSpinBox_contourValue_CV.value()
                     sele_CV = '{} and resn CV'.format(av_name)
-                    isosurf.smooth_map_from_xyz(av_name+'_CV', sele_CV, contour_level_CV, grid_spacing, bfactor, gaussRes, gridBuffer)
+                    isosurf.smooth_map_from_xyz(av_name+'_CV', sele_CV, contour_level_CV, grid_spacing, bfactor,
+                                                gaussRes, gridBuffer)
                     if self.checkBox_transparentAV.isChecked():
                         cmd.set('transparency', 0.4, av_name + '_isosurf')
                     else:
@@ -712,7 +718,7 @@ class App(QtWidgets.QMainWindow):
         self.push_loadParameterFile.setEnabled(False)
         self.push_showText.setEnabled(False)
         self.lineEdit_pdbAtom.clear()
-        for item in range(self.comboBox_labelName.count()):
+        for _ in range(self.comboBox_labelName.count()):
             self.deleteLabel()
         cmd.reinitialize()
 
@@ -752,13 +758,14 @@ class App(QtWidgets.QMainWindow):
                 returnValue = msg.exec_()
                 if returnValue == QtWidgets.QMessageBox.Ok:
                     self.set_localdocsDir()
-                
+
         if not self.settings['browser']:
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.setWindowTitle("Web browser not configured")
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
-            msg.setText('For the documentation to be displayed, the path to a web browser needs to be configured. Press <OK> and search for the browser executable (Firefox, Chrome or Edge).')
+            msg.setText('For the documentation to be displayed, the path to a web browser needs to be configured. \
+                         Press <OK> and search for the browser executable (Firefox, Chrome or Edge).')
             returnValue = msg.exec_()
             if returnValue == QtWidgets.QMessageBox.Ok:
                 self.set_browser()
@@ -787,7 +794,8 @@ class App(QtWidgets.QMainWindow):
         msg.setIconPixmap(pixmap.scaledToWidth(64))
         msg.setWindowTitle("About FRETraj")
         current_year = datetime.datetime.now().year
-        msg.setText(f"{metadata['Name']} {metadata['Version']}\n{metadata['Summary']}\n\n(C) {metadata['Author']}\nUniversity of Zurich, 2020-{current_year}")
+        msg.setText(f"{metadata['Name']} {metadata['Version']}\n{metadata['Summary']}\n\n\
+                     (C) {metadata['Author']}\nUniversity of Zurich, 2020-{current_year}")
         msg.exec_()
 
     def openExample(self, name, fileformat):
@@ -820,7 +828,8 @@ class App(QtWidgets.QMainWindow):
                         msg = QtWidgets.QMessageBox()
                         msg.setIcon(QtWidgets.QMessageBox.Information)
                         msg.setWindowTitle("Calculate FRET?")
-                        msg.setText('To calculate FRET select the donor and acceptor position from the highlighted dropdown menu and press on <Calculate FRET>')
+                        msg.setText('To calculate FRET select the donor and acceptor position \
+                                     from the highlighted dropdown menu and press on <Calculate FRET>')
                         returnValue = msg.exec_()
                         self.comboBox_donorName.setStyleSheet('')
                         self.comboBox_acceptorName.setStyleSheet('')
@@ -841,7 +850,7 @@ class App(QtWidgets.QMainWindow):
     def openPDBFile(self):
         self.textWindow.textBrowser_pdbFile.setText(self.pdbText)
         self.textWindow.setWindowTitle("FRETraj - {}".format(self.fileName_pdb))
-        isOK = self.textWindow.exec_()
+        self.textWindow.exec_()
 
     def openErrorWin(self, title, message):
         """
@@ -859,6 +868,7 @@ def main():
     window = App()
     window.show()
     app.exec_()
+
 
 if __name__ == '__main__':
     main()
