@@ -41,4 +41,5 @@ jobs:
         flags: unit, integration
         env_vars: PYTHON
         name: codecov-umbrella
+        fail_ci_if_error: true
         verbose: true

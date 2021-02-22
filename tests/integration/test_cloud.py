@@ -52,9 +52,9 @@ def create_volumes(create_labels, load_structure):
 
 class TestVolume:
 
-    # def test_volume_LabelLib(self, create_labels, load_structure):
-    #     vol = cloud.Volume(load_structure, 'Cy3', create_labels)
-    #     assert hasattr(vol.acv, 'mp')
+    def test_volume_LabelLib(self, create_labels, load_structure):
+        vol = cloud.Volume(load_structure, 'Cy3', create_labels)
+        assert hasattr(vol.acv, 'mp')
 
     def test_volume_pythononly(self, create_labels, load_structure):
         create_labels['Position']['Cy3']['use_LabelLib'] = False

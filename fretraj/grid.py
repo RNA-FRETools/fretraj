@@ -132,21 +132,15 @@ class Grid3D:
         else:
             neighbor_list = self.sortedNeighborIdx(maxVdW_extraClash)
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
-        outDistSq = (self.halfCubeLength + maxVdW_extraClash)**2
+        outDistSq = float((self.halfCubeLength + maxVdW_extraClash)**2)
         distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
-
-        print(type(outDistSq))
-        print(type(self.originAdj))
-        print(type(self.shape))
-        print(type(self.discStep))
-        grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, self.originAdj, self.shape, self.discStep)
-        
+        grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq,
+                                            outDistSq, self.shape)
         return grid_3d
 
     @staticmethod
     @nb.jit(nopython=True)
-    def _carve_VdWextraClash(grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, originAdj,
-                             grid_shape, grid_spacing):
+    def _carve_VdWextraClash(grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, grid_shape):
         """
         Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius
         plus an extraClash value
