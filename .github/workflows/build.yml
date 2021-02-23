@@ -34,12 +34,12 @@ jobs:
         pytest --cov=fretraj --cov-report xml:coverage_unit.xml tests/unit/ 
         pytest --cov=fretraj --cov-report xml:coverage_integration.xml tests/integration/
     - name: Upload coverage to Codecov
+      if: ${{ matrix.python-version }} == 3.8
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: coverage_unit.xml, coverage_integration.xml
         flags: unit, integration
-        env_vars: PYTHON
         name: codecov-umbrella
         fail_ci_if_error: true
         verbose: true
