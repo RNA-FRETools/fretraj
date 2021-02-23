@@ -1,0 +1,50 @@
+name: Upload to PyPi and Anaconda
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+    - name: Build and publish to PyPi
+      env:
+        POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        poetry build
+        poetry publish
+    
+    - name: Add conda to system path
+      run: |
+        echo $CONDA/bin >> $GITHUB_PATH   
+    - name: Install conda dependencies
+      run: |
+        conda install conda-build
+        conda install anaconda-client     
+    - name: Build conda package
+      env:
+        PACKAGE = fretraj
+      run: |
+        mkdir build
+        conda skeleton pypi $PACKAGE --noarch-python
+        conda-build $PACKAGE --output-folder build/ --channel conda-forge
+    - name: Upload to Anaconda
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+      run: |
+        anaconda upload build/noarch/*.tar.bz2
+        conda-build purge-all
