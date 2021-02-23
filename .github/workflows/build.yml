@@ -31,5 +31,5 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-cov
-        pytest --cov=fretraj tests/unit/ 
-        pytest --cov=fretraj tests/integration/
+        pytest --cov=. tests/unit/ 
+        pytest --cov=. tests/integration/
