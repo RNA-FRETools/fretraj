@@ -1,0 +1,43 @@
+title: "" 
+author: Fabio D. Steffen
+email: fabio.steffen@chem.uzh.ch
+logo: images/fretraj_logo.png
+copyright: 2020-2021
+
+# Force re-execution of notebooks on each build.
+# See https://jupyterbook.org/content/execute.html
+execute:
+  execute_notebooks: force
+
+# Define the name of the latex output file for PDF builds
+latex:
+  latex_documents:
+    targetname: fretraj.tex
+
+bibtex_bibfiles:
+  - references.bib
+
+repository:
+  url: https://github.com/fdsteffen/fretraj
+  path_to_book: docs
+  branch: master
+
+# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+html:
+  favicon: images/fretraj_logo.png
+  use_issues_button: true
+  use_repository_button: true
+
+sphinx:
+  extra_extensions:
+    - 'sphinx.ext.autodoc'
+    - 'sphinx.ext.napoleon'
+    - 'sphinx.ext.viewcode'
+    - 'sphinx.ext.mathjax'
+    - 'sphinx.ext.ifconfig'
+
+  config:
+    napoleon_use_rtype: False
+    napoleon_use_param: False
+    napoleon_include_private_with_doc: True
+
