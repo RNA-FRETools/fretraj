@@ -16,8 +16,7 @@ _dist_list = np.sqrt(np.array([1, 2, 3, 5, 6]))  # reduction to 74 neighbors
 
 
 class Grid3D:
-    """
-    Class object holding a 3D grid
+    """Class object holding a 3D grid
 
     Parameters
     ----------
@@ -32,11 +31,12 @@ class Grid3D:
                    diameter of the dye linker in Angstrom
     dye_radii : ndarray([3,1])
                 array of dye radii in Angstrom with shape [3,1]
-    grid_spacing :
+    grid_spacing : float
+        spacing between grid points (in A)
 
-    Attributes
-    ----------
-
+    Notes
+    -----
+    Attributes of the 
         - discStep : float  (the grid spacing)
         - originXYZ : numpy.array  (x-/y-/z-coordinate of the grid origin)
         - shape : numpy.array      (number of grid points in x-/y-/z-direction)
@@ -74,6 +74,7 @@ class Grid3D:
         linker_length : float
                         length of the dye linker in Angstrom
         grid_spacing : float
+            spacing between grid points (in A)
 
         Returns
         -------
@@ -100,8 +101,14 @@ class Grid3D:
 
     @staticmethod
     def _xyz2idx(xyz, originAdj, grid_spacing, decimals=6):
-        """
-        Get the ijk grid indices for a set of xyz values
+        """Get the ijk grid indices for a set of xyz values
+
+        Parameters
+        ----------
+        xyz :
+        originAdj :
+        grid_spacing : float
+            spacing between grid points (in A)
 
         Note
         ----
@@ -110,20 +117,19 @@ class Grid3D:
         return np.round(((xyz - originAdj) / grid_spacing), decimals).astype(np.int64)
 
     def block_molecule(self, mol_xyzr, extraClash):
-        """
-        Block the grid points which are within the VdW radius of any atom of the biomolecule plus an extra clash radius
+        """Block the grid points which are within the VdW radius of any atom of the biomolecule plus an extra clash radius
 
         Parameters
         ----------
         mol_xyzr : ndarray
-                   array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
+            array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
         extraClash : float
-                     clash radius added to the VdW radius
+            clash radius added to the VdW radius
 
         Returns
         -------
-        grid_3d : ndarray
-                  3-dimensional array of grid points with a shape of 2*adjL+1
+        ndarray
+            3-dimensional array of grid points with a shape of 2*adjL+1
         """
         maxVdW_extraClash = np.max(mol_xyzr[:, 3]) + extraClash
         if _hasTypedList:
@@ -211,22 +217,21 @@ class Grid3D:
     @staticmethod
     @nb.jit(forceobj=True)
     def _neighborIdx(maxR, grid_spacing):
-        """
-        Build a list of neighboring indices to the origin (0,0,0)
+        """Build a list of neighboring indices to the origin (0,0,0)
 
         Parameters
         ----------
         maxR : float
-               radius within to search for neighbors
+            radius within which to search for neighbors
         grid_spacing : float
+            spacing between grid points (in A)
 
         Returns
         -------
         idxs : list of 2-tuples of numpy.ndarray and float
-               the tuples contain the ijk indices and the distance from the origin (0,0,0)
-               e.g. [(1.0,array([-1,0,0])),
-                     (1.0,array([0,-1,0])),
-                     ...]
+            the tuples contain the ijk indices and the distance from the origin (0,0,0)
+            e.g. [(1.0,array([-1,0,0])),
+                  (1.0,array([0,-1,0]))]
 
         Notes
         -----
@@ -241,7 +246,6 @@ class Grid3D:
         Finally, they are reduced 74 essential neighbors by the distances in _dist_list (3).
         (this last reduction speeds up the Dikstra algorithm due to the shorter neighbor list without loosing much
         accuracy)
-
         """
         idxs = []
         maxRSq = maxR**2

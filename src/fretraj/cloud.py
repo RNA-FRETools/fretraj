@@ -22,7 +22,7 @@ from fretraj import fret
 from fretraj import grid
 from fretraj import metadata
 
-DISTANCE_SAMPLES = 200000
+DISTANCE_SAMPLES = 100000
 
 package_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -62,13 +62,14 @@ _default_params = {field: {key: val[1] for key, val in _label_dict[field]['pd_ke
 
 
 def parseCmd():
-    """
-    Parse the command line to get the input PDB file and the dye parameters
+    """Parse the command line to get the input PDB file and the dye parameters
 
     Returns
     -------
-    pdbFile : string
-    paramFile : string
+    tuple of str
+        tuple containing the filenames of the input PDB, the parameter file
+        and the output ACV
+
     """
     parser = argparse.ArgumentParser(
         description='compute accessible-contact clouds for \
@@ -85,21 +86,21 @@ def parseCmd():
     in_filePDB = args.input
     param_fileJSON = args.parameters
     out_fileACV = args.output
-    return in_filePDB, param_fileJSON, out_fileACV
+    return (in_filePDB, param_fileJSON, out_fileACV)
 
 
 def labeling_params(param_file):
-    """
-    Parse the parameter file to get the configuration settings
+    """Parse the parameter file to get the configuration settings
 
     Parameters
     ----------
     param_file : str
+        json-formatted parameter filename
 
     Returns
     -------
-    labels : dict
-             position of labels, dye and grid parameters
+    dict
+        position of labels, dye and grid parameters
     """
     with open(param_file) as f:
         labels_json = json.load(f)
@@ -119,14 +120,14 @@ def labeling_params(param_file):
 
 
 def check_labels(labels, verbose=True):
-    """
-    Check integrity of parameter dictionary
+    """Check integrity of parameter dictionary
 
     Parameters
     ----------
     labels : dict
-    verbose : bool
-
+        position of labels, dye and grid parameters
+    verbose : bool, optional=True
+        be verbose about missing parameter and their fall-back values 
     """
     for field in _label_dict.keys():
         if field in labels.keys():
@@ -170,42 +171,42 @@ def check_labels(labels, verbose=True):
 
 
 def save_labels(filename, labels):
-    """
-    Write the ACV parameters to a .json file
+    """Write the ACV parameters to a .json file
 
     Parameters
     ----------
     filename : str
+        filename for label parameters
     labels : dict
-             position of labels, dye and grid parameters
+        position of labels, dye and grid parameters
 
     Examples
     --------
 
     >>> obj.save_labels('parameters.json')
+
     """
     with open(filename, 'w') as f:
         json.dump(labels, f, indent=2)
 
 
 def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', length=20, fill='█'):
-    """
-    Command line progress bar
+    """Command line progress bar
 
     Parameters
     ----------
     iteration : int
-                current iteration
+        current iteration
     total : int
-            total number of iterations
-    prefix : str, optional
-             string before progress bar
-    suffix : str, optional
-             string after progress bar
-    length : int
-             length of progress bar
-    fill : str, optional
-           fill character of progress bar
+        total number of iterations
+    prefix : str, optional='Progress:'
+            string before progress bar
+    suffix : str, optional='complete'
+        string after progress bar
+    length : int, optional=20
+        length of progress bar
+    fill : str, optional='█'
+        fill character of progress bar
 
     Examples
     --------
@@ -225,16 +226,16 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='complete', le
 
 
 def save_mp_traj(filename, volume_list, units='A'):
-    """
-    Save a trajectory of dye mean positions as an xyz file
+    """Save a trajectory of dye mean positions as an xyz file
 
     Parameters
     ----------
     filename : str
+        filename for mean position trajectory
     volume_list : array_like
-                  list of Volume instances
+        list of Volume instances
     units : {'A', 'nm'}
-            distance units (Angstrom or nanometer)
+        distance units (Angstrom or nanometer)
     """
     mps = np.vstack([volume_list[i].acv.mp for i in range(len(volume_list)) if hasattr(volume_list[i].acv, 'mp')])
     mps = np.hstack((mps, np.ones((mps.shape[0], 1))))
@@ -245,43 +246,37 @@ def save_mp_traj(filename, volume_list, units='A'):
         fname.write(xyz_str)
 
 
-def save_acv_traj(filename, volume_list, **kwargs):
-    """
-    Save a trajectory of ACVs as a multi model PDB
+def save_acv_traj(filename, volume_list):
+    """Save a trajectory of ACVs as a multi model PDB
 
     Parameters
     ----------
     filename : str
+        filename for ACV trajectory
     volume_list : array_like
-                  list of Volume instances
-    **kwargs
-            - include_mdp : bool
+        list of Volume instances
+
     """
-    try:
-        include_mdp = kwargs['include_mdp']
-    except KeyError:
-        include_mdp = False
     file_str = ''
     for i, volume in enumerate(volume_list):
         file_str += f'MODEL {i+1}\n'
-        file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp, volume.acv.mdp, include_mdp=include_mdp)
+        file_str += export.pdb(volume.acv.cloud_xyzqt, volume.acv.mp)
         file_str += 'ENDMDL\n\n'
     with open(filename, 'w') as fname:
         fname.write(file_str)
 
 
 def save_structure_traj(filename, structure, frames, format='pdb'):
-    """
-    Save selected frames of a trajectory
+    """Save selected frames of a trajectory as multi-model PDB or XTC
 
     Parameters
     ----------
     filename : str
+        filename for structure trajectory
     structure : mdtraj.Trajectory
-                trajectory of atom coordinates loaded from a pdb, xtc or other file
-    format : str
-             trajectory file format. One of the following:
-             'pdb': multi model PDB (default), 'xtc'
+        trajectory of atom coordinates loaded from a pdb, xtc or other file
+    format : {'pdb', 'xtc'}
+        trajectory file format
     """
     sliced_structure = structure.slice(frames)
     if format == 'xtc':
@@ -291,51 +286,24 @@ def save_structure_traj(filename, structure, frames, format='pdb'):
 
 
 class ACV:
-    """
-    Reweighted accessible contact volume of a covalently linked fluorophore
+    """Reweighted accessible contact volume of a covalently linked fluorophore
 
     Parameters
     ----------
-    grid_acv : LabelLib.Grid3D
-             accessible volume with added weight labels for free and contact volume
-             (density label FV: 1.0, density label CV: 2.0); the two volumes are subsequently reweighted
-    cv_thickness : float
-                   width of the contact volume in Angstrom (default: 0, i.e. no CV is calculated)
-                   **Note:** good first approx.: 2*min(dye_radii)
-    cv_fraction : float
-                  fraction of dyes that are within the contact volume
-                  (e.g. as determined by fluorescence anisotropy)
-    cloud_xyzq : numpy.ndarray
-                 array of x-,y-,z-coordinates and corresponding weights
-                 with a shape [n_gridpts(+), 4]
-    use_LabelLib : bool
-                   make use of LabelLib library to compute FRET values and distances
-
-    Attributes
-    ----------
-    grid : list
-           flattened list of grid point values of the LabelLib.Grid3D class with labeled CV points (not yet reweighted)
-    shape : list
-            shape of the LabelLib.Grid3D
-    originXYZ : list
-                origin of the LabelLib.Grid3D
-    discStep : float
-               spacing of the LabelLib.Grid3D
-
-    n_gridpts : int
-                total number of grid points
-
-    grid_1d : numpy.ndarray
-              one-dimensional array of grid points of length n_gridpts
-    grid_3d : numpy.ndarray
-              3-dimensional array of grid points with a shape given by n_xyz
-    tag_3d : numpy.ndarray
-             one-dimensional array of length n_gridpts
-    cloud_xyzq : numpy.ndarray
-                 array of x-,y-,z-coordinates and corresponding weights
-                 with a shape [n_gridpts(+), 4]
-    ll_Grid3D : LabelLib.Grid3D
-                reweighted LabelLib.Grid3D class with attributes (shape, originXYZ, discStep, grid)
+    grid_acv : LabelLib.Grid3D, optional=None
+        accessible volume with added weight labels for free and contact volume
+        (density label FV: 1.0, density label CV: 2.0); the two volumes are subsequently reweighted
+    cv_thickness : float, optional=0
+        width of the contact volume in Angstrom (default: 0, i.e. no CV is calculated)
+        **Note:** good first approx.: 2*min(dye_radii)
+    cv_fraction : float, optional=0
+        fraction of dyes that are within the contact volume
+        (e.g. as determined by fluorescence anisotropy)
+    cloud_xyzq : ndarray, optional=None
+        array of x-,y-,z-coordinates and corresponding weights
+        with a shape [n_gridpts(+), 4]
+    use_LabelLib : bool, optional=True
+        make use of LabelLib library to compute FRET values and distances
     """
 
     def __init__(self, grid_acv=None, cv_thickness=0, cv_fraction=0, cloud_xyzqt=None, use_LabelLib=True):
@@ -358,25 +326,26 @@ class ACV:
         else:
             self.cloud_xyzqt = cloud_xyzqt
         self.mp = Volume.mean_pos(self.cloud_xyzqt)
-        self.mdp = Volume.median_pos(self.cloud_xyzqt)
 
     def _reweight_cv(self, cv_thickness, cv_fraction):
-        """
-        Reweight the accessible volume based on contact and free volume
+        """Reweight the accessible volume based on contact and free volume
 
         Parameters
         ----------
         cv_thickness : float
-                   width of the contact volume in Angstrom (default: 0, i.e. no CV is calculated)
-                   **Note:** good first approx.: 2*min(dye_radii)
+            width of the contact volume in Angstrom (default: 0, i.e. no CV is calculated)
         cv_fraction : float
-                  fraction of dyes that are within the contact volume
-                  (e.g. as determined by fluorescence anisotropy)
+            relative fraction spent inside the contact volume (i.e. stacked to the surface)
 
         Returns
         -------
         grid_1d : ndarray
                   one-dimensional array of grid points of length n_gridpts
+        
+        Notes
+        -----
+        - A good first approximation of the CV thickness is about two times the smallest dye radius
+        - The CV fraction can be calculated from the residual fluorescence anisotropy
         """
         grid_1d = np.array(self.grid)
         tag_1d = self._tag_volume(grid_1d)
@@ -388,8 +357,7 @@ class ACV:
 
     @staticmethod
     def _weight_factor(grid_1d, cv_fraction):
-        """
-        Calculate the weight of contact volume grid points.
+        """Calculate the weight of contact volume grid points.
 
         Extended summary
         ----------------
@@ -424,9 +392,7 @@ class ACV:
         return weight_cv
 
     def _tag_volume(self, grid_1d):
-        """
-        Assign a tag to the grid values depending on their location in the cloud
-        (1: free volume, 2: contact volume)
+        """Assign a tag to the grid values depending on their location in the cloud (1: free volume, 2: contact volume)
 
         Parameters
         ----------
@@ -444,34 +410,19 @@ class ACV:
 
 
 class FRET:
-    """
+    """FRET class of distance and transfer efficiency for a pair of donor and acceptor ACVs
+
+
     Parameters
     ----------
-    volume1 : instance of the Volume class
-    volume2 : instance of the Volume class
+    volume1, volume2 : instances of the Volume class
     fret_pair : str
-                Distance key specifying the donor acceptor pair
+        Distance key specifying the donor acceptor pair
     labels : dict
-             dye, linker and setup parameters for the accessible volume calculation
+        dye, linker and setup parameters for the accessible volume calculation
     R_DA : ndarray
-           donor acceptor distance distribution and associate weights (optional)
+        donor acceptor distance distribution and associate weights (optional)
     verbose : bool
-
-    Attributes
-    ----------
-    volume1 : instance of the Volume class
-    volume2 : instance of the Volume class
-    R_DA : ndarray
-           donor acceptor distance distribution in (A) and associate weights (optional)
-    use_LabelLib : bool
-                   make use of LabelLib library to compute FRET values and distances
-
-    R_DA : ndarray
-    mean_R_DA : float
-                mean FRET
-    mean_E_DA : float
-    mean_R_DA_E : float
-
 
     Examples
     --------
@@ -479,7 +430,6 @@ class FRET:
     >>> ft.Molecule(volume1, volume2)
 
     >>> ft.Molecule(volume1, volume2, use_LabelLib=False)
-
 
     """
 
@@ -526,20 +476,18 @@ class FRET:
 
     @classmethod
     def from_volumes(cls, volume_list1, volume_list2, fret_pair, labels, R_DA=None):
-        """
-        Alternative constructor for the ft.cloud.FRET class by reading in a list of donor and acceptor volumes
+        """Alternative constructor for the FRET class by reading in a list of donor and acceptor volumes
 
         Parameters
         ----------
-        volume_list1 : array_like
-                       list of Volume instances
-        volume_list2 : array_like
-                       list of Volume instances
+        volume_list1, volume_list2 : array_like
+            lists of Volume instances
         fret_pair : str
+            identifier for donor acceptor pair
         labels : dict
-                 dye, linker and setup parameters for the accessible volume calculation
+            dye, linker and setup parameters for the accessible volume calculation
         R_DA : ndarray
-               donor acceptor distance distribution and associate weights (optional)
+            donor acceptor distance distribution and associate weights (optional)
         """
         n_vols1 = len(volume_list1)
         n_vols2 = len(volume_list2)
@@ -561,12 +509,12 @@ class FRET:
             return fret_trajectory
 
     def save_fret(self, filename):
-        """
-        Write the FRET calculation to a json file
+        """Write the FRET calculation to a json file
 
         Parameters
         ----------
         filename : str
+            filename for FRET prediction
 
         Examples
         --------
@@ -580,7 +528,11 @@ class FRET:
     @property
     def values(self):
         """
-        Returns a dictionary of FRET parameters
+        Pandas Dataframe of FRET parameters
+
+        Returns
+        -------
+        pandas.DataFrame
         """
         fret_results = {'R0 (A)': (float(f'{self.R0 :0.1f}'), np.nan),
                         '<R_DA> (A)': (float(f'{self.mean_R_DA :0.1f}'), float(f'{self.sigma_R_DA :0.1f}')),
@@ -593,12 +545,13 @@ class FRET:
 
 
 class Trajectory:
-    """
+    """Trajectory class of distances and transfer efficiencies from the FRET class
+
     Parameters
     ----------
     fret : instance of the FRET class
     timestep : int
-               time difference between two frames in picoseconds
+        time difference between two frames in picoseconds
     """
     def __init__(self, fret, timestep=None):
         n = len(fret)
@@ -611,12 +564,11 @@ class Trajectory:
 
     @property
     def dataframe(self):
-        """
-        Dataframe view of the Trajectory object
+        """Pandas Dataframe view of the Trajectory object
 
         Returns
         -------
-        df : pandas dataframe
+        pandas.DataFrame
         """
         df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp),
                           index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
@@ -625,69 +577,31 @@ class Trajectory:
         return df
 
     def save_traj(self, filename):
-        """
-        Save the trajectory as a .csv file
+        """Save the trajectory as a .csv file
 
         Parameters
         ----------
         filename : str
+            filename for .csv trajectory
         """
         with open(filename, 'w') as f:
             f.write(self.dataframe.to_csv(index=False))
 
 
 class Volume:
-    """
-    Class object holding the accessible contact volume of a specific labeling position
+    """Class object holding the accessible contact volume of a specific labeling position
 
     Parameters
     ----------
     structure : mdtraj.Trajectory
-                trajectory of atom coordinates loaded from a pdb, xtc or other file
+        trajectory of atom coordinates loaded from a pdb, xtc or other file
     site : str
-           reference identifier for the labeling position
+        reference identifier for the labeling position
     labels : dict
-             dye, linker and setup parameters for the accessible volume calculation
-
-    Attributes
-    ----------
-    labeling_site : str
-                    reference identifier for the labeling position
-    structure : mdtraj.Trajectory
-                trajectory of atom coordinates loaded from a pdb, xtc or other file
-    state : int
-            state in the pdb file (1 based indexing)
-    frame_mdtraj : int
-                   frame number of the mdtraj.Trajectory object (0 based indexing)
-    attach_id : int
-                serial atom id of the attachment point in the pdb file (1 based indexing)
-    attach_id_mdtraj : int
-                serial atom id of the attachment point in the mdtraj.Trajectory object (0 based indexing)
-    resi_atom : str
-                residue name, residue number and atom name of the attachment point
-    mol_selection : str
-                    atom selection expression compatible with `MDTraj <http://mdtraj.org/latest/atom_selection.html>`_
-    linker_length : float
-                    length of the dye linker in Angstrom
-    linker_width : float
-                   diameter of the dye linker in Angstrom
-    simulation_type : {'AV1', 'AV3'}
-                      type of accessible volume calculation
-                      'AV1' parameterizes the dye as sphere with radius `dye_radii[0]`
-                      'AV3' parameterizes the dye as an ellipsoid with three radii `dye_radii`
-    dye_radii : ndarray([3,1])
-                array of dye radii in Angstrom with shape [3,1]
-    grid_spacing : float
-    cv_thickness : float
-                   width of the contact volume in Angstrom (default: 0, i.e. no CV is calculated)
-                   **Note:** good first approx.: 2*min(dye_radii)
-    cv_fraction : float
-                  fraction of dyes that are within the contact volume
-                  (e.g. as determined by fluorescence anisotropy)
-    frame : int
-            frame number of the mdtraj.Trajectory object (0 based indexing)
+        dye, linker and setup parameters for the accessible volume calculation
+    cloud_xyzqt : ndarray
+        array of x-,y-,z-coordinates with corresponding weights and tags with a shape [n_gridpts(+), 5]
     """
-
     def __init__(self, structure, site, labels, cloud_xyzqt=None, verbose=True):
         self.structure = structure
         self.attach_id = labels['Position'][site]['attach_id']
@@ -765,20 +679,24 @@ class Volume:
 
     @classmethod
     def from_frames(cls, structure, site, labels, frames_mdtraj):
-        """
-        Alternative constructor for the ft.cloud.Volume class by reading in one or multiple
+        """Alternative constructor for the Volume class by reading in one or multiple
         frames using the same dye and grid parameters
 
         Parameters
         ----------
         structure : mdtraj.Trajectory
-                    trajectory of atom coordinates loaded from a pdb, xtc or other file
+            trajectory of atom coordinates loaded from a pdb, xtc or other file
         site : str
-               reference identifier for the labeling position
+            reference identifier for the labeling position
         labels : dict
-                 dye, linker and setup parameters for the accessible volume calculation
+            dye, linker and setup parameters for the accessible volume calculation
         frames_mdtraj : int or list
-                        list of frames on the trajectory to be used for the ACV calculation
+            list of frames on the trajectory to be used for the ACV calculation
+
+        Returns
+        -------
+        list
+            list of Volume instances
         """
         n_fr = len(frames_mdtraj)
         printProgressBar(0, n_fr)
@@ -793,20 +711,24 @@ class Volume:
 
     @classmethod
     def from_attachID(cls, structure, site, labels, attachID):
-        """
-        Alternative constructor for the ft.cloud.Volume class by reading in one or multiple
+        """Alternative constructor for the Volume class by reading in one or multiple
         attachment points using the same dye and grid parameters
 
         Parameters
         ----------
         structure : mdtraj.Trajectory
-                    trajectory of atom coordinates loaded from a pdb, xtc or other file
+            trajectory of atom coordinates loaded from a pdb, xtc or other file
         site : str
-               reference identifier for the labeling position
+            reference identifier for the labeling position
         labels : dict
-                 dye, linker and setup parameters for the accessible volume calculation
+            dye, linker and setup parameters for the accessible volume calculation
         attachID : int or list
-                   list of attachment ids on the structure to be used for the ACV calculation
+            list of attachment ids on the structure to be used for the ACV calculation
+
+        Returns
+        -------
+        list
+            list of Volume instances
 
         Examples
         --------
@@ -828,19 +750,18 @@ class Volume:
 
     @staticmethod
     def reshape_grid(grid, shape):
-        """
-        Convert a 1D-grid to a 3D-Grid
+        """Convert a 1D-grid to a 3D-Grid
 
         Parameters
         ----------
         grid : array_like
-               one-dimensional grid array/list of length n_gridpts
+            one-dimensional grid array/list of length n_gridpts
         shape : list
 
         Returns
         -------
-        grid_3d : ndarray
-                  3-dimensional array of grid points with a shape given by n_xyz
+        ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
 
         Examples
         --------
@@ -862,22 +783,21 @@ class Volume:
     @staticmethod
     @nb.jit(forceobj=True)
     def grid2pts(grid_3d, xyz_min, d_xyz, *args):
-        """
-        Convert 3D-grid with density values to xyz coordinates with a weight (q)
+        """Convert 3D-grid with density values to xyz coordinates with a weight (q)
 
         Parameters
         ----------
-        grid_3d : numpy.ndarray([nx,ny,nz])
-                  3-dimensional array of grid points with a shape given by n_xyz
+        grid_3d : ndarray([nx,ny,nz])
+            3-dimensional array of grid points with a shape given by n_xyz
         xyz_min : list
-                  origin coordinates of the grid
+            origin coordinates of the grid
         d_xyz : list
-                grid spacing in x-,y- and z-direction
+            grid spacing in x-,y- and z-direction
+
         Returns
         -------
-        cloud_xyzqt : ndarray
-                     array of x-,y-,z-coordinates with corresponding weights and tags
-                     with a shape [n_gridpts(+), 5]
+        ndarray
+            array of x-,y-,z-coordinates with corresponding weights and tags with a shape [n_gridpts(+), 5]
 
         Examples
         --------
@@ -929,13 +849,12 @@ class Volume:
 
     @property
     def mol_xyzr(self):
-        """
-        Get coordinates and vdW radii of all selected atoms in the structure
+        """Get coordinates and vdW radii of all selected atoms in the structure
 
         Returns
         -------
-        xyzr : numpy.ndarray
-               array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
+        ndarray
+            array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
 
         Examples
         --------
@@ -968,13 +887,12 @@ class Volume:
 
     @property
     def attach_xyz(self):
-        """
-        Get coordinates of the dye attachment point
+        """Get coordinates of the dye attachment point
 
         Returns
         -------
-        xyz : ndarray
-              one-dimensional array of x-,y-,z-coordinates of the attachment point
+        ndarray
+            one-dimensional array of x-,y-,z-coordinates of the attachment point
 
         Examples
         --------
@@ -985,18 +903,22 @@ class Volume:
         xyz = self.structure.xyz[self.frame_mdtraj][self.attach_id_mdtraj] * 10
         return xyz.astype(np.float64)
 
-    def save_acv(self, filename, format='xyz', **kwargs):
-        """
-        Write accessible contact volume to file
+    def save_acv(self, filename, format='pdb', **kwargs):
+        """Write accessible contact volume to file
 
         Parameters
         ----------
         filename : str
-        format : str
-                 default: xyz
-        **kwargs
-            - write_weights : bool
-            - encode_element : bool
+            filename for ACV
+        format : {'pdb', 'xyz', 'openDX'}
+            file format for ACV
+        **kwargs : dict
+            key value pairs for .xyz files are {write_weights : bool, encode_element : bool}
+        
+        Notes
+        -----
+        - `write_weights` includes the weights of each point as an additional column in the .xyz file
+        - `encode_element` uses the element column (first col.) to encode the FV (=F) or CV (=C)
 
         Examples
         --------
@@ -1013,37 +935,31 @@ class Volume:
                 encode_element = kwargs['encode_element']
             except KeyError:
                 encode_element = False
-            try:
-                include_mdp = kwargs['include_mdp']
-            except KeyError:
-                include_mdp = False
-            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, self.acv.mdp, write_weights, encode_element,
-                                  include_mdp)
+            file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, write_weights, encode_element)
         elif format == 'open_dx':
             d_xyz = [self.grid_spacing] * 3
             xyz_min = self.acv.originXYZ
             file_str = export.open_dx(self.acv.grid_3d, xyz_min, d_xyz)
         else:
-            try:
-                include_mdp = kwargs['include_mdp']
-            except KeyError:
-                include_mdp = False
-            file_str = export.pdb(self.acv.cloud_xyzqt, self.acv.mp, self.acv.mdp, include_mdp=include_mdp)
+            file_str = export.pdb(self.acv.cloud_xyzqt, self.acv.mp)
         with open(filename, 'w') as fname:
             fname.write(file_str)
 
     def calc_av(self, use_LabelLib):
-        """
-        Calculate the dye accessible volume [#]_ [#]_
+        """Calculate the dye accessible volume
 
         Returns
         -------
-        av : LabelLib.Grid3D
-             the attributes of the av LabelLib.Grid3D object are:
-                - discStep : float  (the grid spacing)
-                - originXYZ : list  (x-/y-/z-coordinate of the grid origin)
-                - shape : list      (number of grid points in x-/y-/z-direction)
-                - grid : list       (flattened list of grid point values)
+        LabelLib.Grid3D
+            object containing a 3-dimensional array of grid points and additional attributes (see Notes)
+
+        Notes
+        -----
+        The attributes of the av LabelLib.Grid3D object are:
+            - discStep : float  (the grid spacing)
+            - originXYZ : list  (x-/y-/z-coordinate of the grid origin)
+            - shape : list      (number of grid points in x-/y-/z-direction)
+            - grid : list       (flattened list of grid point values)
 
         See Also
         --------
@@ -1051,9 +967,9 @@ class Volume:
 
         References
         ----------
-        .. [#] Kalinin, S. et al. "A toolkit and benchmark study for FRET-restrained high-precision \
+        .. [3] Kalinin, S. et al. "A toolkit and benchmark study for FRET-restrained high-precision \
         structural modeling", *Nat. Methods* **9**, 1218–1225 (2012).
-        .. [#] Sindbert, S. et al. "Accurate distance determination of nucleic acids via Förster \
+        .. [4] Sindbert, S. et al. "Accurate distance determination of nucleic acids via Förster \
         resonance energy transfer: implications of dye linker length and rigidity", \
         *J. Am. Chem. Soc.* **133**, 2463–2480 (2011).
 
@@ -1079,13 +995,13 @@ class Volume:
         return av
 
     def _dye_acc_surf(self):
-        """
-        Calculate dye accessible surface by padding the vdW radius with the thickness of the contact volume
+        """Calculate dye accessible surface by padding the vdW radius with the thickness of the contact volume
 
         Returns
-        ------
--       das_xyzrm : numpy.ndarray([5,n_atoms])
-                    array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)
+        -------
+        ndarray
+            array with dimensions (5,n_atoms) of marked coordinates and padded vdW radii
+            (n_atoms = number of atoms in mdtraj.Trajectory)
         """
         cv_label = 2.0
         das_marker = np.full(self.mol_xyzr.shape[0], cv_label)
@@ -1094,22 +1010,24 @@ class Volume:
         return das_xyzrm
 
     def calc_acv(self, use_LabelLib):
-        """
-        Partition the accessible volume into a free and a contact volume [#]_ [#]_
+        """Partition the accessible volume into a free and a contact volume
 
         Returns
         -------
         acv : fretraj.cloud.ACV
-              the attributes from the LabelLib.Grid3D object are:
-                - discStep : float  (the grid spacing)
-                - originXYZ : list  (x-/y-/z-coordinate of the grid origin)
-                - shape : list      (number of grid points in x-/y-/z-direction)
-                - grid : list       (flattened list of grid point values)
 
-              additional attributes are:
-                - grid_3d : numpy.ndarray([shape])
-                - n_gridpts : int
-                - tag : numpy.ndarray([1,n_gridpts])
+        Notes
+        -----
+        The attributes from the LabelLib.Grid3D object are:
+            - discStep : float  (the grid spacing)
+            - originXYZ : list  (x-/y-/z-coordinate of the grid origin)
+            - shape : list      (number of grid points in x-/y-/z-direction)
+            - grid : list       (flattened list of grid point values)
+
+        Additional attributes are:
+            - grid_3d : ndarray([shape])
+            - n_gridpts : int
+            - tag : ndarray([1,n_gridpts])
 
         See Also
         --------
@@ -1117,9 +1035,9 @@ class Volume:
 
         References
         ----------
-        .. [#] Steffen, F. D., Sigel, R. K. O. & Börner, R. "An atomistic view on carbocyanine \
+        .. [1] Steffen, F. D., Sigel, R. K. O. & Börner, R. "An atomistic view on carbocyanine \
         photophysics in the realm of RNA", *Phys. Chem. Chem. Phys.* **18**, 29045–29055 (2016).
-        .. [#] Dimura, M. et al. Quantitative FRET studies and integrative modeling unravel the structure \
+        .. [2] Dimura, M. et al. Quantitative FRET studies and integrative modeling unravel the structure \
         and dynamics of biomolecular systems", *Curr. Opin. Struct. Biol.* **40**, 163–185 (2016).
 
         Examples
@@ -1140,18 +1058,16 @@ class Volume:
 
     @staticmethod
     def mean_pos(cloud_xyzqt):
-        """
-        Calculate mean dye position in accessible contact volume
+        """Calculate mean dye position of the accessible contact volume
 
         Parameters
         ----------
         cloud_xyzq : ndarray
-                     array of x-,y-,z-coordinates and corresponding weights
-                     with a shape [n_gridpts(+), 4]
+            array of x-,y-,z-coordinates and corresponding weights with a shape [n_gridpts(+), 4]
 
         Returns
         -------
-        mp : ndarray
+        ndarray
              mean position
         """
         x = np.dot(cloud_xyzqt[:, 0], cloud_xyzqt[:, 3])
@@ -1161,35 +1077,17 @@ class Volume:
         return mp
 
     @staticmethod
-    def median_pos(cloud_xyzqt):
-        """
-        Calculate median dye position in accessible contact volume
-
-        Parameters
-        ----------
-        cloud_xyzq : ndarray
-                     array of x-,y-,z-coordinates and corresponding weights
-                     with a shape [n_gridpts(+), 4]
-
-        Returns
-        -------
-        mdp : ndarray
-              median position
-        """
-        quantile = 0.5
-        mdp = np.apply_along_axis(Volume._weighted_quantile_1D, 0, cloud_xyzqt[:, 0:3], cloud_xyzqt[:, 3], quantile)
-        return mdp
-
-    @staticmethod
     def _weighted_quantile_1D(arr_1D, weights, quantile):
-        """
-        Compute the weighted quantile of a 1D-array
+        """Compute the weighted quantile of a 1D-array
 
         Parameters
         ----------
-        data : ndarray
+        arr_1D : ndarray
+            one-dimensional array
         weights : ndarray
+            weight of each element of the array
         quantile : float
+            quantile to compute (median=0.5)
 
         Returns
         -------
@@ -1206,16 +1104,16 @@ class Volume:
         return np.interp(quantile, xp, arr_1D_sorted)
 
     def save_mp(self, filename, format='plain', units='A'):
-        """
-        Write mean dye position to file
+        """Write mean dye position to a file
 
         Parameters
         ----------
         filename : str
-        format : ndarray
-                 mean position
-        units : str
-                distance units ('A': Angstroms, 'nm': nanometers)
+            filename for the mean position
+        format : {'plain', 'json'}
+            file format (plain .txt or .json)
+        units : {'A', 'nm'}
+            distance units ('A': Angstroms, 'nm': nanometers)
 
         Examples
         --------

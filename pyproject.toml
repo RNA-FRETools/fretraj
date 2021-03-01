@@ -20,7 +20,7 @@ classifiers = [
     "Framework :: Jupyter",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-include = ["CHANGELOG.md", "skripts", "tests"]
+include = ["CHANGELOG.md", "src/skripts", "tests"]
 exclude = ["docs"]
 
 
@@ -37,6 +37,8 @@ labellib = {git = "https://github.com/fdsteffen/LabelLib", rev = "src-neighbour-
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
+jupyter-book = "^0.10.0"
+pytest-mock = "^3.5.1"
 
 
 [tool.poetry.scripts]

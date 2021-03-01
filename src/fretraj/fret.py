@@ -10,49 +10,41 @@ else:
 
 
 def dist_mp(acv1, acv2):
-    """
-    Compute the distance between mean dye positions R_MP of two accessible
+    """Compute the distance between mean dye positions R_MP of two accessible 
     contact volumes
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
 
     Returns
     -------
-    R_mp : float
-           distance between the mean dye positions of acv1 and acv2
-
-    Examples
-    --------
-
-    >>> avobj.dist_mp(acv1, acv2)
-
+    float
+        distance between the mean dye positions of acv1 and acv2
     """
     R_mp = np.sqrt(sum((acv1.mp - acv2.mp)**2))
     return R_mp
 
 
 def dists_DA(acv1, acv2, n_dist=10**6, return_weights=True):
-    """
-    Compute a randomly subsampled donor-acceptor distance distribution
+    """Compute a randomly subsampled donor-acceptor distance distribution
     for the two accessible volume clouds
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    n_dist : int, optional
-             number of distances to calculate
-    return_weights : bool
-                     additional vector with weights
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    n_dist : int, default=10E6
+        number of distances to calculate
+    return_weights : bool, default=True
+        additional vector with weights
 
     Returns
     -------
-    R_DA : numpy.ndarray
-           ndarray of shape 1 x n_dist or 2 x n_dist (if weights are included)
-           containing distances between acv1 and acv2
+    ndarray
+        ndarray of shape 1 x n_dist or 2 x n_dist (if weights are included)
+        containing distances between acv1 and acv2
     """
     if return_weights:
         idx1 = np.random.choice(len(acv1.cloud_xyzqt), n_dist)
@@ -73,18 +65,23 @@ def dists_DA(acv1, acv2, n_dist=10**6, return_weights=True):
 
 
 def dists_DA_ll(acv1, acv2, n_dist=10**6, return_weights=True):
-    """
-    Compute a randomly subsampled donor-acceptor distance distribution
+    """Compute a randomly subsampled donor-acceptor distance distribution
     for the two accessible volume clouds
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    n_dist : int, optional
-             number of distances to calculate
-    include_weights : bool
-                      additional vector with weights
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    n_dist : int, default=10E6
+        number of distances to calculate
+    include_weights : bool, default=True
+        additional vector with weights
+
+    Returns
+    -------
+    ndarray
+        ndarray of shape 1 x n_dist or 2 x n_dist (if weights are included)
+        containing distances between acv1 and acv2
     """
     R_DA = np.array(ll.sampleDistanceDistInv(acv1.ll_Grid3D, acv2.ll_Grid3D,
                     n_dist))
@@ -95,31 +92,23 @@ def dists_DA_ll(acv1, acv2, n_dist=10**6, return_weights=True):
 
 
 def mean_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
-    """
-    Calculate the average donor-acceptor distance <R_DA>
+    """Calculate the average donor-acceptor distance <R_DA>
     between donor and acceptor
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    R_DA : numpy.ndarray
-           ndarray of length n_dist containing distances between acv1 and acv2
-    n_dist : int, optional
-             number of distances to calculate
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    R_DA : ndarray
+        ndarray of length n_dist containing distances between acv1 and acv2
+    n_dist : int, default=10E6
+        number of distances to calculate
     verbose: bool
 
     Returns
     -------
-    mean_R_DA : float
-                average distance between donor and acceptor
-
-    Examples
-    --------
-
-    >>> acv1 =
-    >>> mean_dist_DA(acv1, acv2, n_dist=10**6)
-
+    float
+        average distance between donor and acceptor
     """
     if R_DA is None:
         R_DA = dists_DA(acv1, acv2, n_dist)
@@ -133,44 +122,43 @@ def mean_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
 
 
 def mean_dist_DA_ll(acv1, acv2, n_dist=10**6):
-    """
-    Calculate the average donor-acceptor distance <R_DA> between
+    """Calculate the average donor-acceptor distance <R_DA> between
     acv1 and acv2 using LabelLib
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    n_dist : int, optional
-             number of distances to calculate
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    n_dist : int, default=10E6
+        number of distances to calculate
 
     Returns
     -------
-    mean_R_DA : float
-                average distance between donor and acceptor
+    float
+        average distance between donor and acceptor
     """
     mean_R_DA = ll.meanDistance(acv1.ll_Grid3D, acv2.ll_Grid3D, n_dist)
     return mean_R_DA
 
 
 def std_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
-    """
-    Calculate the standard deviation of the donor acceptor distances sigma_R_DA
+    """Calculate the standard deviation of the donor acceptor distances sigma_R_DA
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    R_DA : numpy.ndarray
-           ndarray of length n_dist containing distances between acv1 and acv2
-    n_dist : int, optional
-             number of distances to calculate
-    verbose : bool
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    R_DA : ndarray
+        ndarray of length n_dist containing distances between acv1 and acv2
+    n_dist : int, default=10E6
+        number of distances to calculate
+    verbose : bool, default=False
+        be verbose about calculation steps
 
     Returns
     -------
-    sigma_R_DA : float
-                 standard deviation of donor acceptor distances
+    float
+        standard deviation of donor acceptor distances
     """
     if R_DA is None:
         R_DA = dists_DA(acv1, acv2, n_dist)
@@ -185,27 +173,33 @@ def std_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
 
 
 def FRET_DA(acv1, acv2, R_DA=None, R0=54, n_dist=10**6, verbose=False):
-    """
-    Calculate the FRET efficiencies E for each donor acceptor distance
+    """Calculate the FRET efficiencies E for each donor acceptor distance
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    R_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing distances between acv1 and acv2
-           (if None calculate on the fly)
-    R0 : float
-         Förster radius in Angstrom
-    n_dist : int, optional
-             number of distances to calculate
-    verbose : bool
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    R_DA : ndarray, default=None
+        ndarray of length n_dist containing distances between acv1 and acv2
+        (if None calculate on the fly)
+    R0 : float, default=54
+        Förster radius in Angstrom
+    n_dist : int, default=10E6
+        number of distances to calculate
+    verbose : bool, default=False
+        be verbose about calculation steps
 
     Returns
     -------
-    E_DA : numpy.ndarray
-           ndarray of shape 1 x n_dist or 2 x n_dist (if weights are included)
-           containing FRET efficiencies between acv1 and acv2
+    ndarray
+        ndarray of shape 1 x n_dist or 2 x n_dist (if weights are included)
+        containing FRET efficiencies between acv1 and acv2
+
+    Notes
+    -----
+    The transfer efficiency *E* is given by
+
+    .. math::  E = \\frac{R_0^6}{R_0^6+R_\\text{DA}^6}
 
     """
     if R_DA is None:
@@ -221,29 +215,29 @@ def FRET_DA(acv1, acv2, R_DA=None, R0=54, n_dist=10**6, verbose=False):
 
 def mean_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
                  verbose=False):
-    """
-    Calculate the average FRET efficiency <E> between donor and acceptor cloud
+    """Calculate the average FRET efficiency <E> between donor and acceptor cloud
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    E_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing FRET efficiencies
-           between acv1 and acv2 (if None calculate on the fly)
-    R_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing distances
-           between acv1 and acv2 (if None calculate on the fly)
-    R0 : float
-         Förster radius in Angstrom
-    n_dist : int, optional
-             number of distances to calculate
-    verbose : bool
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    E_DA : ndarray, default=None
+        ndarray of length n_dist containing FRET efficiencies
+        between acv1 and acv2 (if None calculate on the fly)
+    R_DA : ndarray, default=None
+        ndarray of length n_dist containing distances
+        between acv1 and acv2 (if None calculate on the fly)
+    R0 : float, default=54
+        Förster radius in Angstrom
+    n_dist : int, default=10E6
+        number of distances to calculate
+    verbose : bool, default=False
+        be verbose about calculation steps
 
     Returns
     -------
-    mean_E_DA : float
-                average FRET efficiency between donor and acceptor cloud
+    float
+        average FRET efficiency between donor and acceptor cloud
     """
     if E_DA is None:
         E_DA = FRET_DA(acv1, acv2, R_DA, R0, n_dist, verbose)
@@ -258,29 +252,29 @@ def mean_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
 
 def std_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
                 verbose=False):
-    """
-    Calculate the standard deviation of the FRET efficiencies sigma_E
+    """Calculate the standard deviation of the FRET efficiencies sigma_E
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    E_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing FRET efficiencies
-           between acv1 and acv2 (if None calculate on the fly)
-    R_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing distances
-           between acv1 and acv2 (if None calculate on the fly)
-    R0 : float
-         Förster radius in Angstrom
-    n_dist : int, optional
-             number of distances to calculate
-    verbose : bool
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    E_DA : ndarray, default=None
+        ndarray of length n_dist containing FRET efficiencies
+        between acv1 and acv2 (if None calculate on the fly)
+    R_DA : ndarray, default=None
+        ndarray of length n_dist containing distances
+        between acv1 and acv2 (if None calculate on the fly)
+    R0 : float, default=54
+        Förster radius in Angstrom
+    n_dist : int, default=10E6
+        number of distances to calculate
+    verbose : bool, default=False
+        be verbose about calculation steps
 
     Returns
     -------
-    sigma_E_DA : float
-                 standard deviation of the FRET efficiencies
+    float
+        standard deviation of the FRET efficiencies
     """
     if E_DA is None:
         E_DA = FRET_DA(acv1, acv2, R_DA, R0, n_dist, verbose)
@@ -295,63 +289,67 @@ def std_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
 
 
 def mean_FRET_DA_ll(acv1, acv2, R0=54, n_dist=10**6):
-    """
-    Calculate the average FRET efficiency <E> between donor and acceptor cloud
+    """Calculate the average FRET efficiency <E> between donor and acceptor cloud
     using LabelLib
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    R0 : float
-         Förster radius in Angstrom
-    n_dist : int, optional
-             number of distances to calculate
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    R0 : float, default=54
+        Förster radius in Angstrom
+    n_dist : int, default=10E6
+        number of distances to calculate
+
+    Returns
+    -------
+    float
+        average FRET efficiency between donor and acceptor cloud
     """
     return ll.meanEfficiency(acv1.ll_Grid3D, acv2.ll_Grid3D, R0, n_dist)
 
 
 def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None,
                           R0=54, n_dist=10**6, verbose=False):
-    """
-    Calculate the FRET averaged donor acceptor distance <R_DA>_E
+    """Calculate the FRET averaged donor acceptor distance <R_DA>_E
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    mean_E_DA : float, optional
-                average FRET efficiency between donor and acceptor cloud
-                (if None calculate on the fly)
-    E_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing FRET efficiencies
-           between acv1 and acv2 (if None calculate on the fly)
-    R_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing distances
-           between acv1 and acv2 (if None calculate on the fly)
-    R0 : float
-         Förster radius in Angstrom
-    n_dist : int, optional
-             number of distances to calculate
-    verbose : bool
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    mean_E_DA : float, default=None
+        average FRET efficiency between donor and acceptor cloud
+        (if None calculate on the fly)
+    E_DA : ndarray, default=None
+        ndarray of length n_dist containing FRET efficiencies
+        between acv1 and acv2 (if None calculate on the fly)
+    R_DA : ndarray, default=None
+        ndarray of length n_dist containing distances
+        between acv1 and acv2 (if None calculate on the fly)
+    R0 : float, default=54
+        Förster radius in Angstrom
+    n_dist : int, default=10E6
+        number of distances to calculate
+    verbose : bool, default=False
+        be verbose about calculation steps
 
     Returns
     -------
-    mean_R_DA_E : float
-                  FRET averaged donor acceptor distance
+    float
+        FRET averaged donor acceptor distance
 
     Examples
     --------
 
-    with known mean_E_DA (fastest)
+    with known :math:`\\langle E_\\text{DA}\\rangle` (fastest)
 
     >>> mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=mymean_E_DA)
 
-    with known E_DA (mean_E_DA is calculated on-the-fly)
+    with known :math:`E_\\text{DA}`, i.e. :math:`\\langle E_\\text{DA}\\rangle` is calculated on-the-fly
 
     >>> mean_dist_DA_fromFRET(acv1, acv2, E_DA=myE_DA)
 
-    with known R_DA (E_DA and mean E_DA are calculated on-the-fly)
+    with known :math:`R_\\text{DA}`, i.e. :math:`E_\\text{DA}` and :math:`\\langle E_\\text{DA}\\rangle` are calculated on-the-fly
 
     >>> mean_dist_DA_fromFRET(acv1, acv2, R_DA=myR_DA)
 
@@ -368,36 +366,35 @@ def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None,
 def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None,
                          E_DA=None, R_DA=None, R0=54, n_dist=10**6,
                          verbose=False):
-    """
-    Calculate the standard deviation of the FRET averaged donor acceptor
+    """Calculate the standard deviation of the FRET averaged donor acceptor
     distances sigma_R_DA_E by error propagation
 
     Parameters
     ----------
-    acv1 : fretraj.cloud.ACV
-    acv2 : fretraj.cloud.ACV
-    mean_E_DA : float, optional
-                average FRET efficiency between donor and acceptor cloud
-                (if None calculate on the fly)
-    sigma_E_DA : float
-                 standard deviation of the FRET efficiencies
-    E_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing FRET efficiencies
-           between acv1 and acv2 (if None calculate on the fly)
-    R_DA : numpy.ndarray, optional
-           ndarray of length n_dist containing distances
-           between acv1 and acv2 (if None calculate on the fly)
-    R0 : float
+    acv1, acv2 : fretraj.cloud.ACV
+        donor and acceptor ACVs
+    mean_E_DA : float, default=None
+        average FRET efficiency between donor and acceptor cloud
+        (if None calculate on the fly)
+    sigma_E_DA : float, default=None
+        standard deviation of the FRET efficiencies
+    E_DA : ndarray, default=None
+        ndarray of length n_dist containing FRET efficiencies
+        between acv1 and acv2 (if None calculate on the fly)
+    R_DA : ndarray, default=None
+        ndarray of length n_dist containing distances
+        between acv1 and acv2 (if None calculate on the fly)
+    R0 : float, default=54
          Förster radius in Angstrom
-    n_dist : int, optional
-             number of distances to calculate
-    verbose : bool
+    n_dist : int, default=10E6
+        number of distances to calculate
+    verbose : bool, default=False
+        be verbose about calculation steps
 
     Returns
     -------
-    sigma_R_DA_E : float
-                   standard deviation of the FRET averaged donor acceptor
-                   distances
+    float
+        standard deviation of the FRET averaged donor acceptor distances
     """
     if (mean_E_DA is None) or (sigma_E_DA is None):
         mean_E_DA = mean_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist, verbose)
@@ -411,39 +408,48 @@ def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None,
 
 
 def dist_attach(attach1_xyz, attach2_xyz):
-    """
-    Calculate the distance between the attachment sites
+    """Calculate the distance between the attachment sites
 
     Parameters
     ----------
-    attach1_xyz : ndarray
-                  one-dimensional array of x-,y-,z-coordinates
-                  of the first attachment point
-    attach2_xyz : ndarray
-                  one-dimensional array of x-,y-,z-coordinates
-                  of the second attachment point
+    attach1_xyz, attach2_xyz : ndarray
+        one-dimensional array of x-,y-,z-coordinates of the attachment points
 
     Returns
     -------
-    R_attach : float
-               distance between the attachment sites
+    float
+        distance between the attachment sites
     """
     R_attach = np.sqrt(sum((attach1_xyz - attach2_xyz)**2))
     return R_attach
 
 
 def R_DAE_to_Rmp(mean_R_DA_E):
-    """
-    Conversion function for <R_DA,E> to R_mp from Kalinin, Nat.Methods (2012)
+    """Conversion function for <R_DA,E> to R_mp derived in Kalinin, *Nat. Methods* (2012)
 
     Parameters
     ----------
     mean_R_DA_E : float
+        FRET averaged donor acceptor distance
 
     Returns
     -------
-    R_mp : float
-           distance between the mean dye positions
+    float
+        distance between the mean dye positions
+
+    Notes
+    -----
+    The conversion function between :math:`\\langle R_\\text{DA}\\rangle_E` and :math:`R_\\text{mp}` is a third-order 
+    polynomial:
+
+    .. math::  R_\\text{mp} = 1.109\\cdot 10^{-5}\\cdot\\langle R_\\text{DA}\\rangle_E^3 - 7.286\\cdot 10^{-3}\\cdot
+        \\langle R_\\text{DA}\\rangle_E^2 + 1.979\\cdot\\langle R_\\text{DA}\\rangle_E - 34.345
+
+    References
+    ----------
+
+    .. [3] Kalinin, S. et al. "A toolkit and benchmark study for FRET-restrained high-precision \
+        structural modeling", *Nat. Methods* **9**, 1218–1225 (2012).
     """
     R_mp = 1.109*10**-5*mean_R_DA_E**3 - 7.286*10**-3*mean_R_DA_E**2
     + 1.979*mean_R_DA_E - 34.345

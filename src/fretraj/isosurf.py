@@ -3,24 +3,26 @@
 from pymol import cmd
 
 
+@cmd.extend
 def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=100, gaussRes=3, grid_buffer=2):
-    """
-    Creates a map object from a selection with xyz coordinates (e.g. a PDB or XYZ object)
+    """Creates a map object from a selection with xyz coordinates (e.g. a PDB or XYZ object)
     and draws a smooth isosurface at the specified contour level.
 
     Parameters
     ----------
 
     name : str
+        name of the map
     selection : xyz object
-              e.g. a loaded PDB or XYZ file
+        loaded PDB or XYZ file
     contour_level : float
+        contour level (in sigma units)
     grid_spacing : float
+        spacing between grid points (in A)
     bfactor : int
-              temperature factor; higher numbers generates smoother surfaces
-              (increasing the b-factor is more computationally efficient than increasing the gaussian resolution)
+        temperature factor; higher numbers generates smoother surfaces
     gaussRes : int
-               Gaussian resolution; higher numbers generate smoother surfaces
+        Gaussian resolution; higher numbers generate smoother surfaces
 
     Notes
     ----
@@ -44,40 +46,43 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
     cmd.disable(selection)
 
 
+@cmd.extend
 def draw_map(name, isomap, contour_level):
     """
     Draws an isosurface of an open-dx/ccp4 map at the specified contour level.
 
     Parameters
     ----------
-
     name : str
+        name of the map
     acv_map : map object
-              e.g. an ccp4 or open-dx map
+        an ccp4 or open-dx map
     contour_level : float
+        contour level (in sigma units)
     """
     name_surf = name + '_isosurf'
     cmd.isosurface(name_surf, isomap, contour_level)
 
 
+@cmd.extend
 def set_acv_style(donor_name, acceptor_name, donor_site, acceptor_site, labels, volume_type='AV', transparency=False):
     """
     Set a default style for the ACV clouds
 
     Parameters
     ----------
-    donor_name : str
-    acceptor_name : str
+    donor_name, acceptor_name : str
+        names of the donor and acceptor ACV
     donor_site : str
-                 reference identifier for the donor labeling position
+        reference identifier for the donor labeling position
     acceptor_site : str
-                    reference identifier for the acceptor labeling position
+        reference identifier for the acceptor labeling position
     labels : dict
-             dye, linker and setup parameters for the accessible volume calculation
+        dye, linker and setup parameters for the accessible volume calculation
     volume_type : {'AV', 'CV'}
-                  entire accessible volume or contact volume
+        entire accessible volume or contact volume
     transparency : bool
-                   make volume transparent
+        make volume transparent
     """
     cmd.set_color('donor_green', [108, 179, 129])
     cmd.set_color('acceptor_red', [194, 84, 73])
@@ -100,8 +105,3 @@ def set_acv_style(donor_name, acceptor_name, donor_site, acceptor_site, labels, 
     if transparency:
         cmd.set('transparency', 0.4, donor_name+'_isosurf')
         cmd.set('transparency', 0.4, acceptor_name+'_isosurf')
-
-
-cmd.extend("smooth_map_from_xyz", smooth_map_from_xyz)
-cmd.extend("draw_map", draw_map)
-cmd.extend("set_acv_style", set_acv_style)
