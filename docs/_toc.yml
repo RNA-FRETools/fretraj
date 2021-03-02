@@ -4,6 +4,7 @@
   - file: getting_started/installation
   - file: getting_started/acv_calculation
   - file: getting_started/fret_prediction
+  - file: getting_started/reproducible-notebook
 
 - part: Background
   chapters:
