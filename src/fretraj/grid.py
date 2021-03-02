@@ -229,9 +229,7 @@ class Grid3D:
         Returns
         -------
         idxs : list of 2-tuples of numpy.ndarray and float
-            the tuples contain the ijk indices and the distance from the origin (0,0,0)
-            e.g. [(1.0,array([-1,0,0])),
-                  (1.0,array([0,-1,0]))]
+            the tuples contain the ijk indices and the distance from the origin (0,0,0), e.g. [(1.0,array([-1,0,0]))]
 
         Notes
         -----

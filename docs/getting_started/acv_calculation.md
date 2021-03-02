@@ -4,6 +4,10 @@ Accessible contact volumes and FRET calculations can be done directly from PyMOL
 
 Start by opening the FRETraj GUI from the `Plugin Menu`.
 
+```{note}
+Upon first startup, *FRETraj* asks the user to define a root directory where all output files (ACVs, label and FRET parameters) are stored 
+```
+
 ```{figure} ../images/PyMOL_interface.png
 ---
 height: 240
