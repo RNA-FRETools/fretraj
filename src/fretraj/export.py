@@ -2,31 +2,30 @@
 
 NAME = 'D'
 ELEMENT = 'D'
-NAME_MP = 'H'
-ELEMENT_MP = 'H'
-ELEMENT_MDP = 'H'
+NAME_MP = 'Mn'
+ELEMENT_MP = 'Mn'
 OCCUPANCY_MP = -1
 
 _pdb_format = '{:6}{:5d}{:>5}{:1}{:>3} {:1}{:4d}{:1}   {:>8.3f}{:>8.3f}{:>8.3f}{:>6.2f}{:>6.2f}          {:>2}{:>2}\n'
 
 
 def open_dx(grid_3d, xyz_min, d_xyz):
-    """
-    Return an OpenDX formatted string
+    """Return an OpenDX formatted string
 
     Parameters
     ----------
-    density : numpy.ndarray([nx,ny,nz])
-              3-dimensional array of grid points with a shape given by n_xyz
+    density : ndarray
+        3-dimensional array of grid points with a shape given by n_xyz
     xyz_min : list
-              origin coordinates of the grid
+        origin coordinates of the grid
     d_xyz : list
-            grid spacing in x-,y- and z-direction
+        grid spacing in x-,y- and z-direction
 
     Returns
     -------
-    s : str
+    str
         OpenDX formatted string
+
     """
     xmin, ymin, zmin = xyz_min
     nx, ny, nz = grid_3d.shape
@@ -59,23 +58,22 @@ def open_dx(grid_3d, xyz_min, d_xyz):
     return s
 
 
-def xyz(cloud_xyzqt, mp, mdp, write_weights=True, encode_element=False, include_mdp=False):
-    """
-    Return an XYZ formatted string
+def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
+    """Return an XYZ formatted string
 
     Parameters
     ----------
     cloud_xyzq : ndarray
-                 array of x-,y-,z-coordinates and corresponding weights
-                 with a shape [n_gridpts(+), 4]
+        array of x-,y-,z-coordinates and corresponding weights with a shape [n_gridpts(+), 4]
     mp : ndarray
          mean position
-    write_weights : bool
-                    include weights in XYZ file (5th column)
+    write_weights : bool, optional=True
+        include weights in XYZ file (5th column)
+    encode_element : bool, optional=False
 
     Returns
     -------
-    s : str
+    str
         XYZ formatted string
     """
     n_points = cloud_xyzqt.shape[0]
@@ -86,48 +84,42 @@ def xyz(cloud_xyzqt, mp, mdp, write_weights=True, encode_element=False, include_
         for k in range(n_points):
             if encode_element:
                 if cloud_xyzqt[k, 4] == 2:
-                    element = 'H'
+                    element = 'C'  # contact volume
                 else:
-                    element = ELEMENT
+                    element = 'F'  # free volume
             else:
                 element = ELEMENT
-            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1],
-                                                                 cloud_xyzqt[k, 2], cloud_xyzqt[k, 3])
-        s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2], -1)
-        if include_mdp:
-            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MDP, mdp[0], mdp[1], mdp[2], -1)
+            s += f'{element:1}\t{cloud_xyzqt[k, 0]:.3f}\t{cloud_xyzqt[k, 1]:.3f}\t{cloud_xyzqt[k, 2]:.3f}\t{cloud_xyzqt[k, 3]:.3f}\n'
+        s += f'{ELEMENT_MP:1}\t{mp[0]:.3f}\t{mp[1]:.3f}\t{mp[2]:.3f}\t{-1:.3f}\n'
+
     else:
         for k in range(n_points):
             if encode_element:
                 if cloud_xyzqt[k, 4] == 2:
-                    element = 'H'
+                    element = 'C'
                 else:
-                    element = ELEMENT
+                    element = 'F'
             else:
                 element = ELEMENT
             s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1],
                                                          cloud_xyzqt[k, 2])
         s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2])
-        if include_mdp:
-            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MDP, mdp[0], mdp[1], mdp[2])
     return s
 
 
-def pdb(cloud_xyzqt, mp, mdp, include_mdp=False):
-    """
-    Returns a PDB formatted string
+def pdb(cloud_xyzqt, mp):
+    """Returns a PDB formatted string
 
     Parameters
     ----------
     cloud_xyzq : ndarray
-                 array of x-,y-,z-coordinates and corresponding weights
-                 with a shape [n_gridpts(+), 4]
+        array of x-,y-,z-coordinates and corresponding weights with a shape [n_gridpts(+), 4]
     tag : ndarray
-          one-dimensional array of length n_gridpts
+        one-dimensional array of length n_gridpts
 
     Returns
     -------
-    s : str
+    str
         PDB formatted string
 
     Notes
@@ -187,7 +179,4 @@ def pdb(cloud_xyzqt, mp, mdp, include_mdp=False):
                                 cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], bfactor, cloud_xyzqt[k, 3], ELEMENT, ' ')
     s += _pdb_format.format('ATOM', k+2, NAME_MP, ' ', 'MP', ' ', 0, ' ', mp[0], mp[1], mp[2], bfactor, -1,
                             ELEMENT_MP, ' ')
-    if include_mdp:
-        s += _pdb_format.format('ATOM', k+3, NAME_MP, ' ', 'MDP', ' ', 0, ' ', mdp[0], mdp[1], mdp[2], bfactor, -1,
-                                ELEMENT_MDP, ' ')
     return s
