@@ -39,6 +39,7 @@ pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
 jupyter-book = "^0.10.0"
 pytest-mock = "^3.5.1"
+matplotlib = "^3.3.4"
 
 
 [tool.poetry.scripts]
