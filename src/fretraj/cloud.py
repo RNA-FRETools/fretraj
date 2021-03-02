@@ -8,6 +8,7 @@ import json
 import mdtraj as md
 import numba as nb
 import copy
+import pickle
 
 try:
     import LabelLib as ll
@@ -168,6 +169,44 @@ def check_labels(labels, verbose=True):
         else:
             labels[field] = None
             raise ValueError('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
+
+def save_obj(filename, obj):
+    """
+    Save a serialized object to a binary file
+
+    Parameters
+    ----------
+    filename : str
+        filename for pickle object
+    obj : serializable object
+    """
+    with open(filename, 'wb') as f:
+        try:
+            pickle.dump(obj, f)
+        except TypeError:
+            try:
+                obj_tmp = copy.copy(obj)
+                obj_tmp.acv = copy.copy(obj.acv)
+                del obj_tmp.av
+                del obj_tmp.acv.ll_Grid3D
+                print('Note: the LabelLib.Grid objects have been removed as they cannot be pickled.')
+            except AttributeError:
+                print('Error: Cannot pickle the passed object')
+            else:
+                pickle.dump(obj_tmp, f)
+
+
+def load_obj(filename):
+    """
+    Load a serialized object from a binary file
+
+    Parameters
+    ----------
+    filename : str
+        filename of pickle obj
+    """
+    with open(filename, 'rb') as f:
+        return pickle.load(f)
 
 
 def save_labels(filename, labels):
@@ -553,7 +592,7 @@ class Trajectory:
     timestep : int
         time difference between two frames in picoseconds
     """
-    def __init__(self, fret, timestep=None):
+    def __init__(self, fret, timestep=None, kappasquare=None):
         n = len(fret)
         self.mean_E_DA = np.array([fret[i].mean_E_DA for i in range(n) if hasattr(fret[i], 'mean_E_DA')]).round(2)
         self.mean_R_DA = np.array([fret[i].mean_R_DA for i in range(n) if hasattr(fret[i], 'mean_R_DA')]).round(1)
@@ -561,6 +600,7 @@ class Trajectory:
         self.R_attach = np.array([fret[i].R_attach for i in range(n) if hasattr(fret[i], 'R_attach')]).round(1)
         self.R_mp = np.array([fret[i].R_mp for i in range(n) if hasattr(fret[i], 'R_mp')]).round(1)
         self.timestep = timestep
+        self.kappasquare = kappasquare
 
     @property
     def dataframe(self):
@@ -574,18 +614,49 @@ class Trajectory:
                           index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
         if self.timestep:
             df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
+        if self.kappasquare:
+            df = pd.concat((df, pd.Series(np.ones(df.shape[0]), name='kappasquare')*self.kappasquare), axis=1)
         return df
 
-    def save_traj(self, filename):
+    def save_traj(self, filename, format='csv', units='A', header=True, R_kappa_only=False):
         """Save the trajectory as a .csv file
 
         Parameters
         ----------
         filename : str
             filename for .csv trajectory
+        format : {'csv', 'txt'}
+        units : {'A', 'nm'}
+            distance units
+        header : bool, default=True
+            include header in the output file
+        R_kappa_only : bool, default=False
+            include only time, R_DA and kappasquare columns in the output file (as *gmx dyecoupl*, Gromacs)
         """
+        df = self.dataframe
         with open(filename, 'w') as f:
-            f.write(self.dataframe.to_csv(index=False))
+            if format == 'txt':
+                separator = '\t'
+            else:
+                separator = ','
+            if units == 'nm':
+                df['<R_DA> (A)'] = self.dataframe['<R_DA> (A)']/10
+                df['<R_DA_E> (A)'] = self.dataframe['<R_DA_E> (A)']/10
+                df['R_attach (A)'] = self.dataframe['R_attach (A)']/10
+                df['R_mp (A)'] = self.dataframe['R_mp (A)']/10
+                df.rename({header: header.replace('(A)', '(nm)') for header in df.columns.values},
+                          axis='columns', inplace=True)
+            if R_kappa_only:
+                if self.timestep and self.kappasquare:
+                    if units == 'nm':
+                        columns = ['time (ps)', '<R_DA> (nm)', 'kappasquare']
+                    else:
+                        columns = ['time (ps)', '<R_DA> (A)', 'kappasquare']
+                else:
+                    raise KeyError('Time or kappasquare is missing in the DataFrame')
+            else:
+                columns = None
+            f.write(df.to_csv(index=False, sep=separator, header=header, columns=columns))
 
 
 class Volume:
