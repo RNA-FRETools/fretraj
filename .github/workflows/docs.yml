@@ -3,7 +3,7 @@ name: FRETraj docs
 on: 
   push:
     paths:
-    - "docs/"
+    - 'docs/**'
   workflow_dispatch:
 
 jobs:
