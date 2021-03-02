@@ -4,7 +4,6 @@
   - file: getting_started/installation
   - file: getting_started/acv_calculation
   - file: getting_started/fret_prediction
-#  - file: jupyter_notebook
 
 - part: Background
   chapters:

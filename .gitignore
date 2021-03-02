@@ -109,3 +109,4 @@ other/
 *fretraj_settings.conf
 
 out/
+*.ipynb

@@ -1,6 +1,8 @@
 # Calculating ACVs
 
-The PyMOL plugin allows the user to visually interact with the molecular viewer while calculating accessible volumes. This is particularly useful when planning new single-molecule experiments and figuring out the optimal dye positions on the target biomolecule.
+Accessible contact volumes and FRET calculations can be done directly from PyMOL. The PyMOL plugin allows the user to visually interact with the molecular viewer while exploring optimal sites for labeling a biomolecule of interest. This tutorial will guide you step-by-step through the workflow.
+
+Start by opening the FRETraj GUI from the `Plugin Menu`.
 
 ```{figure} ../images/PyMOL_interface.png
 ---
