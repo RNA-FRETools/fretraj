@@ -34,6 +34,7 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-cov
+        pip install pytest-mock
         pytest --cov=fretraj --cov-report=xml:unit_cov.xml tests/unit
     - name: Upload unit tests to Codecov
       uses: codecov/codecov-action@v1
