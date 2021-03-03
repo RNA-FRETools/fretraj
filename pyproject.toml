@@ -31,7 +31,6 @@ numpy = "<1.20.0"
 pandas = "^1.2.2"
 numba = "<=0.50.1"
 PyQt5 = "^5.15.2"
-labellib = {git = "https://github.com/fdsteffen/LabelLib", rev = "src-neighbour-nodes", optional = true}
 
 
 [tool.poetry.dev-dependencies]
