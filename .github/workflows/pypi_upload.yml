@@ -37,7 +37,7 @@ jobs:
         conda install anaconda-client     
     - name: Build conda package
       env:
-        PACKAGE = fretraj
+        PACKAGE: fretraj
       run: |
         mkdir build
         conda skeleton pypi $PACKAGE --noarch-python
