@@ -17,13 +17,8 @@ jobs:
         python-version: 3.8
     - name: build docs
       run: |
-        sudo apt-get install pandoc 
-        pip install sphinx
-        pip install sphinx-rtd-theme
-        pip install nbsphinx
         pip install .
-        cd docs/
-        make html
+        jupyter-book build docs
     - name: deploy to gh-pages
       uses: JamesIves/github-pages-deploy-action@3.6.2
       with:
