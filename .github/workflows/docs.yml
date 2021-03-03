@@ -17,7 +17,8 @@ jobs:
         python-version: 3.8
     - name: build docs
       run: |
-        pip install .
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+        poetry install
         jupyter-book build docs
     - name: deploy to gh-pages
       uses: JamesIves/github-pages-deploy-action@3.6.2
