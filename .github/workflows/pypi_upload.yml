@@ -30,6 +30,7 @@ jobs:
       continue-on-error: true
     
     - name: Add conda to system path
+      if: always()
       run: |
         echo $CONDA/bin >> $GITHUB_PATH   
     - name: Install conda dependencies
