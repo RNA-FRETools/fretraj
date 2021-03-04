@@ -29,16 +29,13 @@ jobs:
         poetry publish
     
     - name: Add conda to system path
-      if: always()
       run: |
         echo $CONDA/bin >> $GITHUB_PATH   
     - name: Install conda dependencies
-      if: success()
       run: |
         conda install conda-build
         conda install anaconda-client     
     - name: Build conda package
-      if: success()
       env:
         PACKAGE: fretraj
       run: |
@@ -51,10 +48,10 @@ jobs:
         dev_url=`sed -n -e 's/^.*repository = //p' pyproject.toml`
         sed -r -i "s|(doc_url: )|\1$doc_url|g" fretraj/meta.yaml
         sed -r -i "s|(dev_url: )|\1$dev_url|g" fretraj/meta.yaml
+        sed -r -i '/dev_url:/a \  readme: README.md' fretraj/meta.yaml
 
         conda-build $PACKAGE --output-folder build/ --channel conda-forge
     - name: Upload to Anaconda
-      if: success()
       env:
         ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
       run: |
