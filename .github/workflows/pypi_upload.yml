@@ -29,8 +29,8 @@ jobs:
         poetry publish
     
     - name: Add conda to system path
+      if: always()
       run: |
-        if: always()
         echo $CONDA/bin >> $GITHUB_PATH   
     - name: Install conda dependencies
       run: |
