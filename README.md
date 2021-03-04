@@ -10,7 +10,7 @@
 A recent addition to the original AV model (Kalinin et al. *Nat. Methods*, 2012) is the so-called **contact volume** (Steffen et. al. *PCCP* 2016). Here, the accessible volume is split into a free volume (FV, transparent) where the dye is freely diffusing and a contact volume (CV, opaque) where the dye stacks to the biomolecular surface. Time-resolved anisotropy experiments suggest that certain fluorophores, among those the commonly used cyanine fluorophores Cy3 and Cy5, are particularly prone to interact with both proteins and nucleic acids. The contact volume accounts for this effect by reweighting the point-cloud. By choosing different experimental weights for the free and contact component the AV dye model is refined, making *in silico* FRET predictions more reliable.
 
 ## Installation
-Follow the instructions for your platform [here](https://fdsteffen.github.io/fretraj/installation)
+Follow the instructions for your platform [here](https://fdsteffen.github.io/fretraj/getting_started/installation)
 
 ## References
 If you use **FRETraj** in your work please refer to the following paper:
