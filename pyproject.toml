@@ -30,7 +30,8 @@ mdtraj = "^1.9.5"
 numpy = "<1.20.0"
 pandas = "^1.2.2"
 numba = "<=0.50.1"
-PyQt5 = "^5.15.2"
+PyQt5 = "^5.12.3"
+packaging = "^20.9"
 
 
 [tool.poetry.dev-dependencies]

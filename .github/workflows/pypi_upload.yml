@@ -42,13 +42,15 @@ jobs:
         mkdir build
         conda skeleton pypi $PACKAGE --noarch-python
 
-        sed -i "s|pyqt5|pyqt|g" fretraj/meta.yaml
-        sed -i "s|your-github-id-here|fdsteffen|g" fretraj/meta.yaml
+        sed -r "s|(host:)|\1\n\    - poetry|g" $PACKAGE/meta.yaml
+        sed -i "s|pyqt5|pyqt|g" $PACKAGE/meta.yaml
+        sed -i "s|your-github-id-here|fdsteffen|g" $PACKAGE/meta.yaml
         doc_url=`sed -n -e 's/^.*documentation = //p' pyproject.toml`
         dev_url=`sed -n -e 's/^.*repository = //p' pyproject.toml`
-        sed -r -i "s|(doc_url: )|\1$doc_url|g" fretraj/meta.yaml
-        sed -r -i "s|(dev_url: )|\1$dev_url|g" fretraj/meta.yaml
-        sed -r -i '/dev_url:/a \  readme: README.md' fretraj/meta.yaml
+        sed -r -i "s|(doc_url: )|\1$doc_url|g" $PACKAGE/meta.yaml
+        sed -r -i "s|(dev_url: )|\1$dev_url|g" $PACKAGE/meta.yaml
+        sed -r -i "s|(license_file: )|\1LICENSE|g" $PACKAGE/meta.yaml
+        
 
         conda-build $PACKAGE --output-folder build/ --channel conda-forge
     - name: Upload to Anaconda

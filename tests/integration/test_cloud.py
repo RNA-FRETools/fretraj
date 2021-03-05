@@ -18,7 +18,7 @@ def create_labels():
                         "dye_radius1": 8,
                         "dye_radius2": 3,
                         "dye_radius3": 3,
-                        "use_LabelLib": True,
+                        "use_LabelLib": False,
                         },
                        "Cy5":
                        {"attach_id": 288,
@@ -27,7 +27,7 @@ def create_labels():
                         "dye_radius1": 9.5,
                         "dye_radius2": 3,
                         "dye_radius3": 3,
-                        "use_LabelLib": True,
+                        "use_LabelLib": False,
                         },
                        },
                       "Distance": {"Cy3-Cy5":
@@ -52,12 +52,13 @@ def create_volumes(create_labels, load_structure):
 
 class TestVolume:
 
+    @pytest.mark.skipif(not cloud._LabelLib_found, reason="requires LabelLib")
     def test_volume_LabelLib(self, create_labels, load_structure):
+        create_labels['Position']['Cy3']['use_LabelLib'] = True
         vol = cloud.Volume(load_structure, 'Cy3', create_labels)
         assert hasattr(vol.acv, 'mp')
 
     def test_volume_pythononly(self, create_labels, load_structure):
-        create_labels['Position']['Cy3']['use_LabelLib'] = False
         vol = cloud.Volume(load_structure, 'Cy3', create_labels)
         assert hasattr(vol.acv, 'mp')
 
