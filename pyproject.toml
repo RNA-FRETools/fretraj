@@ -32,6 +32,7 @@ pandas = "^1.2.2"
 numba = "<=0.50.1"
 PyQt5 = "^5.12.3"
 packaging = "^20.9"
+astunparse = "1.6.2"
 
 
 [tool.poetry.dev-dependencies]
@@ -44,7 +45,7 @@ matplotlib = "^3.3.4"
 
 [tool.poetry.scripts]
 fretraj = "fretraj.cloud:main"
-fretraj_gui = "fretraj.gui:main"
+fretraj_gui = "fretraj.fretraj_gui:main"
 pymol_vis = "skripts.console:pymol_vis"
 vmd_vis = "skripts.console:vmd_vis"
 

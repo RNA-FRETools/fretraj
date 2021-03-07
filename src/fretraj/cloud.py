@@ -77,6 +77,7 @@ def parseCmd():
                      an MD trajectory or a given PDB structure')
     parser.add_argument('--version', action='version',
                         version='%(prog)s ' + str(metadata['Version']))
+    parser.add_argument('--path', action='version', version=f'package directory: {package_directory}', help='Show package directory')
     parser.add_argument('-i', '--input', help='Input PDB structure (.pdb)', required=True)
     parser.add_argument('-p', '--parameters',
                         help='Parameter file (.json)', required=True)
@@ -128,7 +129,7 @@ def check_labels(labels, verbose=True):
     labels : dict
         position of labels, dye and grid parameters
     verbose : bool, optional=True
-        be verbose about missing parameter and their fall-back values 
+        be verbose about missing parameter and their fall-back values
     """
     for field in _label_dict.keys():
         if field in labels.keys():

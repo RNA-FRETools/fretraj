@@ -43,6 +43,7 @@ jobs:
         conda skeleton pypi $PACKAGE --noarch-python
 
         sed -r "s|(host:)|\1\n\    - poetry|g" $PACKAGE/meta.yaml
+        sed -r "s|(run:)|\1\n\    - poetry|g" $PACKAGE/meta.yaml
         sed -i "s|pyqt5|pyqt|g" $PACKAGE/meta.yaml
         sed -i "s|your-github-id-here|fdsteffen|g" $PACKAGE/meta.yaml
         doc_url=`sed -n -e 's/^.*documentation = //p' pyproject.toml`
