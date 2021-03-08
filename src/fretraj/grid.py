@@ -36,7 +36,7 @@ class Grid3D:
 
     Notes
     -----
-    Attributes of the 
+    Attributes of the LabelLib class
         - discStep : float  (the grid spacing)
         - originXYZ : numpy.array  (x-/y-/z-coordinate of the grid origin)
         - shape : numpy.array      (number of grid points in x-/y-/z-direction)
@@ -235,10 +235,6 @@ class Grid3D:
         -----
         The neighbor list is built from an origin set at (0,0,0). imaxR defines the number of indices
         along one axis (i,j or k) to build the index cube.
-        For example: if imaxR=3 then a cube of 7*7*7=343 indices is built initially.
-        From these indices only accept those that with a squared norm less or equal than maxR squared,
-        which leaves us with 123 indices from the original 343 indices.
-
         For imaxR=3, first a cube of 7*7*7=343 indices is built (1).
         This is reduced in a second step to 123 indices that have a distance < imaxR from the origin (2).
         Finally, they are reduced 74 essential neighbors by the distances in _dist_list (3).

@@ -46,7 +46,7 @@ _label_dict = {'Position': {'pd_key': {'attach_id': ((int, float), None),
                                        'cv_fraction': ((int, float), 0),
                                        'state': (int, 1),
                                        'frame_mdtraj': (int, 0),
-                                       'use_LabelLib': (bool, True),
+                                       'use_LabelLib': (bool, False),
                                        'contour_level_AV': ((int, float), 0),
                                        'contour_level_CV': ((int, float), 0.7),
                                        'b_factor': (int, 100),
@@ -91,7 +91,7 @@ def parseCmd():
     return (in_filePDB, param_fileJSON, out_fileACV)
 
 
-def labeling_params(param_file):
+def labeling_params(param_file, verbose=True):
     """Parse the parameter file to get the configuration settings
 
     Parameters
@@ -108,7 +108,7 @@ def labeling_params(param_file):
         labels_json = json.load(f)
 
     try:
-        check_labels(labels_json)
+        check_labels(labels_json, verbose)
     except KeyError as e:
         error_type = e.args[0]
         key = e.args[1]
@@ -170,6 +170,7 @@ def check_labels(labels, verbose=True):
         else:
             labels[field] = None
             raise ValueError('Cannot read {} parameters from file: Missing field \'{}\'.'.format(field, field))
+
 
 def save_obj(filename, obj):
     """

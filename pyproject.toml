@@ -20,8 +20,7 @@ classifiers = [
     "Framework :: Jupyter",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-include = ["CHANGELOG.md", "src/skripts", "tests"]
-exclude = ["docs"]
+include = ["CHANGELOG.md", "src/skripts", "tests", "docs"]
 
 
 [tool.poetry.dependencies]

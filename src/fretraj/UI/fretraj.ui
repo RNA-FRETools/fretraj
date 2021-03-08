@@ -101,11 +101,14 @@
         </item>
         <item row="2" column="1">
          <widget class="QCheckBox" name="checkBox_useLabelLib">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string>use LabelLib</string>
           </property>
           <property name="checked">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="tristate">
            <bool>false</bool>

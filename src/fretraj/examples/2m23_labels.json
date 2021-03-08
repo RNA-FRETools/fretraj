@@ -10,8 +10,7 @@
       "cv_thickness":6,
       "cv_fraction":0.8,
       "grid_spacing":0.9,
-      "simulation_type":"AV3",
-      "donor":true
+      "simulation_type":"AV3"
     },
     "1-C59-O5'":{
       "attach_id":929,
