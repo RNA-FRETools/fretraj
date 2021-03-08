@@ -1,0 +1,32 @@
+{
+  "Position":{
+    "1-G1-O5'":{
+      "attach_id":2,
+      "linker_length":17,
+      "linker_width":4.3,
+      "dye_radius1":8.2,
+      "dye_radius2":3.4,
+      "dye_radius3":3,
+      "cv_thickness":6,
+      "cv_fraction":0.8,
+      "grid_spacing":0.9,
+      "simulation_type":"AV3"
+    },
+    "1-C59-O5'":{
+      "attach_id":929,
+      "linker_length":17,
+      "linker_width":4.3,
+      "dye_radius1":10.1,
+      "dye_radius2":3.4,
+      "dye_radius3":3,
+      "cv_thickness":6,
+      "cv_fraction":0.8,
+      "grid_spacing":0.9,
+      "simulation_type":"AV3"
+    }
+  },
+	"Distance":{
+		"1-59":{"R0":54
+		}
+	}
+}

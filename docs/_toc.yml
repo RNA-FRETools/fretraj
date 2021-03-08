@@ -1,0 +1,24 @@
+- file: intro
+- part: Getting started
+  chapters:
+  - file: getting_started/installation
+  - file: getting_started/acv_calculation
+  - file: getting_started/fret_prediction
+  - file: getting_started/reproducible-notebook
+
+- part: Background
+  chapters:
+  - file: background/accessible_volume
+  - file: background/contact_volume
+  - file: background/parameter_file
+
+- part: Code
+  chapters:
+  - file: module/cloud
+  - file: module/fret
+  - file: module/grid
+  - file: module/utilities
+
+- part: References
+  chapters:
+  - file: references
