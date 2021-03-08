@@ -18,3 +18,9 @@ from . import export
 from . import fret
 from . import grid
 from . import jupyter
+
+import warnings
+import numba as nb
+
+warnings.simplefilter('ignore', category=nb.errors.NumbaDeprecationWarning)
+warnings.simplefilter('ignore', category=nb.errors.NumbaPendingDeprecationWarning)

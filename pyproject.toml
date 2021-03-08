@@ -30,9 +30,9 @@ numpy = "<1.20.0"
 pandas = "^1.2.2"
 numba = "<=0.50.1"
 PyQt5 = "^5.12.3"
-packaging = "^20.9"
 nglview = "^2.7.7"
 astunparse = "1.6.2"
+importlib-metadata = "^3.7.2"
 
 
 [tool.poetry.dev-dependencies]

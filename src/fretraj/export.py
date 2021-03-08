@@ -101,9 +101,8 @@ def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
                     element = 'F'
             else:
                 element = ELEMENT
-            s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(element, cloud_xyzqt[k, 0], cloud_xyzqt[k, 1],
-                                                         cloud_xyzqt[k, 2])
-        s += '{:1}\t{:.3f}\t{:.3f}\t{:.3f}\n'.format(ELEMENT_MP, mp[0], mp[1], mp[2])
+            s += f'{element:1}\t{cloud_xyzqt[k, 0]:.3f}\t{cloud_xyzqt[k, 1]:.3f}\t{cloud_xyzqt[k, 2]:.3f}\n'
+        s += f'{ELEMENT_MP:1}\t{mp[0]:.3f}\t{mp[1]:.3f}\t{mp[2]:.3f}\n'
     return s
 
 
