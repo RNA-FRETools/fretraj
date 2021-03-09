@@ -1,5 +1,4 @@
 <img src="https://github.com/fdsteffen/fretraj/blob/master/docs/images/fretraj_logo_readme.png">
-<img src="docs/images/fretraj_logo_readme.png">
 
 [![Build Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20build/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
 [![Docs Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20docs/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
