@@ -1,241 +1,321 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Search &mdash; FRETraj 0.1.0 documentation</title>
-  
 
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search</title>
     
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
     
-    <script type="text/javascript" src="_static/searchtools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" /> 
-</head>
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search"  style="background: #333" >
-          
-
-          
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> FRETraj
-          
-
-          
-            
-            <img src="_static/fretraj_logo.png" class="logo" alt="Logo"/>
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="accessible_volume.html">The accessible volume</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contact_volume.html">Dye interactions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parameter_file.html">The parameter file</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Tutorials</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pymol_plugin.html">PyMOL Plugin</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Code</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_grid.html">Grid</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_cloud.html">Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_fret.html">FRET</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_utilities.html">Utilities</a></li>
-</ul>
-<p class="caption"><span class="caption-text">References</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="references.html">Publications and related projects</a></li>
-</ul>
-
-            
-          
-        </div>
-        
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
       
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">FRETraj</a>
-        
-      </nav>
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="shortcut icon" href="_static/fretraj_logo.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="#" />
+  <script src="searchindex.js" defer></script>
+  
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
 
 
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/fretraj_logo.png" class="logo" alt="logo">
+  
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="#" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Welcome to FRETraj
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started/installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started/acv_calculation.html">
+   Calculating ACVs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started/fret_prediction.html">
+   Making FRET predictions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started/jupyter-notebook.html">
+   <em>
+    FRETraj
+   </em>
+   and Jupyter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started/trajectories.html">
+   Working with trajectories
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Background
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="background/accessible_volume.html">
+   The accessible volume
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="background/contact_volume.html">
+   Dye interactions with the biomolecule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="background/parameter_file.html">
+   The parameter file
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Code
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="module/cloud.html">
+   Cloud
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="module/fret.html">
+   FRET
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="module/grid.html">
+   Grid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="module/utilities.html">
+   Utilities
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   References
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
           
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Search</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
             
-        
-      </li>
-    
-  </ul>
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+            <!-- Source interaction buttons -->
 
-  
-  <hr/>
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/RNA-FRETools/fretraj"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2Fsearch.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search functionality.
-    </p>
-  </div>
-  </noscript>
 
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <h1 id="search-documentation">Search</h1>
+  <div id="fallback" class="admonition warning">
+  <script>$('#fallback').hide();</script>
+  <p>
+    Please activate JavaScript to enable the search
+    functionality.
+  </p>
+  </div>
+  <p>
+    Searching for multiple words only shows matches that contain
+    all words.
+  </p>
+  <form action="" method="get">
+    <input type="text" name="q" aria-labelledby="search-documentation" value="" />
+    <input type="submit" value="search" />
+    <span id="search-progress" style="padding-left: 10px"></span>
+  </form>
   
   <div id="search-results">
   
   </div>
 
-           </div>
-           
-          </div>
-          <footer>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
+              </div>
+              
         
-        &copy; Copyright 2020, Fabio D. Steffen
-
-    </p>
-  </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
+        <div class='prev-next-bottom'>
+            
 
         </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Fabio D. Steffen<br/>
+        
+            &copy; Copyright 2020-2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
       </div>
+    </div>
 
-    </section>
-
-  </div>
-  
-
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(false);
-      });
-  </script>
-
-  
-  
     
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
-   
+  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
 
 
-</body>
+    
+  </body>
 </html>

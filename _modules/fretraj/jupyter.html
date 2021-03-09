@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fretraj.jupyter</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../../_static/fretraj_logo.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/fretraj_logo.png" class="logo" alt="logo">
+  
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Welcome to FRETraj
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../getting_started/installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../getting_started/acv_calculation.html">
+   Calculating ACVs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../getting_started/fret_prediction.html">
+   Making FRET predictions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../getting_started/jupyter-notebook.html">
+   <em>
+    FRETraj
+   </em>
+   and Jupyter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../getting_started/trajectories.html">
+   Working with trajectories
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Background
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../background/accessible_volume.html">
+   The accessible volume
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../background/contact_volume.html">
+   Dye interactions with the biomolecule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../background/parameter_file.html">
+   The parameter file
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Code
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../module/cloud.html">
+   Cloud
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../module/fret.html">
+   FRET
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../module/grid.html">
+   Grid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../module/utilities.html">
+   Utilities
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../references.html">
+   References
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/RNA-FRETools/fretraj"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2F_modules/fretraj/jupyter.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <h1>Source code for fretraj.jupyter</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="c1"># start a PyMOL server session from a terminal:</span>
+<span class="c1">#   pymol -R</span>
+
+<span class="c1"># On Windows you may create a shortcut that executes the following command:</span>
+<span class="c1">#   C:\path\to\PyMOLWin.exe -R</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">nglview</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span>
+
+
+<div class="viewcode-block" id="connect2pymol"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter.connect2pymol">[docs]</a><span class="k">def</span> <span class="nf">connect2pymol</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Establish an RPC connection to run PyMOL commands from the command line or from a Jupyter notebook</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">xmlrpc.client</span> <span class="k">as</span> <span class="nn">xmlrpclib</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">xmlrpclib</span><span class="o">.</span><span class="n">ServerProxy</span><span class="p">(</span><span class="s1">&#39;http://localhost:9123&#39;</span><span class="p">)</span>
+    <span class="n">curr_wd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="n">curr_wd</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;/mnt/([a-z])&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1:&#39;</span><span class="p">,</span> <span class="n">curr_wd</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">cmd</span></div>
+
+
+<div class="viewcode-block" id="nglview_trajectory"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter.nglview_trajectory">[docs]</a><span class="k">def</span> <span class="nf">nglview_trajectory</span><span class="p">(</span><span class="n">traj_biomol</span><span class="p">):</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">NGLWidget</span><span class="p">()</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_biomol</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_simplified_base</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;/0&#39;</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorScheme</span><span class="o">=</span><span class="s1">&#39;atomindex&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_cartoon</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;/0&#39;</span><span class="p">,</span> <span class="n">aspectRatio</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorScheme</span><span class="o">=</span><span class="s1">&#39;atomindex&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">stage</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">mouse_preset</span><span class="o">=</span><span class="s1">&#39;pymol&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">view</span></div>
+
+
+<div class="viewcode-block" id="nglview_trajectory_AV"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter.nglview_trajectory_AV">[docs]</a><span class="k">def</span> <span class="nf">nglview_trajectory_AV</span><span class="p">(</span><span class="n">traj_biomol</span><span class="p">,</span> <span class="n">traj_volume1</span><span class="p">,</span> <span class="n">traj_volume2</span><span class="p">,</span> <span class="n">surface_representation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a nglview trajectory scene with donor and acceptor accessible volumes (AV)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    traj_biomol : mdtraj.Trajectory</span>
+<span class="sd">        trajectory of the biomolecule</span>
+<span class="sd">    traj_volume1, traj_volume2 : mdtraj.Trajectory</span>
+<span class="sd">        trajectory of the donor and acceptor accessible volume</span>
+<span class="sd">    surface_representation : bool (default: False)</span>
+<span class="sd">        show a surface representation (instead of spacefill, which is faster)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    view : nglview.NGLWidget</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">NGLWidget</span><span class="p">()</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_biomol</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_volume1</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_volume2</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">add_simplified_base</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;/0&#39;</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorScheme</span><span class="o">=</span><span class="s1">&#39;atomindex&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_cartoon</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;/0&#39;</span><span class="p">,</span> <span class="n">aspectRatio</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorScheme</span><span class="o">=</span><span class="s1">&#39;atomindex&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">surface_representation</span><span class="p">:</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#6cb381&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                         <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#c25449&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                         <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">add_spacefill</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#6cb381&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">add_spacefill</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#c25449&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">stage</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">mouse_preset</span><span class="o">=</span><span class="s1">&#39;pymol&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">view</span></div>
+
+
+<div class="viewcode-block" id="nglview_trajectory_ACV"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter.nglview_trajectory_ACV">[docs]</a><span class="k">def</span> <span class="nf">nglview_trajectory_ACV</span><span class="p">(</span><span class="n">traj_biomol</span><span class="p">,</span> <span class="n">traj_volume1_FV</span><span class="p">,</span> <span class="n">traj_volume2_FV</span><span class="p">,</span> <span class="n">traj_volume1_CV</span><span class="p">,</span> <span class="n">traj_volume2_CV</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a nglview trajectory scene with donor and acceptor accessible-contact volumes (ACV)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    traj_biomol : mdtraj.Trajectory</span>
+<span class="sd">        trajectory of the biomolecule</span>
+<span class="sd">    traj_volume1_FV, traj_volume2_FV : mdtraj.Trajectory</span>
+<span class="sd">        trajectory of the donor and acceptor free volume</span>
+<span class="sd">    traj_volume1_CV, traj_volume2_CV : mdtraj.Trajectory</span>
+<span class="sd">        trajectory of the donor and acceptor contact volume</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    view : nglview.NGLWidget</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">NGLWidget</span><span class="p">()</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_biomol</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_volume1_CV</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_volume2_CV</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_volume1_FV</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">traj_volume2_FV</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">add_simplified_base</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;/0&#39;</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorScheme</span><span class="o">=</span><span class="s1">&#39;atomindex&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_cartoon</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;/0&#39;</span><span class="p">,</span> <span class="n">aspectRatio</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorScheme</span><span class="o">=</span><span class="s1">&#39;atomindex&#39;</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#6cb381&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                     <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#c25449&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                     <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#6cb381&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                     <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#c25449&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                     <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">stage</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">mouse_preset</span><span class="o">=</span><span class="s1">&#39;pymol&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">view</span></div>
+
+
+<div class="viewcode-block" id="nglview_multimodel_ACV"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter.nglview_multimodel_ACV">[docs]</a><span class="k">def</span> <span class="nf">nglview_multimodel_ACV</span><span class="p">(</span><span class="n">biomol_filename</span><span class="p">,</span> <span class="n">volume1_filename</span><span class="p">,</span> <span class="n">volume2_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a nglview multi-model structure scene with donor and acceptor accessible-contact volumes (ACV)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    structure_filename : str</span>
+<span class="sd">                         multi-model PDB of the biomolecule</span>
+<span class="sd">    volume1_filename, volume2_filename : str</span>
+<span class="sd">        multi-model PDB of the donor and acceptor accessible-contact volume</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    view : nglview.NGLWidget</span>
+<span class="sd">    n_model : int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">view</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">NGLWidget</span><span class="p">()</span>
+    <span class="n">struct</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">FileStructure</span><span class="p">(</span><span class="n">biomol_filename</span><span class="p">)</span>
+    <span class="n">acv_D</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">FileStructure</span><span class="p">(</span><span class="n">volume1_filename</span><span class="p">)</span>
+    <span class="n">acv_A</span> <span class="o">=</span> <span class="n">nglview</span><span class="o">.</span><span class="n">FileStructure</span><span class="p">(</span><span class="n">volume2_filename</span><span class="p">)</span>
+
+    <span class="n">struct_str</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">get_structure_string</span><span class="p">()</span>
+    <span class="n">n_models</span> <span class="o">=</span> <span class="n">struct_str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;MODEL&#39;</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">struct</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">acv_D</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">acv_A</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">clear_representations</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">add_simplified_base</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;/0&#39;</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorScheme</span><span class="o">=</span><span class="s1">&#39;atomindex&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_cartoon</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;/0&#39;</span><span class="p">,</span> <span class="n">aspectRatio</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colorScheme</span><span class="o">=</span><span class="s1">&#39;atomindex&#39;</span><span class="p">)</span>
+
+    <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#6cb381&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                     <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;CV&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#c25449&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                     <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;CV&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#6cb381&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                     <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#c25449&#39;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">isolevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                     <span class="n">disablePicking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">stage</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">mouse_preset</span><span class="o">=</span><span class="s1">&#39;pymol&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">view</span><span class="p">,</span> <span class="n">n_models</span></div>
+
+
+<div class="viewcode-block" id="_change_model"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter._change_model">[docs]</a><span class="k">def</span> <span class="nf">_change_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Change the current model</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">n_components</span><span class="p">):</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">_remote_call</span><span class="p">(</span><span class="s1">&#39;setSelection&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;compList&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;/</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">component_index</span><span class="o">=</span><span class="n">i</span><span class="p">))</span>
+        <span class="n">n_representations</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># more than 5 representations are unlikely</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_representations</span><span class="p">):</span>
+            <span class="n">view</span><span class="o">.</span><span class="n">_remote_call</span><span class="p">(</span><span class="s1">&#39;setSelection&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;Representation&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;/</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">],</span>
+                              <span class="n">kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">component_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">repr_index</span><span class="o">=</span><span class="n">i</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="model_slider"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter.model_slider">[docs]</a><span class="k">def</span> <span class="nf">model_slider</span><span class="p">(</span><span class="n">n_models</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A slider widget for multi-model structures</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_models : int</span>
+<span class="sd">               number of models in the structure</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int_slider: ipywidgets.IntSlider</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See also: https://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">int_slider</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">(</span>
+        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="nb">max</span><span class="o">=</span><span class="n">n_models</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Frame:&#39;</span><span class="p">,</span>
+        <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">continuous_update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span>
+        <span class="n">readout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">readout_format</span><span class="o">=</span><span class="s1">&#39;d&#39;</span>
+        <span class="p">)</span>
+    <span class="n">int_slider</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">_on_slider_value_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">int_slider</span></div>
+
+
+<div class="viewcode-block" id="_on_slider_value_change"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter._on_slider_value_change">[docs]</a><span class="k">def</span> <span class="nf">_on_slider_value_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Updates the view upon changing the slider value</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    change : dict</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See also: https://ipywidgets.readthedocs.io/en/latest/examples/Widget%20Events.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">_change_model</span><span class="p">(</span><span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="render_view"><a class="viewcode-back" href="../../module/utilities.html#fretraj.jupyter.render_view">[docs]</a><span class="k">def</span> <span class="nf">render_view</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">gui</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Display an nglview scene with or without a GUI</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    view : nglview.NGLWidget</span>
+<span class="sd">    gui : bool</span>
+<span class="sd">          display the scene within a GUI window</span>
+<span class="sd">          (useful for interacting with components and representations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Building scene, please wait...&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">view</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">gui</span><span class="p">)</span></div>
+</pre></div>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Fabio D. Steffen<br/>
+        
+            &copy; Copyright 2020-2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
