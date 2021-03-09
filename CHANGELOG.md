@@ -1,6 +1,6 @@
 ## Changelog
 
-### [0.1.4] 2021-03-09
+### [0.1.5] 2021-03-09
 - Improve continuous integration with Github actions
 - Add PyPI and conda deployment
 - Add first unit and integration tests of ACV calculations
