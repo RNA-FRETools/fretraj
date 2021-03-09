@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fretraj"
-version = "0.1.4-alpha.0"
+version = "0.1.4-alpha.1"
 description = "Predicting FRET with accessible-contact volumes"
 authors = [
     "Fabio Steffen <fabio.steffen@chem.uzh.ch>", 
@@ -33,6 +33,7 @@ PyQt5 = "^5.12.3"
 nglview = "^2.7.7"
 astunparse = "1.6.2"
 importlib-metadata = "^3.7.2"
+llvmlite = "0.34.0rc1"
 
 
 [tool.poetry.dev-dependencies]
