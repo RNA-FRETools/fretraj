@@ -39,6 +39,8 @@ jobs:
       env:
         PACKAGE: fretraj
       run: |
+        echo "Wait for PyPI package"
+        sleep 30
         conda skeleton pypi $PACKAGE --noarch-python
         
         # package specific edits of meta.yaml
