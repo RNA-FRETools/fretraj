@@ -1,0 +1,54 @@
+{
+  "Position": {
+    "D-DT23-C7": {
+      "attach_id": 1913,
+      "linker_length": 21.0,
+      "linker_width": 5,
+      "cv_thickness": 3.0,
+      "cv_fraction": 0.08,
+      "simulation_type": "AV3",
+      "grid_spacing": 1,
+      "dye_radius1": 8.0,
+      "dye_radius2": 3,
+      "dye_radius3": 1.5,
+      "mol_selection": "all",
+      "state": 1,
+      "frame_mdtraj": 0,
+      "use_LabelLib": false,
+      "contour_level_AV": 0.0,
+      "contour_level_CV": 0.7,
+      "b_factor": 100,
+      "gaussian_resolution": 2,
+      "grid_buffer": 2.0,
+      "transparent_AV": true
+    },
+    "A-DT31-C7": {
+      "attach_id": 958,
+      "linker_length": 21.0,
+      "linker_width": 5,
+      "cv_thickness": 3.0,
+      "cv_fraction": 0.05,
+      "simulation_type": "AV3",
+      "grid_spacing": 1,
+      "dye_radius1": 9.5,
+      "dye_radius2": 3,
+      "dye_radius3": 1.5,
+      "mol_selection": "all",
+      "state": 1,
+      "frame_mdtraj": 0,
+      "use_LabelLib": false,
+      "contour_level_AV": 0.0,
+      "contour_level_CV": 0.7,
+      "b_factor": 100,
+      "gaussian_resolution": 2,
+      "grid_buffer": 2.0,
+      "transparent_AV": true
+    }
+  },
+  "Distance": {
+    "Cy3-Cy5": {
+      "R0": 54.0,
+      "n_dist": 1000000
+    }
+  }
+}
