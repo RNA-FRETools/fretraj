@@ -1,4 +1,4 @@
-name: Fretraj release
+name: FRETraj release
 
 on:
   push:

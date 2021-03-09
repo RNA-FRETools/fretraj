@@ -45,6 +45,7 @@ jobs:
         
         # package specific edits of meta.yaml
         sed -i '/gui --help/d' $PACKAGE/meta.yaml
+        sed -i '/vis --help/d' $PACKAGE/meta.yaml
         sed -i "s|pyqt5|pyqt|g" $PACKAGE/meta.yaml
 
         # general edits of meta.yaml
