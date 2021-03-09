@@ -6,8 +6,8 @@ copyright: 2020-2021
 
 
 execute:
-  execute: off
-  #execute: cache
+  #execute: off
+  execute: cache
   #exclude_patterns:
     #- 'trajectories.md'
     #- 'jupyter-notebook.md'
