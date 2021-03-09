@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-
+    if: github.repository == 'fdsteffen/fretraj' 
     runs-on: ubuntu-latest
 
     steps:

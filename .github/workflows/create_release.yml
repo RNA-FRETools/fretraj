@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    if: github.repository == 'fdsteffen/fretraj'  
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
