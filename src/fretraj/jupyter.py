@@ -43,10 +43,8 @@ def nglview_trajectory_AV(traj_biomol, traj_volume1, traj_volume2, surface_repre
     ----------
     traj_biomol : mdtraj.Trajectory
         trajectory of the biomolecule
-    traj_volume1 : mdtraj.Trajectory
-        trajectory of the donor accessible volume
-    traj_volume2 : mdtraj.Trajectory
-        trajectory of the acceptor accessible volume
+    traj_volume1, traj_volume2 : mdtraj.Trajectory
+        trajectory of the donor and acceptor accessible volume
     surface_representation : bool (default: False)
         show a surface representation (instead of spacefill, which is faster)
 
@@ -85,14 +83,10 @@ def nglview_trajectory_ACV(traj_biomol, traj_volume1_FV, traj_volume2_FV, traj_v
     ----------
     traj_biomol : mdtraj.Trajectory
         trajectory of the biomolecule
-    traj_volume1_FV : mdtraj.Trajectory
-        trajectory of the donor free volume
-    traj_volume2_FV : mdtraj.Trajectory
-        trajectory of the acceptor free volume
-    traj_volume1_CV : mdtraj.Trajectory
-        trajectory of the donor contact volume
-    traj_volume2_CV : mdtraj.Trajectory
-        trajectory of the acceptor contact volume
+    traj_volume1_FV, traj_volume2_FV : mdtraj.Trajectory
+        trajectory of the donor and acceptor free volume
+    traj_volume1_CV, traj_volume2_CV : mdtraj.Trajectory
+        trajectory of the donor and acceptor contact volume
 
     Returns
     -------
@@ -133,10 +127,8 @@ def nglview_multimodel_ACV(biomol_filename, volume1_filename, volume2_filename):
     ----------
     structure_filename : str
                          multi-model PDB of the biomolecule
-    volume1_filename : str
-                       multi-model PDB of the donor accessible-contact volume
-    volume2_filename : str
-                       multi-model PDB of the acceptor accessible-contact volume
+    volume1_filename, volume2_filename : str
+        multi-model PDB of the donor and acceptor accessible-contact volume
 
     Returns
     -------
