@@ -179,8 +179,7 @@ class App(QtWidgets.QMainWindow):
         self.settingsWindow.push_localdocs.clicked.connect(self.set_localdocsDir)
 
     def update_labelDict(self, pos=None):
-        """
-        Update the label dictionary with the values from the GUI fields
+        """Update the label dictionary with the values from the GUI fields
         """
         if pos is None:
             pos = self.labelName
@@ -217,8 +216,7 @@ class App(QtWidgets.QMainWindow):
         self.update_GUIfields()
 
     def update_GUIfields(self):
-        """
-        Update the fields of the GUI upon changing the label in the dropdown
+        """Update the fields of the GUI upon changing the label in the dropdown
         """
         pos = self.comboBox_labelName.currentText()
         dis = self.comboBox_distanceName.currentText()
@@ -249,8 +247,7 @@ class App(QtWidgets.QMainWindow):
         self.checkBox_transparentAV.setChecked(self.labels['Position'][pos]['transparent_AV'])
 
     def loadPDB(self, fileNamePath_pdb=False):
-        """
-        Load PDB or CIF file. CIF files will be converted to PDB internally
+        """Load PDB or CIF file. CIF files will be converted to PDB internally
         """
         if not fileNamePath_pdb:
             self.fileNamePath_pdb, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Load PDB / CIF', '',
@@ -260,68 +257,74 @@ class App(QtWidgets.QMainWindow):
             self.fileNamePath_pdb = fileNamePath_pdb
         if self.fileNamePath_pdb:
             self.fileName_pdb = self.fileNamePath_pdb.split("/")[-1]
-            if self.fileName_pdb[-3:] == 'cif':
-                self.fileNamePath_pdb, _ = self.cif2pdb(self.fileNamePath_pdb)
             try:
-                self.struct = md.load_pdb(self.fileNamePath_pdb)
-            except IndexError:
-                self.openErrorWin("File Error", "The specified file \"{}\" cannot be loaded".format(
-                    self.fileName_pdb[-3:]))
+                if ' ' in self.fileName_pdb:
+                    raise ValueError
+            except ValueError:
+                print('filename cannot contain whitespaces.')
                 return 0
             else:
-                self.struct_original = copy.deepcopy(self.struct)
-                NA_list = ['A', 'G', 'C', 'U',
-                           'RA', 'RG', 'RC', 'RU',
-                           'DA', 'DG', 'DC', 'DT',
-                           'ATP', 'GTP', 'CTP', 'UTP',
-                           'ADP', 'GDP', 'CDP', 'UDP']
-                nucleic_str = ' or '.join([f'resn {r}' for r in NA_list])
-                idx_protein_nucleic = self.struct.top.select(f'protein or {nucleic_str}')
-                self.struct = self.struct.atom_slice(idx_protein_nucleic)
-
-                self.lineEdit_pdbFile.setText(self.fileName_pdb)
-                self.spinBox_statePDB.setMaximum(self.struct.n_frames)
-                self.spinBox_atomID.setMaximum(self.struct.n_atoms)
-                self.atom_chainIDs = [chain.index for chain in self.struct.top.chains for i in range(chain.n_atoms)]
-                self.push_computeACV.setEnabled(True)
-                self.spinBox_statePDB.setEnabled(True)
-                self.spinBox_atomID.setEnabled(True)
-                self.push_transfer.setEnabled(True)
-                self.push_loadParameterFile.setEnabled(True)
-                self.push_clear.setEnabled(True)
-                with open(self.fileNamePath_pdb, 'r') as f:
-                    self.pdbText = f.read()
-                self.push_showText.setEnabled(True)
-                if self._pymol_running:
-                    cmd.reinitialize()
-                    cmd.load(self.fileNamePath_pdb)
-                    cmd.remove('solvent or inorganic')
-                    chain_startIDs = [1, *[chain.n_atoms+1 for chain in self.struct.top.chains][:-1]]
-                    self.chain_names = [cmd.get_chains('index {}'.format(i))[0] for i in chain_startIDs]
-
-                    cmd.set_color('ft_blue', [51, 83, 183])
-                    cmd.set_color('ft_gray', [181, 189, 197])
-                    cmd.set_color('ft_orange', [227, 128, 82])
-                    cmd.hide("nonbonded")
-                    cmd.show("cartoon")
-                    cmd.cartoon('oval')
-                    cmd.set('cartoon_oval_length', 1)
-                    cmd.set('cartoon_oval_width', 0.25)
-                    cmd.set("cartoon_ring_finder", 2)
-                    cmd.set("cartoon_ring_mode", 1)
-                    cmd.set("cartoon_ring_transparency", 0.5)
-                    cmd.set("cartoon_ring_width", 0.3)
-                    cmd.show('sticks', 'name C6+N6+O6+C2+N2+O2+C4+O4+N4 and polymer.nucleic')
-                    cmd.set('stick_radius', 0.15, 'polymer.nucleic')
-                    cmd.spectrum('count', 'ft_orange ft_gray ft_blue')
+                if self.fileName_pdb[-3:] == 'cif':
+                    self.fileNamePath_pdb, _ = self.cif2pdb(self.fileNamePath_pdb)
+                try:
+                    self.struct = md.load_pdb(self.fileNamePath_pdb)
+                except IndexError:
+                    self.openErrorWin("File Error", "The specified file \"{}\" cannot be loaded".format(
+                        self.fileName_pdb[-3:]))
+                    return 0
                 else:
-                    self.chain_names = list(string.ascii_uppercase[0:self.struct.top.n_chains])
-                self.update_atom()
-                return 1
+                    self.struct_original = copy.deepcopy(self.struct)
+                    NA_list = ['A', 'G', 'C', 'U',
+                            'RA', 'RG', 'RC', 'RU',
+                            'DA', 'DG', 'DC', 'DT',
+                            'ATP', 'GTP', 'CTP', 'UTP',
+                            'ADP', 'GDP', 'CDP', 'UDP']
+                    nucleic_str = ' or '.join([f'resn {r}' for r in NA_list])
+                    idx_protein_nucleic = self.struct.top.select(f'protein or {nucleic_str}')
+                    self.struct = self.struct.atom_slice(idx_protein_nucleic)
+
+                    self.lineEdit_pdbFile.setText(self.fileName_pdb)
+                    self.spinBox_statePDB.setMaximum(self.struct.n_frames)
+                    self.spinBox_atomID.setMaximum(self.struct.n_atoms)
+                    self.atom_chainIDs = [chain.index for chain in self.struct.top.chains for i in range(chain.n_atoms)]
+                    self.push_computeACV.setEnabled(True)
+                    self.spinBox_statePDB.setEnabled(True)
+                    self.spinBox_atomID.setEnabled(True)
+                    self.push_transfer.setEnabled(True)
+                    self.push_loadParameterFile.setEnabled(True)
+                    self.push_clear.setEnabled(True)
+                    with open(self.fileNamePath_pdb, 'r') as f:
+                        self.pdbText = f.read()
+                    self.push_showText.setEnabled(True)
+                    if self._pymol_running:
+                        cmd.reinitialize()
+                        cmd.load(self.fileNamePath_pdb)
+                        cmd.remove('solvent or inorganic')
+                        chain_startIDs = [1, *[chain.n_atoms+1 for chain in self.struct.top.chains][:-1]]
+                        self.chain_names = [cmd.get_chains('index {}'.format(i))[0] for i in chain_startIDs]
+
+                        cmd.set_color('ft_blue', [51, 83, 183])
+                        cmd.set_color('ft_gray', [181, 189, 197])
+                        cmd.set_color('ft_orange', [227, 128, 82])
+                        cmd.hide("nonbonded")
+                        cmd.show("cartoon")
+                        cmd.cartoon('oval')
+                        cmd.set('cartoon_oval_length', 1)
+                        cmd.set('cartoon_oval_width', 0.25)
+                        cmd.set("cartoon_ring_finder", 2)
+                        cmd.set("cartoon_ring_mode", 1)
+                        cmd.set("cartoon_ring_transparency", 0.5)
+                        cmd.set("cartoon_ring_width", 0.3)
+                        cmd.show('sticks', 'name C6+N6+O6+C2+N2+O2+C4+O4+N4 and polymer.nucleic')
+                        cmd.set('stick_radius', 0.15, 'polymer.nucleic')
+                        cmd.spectrum('count', 'ft_orange ft_gray ft_blue')
+                    else:
+                        self.chain_names = list(string.ascii_uppercase[0:self.struct.top.n_chains])
+                    self.update_atom()
+                    return 1
 
     def cif2pdb(self, pathtoPDBfile):
-        """
-        Convert .cif to .pdb with PyMOL
+        """Convert .cif to .pdb with PyMOL
 
         Returns
         -------
