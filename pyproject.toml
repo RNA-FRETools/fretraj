@@ -37,7 +37,6 @@ numba = "<=0.50.1"
 tqdm = "^4.59.0"
 jsonschema = "^3.2.0"
 pybind11 = "^2.6.2"
-setuptools = "^54.1.1"
 
 
 [tool.poetry.dev-dependencies]
