@@ -72,7 +72,7 @@ class App(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(self.uiIcon))
         self._pymol_running = _pymol_running
         self.statusBar().showMessage("Ready", 2000)
-        self.readTheDocsURL = None
+        self.docsURL = ft.__urls__['Documentation']
         self.settingsWindow = QtWidgets.QDialog(self)
         uic.loadUi(self.settingsUI, self.settingsWindow)
         self.settingsWindow.setWindowTitle("FRETraj - Settings")
@@ -317,7 +317,8 @@ class App(QtWidgets.QMainWindow):
                         cmd.set("cartoon_ring_width", 0.3)
                         cmd.show('sticks', 'name C6+N6+O6+C2+N2+O2+C4+O4+N4 and polymer.nucleic')
                         cmd.set('stick_radius', 0.15, 'polymer.nucleic')
-                        cmd.spectrum('count', 'ft_orange ft_gray ft_blue')
+                        #cmd.spectrum('count', 'ft_orange ft_gray ft_blue')
+                        cmd.spectrum('count', 'gray20 gray80')
                     else:
                         self.chain_names = list(string.ascii_uppercase[0:self.struct.top.n_chains])
                     self.update_atom()
@@ -751,7 +752,7 @@ class App(QtWidgets.QMainWindow):
                 json.dump(self.settings, f, indent=2)
 
     def openDocumentation(self):
-        if not self.readTheDocsURL:
+        if not self.docsURL:
             if not self.settings['local_docs']:
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -798,7 +799,7 @@ class App(QtWidgets.QMainWindow):
         msg.setWindowTitle("About FRETraj")
         current_year = datetime.datetime.now().year
         msg.setText(f"{metadata['Name']} {metadata['Version']}\n{metadata['Summary']}\n\n\
-                     (C) {metadata['Author']}\nUniversity of Zurich, 2020-{current_year}")
+            (C) {metadata['Author']}\nUniversity of Zurich, 2020-{current_year}")
         msg.exec_()
 
     def openExample(self, name, fileformat):
