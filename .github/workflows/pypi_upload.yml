@@ -27,6 +27,8 @@ jobs:
       env:
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
       run: |
+        source $HOME/.poetry/env
+        export POETRY_VIRTUALENVS_CREATE=false
         poetry build
         poetry publish
     
