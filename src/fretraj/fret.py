@@ -10,7 +10,7 @@ else:
 
 
 def dist_mp(acv1, acv2):
-    """Compute the distance between mean dye positions R_MP of two accessible 
+    """Compute the distance between mean dye positions R_MP of two accessible
     contact volumes
 
     Parameters
@@ -349,7 +349,8 @@ def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None,
 
     >>> mean_dist_DA_fromFRET(acv1, acv2, E_DA=myE_DA)
 
-    with known :math:`R_\\text{DA}`, i.e. :math:`E_\\text{DA}` and :math:`\\langle E_\\text{DA}\\rangle` are calculated on-the-fly
+    with known :math:`R_\\text{DA}`, i.e. :math:`E_\\text{DA}` and
+    :math:`\\langle E_\\text{DA}\\rangle` are calculated on-the-fly
 
     >>> mean_dist_DA_fromFRET(acv1, acv2, R_DA=myR_DA)
 
@@ -439,7 +440,7 @@ def R_DAE_to_Rmp(mean_R_DA_E):
 
     Notes
     -----
-    The conversion function between :math:`\\langle R_\\text{DA}\\rangle_E` and :math:`R_\\text{mp}` is a third-order 
+    The conversion function between :math:`\\langle R_\\text{DA}\\rangle_E` and :math:`R_\\text{mp}` is a third-order
     polynomial:
 
     .. math::  R_\\text{mp} = 1.109\\cdot 10^{-5}\\cdot\\langle R_\\text{DA}\\rangle_E^3 - 7.286\\cdot 10^{-3}\\cdot

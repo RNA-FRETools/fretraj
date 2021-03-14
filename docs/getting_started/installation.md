@@ -44,22 +44,14 @@
     ```` 
 
     `````{tabbed} from source
-    Install the latest development version from **Github** (with pip or [Poetry](https://python-poetry.org/))
+    Install the latest development version from **Github** with [Poetry](https://python-poetry.org/))
     
-    ````{toggle} Install Poetry
-    ```
-    # Install Poetry (recommended)
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-    ```
-    ````
 
     ```
+    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
     git clone https://github.com/RNA-FRETools/fretraj.git
     cd fretraj/
-    poetry install   # install in editable mode
-
-    # alternatively, install in non-editable mode with pip
-    pip install .  
+    poetry install
     ```
     `````
 - Locate the installation directory by running
