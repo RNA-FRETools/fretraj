@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fretraj"
-version = "0.1.6-alpha.0"
+version = "0.1.6-alpha.1"
 description = "Predicting FRET with accessible-contact volumes"
 authors = [
     "Fabio Steffen <fabio.steffen@chem.uzh.ch>", 
@@ -55,7 +55,7 @@ vmd_vis = "fretraj.console:vmd_vis"
 
 
 [tool.poetry.build]
-generate-setup-file = false
+generate-setup-file = true
 script = "build.py"
 
 
