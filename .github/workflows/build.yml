@@ -20,9 +20,10 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get install python3-setuptools
-        python -m pip install --upgrade pip
-        pip install .
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+        source $HOME/.poetry/env
+        export POETRY_VIRTUALENVS_CREATE=false
+        poetry install
 
     - name: Lint with flake8
       run: |
@@ -33,9 +34,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pip install pytest
-        pip install pytest-cov
-        pip install pytest-mock
         pytest --cov=fretraj --cov-report=xml:unit_cov.xml tests/unit
     - name: Upload unit tests to Codecov
       uses: codecov/codecov-action@v1

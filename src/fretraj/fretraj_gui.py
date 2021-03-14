@@ -18,6 +18,7 @@ import functools
 import string
 import datetime
 
+from fretraj import __urls__
 from fretraj import cloud
 from fretraj import metadata
 
@@ -72,7 +73,7 @@ class App(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(self.uiIcon))
         self._pymol_running = _pymol_running
         self.statusBar().showMessage("Ready", 2000)
-        self.docsURL = ft.__urls__['Documentation']
+        self.docsURL = __urls__['Documentation']
         self.settingsWindow = QtWidgets.QDialog(self)
         uic.loadUi(self.settingsUI, self.settingsWindow)
         self.settingsWindow.setWindowTitle("FRETraj - Settings")
@@ -275,10 +276,10 @@ class App(QtWidgets.QMainWindow):
                 else:
                     self.struct_original = copy.deepcopy(self.struct)
                     NA_list = ['A', 'G', 'C', 'U',
-                            'RA', 'RG', 'RC', 'RU',
-                            'DA', 'DG', 'DC', 'DT',
-                            'ATP', 'GTP', 'CTP', 'UTP',
-                            'ADP', 'GDP', 'CDP', 'UDP']
+                               'RA', 'RG', 'RC', 'RU',
+                               'DA', 'DG', 'DC', 'DT',
+                               'ATP', 'GTP', 'CTP', 'UTP',
+                               'ADP', 'GDP', 'CDP', 'UDP']
                     nucleic_str = ' or '.join([f'resn {r}' for r in NA_list])
                     idx_protein_nucleic = self.struct.top.select(f'protein or {nucleic_str}')
                     self.struct = self.struct.atom_slice(idx_protein_nucleic)
@@ -317,7 +318,6 @@ class App(QtWidgets.QMainWindow):
                         cmd.set("cartoon_ring_width", 0.3)
                         cmd.show('sticks', 'name C6+N6+O6+C2+N2+O2+C4+O4+N4 and polymer.nucleic')
                         cmd.set('stick_radius', 0.15, 'polymer.nucleic')
-                        #cmd.spectrum('count', 'ft_orange ft_gray ft_blue')
                         cmd.spectrum('count', 'gray20 gray80')
                     else:
                         self.chain_names = list(string.ascii_uppercase[0:self.struct.top.n_chains])

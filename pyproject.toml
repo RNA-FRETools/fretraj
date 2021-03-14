@@ -20,8 +20,7 @@ classifiers = [
     "Framework :: Jupyter",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-include = ["CHANGELOG.md", "src/skripts", "tests"]
-build = "build.py"
+include = ["CHANGELOG.md", "src/skripts", "tests", "src/fretraj/*.so"]
 
 
 [tool.poetry.dependencies]
@@ -46,6 +45,7 @@ jupyter-book = "^0.10.0"
 pytest-mock = "^3.5.1"
 matplotlib = "^3.3.4"
 jupytext = "^1.10.3"
+tox = "^3.23.0"
 
 
 [tool.poetry.scripts]
@@ -55,6 +55,11 @@ pymol_vis = "fretraj.console:pymol_vis"
 vmd_vis = "fretraj.console:vmd_vis"
 
 
+[tool.poetry.build]
+generate-setup-file = false
+script = "build.py"
+
+
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0a9"]
 build-backend = "poetry.core.masonry.api"
