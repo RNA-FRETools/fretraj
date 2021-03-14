@@ -37,15 +37,14 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH   
     - name: Install conda dependencies
       run: |
-        conda install conda-build
-        conda install anaconda-client     
+        conda install conda-build anaconda-client pybind11 -c conda-forge
     - name: Build conda package
       env:
         PACKAGE: fretraj
       run: |
         echo "Wait for PyPI package"
         sleep 60
-        conda skeleton pypi $PACKAGE --noarch-python
+        conda skeleton pypi $PACKAGE --noarch-python --extra-specs pybind11
         
         # package specific edits of meta.yaml
         sed -i '/gui --help/d' $PACKAGE/meta.yaml
