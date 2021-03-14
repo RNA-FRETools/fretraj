@@ -13,7 +13,7 @@ import pickle
 try:
     import LabelLib as ll
 except ModuleNotFoundError:
-    print('\nNote: LabelLib module is not found. \nACV calculation uses a Python-only algorithm\n')
+    print('\nNote: the LabelLib module is not installed. \nACV calculations will use a Python-only algorithm\n')
     _LabelLib_found = False
 else:
     _LabelLib_found = True

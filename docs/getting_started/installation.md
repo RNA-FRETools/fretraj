@@ -63,7 +63,7 @@
 
 
 ## 2. Register the Plugin
-- Start PyMOL and install the *FRETraj* GUI with PyMOL's Plugin manager: `Plugin` &rarr; `Plugin manager` &rarr; `Install New Plugin` &rarr; `Choose file...` and select the `fretraj_gui.py` file located in the directory that was issued by `fretraj --path`. In the popup window select you would like to install the plugin (default: `<PyMOL_path>/site-packages/pmg_tk/startup/`)
+- Start PyMOL and install the *FRETraj* GUI with PyMOL's Plugin manager: `Plugin` &rarr; `Plugin manager` &rarr; `Install New Plugin` &rarr; `Choose file...` and select the `fretraj_gui.py` file located in the directory that was issued by `fretraj --path`. In the popup window select where you would like to install the plugin (default: `<PyMOL_path>/site-packages/pmg_tk/startup/`). Confirm with OK.
 
 ```{figure} ../images/pymol_plugin_manager.png
 ---
@@ -72,7 +72,7 @@ name: pymol_plugin_manager
 ---
 PyMOL's plugin manager on Windows.
 ```
-- Start *FRETraj* from the Plugin menu. Upon first launch, *FRETraj* will prompt you to select a user directory where to store the calculated ACVs and parameter files. 
+- Start *FRETraj* from the Plugin menu. Upon first launch, *FRETraj* will prompt you to select a user directory where to store the calculated ACVs and parameter files (e.g. `<path-to-your-project>/fretraj`).
 
 ```{tip}
 Within *FRETraj* you can load a **demo project** by going to `Help` &rarr; `Load Example`. You may also want to have a look at this [step-by-step tutorial](acv_calculation).
