@@ -806,6 +806,7 @@ class App(QtWidgets.QMainWindow):
         """
         Load an example file and calculate an ACV
         """
+        self.clear_pymol
         fileNamePath_pdb = '{}/{}{}'.format(self.exampleDataPath, name, fileformat)
         fileNamePath_param = '{}/{}_labels{}'.format(self.exampleDataPath, name, '.json')
         pdb_load = self.loadPDB(fileNamePath_pdb)

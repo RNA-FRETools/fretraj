@@ -29,6 +29,7 @@ jobs:
       run: |
         source $HOME/.poetry/env
         export POETRY_VIRTUALENVS_CREATE=false
+        sed -r -i 's|(generate-setup-file\s*=\s)\w+|\1true|g' pyproject.toml 
         poetry build
         poetry publish
     
@@ -37,7 +38,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH   
     - name: Install conda dependencies
       run: |
-        conda install conda-build anaconda-client pybind11 -c conda-forge
+        conda install conda-build anaconda-client
     - name: Build conda package
       env:
         PACKAGE: fretraj

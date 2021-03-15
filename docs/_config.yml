@@ -9,6 +9,7 @@ execute:
   #execute: off
   execute: cache
   #exclude_patterns:
+     - *.ipynb
     #- 'trajectories.md'
     #- 'jupyter-notebook.md'
 

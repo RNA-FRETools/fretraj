@@ -29,14 +29,14 @@ from myst_nb import glue
 Let's first load a PDB file of a DNA.
 
 ```{code-cell} ipython3
-struct = md.load(os.path.join(example_dir+'DNA.pdb'))
+struct = md.load(os.path.join(example_dir+'doublestranded_DNA.pdb'))
 ```
 
 Next, we load a [parameter file](../background/parameter_file) specifying the positions of the donor and acceptor labels.
 
 ```{code-cell} ipython3
 :tags: [hide-output]
-labels = ft.cloud.labeling_params(os.path.join(example_dir+'DNA_labels.json'), verbose=False)
+labels = ft.cloud.labeling_params(os.path.join(example_dir+'doublestranded_DNA_labels.json'), verbose=False)
 labels
 ```
 

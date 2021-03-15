@@ -25,10 +25,10 @@ example_dir = '../../src/fretraj/examples/'
 We load again a DNA double helix but this time from a 1$\,\mu$s MD trajectory along with the labeling parameters.
 
 ```{code-cell} ipython3
-traj = md.load(os.path.join(example_dir+'DNA.xtc'), 
-               top=os.path.join(example_dir+'DNA.pdb'),
+traj = md.load(os.path.join(example_dir+'doublestranded_DNA.xtc'), 
+               top=os.path.join(example_dir+'doublestranded_DNA.pdb'),
                stride=10)
-labels = ft.cloud.labeling_params(os.path.join(example_dir+'DNA_labels.json'), verbose=False)
+labels = ft.cloud.labeling_params(os.path.join(example_dir+'doublestranded_DNA_labels.json'), verbose=False)
 print(f'timestep: {traj.timestep/1000 :.0f} ns')
 print(f'length: {traj.time[-1]/1000 :.0f} ns')
 ```

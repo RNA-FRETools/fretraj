@@ -552,8 +552,8 @@ class ACV:
     def _weight_factor(grid_1d, cv_fraction):
         """Calculate the weight of contact volume grid points.
 
-        Extended summary
-        ----------------
+        Note
+        ----
         The weight factor corresponds to the factor by which the points of the contact volume
         (CV, dye trapped on surface) are favored over those belonging the free volume (FV, free dye diffusion).
         This accounts for the (experimentally) determined fraction of dyes populating the CV.

@@ -8,12 +8,12 @@ Start by opening the FRETraj GUI from the `Plugin Menu`.
 Upon first startup, *FRETraj* asks the user to define a root directory where all output files (ACVs, label and FRET parameters) will be stored.
 ```
 
-```{figure} ../images/PyMOL_interface.png
+```{figure} ../images/pymol_plugin_interface.png
 ---
-height: 240
-name: pymol_interface
+width: 100%
+name: pymol_plugin_interface
 ---
-PyMOL with the *FRETraj*'s graphical user interface (left) and molecular viewer (right).
+PyMOL with *FRETraj*'s graphical user interface (left) and molecular viewer (right).
 ```
 
 The graphical user interface (GUI) is divided into two sections (1) **Accessible contact clouds** and (2) **FRET trajectory**. The labeling positions are defined in the panel *PDB structure and position* . The panels below specify the *dye*, *linker*, *simulation* and *contact volume* parameters. All these settings are saved into the [parameter file](../background/parameter_file).
