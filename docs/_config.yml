@@ -8,8 +8,8 @@ copyright: 2020-2021
 execute:
   #execute: off
   execute: cache
-  #exclude_patterns:
-     - *.ipynb
+  exclude_patterns:
+     - '*.ipynb'
     #- 'trajectories.md'
     #- 'jupyter-notebook.md'
 

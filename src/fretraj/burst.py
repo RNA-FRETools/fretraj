@@ -13,6 +13,7 @@ import pickle
 import copy
 import pandas as pd
 import jsonschema
+import sys
 
 from . import relaxation
 from fretraj import metadata
@@ -145,6 +146,22 @@ def readParameters(parameter_file):
                 if key not in parameters[section]:
                     parameters[section][key] = val
     return parameters
+
+
+def in_notebook():
+    """Check if code is run in IPython notebook.
+    The variable __IPYTHON__ is defined in Jupyter or IPython but not a normal Python interpreter.
+
+    Returns
+    -------
+    bool
+        Returns True if code is executed from Jupyter/IPython notebook
+    """
+    try:
+        __IPYTHON__
+        return True
+    except NameError:
+        return False
 
 
 class Ensemble:
@@ -537,7 +554,7 @@ class Experiment:
             burstsizes = self.calcBurstsizes()
             if show_progress:
                 with multiprocessing.Pool() as pool:
-                    if os.environ['_'].split('/')[-1] == 'jupyter':
+                    if in_notebook():
                         self.bursts = list(tqdm.notebook.tqdm(pool.imap(self.calcBurst, burstsizes,
                                            chunksize=int(self.parameters['sampling']['nbursts']/50)),
                                            total=self.parameters['sampling']['nbursts'], desc='Calculating bursts',
@@ -553,7 +570,7 @@ class Experiment:
             n = self.parameters['sampling']['nbursts']
             burstsizes = self.calcBurstsizes()
             if show_progress:
-                if os.environ['_'].split('/')[-1] == 'jupyter':
+                if in_notebook():
                     pbar = tqdm.notebook.tqdm(total=n, desc='Calculating bursts', bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} [{remaining} s]")
                 else:
                     pbar = tqdm.tqdm(total=n, desc='Calculating bursts',
