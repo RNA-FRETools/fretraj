@@ -72,11 +72,6 @@ name: pymol_plugin_manager
 ---
 PyMOL's plugin manager on Windows.
 ```
-- Start *FRETraj* from the Plugin menu. Upon first launch, *FRETraj* will prompt you to select a user directory where to store the calculated ACVs and parameter files (e.g. `<path-to-your-project>/fretraj`).
-
-```{tip}
-Within *FRETraj* you can load a **demo project** by going to `Help` &rarr; `Load Example`. You may also want to have a look at this [step-by-step tutorial](acv_calculation).
-```
 
 `````{admonition} Accelerated ACV calculation with LabelLib
 For faster computation of the accessible-contact volumes you may additionally consider installing the C++ library [LabelLib](https://github.com/Fluorescence-Tools/LabelLib) with either `pip` or `conda`. However, is not strictly required since *FRETraj* features a built-in Python implementation of the ACV algorithm.

@@ -9,3 +9,5 @@ astunparse==1.6.2
 importlib-metadata
 jupytext
 matplotlib
+cmake
+git+https://github.com/fdsteffen/Labellib@src-neighbour-nodes

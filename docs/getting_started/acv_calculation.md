@@ -2,10 +2,10 @@
 
 Accessible contact volumes and FRET calculations can be done directly from PyMOL. The PyMOL plugin allows the user to visually interact with the molecular viewer while exploring optimal sites for labeling a biomolecule of interest. This tutorial will guide you step-by-step through the workflow.
 
-Start by opening the FRETraj GUI from the `Plugin Menu`.
+Start by opening the FRETraj GUI from the `Plugin Menu`. 
 
 ```{note}
-Upon first startup, *FRETraj* asks the user to define a root directory where all output files (ACVs, label and FRET parameters) will be stored.
+Upon first startup, *FRETraj* asks the user to define a root directory where all output files (ACVs, label and FRET parameters) will be stored (e.g. `C:/Users/fsteffen/DNA-hairpin/fretraj/`)
 ```
 
 ```{figure} ../images/pymol_plugin_interface.png
@@ -14,6 +14,10 @@ width: 100%
 name: pymol_plugin_interface
 ---
 PyMOL with *FRETraj*'s graphical user interface (left) and molecular viewer (right).
+```
+
+```{tip}
+Within *FRETraj* you can this an other **demo projects** by going to `Help` &rarr; `Load Example`.
 ```
 
 The graphical user interface (GUI) is divided into two sections (1) **Accessible contact clouds** and (2) **FRET trajectory**. The labeling positions are defined in the panel *PDB structure and position* . The panels below specify the *dye*, *linker*, *simulation* and *contact volume* parameters. All these settings are saved into the [parameter file](../background/parameter_file).
@@ -26,7 +30,7 @@ In the following the most important settings and functionalities of FRETraj for 
 2. **Load PDB**: import a single or multi-state PDB/CIF file
 3. **Show Text**: Show the PDB text file in a integrated viewer to help with the atom ID selection
     ```{hint}
-    If you already have a JSON-formatted [parameter file](../background/parameter_file) you can load this file with the **Load Param** button proceed directly to [step 12](#compute-acv).
+    If you already have a JSON-formatted [parameter file](../background/parameter_file) you can load this file with the **Load Param** button and proceed directly to the last step [compute ACV](#compute-acv).
     ```
 4. **atom ID**: select the attachment atom on the biomolecule by its serial ID
 5. **state**: select a different state of the PDB file

@@ -12,6 +12,7 @@ execute:
      - '*.ipynb'
     #- 'trajectories.md'
     #- 'jupyter-notebook.md'
+  timeout: 100
 
 launch_buttons:
   binderhub_url: "https://mybinder.org"

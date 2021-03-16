@@ -14,6 +14,10 @@ kernelspec:
 
 # *FRETraj* and Jupyter
 
+This notebook demonstrates how to interface *FRETraj* with Jupyter. We will
+compute **ACVs** for the same DNA hairpin as in the previous PyMOL example and
+predict a **mean FRET efficiency** between donor and acceptor.
+
 ```{code-cell} ipython3
 import mdtraj as md
 import fretraj as ft
@@ -29,22 +33,22 @@ from myst_nb import glue
 Let's first load a PDB file of a DNA.
 
 ```{code-cell} ipython3
-struct = md.load(os.path.join(example_dir+'doublestranded_DNA.pdb'))
+struct = md.load(os.path.join(example_dir+'DNA_hairpin.pdb'))
 ```
 
 Next, we load a [parameter file](../background/parameter_file) specifying the positions of the donor and acceptor labels.
 
 ```{code-cell} ipython3
 :tags: [hide-output]
-labels = ft.cloud.labeling_params(os.path.join(example_dir+'doublestranded_DNA_labels.json'), verbose=False)
+labels = ft.cloud.labeling_params(os.path.join(example_dir+'DNA_hairpin_labels.json'), verbose=False)
 labels
 ```
 
-We now calculate an ACV for the donor (`D-DT23-C7`) and acceptor (`A-DT31-C7`) position.
+We now calculate an ACV for the donor (`Cy3-20-C5`) and acceptor (`Cy5-44-P1`) position.
 
 ```{code-cell} ipython3
-acv_D = ft.cloud.Volume(struct, 'D-DT23-C7', labels)
-acv_A = ft.cloud.Volume(struct, 'A-DT31-C7', labels)
+acv_D = ft.cloud.Volume(struct, 'Cy3-20-C5', labels)
+acv_A = ft.cloud.Volume(struct, 'Cy5-44-P1', labels)
 ```
 
 The transfer efficiency is calculated by randomly sampling distances between the two ACVs.
@@ -65,6 +69,6 @@ ft.jupyter.nglview_trajectory_ACV(struct, acv_D_traj['FV'], acv_A_traj['FV'],
 ```
 
 ```{hint}
-To see this in action launch a **Binder** instance by clicking on the 🚀 at the top of the page.
+To see this notebook in action launch a **Binder** instance by clicking on the 🚀 at the top of the page.
 ```
 
