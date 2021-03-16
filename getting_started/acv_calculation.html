@@ -302,11 +302,15 @@
 <p>Start by opening the FRETraj GUI from the <code class="docutils literal notranslate"><span class="pre">Plugin</span> <span class="pre">Menu</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Upon first startup, <em>FRETraj</em> asks the user to define a root directory where all output files (ACVs, label and FRET parameters) will be stored.</p>
+<p>Upon first startup, <em>FRETraj</em> asks the user to define a root directory where all output files (ACVs, label and FRET parameters) will be stored (e.g. <code class="docutils literal notranslate"><span class="pre">C:/Users/fsteffen/DNA-hairpin/fretraj/</span></code>)</p>
 </div>
-<div class="figure align-default" id="pymol-interface">
-<a class="reference internal image-reference" href="images/PyMOL_interface.png"><img alt="images/PyMOL_interface.png" src="images/PyMOL_interface.png" style="height: 240px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">PyMOL with the <em>FRETraj</em>’s graphical user interface (left) and molecular viewer (right).</span><a class="headerlink" href="#pymol-interface" title="Permalink to this image">¶</a></p>
+<div class="figure align-default" id="pymol-plugin-interface">
+<a class="reference internal image-reference" href="../_images/pymol_plugin_interface.png"><img alt="../_images/pymol_plugin_interface.png" src="../_images/pymol_plugin_interface.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">PyMOL with <em>FRETraj</em>’s graphical user interface (left) and molecular viewer (right).</span><a class="headerlink" href="#pymol-plugin-interface" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Within <em>FRETraj</em> you can this an other <strong>demo projects</strong> by going to <code class="docutils literal notranslate"><span class="pre">Help</span></code> → <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">Example</span></code>.</p>
 </div>
 <p>The graphical user interface (GUI) is divided into two sections (1) <strong>Accessible contact clouds</strong> and (2) <strong>FRET trajectory</strong>. The labeling positions are defined in the panel <em>PDB structure and position</em> . The panels below specify the <em>dye</em>, <em>linker</em>, <em>simulation</em> and <em>contact volume</em> parameters. All these settings are saved into the <a class="reference internal" href="../background/parameter_file.html"><span class="doc std std-doc">parameter file</span></a>.</p>
 <p>In the following the most important settings and functionalities of FRETraj for simulating accessible-contact volumes and predicting FRET efficiencies are described.</p>
@@ -318,7 +322,7 @@
 <li><p><strong>Show Text</strong>: Show the PDB text file in a integrated viewer to help with the atom ID selection</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>If you already have a JSON-formatted <a class="reference internal" href="../background/parameter_file.html"><span class="doc std std-doc">parameter file</span></a> you can load this file with the <strong>Load Param</strong> button proceed directly to <a class="reference external" href="#compute-acv">step 12</a>.</p>
+<p>If you already have a JSON-formatted <a class="reference internal" href="../background/parameter_file.html"><span class="doc std std-doc">parameter file</span></a> you can load this file with the <strong>Load Param</strong> button and proceed directly to the last step <a class="reference external" href="#compute-acv">compute ACV</a>.</p>
 </div>
 </li>
 <li><p><strong>atom ID</strong>: select the attachment atom on the biomolecule by its serial ID</p></li>
