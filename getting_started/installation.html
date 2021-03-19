@@ -127,6 +127,11 @@
    Working with trajectories
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="photon_bursts.html">
+   Generating photon bursts
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -146,7 +151,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../background/parameter_file.html">
-   The parameter file
+   The parameter files
   </a>
  </li>
 </ul>
@@ -169,6 +174,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../module/grid.html">
    Grid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../module/burst.html">
+   Burst
   </a>
  </li>
  <li class="toctree-l1">
@@ -301,8 +311,8 @@
 <div class="section" id="install-pymol-and-fretraj">
 <h2>1. Install PyMOL and FRETraj<a class="headerlink" href="#install-pymol-and-fretraj" title="Permalink to this headline">¶</a></h2>
 <div class="tabbed-set docutils">
-<input checked="checked" id="7b06132c-f3d4-4427-8ecd-d683ae8434b2" name="734f1c1f-af69-456e-b522-e36daf219c6f" type="radio">
-</input><label class="tabbed-label" for="7b06132c-f3d4-4427-8ecd-d683ae8434b2">
+<input checked="checked" id="20ee1cd3-fc31-4a94-aeaf-66d04df063ea" name="b3355249-8172-47f7-8ff6-cce551a6a68f" type="radio">
+</input><label class="tabbed-label" for="20ee1cd3-fc31-4a94-aeaf-66d04df063ea">
 For Windows</label><div class="tabbed-content docutils">
 <ul>
 <li><p>Get the latest binaries of PyMOL from <a class="reference external" href="https://pymol.org/">Schrödinger</a></p></li>
@@ -318,8 +328,8 @@ For Windows</label><div class="tabbed-content docutils">
 </li>
 </ul>
 </div>
-<input id="0ce21c21-2025-44cc-b8ad-61395b4bd995" name="734f1c1f-af69-456e-b522-e36daf219c6f" type="radio">
-</input><label class="tabbed-label" for="0ce21c21-2025-44cc-b8ad-61395b4bd995">
+<input id="3d1b0756-bb4c-407a-aab4-ca35165dadb1" name="b3355249-8172-47f7-8ff6-cce551a6a68f" type="radio">
+</input><label class="tabbed-label" for="3d1b0756-bb4c-407a-aab4-ca35165dadb1">
 For Linux and macOS</label><div class="tabbed-content docutils">
 <ul>
 <li><p>Install the PyMOL binaries from <a class="reference external" href="https://pymol.org/">Schrödinger</a> or directly from the Schrödinger Anaconda channel.</p>
@@ -333,38 +343,30 @@ For Linux and macOS</label><div class="tabbed-content docutils">
 </li>
 <li><p>Install <em>FRETraj</em> either from <strong>PyPI</strong> (with <code class="docutils literal notranslate"><span class="pre">pip</span></code>), <strong>Anaconda</strong> (with <code class="docutils literal notranslate"><span class="pre">conda</span></code>) or <strong>Github</strong> (clone or <a class="reference external" href="https://github.com/RNA-FRETools/fretraj.git">download</a> and install from source with <code class="docutils literal notranslate"><span class="pre">poetry</span></code> or <code class="docutils literal notranslate"><span class="pre">pip</span></code>).</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="cd5c2c2e-33b6-4950-b17b-c623a510cad4" name="2fbc2651-0141-4085-b849-5c9e61d536f4" type="radio">
-</input><label class="tabbed-label" for="cd5c2c2e-33b6-4950-b17b-c623a510cad4">
+<input checked="checked" id="2faa01db-3a84-4f16-b28e-5d576b534b87" name="720ce19e-fc80-4d43-96b4-396ef1ce4657" type="radio">
+</input><label class="tabbed-label" for="2faa01db-3a84-4f16-b28e-5d576b534b87">
 pip</label><div class="tabbed-content docutils">
 <p>Install from <strong>PyPI</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fretraj</span>
 </pre></div>
 </div>
 </div>
-<input id="d32247b1-aa27-4f1c-bc9d-b1d3fa5cc36c" name="2fbc2651-0141-4085-b849-5c9e61d536f4" type="radio">
-</input><label class="tabbed-label" for="d32247b1-aa27-4f1c-bc9d-b1d3fa5cc36c">
+<input id="c3d36840-1499-42e4-ab0d-92fc97b5b19a" name="720ce19e-fc80-4d43-96b4-396ef1ce4657" type="radio">
+</input><label class="tabbed-label" for="c3d36840-1499-42e4-ab0d-92fc97b5b19a">
 conda</label><div class="tabbed-content docutils">
 <p>Install from <strong>Anaconda</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">fretraj</span> <span class="o">-</span><span class="n">c</span> <span class="n">rna</span><span class="o">-</span><span class="n">fretools</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 </pre></div>
 </div>
 </div>
-<input id="40b49b59-a05b-446a-93aa-ac3907743d4b" name="2fbc2651-0141-4085-b849-5c9e61d536f4" type="radio">
-</input><label class="tabbed-label" for="40b49b59-a05b-446a-93aa-ac3907743d4b">
+<input id="1ffd1fb9-7693-43ab-9802-e3478937846c" name="720ce19e-fc80-4d43-96b4-396ef1ce4657" type="radio">
+</input><label class="tabbed-label" for="1ffd1fb9-7693-43ab-9802-e3478937846c">
 from source</label><div class="tabbed-content docutils">
-<p>Install the latest development version from <strong>Github</strong> (with pip or <a class="reference external" href="https://python-poetry.org/">Poetry</a>)</p>
-<div class="toggle docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Poetry (recommended)</span>
-<span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="o">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span>
-</pre></div>
-</div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">RNA</span><span class="o">-</span><span class="n">FRETools</span><span class="o">/</span><span class="n">fretraj</span><span class="o">.</span><span class="n">git</span>
+<p>Install the latest development version from <strong>Github</strong> with <a class="reference external" href="https://python-poetry.org/">Poetry</a>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="o">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">RNA</span><span class="o">-</span><span class="n">FRETools</span><span class="o">/</span><span class="n">fretraj</span><span class="o">.</span><span class="n">git</span>
 <span class="n">cd</span> <span class="n">fretraj</span><span class="o">/</span>
-<span class="n">poetry</span> <span class="n">install</span>   <span class="c1"># install in editable mode</span>
-
-<span class="c1"># alternatively, install in non-editable mode with pip</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>  
+<span class="n">poetry</span> <span class="n">install</span>
 </pre></div>
 </div>
 </div>
@@ -381,11 +383,9 @@ from source</label><div class="tabbed-content docutils">
 </div>
 <div class="section" id="register-the-plugin">
 <h2>2. Register the Plugin<a class="headerlink" href="#register-the-plugin" title="Permalink to this headline">¶</a></h2>
-<p>Install the <em>FRETraj</em> GUI with PyMOL’s Plugin manager: <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> → <code class="docutils literal notranslate"><span class="pre">Plugin</span> <span class="pre">manager</span></code> → <code class="docutils literal notranslate"><span class="pre">Install</span> <span class="pre">New</span> <span class="pre">Plugin</span></code> → <code class="docutils literal notranslate"><span class="pre">Choose</span> <span class="pre">file...</span></code> and select the <code class="docutils literal notranslate"><span class="pre">fretraj_gui.py</span></code> file located in the directory that was issued by <code class="docutils literal notranslate"><span class="pre">fretraj</span> <span class="pre">--path</span></code>. Upon first startup, <em>FRETraj</em> will prompt you to select a root directory where to store the calculated ACVs and parameter files.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Within <em>FRETraj</em> you can load a <strong>demo project</strong> by going to <code class="docutils literal notranslate"><span class="pre">Help</span></code> → <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">Example</span></code>. You may also want to have a look at this <a class="reference internal" href="acv_calculation.html"><span class="doc std std-doc">step-by-step tutorial</span></a>.</p>
-</div>
+<ul class="simple">
+<li><p>Start PyMOL and install the <em>FRETraj</em> GUI with PyMOL’s Plugin manager: <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> → <code class="docutils literal notranslate"><span class="pre">Plugin</span> <span class="pre">manager</span></code> → <code class="docutils literal notranslate"><span class="pre">Install</span> <span class="pre">New</span> <span class="pre">Plugin</span></code> → <code class="docutils literal notranslate"><span class="pre">Choose</span> <span class="pre">file...</span></code> and select the <code class="docutils literal notranslate"><span class="pre">fretraj_gui.py</span></code> file located in the directory that was issued by <code class="docutils literal notranslate"><span class="pre">fretraj</span> <span class="pre">--path</span></code>. In the popup window select where you would like to install the plugin (default: <code class="docutils literal notranslate"><span class="pre">&lt;PyMOL_path&gt;/site-packages/pmg_tk/startup/</span></code>). Confirm with OK.</p></li>
+</ul>
 <div class="figure align-default" id="pymol-plugin-manager">
 <a class="reference internal image-reference" href="../_images/pymol_plugin_manager.png"><img alt="../_images/pymol_plugin_manager.png" src="../_images/pymol_plugin_manager.png" style="width: 450px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">PyMOL’s plugin manager on Windows.</span><a class="headerlink" href="#pymol-plugin-manager" title="Permalink to this image">¶</a></p>
@@ -394,15 +394,15 @@ from source</label><div class="tabbed-content docutils">
 <p class="admonition-title">Accelerated ACV calculation with LabelLib</p>
 <p>For faster computation of the accessible-contact volumes you may additionally consider installing the C++ library <a class="reference external" href="https://github.com/Fluorescence-Tools/LabelLib">LabelLib</a> with either <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>. However, is not strictly required since <em>FRETraj</em> features a built-in Python implementation of the ACV algorithm.</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="66a5e05a-0f8c-42d8-945c-bc1db672fc55" name="bf37e5a5-db36-4f96-9d81-57a8e7a285ac" type="radio">
-</input><label class="tabbed-label" for="66a5e05a-0f8c-42d8-945c-bc1db672fc55">
+<input checked="checked" id="f8c7cf17-34a2-4873-9c75-8af2f7e6ccbd" name="1424fd34-74cb-46f1-b0fd-b5da76b214f5" type="radio">
+</input><label class="tabbed-label" for="f8c7cf17-34a2-4873-9c75-8af2f7e6ccbd">
 pip</label><div class="tabbed-content docutils">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">labellib</span>
 </pre></div>
 </div>
 </div>
-<input id="81c4dc9a-053d-4e1a-b6ed-6a6df1559957" name="bf37e5a5-db36-4f96-9d81-57a8e7a285ac" type="radio">
-</input><label class="tabbed-label" for="81c4dc9a-053d-4e1a-b6ed-6a6df1559957">
+<input id="bd1654e1-dd6e-4675-b556-bffdbc358d62" name="1424fd34-74cb-46f1-b0fd-b5da76b214f5" type="radio">
+</input><label class="tabbed-label" for="bd1654e1-dd6e-4675-b556-bffdbc358d62">
 conda</label><div class="tabbed-content docutils">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">labellib</span> <span class="o">-</span><span class="n">c</span> <span class="n">tpeulen</span>
 </pre></div>

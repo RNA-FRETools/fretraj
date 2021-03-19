@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The parameter file</title>
+    <title>The parameter files</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -54,6 +54,8 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="shortcut icon" href="../_static/fretraj_logo.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -127,6 +129,11 @@
    Working with trajectories
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/photon_bursts.html">
+   Generating photon bursts
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -146,7 +153,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   The parameter file
+   The parameter files
   </a>
  </li>
 </ul>
@@ -169,6 +176,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../module/grid.html">
    Grid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../module/burst.html">
+   Burst
   </a>
  </li>
  <li class="toctree-l1">
@@ -269,6 +281,25 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#acv-fret-calculation">
+   ACV/FRET calculation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#burst-simulation">
+   Burst simulation
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
         </div>
     </div>
 </div>
@@ -277,9 +308,11 @@
         
               <div>
                 
-  <div class="section" id="the-parameter-file">
-<h1>The parameter file<a class="headerlink" href="#the-parameter-file" title="Permalink to this headline">¶</a></h1>
-<p><em>FRETraj</em> uses a json-formatted parameter file to define the settings for the ACV calculation. The general structure is as follows:</p>
+  <div class="section" id="the-parameter-files">
+<h1>The parameter files<a class="headerlink" href="#the-parameter-files" title="Permalink to this headline">¶</a></h1>
+<p><em>FRETraj</em> uses two different json-formatted parameter files: one for <strong>ACV/FRET calculation</strong> and another to simulate <strong>photon bursts</strong>. Their general structure is outlined in the following:</p>
+<div class="section" id="acv-fret-calculation">
+<h2>ACV/FRET calculation<a class="headerlink" href="#acv-fret-calculation" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Position&quot;</span><span class="p">:</span>
     <span class="p">{</span><span class="s2">&quot;&lt;string defining the dye position&gt;&quot;</span><span class="p">:</span> 
         <span class="p">{</span><span class="s2">&quot;attach_id&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -295,7 +328,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The parameters above need to be defined by the user. Other parameters have default values:</p>
+<p>The parameters above are mandatory and need to be defined by the user. Other parameters have default values:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;Position&quot;</span><span class="p">:</span>
     <span class="p">{</span><span class="s2">&quot;&lt;string defining the dye position&gt;&quot;</span><span class="p">:</span> 
         <span class="p">{</span><span class="s2">&quot;cv_thickness&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -313,6 +346,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>The parameters are described in more detail in the sections <a class="reference internal" href="../getting_started/acv_calculation.html"><span class="doc std std-doc">Calculating ACVs</span></a> and <a class="reference internal" href="../getting_started/acv_calculation.html"><span class="doc std std-doc">making FRET predictions</span></a></p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
 <p>The distance unit of FRETraj is <strong>Angstrom</strong> (<a class="reference external" href="http://mdtraj.org/">MDTraj</a> in contrast uses nanometers). The time unit is <strong>picosecond</strong>.</p>
@@ -337,7 +371,142 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Further details about the simulation settings are provided in the <a class="reference internal" href="../module/cloud.html"><span class="doc std std-doc">code documentation</span></a>.</p>
+<p>Further details about the simulation settings are provided in the <a class="reference internal" href="../module/cloud.html"><span class="doc std std-doc">cloud</span></a> and <a class="reference internal" href="../module/fret.html"><span class="doc std std-doc">fret</span></a> submodule descriptions.</p>
+<p><a id='burst-simulation'></a></p>
+</div>
+<div class="section" id="burst-simulation">
+<h2>Burst simulation<a class="headerlink" href="#burst-simulation" title="Permalink to this headline">¶</a></h2>
+<p>The structure of the second parameter file is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;dyes&quot;</span><span class="p">:</span> 
+    <span class="p">{</span><span class="s2">&quot;tauD&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+     <span class="s2">&quot;tauA&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+     <span class="s2">&quot;QD&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+     <span class="s2">&quot;QA&quot;</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">},</span>
+<span class="s2">&quot;fret&quot;</span><span class="p">:</span> 
+    <span class="p">{</span><span class="s2">&quot;R0&quot;</span><span class="p">:</span> <span class="mi">54</span><span class="p">},</span>
+<span class="s2">&quot;species&quot;</span><span class="p">:</span>
+    <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">string</span><span class="p">],</span>
+     <span class="s2">&quot;unix_pattern_rkappa&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">regex</span><span class="o">-</span><span class="n">string</span><span class="o">&gt;</span><span class="p">],</span>
+     <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="p">},</span>
+<span class="s2">&quot;bursts&quot;</span><span class="p">:</span> 
+    <span class="p">{</span><span class="s2">&quot;lower_limit&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+     <span class="s2">&quot;upper_limit&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span>
+     <span class="s2">&quot;lambda&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.3</span><span class="p">,</span>
+     <span class="s2">&quot;averaging&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The above key-values are mandatory. The main keys define photopyhsical parameters (<code class="docutils literal notranslate"><span class="pre">dyes</span></code>), the FRET pair (<code class="docutils literal notranslate"><span class="pre">fret</span></code>), identifiers and weights of individual subpopulations (<code class="docutils literal notranslate"><span class="pre">species</span></code>) and characteristics of the burst size distribution (<code class="docutils literal notranslate"><span class="pre">bursts</span></code>). The individual parameters are briefly described below:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dyes</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tauD</span></code> / <code class="docutils literal notranslate"><span class="pre">tauA</span></code>: fluorescence lifetime of the donor and acceptor dye</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QD</span></code> / <code class="docutils literal notranslate"><span class="pre">QA</span></code>: quantum yields of the donor and acceptor dye</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fret</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">R0</span></code>: Förster radius in Angstrom</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">species</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: list of names of the different subpopulations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unix_pattern_rkappa</span></code> list of regular expressions identifying the R_kappa-files of the subspopulations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">probability</span></code>: list of probabilities of the subpopulations</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bursts</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lower_limit</span></code> / <code class="docutils literal notranslate"><span class="pre">upper_limit</span></code>: lower and upper treshold of the burst size distribution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lambda</span></code>: coefficient of the analytical burst size distribution (power law)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">averaging</span></code>: method of averaging over the MD simulations, available options are: <code class="docutils literal notranslate"><span class="pre">ensemble</span></code> (the entire ensemble is present in a single burst),
+<code class="docutils literal notranslate"><span class="pre">species</span></code> (each burst only contains molecules of the same species) or <code class="docutils literal notranslate"><span class="pre">trajectory</span></code> (only a one trajectory per burst).</p></li>
+</ul>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">averaging</span></code> parameter becomes important if multiple trajectories are run with <strong>different starting conformations</strong>, which are not expected to exchange on the timescale of the simulation
+(e.g. cis/trans isomerization of prolines, see <span id="id1">[<a class="reference internal" href="../references.html#id7"><span>3</span></a>,<a class="reference internal" href="../references.html#id6"><span>4</span></a>]</span>). If on the other hand, only a single trajectory is available all three settings should give the same results (although <code class="docutils literal notranslate"><span class="pre">ensemble</span></code> may run a bit faster than the other two).</p>
+</div>
+</li>
+</ul>
+<p>Additional, optional parameters and their default values include:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;dyes&quot;</span><span class="p">:</span> 
+    <span class="p">{</span><span class="n">dipole_angle_abs_em</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+<span class="s2">&quot;sampling&quot;</span><span class="p">:</span>
+    <span class="p">{</span><span class="s2">&quot;nbursts&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
+     <span class="s2">&quot;skipframesatstart&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+     <span class="s2">&quot;skipframesatend&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+     <span class="s2">&quot;multiprocessing&quot;</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">},</span>
+<span class="s2">&quot;fret&quot;</span><span class="p">:</span> 
+    <span class="p">{</span><span class="s2">&quot;kappasquare&quot;</span><span class="p">:</span> <span class="mf">0.6666</span>
+     <span class="s2">&quot;no_gamma&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+     <span class="s2">&quot;quenching_radius&quot;</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="s2">&quot;species&quot;</span><span class="p">:</span>
+    <span class="p">{</span><span class="s2">&quot;unix_pattern_don_coords&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+     <span class="s2">&quot;unix_pattern_acc_coords&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+     <span class="s2">&quot;n_trajectory_splits&quot;</span><span class="p">:</span> <span class="kc">None</span>
+    <span class="p">},</span>
+<span class="s2">&quot;bursts&quot;</span><span class="p">:</span> 
+    <span class="p">{</span><span class="s2">&quot;burst_size_file&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+     <span class="s2">&quot;QY_correction&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">fretraj.burst</span></code> submodule can also be used to analyze MD simulations with <strong>all-atom dyes</strong>. Including the dyes explicitely in the simulations has the advantage that a <strong>transition dipole vector</strong>
+can be defined. This allows to additionally simulate <strong>fluorescence anisotropy decays</strong>, which can be activated by setting <code class="docutils literal notranslate"><span class="pre">compute_anisotropy=True</span></code> in <code class="docutils literal notranslate"><span class="pre">fretraj.burst.experiment()</span></code>.</p>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dyes</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dipole_angle_abs_em</span></code>: angle between the excitation and emission dipole in the absence of rotational diffusion (i.e. at time point 0; reduces the fundamental anisotropy <span class="math notranslate nohighlight">\(r_0\)</span>; for all-atom dye simulations only)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sampling</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nbursts</span></code>: number of bursts to generate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skipframesatstart</span></code> / <code class="docutils literal notranslate"><span class="pre">skipframesatend</span></code>: number of frames (<em>not</em> time) to skip at the beginning and end of each trajectory when searching for excitation time points</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code>: distribute workload on multiple cores</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fret</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kappasquare</span></code>: <span class="math notranslate nohighlight">\(\kappa^2\)</span> value for the given <code class="docutils literal notranslate"><span class="pre">R0</span></code> (usually isotropic averaging, i.e. 2/3)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">no_gamma</span></code>: mimic an uncorrected FRET experiment which is affected by the different quantum yields of donor and acceptor (i.e. before <span class="math notranslate nohighlight">\(\gamma\)</span>-correction).
+The detection efficiency ratio is always set to 1. If the simulation is compared to a <span class="math notranslate nohighlight">\(\gamma\)</span>-corrected experiment this parameter should be set to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">quenching_radius</span></code>: radius below which radiationless deactivation occurs due to contact quenching of the dyes</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">species</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">unix_pattern_don_coords</span></code> / <code class="docutils literal notranslate"><span class="pre">unix_pattern_acc_coords</span></code>: regular expression identifying the xyz-coordinates (xvg-files generated by GROMACS <code class="docutils literal notranslate"><span class="pre">gmx</span> <span class="pre">traj</span></code>) of the donor and acceptor dye (required for all-atom dye simulations)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_trajectory_splits</span></code> split the trajectory into <span class="math notranslate nohighlight">\(n\)</span> parts (together with <code class="docutils literal notranslate"><span class="pre">averaging=&quot;trajectory&quot;</span></code> this simulates non-interconverting species which leads to broadening; usually this should be left at the default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bursts</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">burst_size_file</span></code>: relative path to an experimental burst size distribution file containing two columns: burst sizes and their probabilities).
+If this setting is not specified, then an analytical power law distribution defined by the coefficient <code class="docutils literal notranslate"><span class="pre">lambda</span></code> is used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QY_correction</span></code>: correct the number of donor and acceptor photons by their respective quantum yield when evaluating whether the burstsize is reached. Usually experimental bursts are identified based on uncorrected photon numbers, so this setting defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+<div class="admonition-example-for-illustration admonition">
+<p class="admonition-title">Example for illustration</p>
+<p>Let’s assume we collected 20 donor photons (with <code class="docutils literal notranslate"><span class="pre">QD=0.5</span></code>) and 25 acceptor photons (with <code class="docutils literal notranslate"><span class="pre">QA=0.75</span></code>) and the size of this particular burst is 50.
+If <code class="docutils literal notranslate"><span class="pre">QY_correction=False</span></code> the total photon count is 20+25=45 photons, so the required burstsize is not reached yet.
+if <code class="docutils literal notranslate"><span class="pre">QY_correction=True</span></code> the total photon count is (20/0.5 + 25/0.75 = 73) and so the burst is complete.</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

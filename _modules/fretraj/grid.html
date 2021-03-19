@@ -125,6 +125,11 @@
    Working with trajectories
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../getting_started/photon_bursts.html">
+   Generating photon bursts
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -144,7 +149,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../background/parameter_file.html">
-   The parameter file
+   The parameter files
   </a>
  </li>
 </ul>
@@ -167,6 +172,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../../module/grid.html">
    Grid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../module/burst.html">
+   Burst
   </a>
  </li>
  <li class="toctree-l1">
@@ -282,22 +292,22 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    mol_xyzr : ndarray</span>
-<span class="sd">               array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</span>
+<span class="sd">        array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</span>
 <span class="sd">    attach_xyz : ndarray</span>
-<span class="sd">                one-dimensional array of x-,y-,z-coordinates of the attachment point</span>
-<span class="sd">                (corresponds to the center of the grid)</span>
+<span class="sd">        one-dimensional array of x-,y-,z-coordinates of the attachment point</span>
+<span class="sd">        (corresponds to the center of the grid)</span>
 <span class="sd">    linker_length : float</span>
-<span class="sd">                    length of the dye linker in Angstrom</span>
+<span class="sd">        length of the dye linker in Angstrom</span>
 <span class="sd">    linker_width : float</span>
-<span class="sd">                   diameter of the dye linker in Angstrom</span>
+<span class="sd">        diameter of the dye linker in Angstrom</span>
 <span class="sd">    dye_radii : ndarray([3,1])</span>
-<span class="sd">                array of dye radii in Angstrom with shape [3,1]</span>
+<span class="sd">        array of dye radii in Angstrom with shape [3,1]</span>
 <span class="sd">    grid_spacing : float</span>
 <span class="sd">        spacing between grid points (in A)</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Attributes of the LabelLib class</span>
+<span class="sd">    Attributes of the LabelLib class are:</span>
 <span class="sd">        - discStep : float  (the grid spacing)</span>
 <span class="sd">        - originXYZ : numpy.array  (x-/y-/z-coordinate of the grid origin)</span>
 <span class="sd">        - shape : numpy.array      (number of grid points in x-/y-/z-direction)</span>
@@ -324,24 +334,22 @@
 <div class="viewcode-block" id="Grid3D.make_grid"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.make_grid">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">forceobj</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">make_grid</span><span class="p">(</span><span class="n">attach_xyz</span><span class="p">,</span> <span class="n">linker_length</span><span class="p">,</span> <span class="n">grid_spacing</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Build a 3D grid around the attachment point</span>
+        <span class="sd">&quot;&quot;&quot;Build a 3D grid around the attachment point</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        attach_xyz : ndarray</span>
-<span class="sd">                     one-dimensional array of x-,y-,z-coordinates of the attachment point</span>
-<span class="sd">                     (corresponds to the center of the grid)</span>
+<span class="sd">            one-dimensional array of x-,y-,z-coordinates of the attachment point</span>
+<span class="sd">            (corresponds to the center of the grid)</span>
 <span class="sd">        linker_length : float</span>
-<span class="sd">                        length of the dye linker in Angstrom</span>
+<span class="sd">            length of the dye linker in Angstrom</span>
 <span class="sd">        grid_spacing : float</span>
 <span class="sd">            spacing between grid points (in A)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        grid_3d : ndarray</span>
-<span class="sd">                  3-dimensional array of grid points with a shape of 2*ll_padRound+1</span>
-<span class="sd">        xyz_min : ndarray</span>
+<span class="sd">        tuple of ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape of 2*ll_padRound+1, minimum of the grid, origin of the grid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ll_pad</span> <span class="o">=</span> <span class="n">linker_length</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">grid_spacing</span>  <span class="c1"># pad the linker_length</span>
         <span class="n">ll_padRound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">ll_pad</span> <span class="o">/</span> <span class="n">grid_spacing</span><span class="p">)</span> <span class="o">*</span> <span class="n">grid_spacing</span>  <span class="c1"># round to next higher grid value</span>
@@ -366,10 +374,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        xyz :</span>
-<span class="sd">        originAdj :</span>
+<span class="sd">        xyz : ndarray</span>
+<span class="sd">            xyz coordinates</span>
+<span class="sd">        originAdj : ndarray</span>
+<span class="sd">            origin of the grid</span>
 <span class="sd">        grid_spacing : float</span>
 <span class="sd">            spacing between grid points (in A)</span>
+<span class="sd">        decimals : int</span>
+<span class="sd">            decimal to round to</span>
 
 <span class="sd">        Note</span>
 <span class="sd">        ----</span>
@@ -408,9 +420,27 @@
 <div class="viewcode-block" id="Grid3D._carve_VdWextraClash"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D._carve_VdWextraClash">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_carve_VdWextraClash</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">extraClash</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span> <span class="n">outDistSq</span><span class="p">,</span> <span class="n">grid_shape</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius</span>
+        <span class="sd">&quot;&quot;&quot;Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius</span>
 <span class="sd">        plus an extraClash value</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grid_3d : ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape of 2*adjL+1</span>
+<span class="sd">        mol_xyzr : ndarray</span>
+<span class="sd">            array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</span>
+<span class="sd">        neighbor_list : list of 2-tuples of ndarray and float</span>
+<span class="sd">            the tuples contain the ijk indices and the distance from the origin (0,0,0)</span>
+<span class="sd">        ijk_atom : array</span>
+<span class="sd">            ijk grid indices of the atoms of the biomolecule</span>
+<span class="sd">        extraClash : float</span>
+<span class="sd">            clash radius added to the VdW radius</span>
+<span class="sd">        distSq : float</span>
+<span class="sd">            square of the distance between the grid points to the attachment point</span>
+<span class="sd">        outDistSq : float</span>
+<span class="sd">            square of (halfcubelength + maxVdW_extraClash)</span>
+<span class="sd">        grid_shape : array</span>
+<span class="sd">            number of grid points in x,y and z coordinates</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mol_xyzr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="k">if</span> <span class="n">distSq</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">outDistSq</span><span class="p">:</span>
@@ -425,20 +455,19 @@
         <span class="k">return</span> <span class="n">grid_3d</span></div>
 
 <div class="viewcode-block" id="Grid3D.dijkstra_init"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.dijkstra_init">[docs]</a>    <span class="k">def</span> <span class="nf">dijkstra_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxR</span><span class="p">,</span> <span class="n">maxR_source</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the Dijkstra search algorithm</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Dijkstra search algorithm</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        maxR : float</span>
-<span class="sd">               radius within to search for neighbors</span>
+<span class="sd">            radius within to search for neighbors</span>
 <span class="sd">        maxRsource : float</span>
-<span class="sd">                     radius within to search for neighbors in the first round of the Dijkstra algorithm</span>
+<span class="sd">            radius within to search for neighbors in the first round of the Dijkstra algorithm</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        grid_3d : ndarray</span>
-<span class="sd">                  3-dimensional array of grid points with a shape of 2*adjL+1</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape of 2*adjL+1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ai</span><span class="p">,</span> <span class="n">aj</span><span class="p">,</span> <span class="n">ak</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xyz2idx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attach_xyz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">originAdj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discStep</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">[</span><span class="n">ai</span><span class="p">,</span> <span class="n">aj</span><span class="p">,</span> <span class="n">ak</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -457,19 +486,18 @@
         <span class="k">return</span> <span class="n">grid_3d</span></div>
 
 <div class="viewcode-block" id="Grid3D.sortedNeighborIdx"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.sortedNeighborIdx">[docs]</a>    <span class="k">def</span> <span class="nf">sortedNeighborIdx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxR</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Build a neighbor list with a maximal extent given by maxR and sorted by increasing distance</span>
+        <span class="sd">&quot;&quot;&quot;Build a neighbor list with a maximal extent given by maxR and sorted by increasing distance</span>
 <span class="sd">        from the origin</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        maxR : float</span>
-<span class="sd">               radius within to search for neighbors</span>
+<span class="sd">            radius within to search for neighbors</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        idxs : list of 2-tuples of numpy.ndarray and float</span>
-<span class="sd">               the tuples contain the ijk indices and the distance from the origin (0,0,0)</span>
+<span class="sd">        list of 2-tuples of ndarray and float</span>
+<span class="sd">            the tuples contain the ijk indices and the distance from the origin (0,0,0)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">idxs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neighborIdx</span><span class="p">(</span><span class="n">maxR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discStep</span><span class="p">)</span>
         <span class="n">idxs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -489,7 +517,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        idxs : list of 2-tuples of numpy.ndarray and float</span>
+<span class="sd">        list of 2-tuples of ndarray and float</span>
 <span class="sd">            the tuples contain the ijk indices and the distance from the origin (0,0,0), e.g. [(1.0,array([-1,0,0]))]</span>
 
 <span class="sd">        Notes</span>
@@ -518,16 +546,14 @@
         <span class="k">return</span> <span class="n">idxs</span></div>
 
 <div class="viewcode-block" id="Grid3D.essential_neighbors"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.essential_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">essential_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idxs</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Reduce the neighbor list to those indices with a distance from the origin featured in dist_list</span>
+        <span class="sd">&quot;&quot;&quot;Reduce the neighbor list to those indices with a distance from the origin featured in dist_list</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        idxs : list of 2-tuples of numpy.ndarray and float</span>
-<span class="sd">               the tuples contain the ijk indices and the distance from the origin (0,0,0)</span>
-
-<span class="sd">        idxs_ess : list of 2-tuples of numpy.ndarray and float</span>
-<span class="sd">                   list n essential neighbors from the origin (0,0,0)</span>
+<span class="sd">        idxs : list of 2-tuples of ndarray and float</span>
+<span class="sd">            the tuples contain the ijk indices and the distance from the origin (0,0,0)</span>
+<span class="sd">        dist_list : list</span>
+<span class="sd">            list of distances for neighbor search</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -546,24 +572,25 @@
 <div class="viewcode-block" id="Grid3D.dijkstra"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.dijkstra">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">dijkstra</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">edges_ess</span><span class="p">,</span> <span class="n">edges_src</span><span class="p">,</span> <span class="n">priority_queue</span><span class="p">,</span> <span class="n">start_ijk</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Djikstra algorithm with a priority queue</span>
+        <span class="sd">&quot;&quot;&quot;Djikstra algorithm with a priority queue</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        grid_3d : numpy.ndarray</span>
-<span class="sd">                  3-dimensional array of grid points with a shape given by n_xyz</span>
-<span class="sd">        edges_ess : nb.typed.List of 2-tuples of numpy.ndarray and float</span>
-<span class="sd">                    list n essential neighbors from the origin (0,0,0)</span>
-<span class="sd">        edges_src : list of 2-tuples of numpy.ndarray and float</span>
-<span class="sd">                    nb.typed.List of neighbors in the initialization round of the Dijkstra algorithm</span>
-<span class="sd">        priority_queue : list of 2-tuples of numpy.ndarray and float</span>
-<span class="sd">                         list with distance and index of origin</span>
+<span class="sd">        grid_3d : ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
+<span class="sd">        edges_ess : nb.typed.List of 2-tuples of ndarray and float</span>
+<span class="sd">            list n essential neighbors from the origin (0,0,0)</span>
+<span class="sd">        edges_src : list of 2-tuples of ndarray and float</span>
+<span class="sd">            nb.typed.List of neighbors in the initialization round of the Dijkstra algorithm</span>
+<span class="sd">        priority_queue : list of 2-tuples of ndarray and float</span>
+<span class="sd">            list with distance and index of origin</span>
+<span class="sd">        start_ijk : array</span>
+<span class="sd">            ijk grid indices of the attachment site</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        grid_3d : numpy.ndarray([nx,ny,nz])</span>
-<span class="sd">                  3-dimensional array of grid points with a shape given by n_xyz</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="n">priority_queue</span><span class="p">:</span>
             <span class="n">r</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">priority_queue</span><span class="p">)</span>
@@ -589,18 +616,21 @@
 <div class="viewcode-block" id="Grid3D.setAboveTreshold"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.setAboveTreshold">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">setAboveTreshold</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">treshold</span><span class="p">,</span> <span class="n">new_value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Reassign grid values which are above a specified treshold</span>
+        <span class="sd">&quot;&quot;&quot;Reassign grid values which are above a specified treshold</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
+<span class="sd">        grid_3d : ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        treshold : float</span>
+<span class="sd">            grid values above this treshold are reassigned with new_value</span>
 <span class="sd">        new_value : float</span>
+<span class="sd">            new grid value to be assigned</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        grid_3d : numpy.ndarray([nx,ny,nz])</span>
-<span class="sd">                  3-dimensional array of grid points with a shape given by n_xyz</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid_3d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid_3d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
@@ -610,20 +640,21 @@
         <span class="k">return</span> <span class="n">grid_3d</span></div>
 
 <div class="viewcode-block" id="Grid3D.excludeConcentricSpheres"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.excludeConcentricSpheres">[docs]</a>    <span class="k">def</span> <span class="nf">excludeConcentricSpheres</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">dye_radii</span><span class="p">,</span> <span class="n">maxRho</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Exclude all grid points which are not compatible with any of the dye radii because of clashing with the VdW surface</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        mol_xyzr : numpy.ndarray</span>
-<span class="sd">                   array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</span>
+<span class="sd">        mol_xyzr : ndarray</span>
+<span class="sd">            array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</span>
 <span class="sd">        dye_radii : ndarray([3,1])</span>
-<span class="sd">                    array of dye radii in Angstrom with shape [3,1]</span>
+<span class="sd">            array of dye radii in Angstrom with shape [3,1]</span>
 <span class="sd">        maxRho : float</span>
-<span class="sd">                 maximum grid value in the free volume</span>
+<span class="sd">            maximum grid value in the free volume</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        grid_3d : numpy.ndarray([nx,ny,nz])</span>
-<span class="sd">                  3-dimensional array of grid points with a shape given by n_xyz</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">maxVdW_extraClash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dye_radii</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_hasTypedList</span><span class="p">:</span>
@@ -645,8 +676,32 @@
 <div class="viewcode-block" id="Grid3D._assignRho"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D._assignRho">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_assignRho</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">dye_radii_sorted</span><span class="p">,</span> <span class="n">rhos</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span> <span class="n">outdistSq</span><span class="p">,</span> <span class="n">grid_shape</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loop through the atoms and radii and reassign the grid values with a number 0 &lt; rho &lt; 1</span>
+        <span class="sd">&quot;&quot;&quot;Loop through the atoms and radii and reassign the grid values with a number 0 &lt; rho &lt; 1. </span>
+<span class="sd">        0.00: grid point is not compatible with any of the three dye radii (clashes with VdW surface)</span>
+<span class="sd">        0.33: grid point is compatible with the smallest dye radius</span>
+<span class="sd">        0.66: grid point is compatible with the smallest two radii</span>
+<span class="sd">        1.00: grid point is compatible with all three dye radii</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grid_3d : ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
+<span class="sd">        mol_xyzr : ndarray</span>
+<span class="sd">            array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</span>
+<span class="sd">        neighbor_list : list of 2-tuples of ndarray and float</span>
+<span class="sd">            the tuples contain the ijk indices and the distance from the origin (0,0,0)</span>
+<span class="sd">        ijk_atom : array</span>
+<span class="sd">            ijk grid indices of the atoms of the biomolecule</span>
+<span class="sd">        dye_radii_sorted : array</span>
+<span class="sd">            dye radii sorted in ascending order</span>
+<span class="sd">        rhos : array</span>
+<span class="sd">            array of grid values for assignment, for AV3 [0, 0.33, 0.66, 1] and for AV1 [0, 1]</span>
+<span class="sd">        distSq : float</span>
+<span class="sd">            square of the distance between the grid points to the attachment point</span>
+<span class="sd">        outdistSq : float</span>
+<span class="sd">            square of (halfcubelength + maxVdW_extraClash)</span>
+<span class="sd">        grid_shape : array</span>
+<span class="sd">            number of grid points in x,y and z coordinates</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">neighbor_list</span><span class="p">)</span>
         <span class="n">n_radii</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dye_radii_sorted</span><span class="p">)</span>
@@ -669,18 +724,17 @@
         <span class="k">return</span> <span class="n">grid_3d</span></div>
 
 <div class="viewcode-block" id="Grid3D.addWeights"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.addWeights">[docs]</a>    <span class="k">def</span> <span class="nf">addWeights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">das_xyzrm</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Assign a weight to the grid values which are part of the contact volume</span>
+        <span class="sd">&quot;&quot;&quot;Reassign those grid values which are part of the contact volume.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        das_xyzrm : numpy.ndarray([5,n_atoms])</span>
-<span class="sd">                    array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)</span>
+<span class="sd">        das_xyzrm : ndarray</span>
+<span class="sd">            array of xyz coordinates, padded vdW radii and a marking (2.0)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        grid_3d : numpy.ndarray([nx,ny,nz])</span>
-<span class="sd">                  3-dimensional array of grid points with a shape given by n_xyz</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">maxClash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">das_xyzrm</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">discStep</span>
         <span class="k">if</span> <span class="n">_hasTypedList</span><span class="p">:</span>
@@ -697,8 +751,30 @@
 <div class="viewcode-block" id="Grid3D._assignDensity"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D._assignDensity">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_assignDensity</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">das_xyzrm</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span> <span class="n">outDistSq</span><span class="p">,</span> <span class="n">grid_shape</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loop through the atoms and assign the density</span>
+        <span class="sd">&quot;&quot;&quot;Loop through the atom of the biomolecule and reassign those grid value which are within das_xyzrm[m, 3]</span>
+<span class="sd">        as they belong to the CV.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grid_3d : ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
+<span class="sd">        das_xyzrm : ndarray</span>
+<span class="sd">            array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)</span>
+<span class="sd">        neighbor_list : list of 2-tuples of ndarray and float</span>
+<span class="sd">            the tuples contain the ijk indices and the distance from the origin (0,0,0)</span>
+<span class="sd">        ijk_atom : array</span>
+<span class="sd">            ijk grid indices of the atoms of the biomolecule</span>
+<span class="sd">        distSq : float</span>
+<span class="sd">            square of the distance between the grid points to the attachment point</span>
+<span class="sd">        outDistSq : float</span>
+<span class="sd">            square of (halfcubelength + maxVdW_extraClash)</span>
+<span class="sd">        grid_shape : array</span>
+<span class="sd">            number of grid points in x,y and z coordinates</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">neighbor_list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">das_xyzrm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
