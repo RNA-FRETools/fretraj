@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FRET" href="fret.html" />
-    <link rel="prev" title="The parameter file" href="../background/parameter_file.html" />
+    <link rel="prev" title="The parameter files" href="../background/parameter_file.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -127,6 +127,11 @@
    Working with trajectories
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/photon_bursts.html">
+   Generating photon bursts
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -146,7 +151,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../background/parameter_file.html">
-   The parameter file
+   The parameter files
   </a>
  </li>
 </ul>
@@ -169,6 +174,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="grid.html">
    Grid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="burst.html">
+   Burst
   </a>
  </li>
  <li class="toctree-l1">
@@ -311,7 +321,7 @@ with a shape [n_gridpts(+), 4]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>grid_1d</strong> (<em>ndarray</em>) – one-dimensional array of grid points of length n_gridpts</p>
+<dd class="field-even"><p><em>ndarray</em> – one-dimensional array of grid points of length n_gridpts</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -330,7 +340,7 @@ with a shape [n_gridpts(+), 4]</p></li>
 <dd class="field-odd"><p><strong>grid_1d</strong> (<em>ndarray</em>) – one-dimensional array of grid points length n_gridpts</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>tag</strong> (<em>ndarray</em>) – one-dimensional array of length n_gridpts</p>
+<dd class="field-even"><p><em>ndarray</em> – one-dimensional array of length n_gridpts</p>
 </dd>
 </dl>
 </dd></dl>
@@ -353,7 +363,7 @@ This accounts for the (experimentally) determined fraction of dyes populating th
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>weight_cv</strong> (<em>float</em>) – weight of each grid point that belongs to the contact volume</p>
+<dd class="field-even"><p><em>float</em> – weight of each grid point that belongs to the contact volume</p>
 </dd>
 </dl>
 </dd></dl>
@@ -444,7 +454,7 @@ This accounts for the (experimentally) determined fraction of dyes populating th
 <dd><p>Pandas Dataframe view of the Trajectory object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>pandas.DataFrame</em></p>
+<dd class="field-odd"><p><em>pandas.DataFrame</em> – Dataframe with distances and transfer efficiencies of the FRET trajectory</p>
 </dd>
 </dl>
 </dd></dl>
@@ -458,7 +468,7 @@ This accounts for the (experimentally) determined fraction of dyes populating th
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>str</em>) – filename for .csv trajectory</p></li>
 <li><p><strong>format</strong> (<em>{‘csv’, ‘txt’}</em>)</p></li>
-<li><p><strong>units</strong> (<em>{‘A’, ‘nm’}</em>) – distance units</p></li>
+<li><p><strong>units</strong> (<em>{‘A’, ‘nm’}, optional=’A’</em>) – distance units (‘A’: Angstroms, ‘nm’: nanometers)</p></li>
 <li><p><strong>header</strong> (<em>bool, default=True</em>) – include header in the output file</p></li>
 <li><p><strong>R_kappa_only</strong> (<em>bool, default=False</em>) – include only time, R_DA and kappasquare columns in the output file (as <em>gmx dyecoupl</em>, Gromacs)</p></li>
 </ul>
@@ -787,7 +797,7 @@ frames using the same dye and grid parameters</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>str</em>) – filename for the mean position</p></li>
 <li><p><strong>format</strong> (<em>{‘plain’, ‘json’}</em>) – file format (plain .txt or .json)</p></li>
-<li><p><strong>units</strong> (<em>{‘A’, ‘nm’}</em>) – distance units (‘A’: Angstroms, ‘nm’: nanometers)</p></li>
+<li><p><strong>units</strong> (<em>{‘A’, ‘nm’}, optional=’A’</em>) – distance units (‘A’: Angstroms, ‘nm’: nanometers)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1007,7 +1017,7 @@ of points in the smallest volume)</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>str</em>) – filename for mean position trajectory</p></li>
 <li><p><strong>volume_list</strong> (<em>array_like</em>) – list of Volume instances</p></li>
-<li><p><strong>units</strong> (<em>{‘A’, ‘nm’}</em>) – distance units (Angstrom or nanometer)</p></li>
+<li><p><strong>units</strong> (<em>{‘A’, ‘nm’}, optional=’A’</em>) – distance units (‘A’: Angstroms, ‘nm’: nanometers)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1069,7 +1079,7 @@ of points in the smallest volume)</p></li>
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../background/parameter_file.html" title="previous page">The parameter file</a>
+    <a class='left-prev' id="prev-link" href="../background/parameter_file.html" title="previous page">The parameter files</a>
     <a class='right-next' id="next-link" href="fret.html" title="next page">FRET</a>
 
         </div>

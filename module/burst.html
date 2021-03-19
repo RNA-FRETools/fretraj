@@ -1,0 +1,763 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Burst</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/fretraj_logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="Grid" href="grid.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/fretraj_logo.png" class="logo" alt="logo">
+  
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Welcome to FRETraj
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/acv_calculation.html">
+   Calculating ACVs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/fret_prediction.html">
+   Making FRET predictions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/jupyter-notebook.html">
+   <em>
+    FRETraj
+   </em>
+   and Jupyter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/trajectories.html">
+   Working with trajectories
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/photon_bursts.html">
+   Generating photon bursts
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Background
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../background/accessible_volume.html">
+   The accessible volume
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../background/contact_volume.html">
+   Dye interactions with the biomolecule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../background/parameter_file.html">
+   The parameter files
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Code
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="cloud.html">
+   Cloud
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fret.html">
+   FRET
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="grid.html">
+   Grid
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Burst
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="utilities.html">
+   Utilities
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  References
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/module/burst.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/RNA-FRETools/fretraj"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2Fmodule/burst.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="burst">
+<h1>Burst<a class="headerlink" href="#burst" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>burst</strong> submodule generates photon bursts using a Markov chain which is dependent on the distance between the donor and acceptor ACV, an experimental burst size distribution as well as quantum yields and fluorescence lifetimes.</p>
+<span class="target" id="module-fretraj.burst"></span><dl class="py class">
+<dt id="fretraj.burst.Burst">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">Burst</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">burstsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QA</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Burst"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Burst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new burst</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>burstsize</strong> (<em>int</em>) – total number of photons (donor + acceptor) to generate in this burst</p></li>
+<li><p><strong>QD</strong> (<em>float</em>) – donor fluorescence quantum yield</p></li>
+<li><p><strong>QA</strong> (<em>float</em>) – acceptor fluorescence quantum yield</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="fretraj.burst.Burst.addRelaxationEvent">
+<code class="sig-name descname"><span class="pre">addRelaxationEvent</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decaytime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarization</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_AA</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Burst.addRelaxationEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Burst.addRelaxationEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify the relaxation event</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>event</strong> (<em>int</em>) – type of relaxation event (1: donor photon, -1: internal conversion from donor,
+2: acceptor photon, -2: internal conversion from acceptor, 0: relaxation due to inter-dye quenching)</p></li>
+<li><p><strong>decaytime</strong> (<em>float</em>) – time in nanoseconds after the excitation event</p></li>
+<li><p><strong>polarization</strong> (<em>int</em>) – polarization of the donor or acceptor photon (0: p, parallel, 1: s, orthogonal)</p></li>
+<li><p><strong>AA</strong> (<em>bool</em>) – If <cite>True</cite>, relaxation event occured after acceptor excitation (as in an ns-ALEX/PIE experiment).
+If <cite>False</cite>, relaxation event occured after donor excitation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Burst.calcFRET">
+<code class="sig-name descname"><span class="pre">calcFRET</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">no_gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QA</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Burst.calcFRET"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Burst.calcFRET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the transfer efficiency based on the donor and acceptor photon counts upon donor excitation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>no_gamma</strong> (<em>bool</em>) – mimic an uncorrected FRET experiment (i.e. before gamma-correction) which is affected by the different
+quantum yields of donor and acceptor (note: the detection efficiency ratio is always set to be 1).
+If the simulation should be compared to a gamma-corrected experiment this parameter should be set to <cite>False</cite>.</p></li>
+<li><p><strong>QD</strong> (<em>float</em>) – donor fluorescence quantum yield</p></li>
+<li><p><strong>QA</strong> (<em>float</em>) – acceptor fluorescence quantum yield</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Burst.checkBurstSizeReached">
+<code class="sig-name descname"><span class="pre">checkBurstSizeReached</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">QD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QY_correction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Burst.checkBurstSizeReached"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Burst.checkBurstSizeReached" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the number of photons has reached the specified burstsize</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>QD</strong> (<em>float</em>) – donor fluorescence quantum yield</p></li>
+<li><p><strong>QA</strong> (<em>float</em>) – acceptor fluorescence quantum yield</p></li>
+<li><p><strong>QY_correction</strong> (<em>bool</em>) – correct the number of donor and acceptor photons by their respective quantum yield when evaluating whether the burstsize is reached.
+e.g. say we collected 20 donor photons (with QD=0.5) and 25 acceptor photons (with QA=0.75) and the burstsize is set to be 50.
+If QY_correction is <cite>False</cite>, the total photon count is 20+25=45 photons, so the required burstsize is not reached yet.
+If QY_correction is <cite>True</cite>, the total photon count is (20/0.5 + 25/0.75 = 73) and so the burst is complete.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fretraj.burst.Ensemble">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">Ensemble</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_anisotropy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Ensemble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Ensemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiate a new ensemble of trajectories from different species</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>str</em>) – path to the directory containing the .dat files (rkappa) and .xvg files (dye coordinates)</p></li>
+<li><p><strong>parameters</strong> (<em>dict</em>) – parameters for the burst, FRET and anisotropy calculations (see tutorial for an example)</p></li>
+<li><p><strong>compute_anisotropy</strong> (<em>bool, optional=False</em>) – Calculate the time-resolved ensemble anisotropy. Requires a donor and acceptor .xvg file in the directory.
+Each file should contain xyz-coordinates of two atoms which define the transition dipole of the respective dye.</p></li>
+<li><p><strong>verbose</strong> (<em>bool, optional=True</em>) – Print status and results to the command line</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="fretraj.burst.Ensemble.checkTimeStepIdentity">
+<code class="sig-name descname"><span class="pre">checkTimeStepIdentity</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Ensemble.checkTimeStepIdentity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Ensemble.checkTimeStepIdentity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the trajectories of all species in the ensemble have the same time step</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fretraj.burst.Experiment">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">Experiment</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.025</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_anisotropy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup an in silico fluorescence experiment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>str</em>) – path to the directory containing the .dat files (rkappa) and .xvg files(dye coordinates)</p></li>
+<li><p><strong>parameters</strong> (<em>dict</em>) – parameters for the burst, FRET and anisotropy calculations (see tutorial for an example)</p></li>
+<li><p><strong>binwidth</strong> (<em>float, optional=0.025</em>) – time between photon bins</p></li>
+<li><p><strong>compute_anisotropy</strong> (<em>bool, optional=False</em>) – Calculate the time-resolved ensemble anisotropy. Requires a donor and acceptor .xvg file in the directory
+where each contains xyz-coordinates of two atoms which define the transition dipole of the dye.</p></li>
+<li><p><strong>verbose</strong> (<em>bool, optional=True</em>) – Output status and results to the command line</p></li>
+<li><p><strong>show_progress</strong> (<em>bool, optional=True</em>) – Display the progress of the burst calculation as a status bar</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.calcAnisotropy">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">calcAnisotropy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polIntensity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_angle_abs_em</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.calcAnisotropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.calcAnisotropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the time-resolved anisotropy decay</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polIntensity</strong> (<em>ndarray</em>) – polarization intensity array of shape [n,3] with columns: time bins, p-photons counts (parallel),
+s-photon counts (orthogonal)</p></li>
+<li><p><strong>dipole_angle_abs_em</strong> (<em>float</em>) – angle between the absorption and emission dipoles in the absence of depolarization due to rotation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>ndarray</em> – anisotropy array of shape [n,2] with columns: time bins, anisotropy</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id1"><span class="brackets">1</span></dt>
+<dd><p>Lakowicz, Principles of fluorescence spectroscopy, 3rd ed. (2006), pp.355-358.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.calcBurst">
+<code class="sig-name descname"><span class="pre">calcBurst</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">burstsize</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.calcBurst"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.calcBurst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a photon burst</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>burstsize</strong> (<em>int</em>) – total number of photons (donor + acceptor) to generate in this burst</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>fluordynamics.fluorburst.Burst</em> – Burst object containing a series of relaxation events with associated decaytimes, polarizations and FRET efficiencies</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.calcBurstsizes">
+<code class="sig-name descname"><span class="pre">calcBurstsizes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.calcBurstsizes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.calcBurstsizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute random burstsizes x_1,x_2,…x_n based on an analytical burstsize distribution P(x) = x^lambda</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>ndarray</em> – array of burstsizes within a range defined by a lower and upper threshold</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.calcTransferRate">
+<code class="sig-name descname"><span class="pre">calcTransferRate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.calcTransferRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.calcTransferRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculated the time-dependent transfer rate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>R</strong> (<em>ndarray</em>) – inter-dye distances</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>ndarray</em> – Rates of transfer efficiency dependent on the inter-dye distance, the Förster radius and the relative dye orientation (kappasquare)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.calcTransitionRates">
+<code class="sig-name descname"><span class="pre">calcTransitionRates</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.calcTransitionRates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.calcTransitionRates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the time-independent transition rates and probabilities</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.gaussian">
+<code class="sig-name descname"><span class="pre">gaussian</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.gaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.gaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate a Gaussian probability density function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array</em>) – independent variable</p></li>
+<li><p><strong>mean</strong> (<em>float</em>) – expected value</p></li>
+<li><p><strong>sigma</strong> (<em>float</em>) – standard deviation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>array</em> – probability density at the given <cite>x</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.load">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an instance of the experiment class from a pickle file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – filename of the experiment</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.polarizationIntensity">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">polarizationIntensity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binwidth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decaytimes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarizations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.polarizationIntensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.polarizationIntensity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the polarization-resolved fluorescence intensities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>binwidth</strong> (<em>float</em>) – time between photon bins</p></li>
+<li><p><strong>decaytimes</strong> (<em>dict of ndarray</em>) – Decaytimes for the different relaxation types collected from all bursts</p></li>
+<li><p><strong>polarizations</strong> (<em>dict of ndarray</em>) – Photon polarization for donor photons after donor excitation and acceptor photons after acceptor excitation
+The encoding is 0 = parallel (p) and 1 = orthogonal (s)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>ndarray</em> – polarization intensity array of shape [n,3] with columns: time bins, p-photons counts (parallel),
+s-photon counts (orthogonal)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.print_results">
+<code class="sig-name descname"><span class="pre">print_results</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.print_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.print_results" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.print_settings">
+<code class="sig-name descname"><span class="pre">print_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_anisotropy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.print_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.print_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the rates and settings of the in-silico experiment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>compute_anisotropy</strong> (<em>bool</em>) – calculate anisotropy decays from the time-dependent orientation of the dye dipole vector</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.save">
+<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_bursts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pickle the experiment class to a file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – filename for the experiment</p></li>
+<li><p><strong>remove_bursts</strong> (<em>bool</em>) – remove the bursts from the experiments (strongly reduces the file size)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Experiment.shot_noise_width">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">shot_noise_width</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Experiment.shot_noise_width"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Experiment.shot_noise_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the width (standard deviation) expected due to shot noise given the total number of photons <cite>N</cite>.
+When <cite>N</cite> is the minimal photon threshold for a burst, i.e. parameters[‘burst’][‘lower_limit’],
+then function returns the maximum width expected solely due to shot noise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean_E</strong> (<em>float</em>) – mean transfer efficiency</p></li>
+<li><p><strong>N</strong> (<em>int</em>) – total number of photons</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>float</em> – standard deviation of a shot-noise limited Gaussian</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="fretraj.burst.Relaxation">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">Relaxation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trajectory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD_tot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pA_tot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quenching_radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipframesatstart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipframesatend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_anisotropy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Relaxation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Relaxation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a relaxation event (photon emission or internal conversion)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trajectory</strong> (<em>fluordynamics.burst.Trajectory</em>) – trajectory object containing inter-dye distances, kappasquare values and donor/acceptor dye transition dipoles</p></li>
+<li><p><strong>pD_tot</strong> (<em>float</em>) – probability of a donor relaxation event (photon emission + internal conversion)</p></li>
+<li><p><strong>pA_tot</strong> (<em>float</em>) – probability of a acceptor relaxation event (photon emission + internal conversion)</p></li>
+<li><p><strong>quenching_radius</strong> (<em>float</em>) – minimum distance beyond which inter-dye quenching will lead to a non-radiative decay (e.g. Dexter energy transfer)</p></li>
+<li><p><strong>skipframesatstart</strong> (<em>int</em>) – number of frames to skip at the beginning of the trajectory</p></li>
+<li><p><strong>skipframesatend</strong> (<em>int</em>) – number of frames to skip at the end of the trajectory</p></li>
+<li><p><strong>QD</strong> (<em>float</em>) – donor fluorescence quantum yield</p></li>
+<li><p><strong>QA</strong> (<em>float</em>) – acceptor fluorescence quantum yield</p></li>
+<li><p><strong>compute_anisotropy</strong> (<em>bool</em>) – Calculate the time-resolved ensemble anisotropy.
+Requires a donor and acceptor transition dipole to be present in the trajectory.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fretraj.burst.Species">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">Species</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filelist_rkappa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trajectory_splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filelist_don_coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filelist_acc_coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Species"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new species of trajectories</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name of the species</p></li>
+<li><p><strong>probability</strong> (<em>float</em>) – relative weight of the species in the ensemble</p></li>
+<li><p><strong>filelist_rkappa</strong> (<em>list of str</em>) – list of .dat filenames with inter-dye distance (R) and kappasquare values</p></li>
+<li><p><strong>n_trajectory_splits</strong> (<em>int, optional=None</em>) – split the trajectory into <cite>n</cite> parts. Together with <cite>averaging=”trajectory”</cite> this simulates non-interconverting
+species which leads to broadening; usually this should be left at the default: <cite>None</cite></p></li>
+<li><p><strong>filelist_don_coords, filelist_acc_coords</strong> (<em>list of str, optional=None</em>) – list of .xvg filenames with xyz coordinates of two atoms defining
+the transition dipole of the donor or acceptor dye</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="fretraj.burst.Trajectory">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">Trajectory</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kappasquare</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">donor_xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceptor_xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time trajectory (in ps) of inter-dye distances (in nm) and kappa-square values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>array</em>) – time in picoseconds</p></li>
+<li><p><strong>R</strong> (<em>array</em>) – inter-dye distance in nanometers</p></li>
+<li><p><strong>kappasquare</strong> (<em>array</em>) – kappasquare values calculated from the orientation of the donor and acceptor transition dipoles</p></li>
+<li><p><strong>donor_xyz, acceptor_xyz</strong> (<em>ndarray, optional=None</em>) – xyz coordinates of two atoms defining the transition dipole of the donor or the acceptor dye</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="fretraj.burst.Trajectory.checkLengthIdentity">
+<code class="sig-name descname"><span class="pre">checkLengthIdentity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traj_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">donor_xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceptor_xyz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Trajectory.checkLengthIdentity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Trajectory.checkLengthIdentity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that rkappa and dye coordinate files have the same length</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>traj_length</strong> (<em>int</em>) – number of frames in the trajectory</p></li>
+<li><p><strong>donor_xyz, acceptor_xyz</strong> (<em>ndarray, optional=None</em>) – xyz coordinates of two atoms defining the transition dipole of the donor or the acceptor dye</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Trajectory.from_file">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rkappa_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">don_coords_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_coords_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Trajectory.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Trajectory.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a fluordynamics.fluorburst.Trajectory class from filenames</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rkappa_filename</strong> (<em>str</em>) – name of a .dat file containing inter-dye distances and kappasquare values</p></li>
+<li><p><strong>don_coords_filename, acc_coords_filename</strong> (<em>str, optional=None</em>) – name of an .xvg file containing xyz-coordinates of two atoms defining
+the transition dipole of the donor or acceptor dye respectively</p></li>
+<li><p><strong>units</strong> (<em>{‘A’, ‘nm’}, optional=’A’</em>) – distance units (‘A’: Angstroms, ‘nm’: nanometers)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="fretraj.burst.Trajectory.transitionDipole">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">transitionDipole</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dye_xyz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Trajectory.transitionDipole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Trajectory.transitionDipole" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a normalized transition dipole vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dye_xyz</strong> (<em>numpy.ndarray</em>) – array of shape [n,7] with columns: <cite>time</cite>, <cite>x1</cite>, <cite>y1</cite>, <cite>z1</cite>, <cite>x2</cite>, <cite>y2</cite>, <cite>z2</cite> where 1 and 2 are two atoms
+defining the transition dipole</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="fretraj.burst.in_notebook">
+<code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">in_notebook</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#in_notebook"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.in_notebook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if code is run in IPython notebook.
+The variable <cite>__IPYTHON__</cite> is defined in Jupyter or IPython but not a normal Python interpreter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>bool</em> – Returns <cite>True</cite> if code is executed from Jupyter/IPython notebook</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fretraj.burst.parseCmd">
+<code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">parseCmd</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#parseCmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.parseCmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the command line arguments</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>tuple of str</em> – path to the directory containing the .dat files (rkappa) and .xvg files(dye coordinates)
+as well as the path to a JSON-formatted parameter file for the burst, FRET and anisotropy calculations</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="fretraj.burst.readParameters">
+<code class="sig-prename descclassname"><span class="pre">fretraj.burst.</span></code><code class="sig-name descname"><span class="pre">readParameters</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#readParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.readParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read parameters from a JSON file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameter_file</strong> (<em>str</em>) – path to a JSON-formatted parameter file (see tutorial for an example)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>dict</em> – parameters for the burst, FRET and anisotropy calculations</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./module"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="grid.html" title="previous page">Grid</a>
+    <a class='right-next' id="next-link" href="utilities.html" title="next page">Utilities</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Fabio D. Steffen<br/>
+        
+            &copy; Copyright 2020-2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

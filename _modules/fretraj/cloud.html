@@ -125,6 +125,11 @@
    Working with trajectories
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../getting_started/photon_bursts.html">
+   Generating photon bursts
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -144,7 +149,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../background/parameter_file.html">
-   The parameter file
+   The parameter files
   </a>
  </li>
 </ul>
@@ -167,6 +172,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../../module/grid.html">
    Grid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../module/burst.html">
+   Burst
   </a>
  </li>
  <li class="toctree-l1">
@@ -576,8 +586,8 @@
 <span class="sd">        filename for mean position trajectory</span>
 <span class="sd">    volume_list : array_like</span>
 <span class="sd">        list of Volume instances</span>
-<span class="sd">    units : {&#39;A&#39;, &#39;nm&#39;}</span>
-<span class="sd">        distance units (Angstrom or nanometer)</span>
+<span class="sd">    units : {&#39;A&#39;, &#39;nm&#39;}, optional=&#39;A&#39;</span>
+<span class="sd">        distance units (&#39;A&#39;: Angstroms, &#39;nm&#39;: nanometers)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">volume_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">acv</span><span class="o">.</span><span class="n">mp</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">volume_list</span><span class="p">))</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">volume_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">acv</span><span class="p">,</span> <span class="s1">&#39;mp&#39;</span><span class="p">)])</span>
     <span class="n">mps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">mps</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">mps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))))</span>
@@ -793,8 +803,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        grid_1d : ndarray</span>
-<span class="sd">                  one-dimensional array of grid points of length n_gridpts</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            one-dimensional array of grid points of length n_gridpts</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -822,15 +832,15 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        grid_1d : ndarray</span>
-<span class="sd">                  one-dimensional array of grid points of length n_gridpts</span>
+<span class="sd">            one-dimensional array of grid points of length n_gridpts</span>
 
 <span class="sd">        cv_fraction : float</span>
-<span class="sd">                      fraction of dyes that are within the contact volume</span>
+<span class="sd">            fraction of dyes that are within the contact volume</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        weight_cv : float</span>
-<span class="sd">                    weight of each grid point that belongs to the contact volume</span>
+<span class="sd">        float</span>
+<span class="sd">            weight of each grid point that belongs to the contact volume</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n_CV</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">grid_1d</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">)</span>
@@ -851,12 +861,12 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        grid_1d : ndarray</span>
-<span class="sd">                  one-dimensional array of grid points length n_gridpts</span>
+<span class="sd">            one-dimensional array of grid points length n_gridpts</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        tag : ndarray</span>
-<span class="sd">              one-dimensional array of length n_gridpts</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            one-dimensional array of length n_gridpts</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tag_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_gridpts</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">tag_1d</span><span class="p">[</span><span class="n">grid_1d</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
@@ -1016,6 +1026,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pandas.DataFrame</span>
+<span class="sd">            Dataframe with distances and transfer efficiencies of the FRET trajectory</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_R_DA</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_E_DA</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_R_DA_E</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">R_attach</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">R_mp</span><span class="p">),</span>
                           <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&lt;R_DA&gt; (A)&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;E_DA&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;R_DA_E&gt; (A)&#39;</span><span class="p">,</span> <span class="s1">&#39;R_attach (A)&#39;</span><span class="p">,</span> <span class="s1">&#39;R_mp (A)&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
@@ -1033,8 +1044,8 @@
 <span class="sd">        filename : str</span>
 <span class="sd">            filename for .csv trajectory</span>
 <span class="sd">        format : {&#39;csv&#39;, &#39;txt&#39;}</span>
-<span class="sd">        units : {&#39;A&#39;, &#39;nm&#39;}</span>
-<span class="sd">            distance units</span>
+<span class="sd">        units : {&#39;A&#39;, &#39;nm&#39;}, optional=&#39;A&#39;</span>
+<span class="sd">            distance units (&#39;A&#39;: Angstroms, &#39;nm&#39;: nanometers)</span>
 <span class="sd">        header : bool, default=True</span>
 <span class="sd">            include header in the output file</span>
 <span class="sd">        R_kappa_only : bool, default=False</span>
@@ -1590,7 +1601,7 @@
 <span class="sd">            filename for the mean position</span>
 <span class="sd">        format : {&#39;plain&#39;, &#39;json&#39;}</span>
 <span class="sd">            file format (plain .txt or .json)</span>
-<span class="sd">        units : {&#39;A&#39;, &#39;nm&#39;}</span>
+<span class="sd">        units : {&#39;A&#39;, &#39;nm&#39;}, optional=&#39;A&#39;</span>
 <span class="sd">            distance units (&#39;A&#39;: Angstroms, &#39;nm&#39;: nanometers)</span>
 
 <span class="sd">        Examples</span>

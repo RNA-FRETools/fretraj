@@ -57,7 +57,7 @@
     <link rel="shortcut icon" href="../_static/fretraj_logo.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="next" title="Burst" href="burst.html" />
     <link rel="prev" title="FRET" href="fret.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -127,6 +127,11 @@
    Working with trajectories
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../getting_started/photon_bursts.html">
+   Generating photon bursts
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -146,7 +151,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../background/parameter_file.html">
-   The parameter file
+   The parameter files
   </a>
  </li>
 </ul>
@@ -169,6 +174,11 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Grid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="burst.html">
+   Burst
   </a>
  </li>
  <li class="toctree-l1">
@@ -299,7 +309,7 @@
 </dl>
 <p class="rubric">Notes</p>
 <dl class="simple">
-<dt>Attributes of the LabelLib class</dt><dd><ul class="simple">
+<dt>Attributes of the LabelLib class are:</dt><dd><ul class="simple">
 <li><p>discStep : float  (the grid spacing)</p></li>
 <li><p>originXYZ : numpy.array  (x-/y-/z-coordinate of the grid origin)</p></li>
 <li><p>shape : numpy.array      (number of grid points in x-/y-/z-direction)</p></li>
@@ -310,13 +320,49 @@
 <dl class="py method">
 <dt id="fretraj.grid.Grid3D._assignDensity">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">_assignDensity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">das_xyzrm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outDistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._assignDensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._assignDensity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loop through the atoms and assign the density</p>
+<dd><p>Loop through the atom of the biomolecule and reassign those grid value which are within das_xyzrm[m, 3]
+as they belong to the CV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_3d</strong> (<em>ndarray</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p></li>
+<li><p><strong>das_xyzrm</strong> (<em>ndarray</em>) – array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)</p></li>
+<li><p><strong>neighbor_list</strong> (<em>list of 2-tuples of ndarray and float</em>) – the tuples contain the ijk indices and the distance from the origin (0,0,0)</p></li>
+<li><p><strong>ijk_atom</strong> (<em>array</em>) – ijk grid indices of the atoms of the biomolecule</p></li>
+<li><p><strong>distSq</strong> (<em>float</em>) – square of the distance between the grid points to the attachment point</p></li>
+<li><p><strong>outDistSq</strong> (<em>float</em>) – square of (halfcubelength + maxVdW_extraClash)</p></li>
+<li><p><strong>grid_shape</strong> (<em>array</em>) – number of grid points in x,y and z coordinates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>ndarray</em> – 3-dimensional array of grid points with a shape given by n_xyz</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="fretraj.grid.Grid3D._assignRho">
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">_assignRho</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dye_radii_sorted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outdistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._assignRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._assignRho" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loop through the atoms and radii and reassign the grid values with a number 0 &lt; rho &lt; 1</p>
+<dd><p>Loop through the atoms and radii and reassign the grid values with a number 0 &lt; rho &lt; 1.
+0.00: grid point is not compatible with any of the three dye radii (clashes with VdW surface)
+0.33: grid point is compatible with the smallest dye radius
+0.66: grid point is compatible with the smallest two radii
+1.00: grid point is compatible with all three dye radii</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_3d</strong> (<em>ndarray</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p></li>
+<li><p><strong>mol_xyzr</strong> (<em>ndarray</em>) – array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</p></li>
+<li><p><strong>neighbor_list</strong> (<em>list of 2-tuples of ndarray and float</em>) – the tuples contain the ijk indices and the distance from the origin (0,0,0)</p></li>
+<li><p><strong>ijk_atom</strong> (<em>array</em>) – ijk grid indices of the atoms of the biomolecule</p></li>
+<li><p><strong>dye_radii_sorted</strong> (<em>array</em>) – dye radii sorted in ascending order</p></li>
+<li><p><strong>rhos</strong> (<em>array</em>) – array of grid values for assignment, for AV3 [0, 0.33, 0.66, 1] and for AV1 [0, 1]</p></li>
+<li><p><strong>distSq</strong> (<em>float</em>) – square of the distance between the grid points to the attachment point</p></li>
+<li><p><strong>outdistSq</strong> (<em>float</em>) – square of (halfcubelength + maxVdW_extraClash)</p></li>
+<li><p><strong>grid_shape</strong> (<em>array</em>) – number of grid points in x,y and z coordinates</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -324,6 +370,20 @@
 <em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">_carve_VdWextraClash</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraClash</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outDistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._carve_VdWextraClash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._carve_VdWextraClash" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius
 plus an extraClash value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_3d</strong> (<em>ndarray</em>) – 3-dimensional array of grid points with a shape of 2*adjL+1</p></li>
+<li><p><strong>mol_xyzr</strong> (<em>ndarray</em>) – array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</p></li>
+<li><p><strong>neighbor_list</strong> (<em>list of 2-tuples of ndarray and float</em>) – the tuples contain the ijk indices and the distance from the origin (0,0,0)</p></li>
+<li><p><strong>ijk_atom</strong> (<em>array</em>) – ijk grid indices of the atoms of the biomolecule</p></li>
+<li><p><strong>extraClash</strong> (<em>float</em>) – clash radius added to the VdW radius</p></li>
+<li><p><strong>distSq</strong> (<em>float</em>) – square of the distance between the grid points to the attachment point</p></li>
+<li><p><strong>outDistSq</strong> (<em>float</em>) – square of (halfcubelength + maxVdW_extraClash)</p></li>
+<li><p><strong>grid_shape</strong> (<em>array</em>) – number of grid points in x,y and z coordinates</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -338,7 +398,7 @@ plus an extraClash value</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>idxs</strong> (<em>list of 2-tuples of numpy.ndarray and float</em>) – the tuples contain the ijk indices and the distance from the origin (0,0,0), e.g. [(1.0,array([-1,0,0]))]</p>
+<dd class="field-even"><p><em>list of 2-tuples of ndarray and float</em> – the tuples contain the ijk indices and the distance from the origin (0,0,0), e.g. [(1.0,array([-1,0,0]))]</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -358,9 +418,10 @@ accuracy)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xyz</strong></p></li>
-<li><p><strong>originAdj</strong></p></li>
+<li><p><strong>xyz</strong> (<em>ndarray</em>) – xyz coordinates</p></li>
+<li><p><strong>originAdj</strong> (<em>ndarray</em>) – origin of the grid</p></li>
 <li><p><strong>grid_spacing</strong> (<em>float</em>) – spacing between grid points (in A)</p></li>
+<li><p><strong>decimals</strong> (<em>int</em>) – decimal to round to</p></li>
 </ul>
 </dd>
 </dl>
@@ -373,13 +434,13 @@ accuracy)</p>
 <dl class="py method">
 <dt id="fretraj.grid.Grid3D.addWeights">
 <code class="sig-name descname"><span class="pre">addWeights</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">das_xyzrm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.addWeights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.addWeights" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assign a weight to the grid values which are part of the contact volume</p>
+<dd><p>Reassign those grid values which are part of the contact volume.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>das_xyzrm</strong> (<em>numpy.ndarray([5,n_atoms])</em>) – array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)</p>
+<dd class="field-odd"><p><strong>das_xyzrm</strong> (<em>ndarray</em>) – array of xyz coordinates, padded vdW radii and a marking (2.0)</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>grid_3d</strong> (<em>numpy.ndarray([nx,ny,nz])</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p>
+<dd class="field-even"><p><em>ndarray</em> – 3-dimensional array of grid points with a shape given by n_xyz</p>
 </dd>
 </dl>
 </dd></dl>
@@ -408,14 +469,15 @@ accuracy)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>grid_3d</strong> (<em>numpy.ndarray</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p></li>
-<li><p><strong>edges_ess</strong> (<em>nb.typed.List of 2-tuples of numpy.ndarray and float</em>) – list n essential neighbors from the origin (0,0,0)</p></li>
-<li><p><strong>edges_src</strong> (<em>list of 2-tuples of numpy.ndarray and float</em>) – nb.typed.List of neighbors in the initialization round of the Dijkstra algorithm</p></li>
-<li><p><strong>priority_queue</strong> (<em>list of 2-tuples of numpy.ndarray and float</em>) – list with distance and index of origin</p></li>
+<li><p><strong>grid_3d</strong> (<em>ndarray</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p></li>
+<li><p><strong>edges_ess</strong> (<em>nb.typed.List of 2-tuples of ndarray and float</em>) – list n essential neighbors from the origin (0,0,0)</p></li>
+<li><p><strong>edges_src</strong> (<em>list of 2-tuples of ndarray and float</em>) – nb.typed.List of neighbors in the initialization round of the Dijkstra algorithm</p></li>
+<li><p><strong>priority_queue</strong> (<em>list of 2-tuples of ndarray and float</em>) – list with distance and index of origin</p></li>
+<li><p><strong>start_ijk</strong> (<em>array</em>) – ijk grid indices of the attachment site</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>grid_3d</strong> (<em>numpy.ndarray([nx,ny,nz])</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p>
+<dd class="field-even"><p><em>ndarray</em> – 3-dimensional array of grid points with a shape given by n_xyz</p>
 </dd>
 </dl>
 </dd></dl>
@@ -432,7 +494,7 @@ accuracy)</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>grid_3d</strong> (<em>ndarray</em>) – 3-dimensional array of grid points with a shape of 2*adjL+1</p>
+<dd class="field-even"><p><em>ndarray</em> – 3-dimensional array of grid points with a shape of 2*adjL+1</p>
 </dd>
 </dl>
 </dd></dl>
@@ -444,8 +506,8 @@ accuracy)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>idxs</strong> (<em>list of 2-tuples of numpy.ndarray and float</em>) – the tuples contain the ijk indices and the distance from the origin (0,0,0)</p></li>
-<li><p><strong>idxs_ess</strong> (<em>list of 2-tuples of numpy.ndarray and float</em>) – list n essential neighbors from the origin (0,0,0)</p></li>
+<li><p><strong>idxs</strong> (<em>list of 2-tuples of ndarray and float</em>) – the tuples contain the ijk indices and the distance from the origin (0,0,0)</p></li>
+<li><p><strong>dist_list</strong> (<em>list</em>) – list of distances for neighbor search</p></li>
 </ul>
 </dd>
 </dl>
@@ -459,16 +521,17 @@ at the expense of the accuracy of the resulting accessible volume (i.e. its “s
 <dl class="py method">
 <dt id="fretraj.grid.Grid3D.excludeConcentricSpheres">
 <code class="sig-name descname"><span class="pre">excludeConcentricSpheres</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dye_radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxRho</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.excludeConcentricSpheres"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.excludeConcentricSpheres" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Exclude all grid points which are not compatible with any of the dye radii because of clashing with the VdW surface</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mol_xyzr</strong> (<em>numpy.ndarray</em>) – array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</p></li>
+<li><p><strong>mol_xyzr</strong> (<em>ndarray</em>) – array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]</p></li>
 <li><p><strong>dye_radii</strong> (<em>ndarray([3,1])</em>) – array of dye radii in Angstrom with shape [3,1]</p></li>
 <li><p><strong>maxRho</strong> (<em>float</em>) – maximum grid value in the free volume</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>grid_3d</strong> (<em>numpy.ndarray([nx,ny,nz])</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p>
+<dd class="field-even"><p><em>ndarray</em> – 3-dimensional array of grid points with a shape given by n_xyz</p>
 </dd>
 </dl>
 </dd></dl>
@@ -487,11 +550,7 @@ at the expense of the accuracy of the resulting accessible volume (i.e. its “s
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>grid_3d</strong> (<em>ndarray</em>) – 3-dimensional array of grid points with a shape of 2*ll_padRound+1</p></li>
-<li><p><strong>xyz_min</strong> (<em>ndarray</em>)</p></li>
-</ul>
-</p>
+<dd class="field-even"><p><em>tuple of ndarray</em> – 3-dimensional array of grid points with a shape of 2*ll_padRound+1, minimum of the grid, origin of the grid</p>
 </dd>
 </dl>
 </dd></dl>
@@ -503,12 +562,13 @@ at the expense of the accuracy of the resulting accessible volume (i.e. its “s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>treshold</strong> (<em>float</em>)</p></li>
-<li><p><strong>new_value</strong> (<em>float</em>)</p></li>
+<li><p><strong>grid_3d</strong> (<em>ndarray</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p></li>
+<li><p><strong>treshold</strong> (<em>float</em>) – grid values above this treshold are reassigned with new_value</p></li>
+<li><p><strong>new_value</strong> (<em>float</em>) – new grid value to be assigned</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>grid_3d</strong> (<em>numpy.ndarray([nx,ny,nz])</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p>
+<dd class="field-even"><p><em>ndarray</em> – 3-dimensional array of grid points with a shape given by n_xyz</p>
 </dd>
 </dl>
 </dd></dl>
@@ -523,7 +583,7 @@ from the origin</p>
 <dd class="field-odd"><p><strong>maxR</strong> (<em>float</em>) – radius within to search for neighbors</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>idxs</strong> (<em>list of 2-tuples of numpy.ndarray and float</em>) – the tuples contain the ijk indices and the distance from the origin (0,0,0)</p>
+<dd class="field-even"><p><em>list of 2-tuples of ndarray and float</em> – the tuples contain the ijk indices and the distance from the origin (0,0,0)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -558,7 +618,7 @@ from the origin</p>
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="fret.html" title="previous page">FRET</a>
-    <a class='right-next' id="next-link" href="utilities.html" title="next page">Utilities</a>
+    <a class='right-next' id="next-link" href="burst.html" title="next page">Burst</a>
 
         </div>
         

@@ -4,8 +4,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.8.2
+    format_version: 0.13
+    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -22,14 +22,15 @@ from our DNA hairpin. A more detailed notebook with the full trajectory is
 available at [here](https://github.com/RNA-FRETools/FRETraj-demo).
 
 ```{code-cell} ipython3
-from matplotlib import pyplot as plt
 import mdtraj as md
 import fretraj as ft
+from matplotlib import pyplot as plt
+import seaborn as sns
 import os
 example_dir = '../../src/fretraj/examples/'
 ```
 
-We load multiple snapshots of the DNA hairpin from a 1$\,\mu$s MD trajectory along with the labeling parameters.
+First, we load multiple snapshots of the DNA hairpin from a 1$\,\mu$s MD trajectory as well as the associated labeling parameters.
 
 ```{code-cell} ipython3
 traj = md.load(os.path.join(example_dir+'DNA_hairpin.xtc'), 
@@ -63,10 +64,22 @@ fret_traj = ft.cloud.Trajectory(fret, timestep=traj.timestep)
 fret_traj.dataframe
 ```
 
+
+```{code-cell} ipython3
+:tags: [remove-cell]
+
+sns.set_style('white')
+sns.set_context('notebook')
+sns.set(font='Arial')
+
+def set_ticksStyle(x_size=4, y_size=4, x_dir='in', y_dir='in'):
+    sns.set_style('ticks', {'xtick.major.size': x_size, 'ytick.major.size': y_size, 'xtick.direction': x_dir, 'ytick.direction': y_dir})
+```
+
 Launch **Binder** 🚀 to visualize the multi-ACV trajectory.
 
 ```{code-cell} ipython3
-:tags: ['remove-output']
+:tags: [remove-output]
 
 acv_D_traj = ft.cloud.create_acv_traj(acv_D)
 acv_A_traj = ft.cloud.create_acv_traj(acv_A)
