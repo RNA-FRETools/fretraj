@@ -20,7 +20,7 @@ BURST_PARAMETERS = {
             "multiprocessing": True
         },
         "fret": {
-            "R0": 5.4,
+            "R0": 54,
             "kappasquare": 0.666666,
             "no_gamma": True,
             "quenching_radius": 1.0
@@ -83,11 +83,11 @@ def testTrajectory_rkappa_dyecoords():
 
 def testSpecies():
     species = burst.Species(name='all', probability=1,
-                            filelist_rkappa=[os.path.join(_TEST_DIR, 'data', 'test_rkappa1.dat'), 
+                            filelist_rkappa=[os.path.join(_TEST_DIR, 'data', 'test_rkappa1.dat'),
                                              os.path.join(_TEST_DIR, 'data', 'test_rkappa2.dat')])
     assert species.name == 'all'
     assert species.trajectories[0].time[0] == 0
-    assert pytest.approx(species.trajectories[0].weight, 0.01) == 0.4
+    assert pytest.approx(species.trajectories[0].weight, abs=0.01) == 0.4
 
 
 def testEnsemble():

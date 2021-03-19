@@ -315,8 +315,8 @@ def save_mp_traj(filename, volume_list, units='A'):
         filename for mean position trajectory
     volume_list : array_like
         list of Volume instances
-    units : {'A', 'nm'}
-        distance units (Angstrom or nanometer)
+    units : {'A', 'nm'}, optional='A'
+        distance units ('A': Angstroms, 'nm': nanometers)
     """
     mps = np.vstack([volume_list[i].acv.mp for i in range(len(volume_list)) if hasattr(volume_list[i].acv, 'mp')])
     mps = np.hstack((mps, np.ones((mps.shape[0], 1))))
@@ -532,8 +532,8 @@ class ACV:
 
         Returns
         -------
-        grid_1d : ndarray
-                  one-dimensional array of grid points of length n_gridpts
+        ndarray
+            one-dimensional array of grid points of length n_gridpts
 
         Notes
         -----
@@ -561,15 +561,15 @@ class ACV:
         Parameters
         ----------
         grid_1d : ndarray
-                  one-dimensional array of grid points of length n_gridpts
+            one-dimensional array of grid points of length n_gridpts
 
         cv_fraction : float
-                      fraction of dyes that are within the contact volume
+            fraction of dyes that are within the contact volume
 
         Returns
         -------
-        weight_cv : float
-                    weight of each grid point that belongs to the contact volume
+        float
+            weight of each grid point that belongs to the contact volume
 
         """
         n_CV = np.count_nonzero(grid_1d > 1.0)
@@ -590,12 +590,12 @@ class ACV:
         Parameters
         ----------
         grid_1d : ndarray
-                  one-dimensional array of grid points length n_gridpts
+            one-dimensional array of grid points length n_gridpts
 
         Returns
         -------
-        tag : ndarray
-              one-dimensional array of length n_gridpts
+        ndarray
+            one-dimensional array of length n_gridpts
         """
         tag_1d = np.full(self.n_gridpts, 1)
         tag_1d[grid_1d > 1.0] = 2
@@ -755,6 +755,7 @@ class Trajectory:
         Returns
         -------
         pandas.DataFrame
+            Dataframe with distances and transfer efficiencies of the FRET trajectory
         """
         df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp),
                           index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
@@ -772,8 +773,8 @@ class Trajectory:
         filename : str
             filename for .csv trajectory
         format : {'csv', 'txt'}
-        units : {'A', 'nm'}
-            distance units
+        units : {'A', 'nm'}, optional='A'
+            distance units ('A': Angstroms, 'nm': nanometers)
         header : bool, default=True
             include header in the output file
         R_kappa_only : bool, default=False
@@ -1329,7 +1330,7 @@ class Volume:
             filename for the mean position
         format : {'plain', 'json'}
             file format (plain .txt or .json)
-        units : {'A', 'nm'}
+        units : {'A', 'nm'}, optional='A'
             distance units ('A': Angstroms, 'nm': nanometers)
 
         Examples

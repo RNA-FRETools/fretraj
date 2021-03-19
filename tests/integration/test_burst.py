@@ -3,6 +3,7 @@
 import pytest
 from fretraj import burst
 import os
+import numpy as np
 
 _TEST_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -23,7 +24,7 @@ def setup_parameters(mocker):
             "multiprocessing": True
         },
         "fret": {
-            "R0": 5.4,
+            "R0": 54,
             "kappasquare": 0.666666,
             "no_gamma": True,
             "quenching_radius": 1.0
@@ -50,18 +51,21 @@ def setup_parameters(mocker):
 
 def test_singleCore_withoutAnisotropy(setup_parameters):
     setup_parameters['sampling']['multiprocessing'] = False
-    burst.Experiment(os.path.join(_TEST_DIR, 'data'), setup_parameters,
-                     binwidth=0.025, verbose=False, compute_anisotropy=False)
+    exp = burst.Experiment(os.path.join(_TEST_DIR, 'data'), setup_parameters,
+                           binwidth=0.025, verbose=False, compute_anisotropy=False, units='nm')
+    assert pytest.approx(np.mean(exp.FRETefficiencies), abs=0.03) == 0.3
 
 
 def test_multiCore_withoutAnisotropy(setup_parameters):
-    burst.Experiment(os.path.join(_TEST_DIR, 'data'), setup_parameters,
-                     binwidth=0.025, verbose=False, compute_anisotropy=False)
+    exp = burst.Experiment(os.path.join(_TEST_DIR, 'data'), setup_parameters,
+                           binwidth=0.025, verbose=False, compute_anisotropy=False, units='nm')
+    assert pytest.approx(np.mean(exp.FRETefficiencies), abs=0.03) == 0.3
 
 
 def test_multiCore_withAnisotropy(setup_parameters):
-    burst.Experiment(os.path.join(_TEST_DIR, 'data'), setup_parameters,
-                     binwidth=0.025, verbose=False, compute_anisotropy=True)
+    exp = burst.Experiment(os.path.join(_TEST_DIR, 'data'), setup_parameters,
+                           binwidth=0.025, verbose=False, compute_anisotropy=True, units='nm')
+    assert pytest.approx(np.mean(exp.FRETefficiencies), abs=0.03) == 0.3
 
 
 if __name__ == "__main__":

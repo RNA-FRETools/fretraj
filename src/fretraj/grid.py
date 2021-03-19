@@ -21,22 +21,22 @@ class Grid3D:
     Parameters
     ----------
     mol_xyzr : ndarray
-               array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
+        array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
     attach_xyz : ndarray
-                one-dimensional array of x-,y-,z-coordinates of the attachment point
-                (corresponds to the center of the grid)
+        one-dimensional array of x-,y-,z-coordinates of the attachment point
+        (corresponds to the center of the grid)
     linker_length : float
-                    length of the dye linker in Angstrom
+        length of the dye linker in Angstrom
     linker_width : float
-                   diameter of the dye linker in Angstrom
+        diameter of the dye linker in Angstrom
     dye_radii : ndarray([3,1])
-                array of dye radii in Angstrom with shape [3,1]
+        array of dye radii in Angstrom with shape [3,1]
     grid_spacing : float
         spacing between grid points (in A)
 
     Notes
     -----
-    Attributes of the LabelLib class
+    Attributes of the LabelLib class are:
         - discStep : float  (the grid spacing)
         - originXYZ : numpy.array  (x-/y-/z-coordinate of the grid origin)
         - shape : numpy.array      (number of grid points in x-/y-/z-direction)
@@ -63,24 +63,22 @@ class Grid3D:
     @staticmethod
     @nb.jit(forceobj=True)
     def make_grid(attach_xyz, linker_length, grid_spacing):
-        """
-        Build a 3D grid around the attachment point
+        """Build a 3D grid around the attachment point
 
         Parameters
         ----------
         attach_xyz : ndarray
-                     one-dimensional array of x-,y-,z-coordinates of the attachment point
-                     (corresponds to the center of the grid)
+            one-dimensional array of x-,y-,z-coordinates of the attachment point
+            (corresponds to the center of the grid)
         linker_length : float
-                        length of the dye linker in Angstrom
+            length of the dye linker in Angstrom
         grid_spacing : float
             spacing between grid points (in A)
 
         Returns
         -------
-        grid_3d : ndarray
-                  3-dimensional array of grid points with a shape of 2*ll_padRound+1
-        xyz_min : ndarray
+        tuple of ndarray
+            3-dimensional array of grid points with a shape of 2*ll_padRound+1, minimum of the grid, origin of the grid
         """
         ll_pad = linker_length + 3 * grid_spacing  # pad the linker_length
         ll_padRound = np.ceil(ll_pad / grid_spacing) * grid_spacing  # round to next higher grid value
@@ -105,10 +103,14 @@ class Grid3D:
 
         Parameters
         ----------
-        xyz :
-        originAdj :
+        xyz : ndarray
+            xyz coordinates
+        originAdj : ndarray
+            origin of the grid
         grid_spacing : float
             spacing between grid points (in A)
+        decimals : int
+            decimal to round to
 
         Note
         ----
@@ -147,9 +149,27 @@ class Grid3D:
     @staticmethod
     @nb.jit(nopython=True)
     def _carve_VdWextraClash(grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, grid_shape):
-        """
-        Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius
+        """Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius
         plus an extraClash value
+
+        Parameters
+        ----------
+        grid_3d : ndarray
+            3-dimensional array of grid points with a shape of 2*adjL+1
+        mol_xyzr : ndarray
+            array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
+        neighbor_list : list of 2-tuples of ndarray and float
+            the tuples contain the ijk indices and the distance from the origin (0,0,0)
+        ijk_atom : array
+            ijk grid indices of the atoms of the biomolecule
+        extraClash : float
+            clash radius added to the VdW radius
+        distSq : float
+            square of the distance between the grid points to the attachment point
+        outDistSq : float
+            square of (halfcubelength + maxVdW_extraClash)
+        grid_shape : array
+            number of grid points in x,y and z coordinates
         """
         for m in range(mol_xyzr.shape[0]):
             if distSq[m] > outDistSq:
@@ -164,20 +184,19 @@ class Grid3D:
         return grid_3d
 
     def dijkstra_init(self, maxR, maxR_source):
-        """
-        Initialize the Dijkstra search algorithm
+        """Initialize the Dijkstra search algorithm
 
         Parameters
         ----------
         maxR : float
-               radius within to search for neighbors
+            radius within to search for neighbors
         maxRsource : float
-                     radius within to search for neighbors in the first round of the Dijkstra algorithm
+            radius within to search for neighbors in the first round of the Dijkstra algorithm
 
         Returns
         -------
-        grid_3d : ndarray
-                  3-dimensional array of grid points with a shape of 2*adjL+1
+        ndarray
+            3-dimensional array of grid points with a shape of 2*adjL+1
         """
         ai, aj, ak = self._xyz2idx(self.attach_xyz, self.originAdj, self.discStep)
         self.grid_3d[ai, aj, ak] = 0
@@ -196,19 +215,18 @@ class Grid3D:
         return grid_3d
 
     def sortedNeighborIdx(self, maxR):
-        """
-        Build a neighbor list with a maximal extent given by maxR and sorted by increasing distance
+        """Build a neighbor list with a maximal extent given by maxR and sorted by increasing distance
         from the origin
 
         Parameters
         ----------
         maxR : float
-               radius within to search for neighbors
+            radius within to search for neighbors
 
         Returns
         -------
-        idxs : list of 2-tuples of numpy.ndarray and float
-               the tuples contain the ijk indices and the distance from the origin (0,0,0)
+        list of 2-tuples of ndarray and float
+            the tuples contain the ijk indices and the distance from the origin (0,0,0)
         """
         idxs = self._neighborIdx(maxR, self.discStep)
         idxs.sort(key=lambda x: x[0])
@@ -228,7 +246,7 @@ class Grid3D:
 
         Returns
         -------
-        idxs : list of 2-tuples of numpy.ndarray and float
+        list of 2-tuples of ndarray and float
             the tuples contain the ijk indices and the distance from the origin (0,0,0), e.g. [(1.0,array([-1,0,0]))]
 
         Notes
@@ -257,16 +275,14 @@ class Grid3D:
         return idxs
 
     def essential_neighbors(self, idxs, dist_list):
-        """
-        Reduce the neighbor list to those indices with a distance from the origin featured in dist_list
+        """Reduce the neighbor list to those indices with a distance from the origin featured in dist_list
 
         Parameters
         ----------
-        idxs : list of 2-tuples of numpy.ndarray and float
-               the tuples contain the ijk indices and the distance from the origin (0,0,0)
-
-        idxs_ess : list of 2-tuples of numpy.ndarray and float
-                   list n essential neighbors from the origin (0,0,0)
+        idxs : list of 2-tuples of ndarray and float
+            the tuples contain the ijk indices and the distance from the origin (0,0,0)
+        dist_list : list
+            list of distances for neighbor search
 
         Notes
         -----
@@ -285,24 +301,25 @@ class Grid3D:
     @staticmethod
     @nb.jit(nopython=True)
     def dijkstra(grid_3d, edges_ess, edges_src, priority_queue, start_ijk):
-        """
-        Djikstra algorithm with a priority queue
+        """Djikstra algorithm with a priority queue
 
         Parameters
         ----------
-        grid_3d : numpy.ndarray
-                  3-dimensional array of grid points with a shape given by n_xyz
-        edges_ess : nb.typed.List of 2-tuples of numpy.ndarray and float
-                    list n essential neighbors from the origin (0,0,0)
-        edges_src : list of 2-tuples of numpy.ndarray and float
-                    nb.typed.List of neighbors in the initialization round of the Dijkstra algorithm
-        priority_queue : list of 2-tuples of numpy.ndarray and float
-                         list with distance and index of origin
+        grid_3d : ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
+        edges_ess : nb.typed.List of 2-tuples of ndarray and float
+            list n essential neighbors from the origin (0,0,0)
+        edges_src : list of 2-tuples of ndarray and float
+            nb.typed.List of neighbors in the initialization round of the Dijkstra algorithm
+        priority_queue : list of 2-tuples of ndarray and float
+            list with distance and index of origin
+        start_ijk : array
+            ijk grid indices of the attachment site
 
         Returns
         -------
-        grid_3d : numpy.ndarray([nx,ny,nz])
-                  3-dimensional array of grid points with a shape given by n_xyz
+        ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
         """
         while priority_queue:
             r, idx = heapq.heappop(priority_queue)
@@ -328,18 +345,21 @@ class Grid3D:
     @staticmethod
     @nb.jit(nopython=True)
     def setAboveTreshold(grid_3d, treshold, new_value):
-        """
-        Reassign grid values which are above a specified treshold
+        """Reassign grid values which are above a specified treshold
 
         Parameters
         ----------
+        grid_3d : ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
         treshold : float
+            grid values above this treshold are reassigned with new_value
         new_value : float
+            new grid value to be assigned
 
         Returns
         -------
-        grid_3d : numpy.ndarray([nx,ny,nz])
-                  3-dimensional array of grid points with a shape given by n_xyz
+        ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
         """
         for i in range(grid_3d.shape[0]):
             for j in range(grid_3d.shape[1]):
@@ -349,20 +369,21 @@ class Grid3D:
         return grid_3d
 
     def excludeConcentricSpheres(self, mol_xyzr, dye_radii, maxRho):
-        """
+        """Exclude all grid points which are not compatible with any of the dye radii because of clashing with the VdW surface
+
         Parameters
         ----------
-        mol_xyzr : numpy.ndarray
-                   array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
+        mol_xyzr : ndarray
+            array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
         dye_radii : ndarray([3,1])
-                    array of dye radii in Angstrom with shape [3,1]
+            array of dye radii in Angstrom with shape [3,1]
         maxRho : float
-                 maximum grid value in the free volume
+            maximum grid value in the free volume
 
         Returns
         -------
-        grid_3d : numpy.ndarray([nx,ny,nz])
-                  3-dimensional array of grid points with a shape given by n_xyz
+        ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
         """
         maxVdW_extraClash = np.max(mol_xyzr[:, 3]) + np.max(dye_radii)
         if _hasTypedList:
@@ -384,8 +405,32 @@ class Grid3D:
     @staticmethod
     @nb.jit(nopython=True)
     def _assignRho(grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos, distSq, outdistSq, grid_shape):
-        """
-        Loop through the atoms and radii and reassign the grid values with a number 0 < rho < 1
+        """Loop through the atoms and radii and reassign the grid values with a number 0 < rho < 1. 
+        0.00: grid point is not compatible with any of the three dye radii (clashes with VdW surface)
+        0.33: grid point is compatible with the smallest dye radius
+        0.66: grid point is compatible with the smallest two radii
+        1.00: grid point is compatible with all three dye radii
+
+        Parameters
+        ----------
+        grid_3d : ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
+        mol_xyzr : ndarray
+            array of x-,y-,z-coordinates and VdW radii with a shape [n_atoms, 4]
+        neighbor_list : list of 2-tuples of ndarray and float
+            the tuples contain the ijk indices and the distance from the origin (0,0,0)
+        ijk_atom : array
+            ijk grid indices of the atoms of the biomolecule
+        dye_radii_sorted : array
+            dye radii sorted in ascending order
+        rhos : array
+            array of grid values for assignment, for AV3 [0, 0.33, 0.66, 1] and for AV1 [0, 1]
+        distSq : float
+            square of the distance between the grid points to the attachment point
+        outdistSq : float
+            square of (halfcubelength + maxVdW_extraClash)
+        grid_shape : array
+            number of grid points in x,y and z coordinates
         """
         n = len(neighbor_list)
         n_radii = len(dye_radii_sorted)
@@ -408,18 +453,17 @@ class Grid3D:
         return grid_3d
 
     def addWeights(self, das_xyzrm):
-        """
-        Assign a weight to the grid values which are part of the contact volume
+        """Reassign those grid values which are part of the contact volume.
 
         Parameters
         ----------
-        das_xyzrm : numpy.ndarray([5,n_atoms])
-                    array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)
+        das_xyzrm : ndarray
+            array of xyz coordinates, padded vdW radii and a marking (2.0)
 
         Returns
         -------
-        grid_3d : numpy.ndarray([nx,ny,nz])
-                  3-dimensional array of grid points with a shape given by n_xyz
+        ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
         """
         maxClash = np.max(das_xyzrm[:, 3]) + self.discStep
         if _hasTypedList:
@@ -436,8 +480,30 @@ class Grid3D:
     @staticmethod
     @nb.jit(nopython=True)
     def _assignDensity(grid_3d, das_xyzrm, neighbor_list, ijk_atom, distSq, outDistSq, grid_shape):
-        """
-        Loop through the atoms and assign the density
+        """Loop through the atom of the biomolecule and reassign those grid value which are within das_xyzrm[m, 3]
+        as they belong to the CV.
+
+        Parameters
+        ----------
+        grid_3d : ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
+        das_xyzrm : ndarray
+            array of marked coordinates and padded vdW radii (n_atoms = number of atoms in mdtraj.Trajectory)
+        neighbor_list : list of 2-tuples of ndarray and float
+            the tuples contain the ijk indices and the distance from the origin (0,0,0)
+        ijk_atom : array
+            ijk grid indices of the atoms of the biomolecule
+        distSq : float
+            square of the distance between the grid points to the attachment point
+        outDistSq : float
+            square of (halfcubelength + maxVdW_extraClash)
+        grid_shape : array
+            number of grid points in x,y and z coordinates
+
+        Returns
+        -------
+        ndarray
+            3-dimensional array of grid points with a shape given by n_xyz
         """
         n = len(neighbor_list)
         for m in range(das_xyzrm.shape[0]):

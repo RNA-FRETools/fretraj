@@ -45,6 +45,7 @@ jupyter-book = "^0.10.0"
 pytest-mock = "^3.5.1"
 matplotlib = "^3.3.4"
 jupytext = "^1.10.3"
+seaborn = "^0.11.1"
 
 
 [tool.poetry.scripts]

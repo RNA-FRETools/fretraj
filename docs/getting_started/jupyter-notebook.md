@@ -25,10 +25,6 @@ import os
 example_dir = '../../src/fretraj/examples/'
 ```
 
-```{code-cell} ipython3
-:tags: [remove-cell]
-from myst_nb import glue
-```
 
 Let's first load a PDB file of a DNA.
 

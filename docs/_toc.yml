@@ -6,6 +6,7 @@
   - file: getting_started/fret_prediction
   - file: getting_started/jupyter-notebook
   - file: getting_started/trajectories
+  - file: getting_started/photon_bursts
 
 - part: Background
   chapters:
@@ -18,6 +19,7 @@
   - file: module/cloud
   - file: module/fret
   - file: module/grid
+  - file: module/burst
   - file: module/utilities
 
 - part: References

@@ -73,8 +73,7 @@ _schema = {"title": "Fluorburst",
                        "probability": {"type": "array"},
                        "n_trajectory_splits": {"type": ["integer", "null"], "minimum": 1},
                    },
-                   "required": ["name", "unix_pattern_rkappa", "unix_pattern_don_coords",
-                                "unix_pattern_acc_coords", "probability"]
+                   "required": ["name", "unix_pattern_rkappa", "probability"]
                },
                "bursts": {
                    "description": "FRET pair parameters",
@@ -104,10 +103,9 @@ def parseCmd():
 
     Returns
     -------
-    directory : str
+    tuple of str
         path to the directory containing the .dat files (rkappa) and .xvg files(dye coordinates)
-    parameter_file : str
-        path to a json formatted parameter file for the burst, FRET and anisotropy calculations (see tutorial for an example)
+        as well as the path to a JSON-formatted parameter file for the burst, FRET and anisotropy calculations
     """
     parser = argparse.ArgumentParser(description='Compute FRET histograms from MD simulations with fluorophore labels')
     parser.add_argument('--version', action='version',
@@ -126,16 +124,16 @@ def parseCmd():
 
 
 def readParameters(parameter_file):
-    """Read parameters from a json file
+    """Read parameters from a JSON file
 
     Parameters
     ----------
     parameter_file : str
-        path to a json formatted parameter file (see tutorial for an example)
+        path to a JSON-formatted parameter file (see tutorial for an example)
 
     Returns
     -------
-    parameters : dict
+    dict
         parameters for the burst, FRET and anisotropy calculations
     """
     with open(parameter_file, 'r') as f:
@@ -150,12 +148,12 @@ def readParameters(parameter_file):
 
 def in_notebook():
     """Check if code is run in IPython notebook.
-    The variable __IPYTHON__ is defined in Jupyter or IPython but not a normal Python interpreter.
+    The variable `__IPYTHON__` is defined in Jupyter or IPython but not a normal Python interpreter.
 
     Returns
     -------
     bool
-        Returns True if code is executed from Jupyter/IPython notebook
+        Returns `True` if code is executed from Jupyter/IPython notebook
     """
     try:
         __IPYTHON__
@@ -170,16 +168,16 @@ class Ensemble:
     Parameters
     ----------
     directory : str
-        path to the directory containing the .dat files (rkappa) and .xvg files(dye coordinates)
+        path to the directory containing the .dat files (rkappa) and .xvg files (dye coordinates)
     parameters : dict
         parameters for the burst, FRET and anisotropy calculations (see tutorial for an example)
-    compute_anisotropy : bool
-        Calculate the time-resolved ensemble anisotropy. Requires a donor and acceptor .xvg file in the directory
-        where each contains xyz-coordinates of two atoms which define the transition dipole of the dye.
-    verbose : bool
-        Output status and results to the command line
+    compute_anisotropy : bool, optional=False
+        Calculate the time-resolved ensemble anisotropy. Requires a donor and acceptor .xvg file in the directory.
+        Each file should contain xyz-coordinates of two atoms which define the transition dipole of the respective dye.
+    verbose : bool, optional=True
+        Print status and results to the command line
     """
-    def __init__(self, directory, parameters, compute_anisotropy=False, verbose=True):
+    def __init__(self, directory, parameters, compute_anisotropy=False, verbose=True, units='A'):
         self.species = []
         ps = parameters['species']
         for i in range(len(ps['name'])):
@@ -200,12 +198,13 @@ class Ensemble:
                     if verbose:
                         print('Loading files...')
                     self.species.append(Species(ps['name'][i], ps['probability'][i], filelist_rkappa,
-                                                ps['n_trajectory_splits'], filelist_don_coords, filelist_acc_coords))
+                                                ps['n_trajectory_splits'], filelist_don_coords, filelist_acc_coords,
+                                                units=units))
             else:
                 if verbose:
                     print('Loading files...')
                 self.species.append(Species(ps['name'][i], ps['probability'][i], filelist_rkappa,
-                                            ps['n_trajectory_splits']))
+                                            ps['n_trajectory_splits'], units=units))
 
         self.checkTimeStepIdentity()
 
@@ -230,21 +229,24 @@ class Species:
         relative weight of the species in the ensemble
     filelist_rkappa : list of str
         list of .dat filenames with inter-dye distance (R) and kappasquare values
-    filelist_don_coords, filelist_acc_coords : list of str (optional)
+    n_trajectory_splits : int, optional=None
+        split the trajectory into `n` parts. Together with `averaging="trajectory"` this simulates non-interconverting
+        species which leads to broadening; usually this should be left at the default: `None`
+    filelist_don_coords, filelist_acc_coords : list of str, optional=None
         list of .xvg filenames with xyz coordinates of two atoms defining
         the transition dipole of the donor or acceptor dye
     """
     def __init__(self, name, probability, filelist_rkappa, n_trajectory_splits=None,
-                 filelist_don_coords=None, filelist_acc_coords=None):
+                 filelist_don_coords=None, filelist_acc_coords=None, units='A'):
         self.name = name
         self.probability = probability
         self.trajectories = []
         total_frames = 0
         for i, rkappa_filename in enumerate(filelist_rkappa):
             try:
-                traj = Trajectory.from_file(rkappa_filename, filelist_don_coords[i], filelist_acc_coords[i])
+                traj = Trajectory.from_file(rkappa_filename, filelist_don_coords[i], filelist_acc_coords[i], units=units)
             except TypeError:
-                traj = Trajectory.from_file(rkappa_filename)
+                traj = Trajectory.from_file(rkappa_filename, units=units)
 
             if n_trajectory_splits:
                 time = np.array_split(traj.time, n_trajectory_splits)
@@ -260,7 +262,7 @@ class Species:
                     acceptor_xyz = [None]*n_trajectory_splits
                 for i in range(n_trajectory_splits):
                     time[i] = np.array([k*(time[i][1]-time[i][0]) for k in range(len(time[i]))])
-                    traj = Trajectory(time[i], R[i], kappasquare[i], donor_xyz[i], acceptor_xyz[i])
+                    traj = Trajectory(time[i], R[i], kappasquare[i], donor_xyz[i], acceptor_xyz[i], units=units)
                     self.trajectories.append(traj)
                     total_frames += len(traj.time)
             else:
@@ -276,20 +278,21 @@ class Trajectory:
 
     Parameters
     ----------
-    time : numpy.array
+    time : array
         time in picoseconds
-    R : numpy.array
+    R : array
         inter-dye distance in nanometers
-    kappasquare : numpy.array
+    kappasquare : array
         kappasquare values calculated from the orientation of the donor and acceptor transition dipoles
-    donor_xyz : numpy.ndarray (optional)
-        xyz coordinates of two atoms defining the transition dipole of the donor dye
-    acceptor_xyz : numpy.ndarray (optional)
-        xyz coordinates of two atoms defining the transition dipole of the acceptor dye
+    donor_xyz, acceptor_xyz: ndarray, optional=None
+        xyz coordinates of two atoms defining the transition dipole of the donor or the acceptor dye
     """
-    def __init__(self, time, R, kappasquare, donor_xyz=None, acceptor_xyz=None):
+    def __init__(self, time, R, kappasquare, donor_xyz=None, acceptor_xyz=None, units='A'):
         self.time = time
-        self.R = R
+        if units == 'nm':
+            self.R = R*10
+        else:
+            self.R = R
         self.kappasquare = kappasquare
         self.length = len(time)
         self.dt = (time[1]-time[0])/1000  # in nanoseconds
@@ -305,31 +308,48 @@ class Trajectory:
         self.acceptorTD = self.transitionDipole(acceptor_xyz)
 
     @classmethod
-    def from_file(cls, rkappa_filename, don_coords_filename=None, acc_coords_filename=None):
+    def from_file(cls, rkappa_filename, don_coords_filename=None, acc_coords_filename=None, units='A'):
         """Create a fluordynamics.fluorburst.Trajectory class from filenames
 
         Parameters
         ----------
         rkappa_filename : str
             name of a .dat file containing inter-dye distances and kappasquare values
-        don_coords_filename, acc_coords_filename : str (optional)
-            name of a .xvg file containing xyz coordinates of two atoms defining
-            the transition dipole of the donor or acceptor dye
+        don_coords_filename, acc_coords_filename : str, optional=None
+            name of an .xvg file containing xyz-coordinates of two atoms defining
+            the transition dipole of the donor or acceptor dye respectively
+        units : {'A', 'nm'}, optional='A'
+            distance units ('A': Angstroms, 'nm': nanometers)
         """
         rkappa = pd.read_csv(rkappa_filename, sep=r'\s+', names=['time', 'R', 'kappa']).values
+        if units == 'nm':
+            rkappa = rkappa*10
         if don_coords_filename is not None:
             donor_xyz = pd.read_csv(don_coords_filename, sep=r'\s+', comment='@',
                                     skiprows=13, names=['time', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2']).values
+            if units == 'nm':
+                donor_xyz[:, 1:] = donor_xyz[:, 1:]*10
         else:
             donor_xyz = None
         if acc_coords_filename is not None:
             acceptor_xyz = pd.read_csv(acc_coords_filename, sep=r'\s+', comment='@',
                                        skiprows=13, names=['time', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2']).values
+            if units == 'nm':
+                acceptor_xyz[:, 1:] = acceptor_xyz[:, 1:]*10
         else:
             acceptor_xyz = None
         return cls(rkappa[:, 0], rkappa[:, 1], rkappa[:, 2], donor_xyz, acceptor_xyz)
 
     def checkLengthIdentity(self, traj_length, donor_xyz, acceptor_xyz):
+        """Check that rkappa and dye coordinate files have the same length
+
+        Parameters
+        ----------
+        traj_length : int
+            number of frames in the trajectory
+        donor_xyz, acceptor_xyz: ndarray, optional=None
+            xyz coordinates of two atoms defining the transition dipole of the donor or the acceptor dye 
+        """
         all_lengths = [traj_length, len(donor_xyz[:, 0]), len(acceptor_xyz[:, 0])]
         if all_lengths[1:] != all_lengths[:-1]:
             raise ValueError('Length of rkappa and dye coordinates is not the same [{}].'.format(', '.join(all_lengths)))
@@ -341,7 +361,7 @@ class Trajectory:
         Parameters
         ----------
         dye_xyz : numpy.ndarray
-            array of shape [n,7] with columns: time, x1, y1, z1, x2, y2, z2 where 1 and 2 are two atoms
+            array of shape [n,7] with columns: `time`, `x1`, `y1`, `z1`, `x2`, `y2`, `z2` where 1 and 2 are two atoms
             defining the transition dipole
         """
         try:
@@ -389,8 +409,8 @@ class Burst:
         QY_correction : bool
             correct the number of donor and acceptor photons by their respective quantum yield when evaluating whether the burstsize is reached.
             e.g. say we collected 20 donor photons (with QD=0.5) and 25 acceptor photons (with QA=0.75) and the burstsize is set to be 50.
-            If QY_correction = False the total photon count is 20+25=45 photons, so the required burstsize is not reached yet.
-            if QY_correction = True the total photon count is (20/0.5 + 25/0.75 = 73) and so the burst is complete.
+            If QY_correction is `False`, the total photon count is 20+25=45 photons, so the required burstsize is not reached yet.
+            If QY_correction is `True`, the total photon count is (20/0.5 + 25/0.75 = 73) and so the burst is complete.
         """
         if QY_correction and (self.events_DD_DA['D_f']/QD + self.events_DD_DA['A_f']/QA >= self.burstsize):
             return True
@@ -410,8 +430,8 @@ class Burst:
         polarization : int
             polarization of the donor or acceptor photon (0: p, parallel, 1: s, orthogonal)
         AA : bool
-            True = relaxation event after acceptor excitation (as in an ns-ALEX/PIE experiment)
-            False = relaxation event after donor excitation
+            If `True`, relaxation event occured after acceptor excitation (as in an ns-ALEX/PIE experiment).
+            If `False`, relaxation event occured after donor excitation.
         """
         if is_AA:
             if event == 2:
@@ -446,8 +466,8 @@ class Burst:
         ----------
         no_gamma : bool
             mimic an uncorrected FRET experiment (i.e. before gamma-correction) which is affected by the different
-            quantum yields of donor and acceptor (note: the detection efficiency ratio always set to be 1).
-            If the simulation should be compared to a gamma-corrected experiment this parameter should be set to False.
+            quantum yields of donor and acceptor (note: the detection efficiency ratio is always set to be 1).
+            If the simulation should be compared to a gamma-corrected experiment this parameter should be set to `False`.
         QD : float
             donor fluorescence quantum yield
         QA : float
@@ -524,21 +544,22 @@ class Experiment:
         path to the directory containing the .dat files (rkappa) and .xvg files(dye coordinates)
     parameters : dict
         parameters for the burst, FRET and anisotropy calculations (see tutorial for an example)
-    binwidth : float
+    binwidth : float, optional=0.025
         time between photon bins
-    compute_anisotropy : bool
+    compute_anisotropy : bool, optional=False
         Calculate the time-resolved ensemble anisotropy. Requires a donor and acceptor .xvg file in the directory
         where each contains xyz-coordinates of two atoms which define the transition dipole of the dye.
-    verbose : bool
+    verbose : bool, optional=True
         Output status and results to the command line
-    show_progress : bool
+    show_progress : bool, optional=True
         Display the progress of the burst calculation as a status bar
     """
-    def __init__(self, directory, parameters, binwidth=0.025, compute_anisotropy=False, verbose=True, show_progress=True):
+    def __init__(self, directory, parameters, binwidth=0.025, compute_anisotropy=False, verbose=True, 
+                 show_progress=True, units='A'):
         self.parameters = parameters
         self.parameters['fret']['R0_const'] = parameters['fret']['R0'] / parameters['fret']['kappasquare']**(1/6)
         self.compute_anisotropy = compute_anisotropy
-        self.ensemble = Ensemble(directory, parameters, compute_anisotropy, verbose)
+        self.ensemble = Ensemble(directory, parameters, compute_anisotropy, verbose, units=units)
         self.calcTransitionRates()
 
         if verbose:
@@ -614,15 +635,15 @@ class Experiment:
         ----------
         binwidth : float
             time between photon bins
-        decaytimes : dict of numpy.ndarray
+        decaytimes : dict of ndarray
             Decaytimes for the different relaxation types collected from all bursts
-        polarizations : dict of numpy.ndarray
+        polarizations : dict of ndarray
             Photon polarization for donor photons after donor excitation and acceptor photons after acceptor excitation
             The encoding is 0 = parallel (p) and 1 = orthogonal (s)
 
         Returns
         -------
-        polIntensity : numpy.ndarray
+        ndarray
             polarization intensity array of shape [n,3] with columns: time bins, p-photons counts (parallel),
             s-photon counts (orthogonal)
         """
@@ -642,7 +663,7 @@ class Experiment:
 
         Parameters
         ----------
-        polIntensity : numpy.ndarray
+        polIntensity : ndarray
             polarization intensity array of shape [n,3] with columns: time bins, p-photons counts (parallel),
             s-photon counts (orthogonal)
         dipole_angle_abs_em : float
@@ -650,12 +671,12 @@ class Experiment:
 
         Returns
         -------
-        anisotropy : numpy.ndarray
+        ndarray
             anisotropy array of shape [n,2] with columns: time bins, anisotropy
 
-        Reference
+        References
         ----------
-        Lakowicz, Principles of fluorescence spectroscopy, 3rd ed. (2006), pp.355-358.
+        .. [1] Lakowicz, Principles of fluorescence spectroscopy, 3rd ed. (2006), pp.355-358.
         """
         loss_photoselection = 2/5
         loss_abs_em_dipoles = (3*np.cos(dipole_angle_abs_em)**2-1)/2
@@ -685,12 +706,12 @@ class Experiment:
 
         Parameters
         ----------
-        R : numpy.ndarray
+        R : ndarray
             inter-dye distances
 
         Returns
         -------
-        k_fret : numpy.ndarray
+        ndarray
             Rates of transfer efficiency dependent on the inter-dye distance, the Förster radius and the relative dye orientation (kappasquare)
         """
         k_fret = self.rates['kD_tot'] * self.parameters['fret']['kappasquare'] * (self.parameters['fret']['R0_const'] / R)**6
@@ -706,7 +727,7 @@ class Experiment:
 
         Returns
         -------
-        burst : fluordynamics.fluorburst.Burst
+        fluordynamics.fluorburst.Burst
             Burst object containing a series of relaxation events with associated decaytimes, polarizations and FRET efficiencies
         """
         burst = Burst(burstsize, self.parameters['dyes']['QD'], self.parameters['dyes']['QA'])
@@ -739,7 +760,7 @@ class Experiment:
 
         Returns
         -------
-        numpy.ndarray
+        ndarray
             array of burstsizes within a range defined by a lower and upper threshold
         """
         if self.parameters['bursts']['burst_size_file']:
@@ -755,9 +776,9 @@ class Experiment:
 
     @staticmethod
     def shot_noise_width(mean_E, N):
-        """Compute the width (standard deviation) expected due to shot noise given the total number of photons N
-        When N is the minimal photon threshold for a burst, i.e. parameters['burst']['lower_limit'],
-        then shot_noise() returns the maximum width expected solely due to shot noise.
+        """Compute the width (standard deviation) expected due to shot noise given the total number of photons `N`.
+        When `N` is the minimal photon threshold for a burst, i.e. parameters['burst']['lower_limit'],
+        then function returns the maximum width expected solely due to shot noise.
 
         Parameters
         ----------
@@ -778,7 +799,7 @@ class Experiment:
 
         Parameters
         ----------
-        x : numpy.array
+        x : array
             independent variable
         mean : float
             expected value
@@ -787,7 +808,8 @@ class Experiment:
 
         Returns
         -------
-        numpy.array
+        array
+            probability density at the given `x`
         """
         return 1/np.sqrt(2*np.pi*sigma**2)*np.exp(-(x-mean)**2/(2*sigma**2))
 
@@ -829,7 +851,7 @@ class Experiment:
         compute_anisotropy : bool
             calculate anisotropy decays from the time-dependent orientation of the dye dipole vector
         """
-        print('Orientation independent R0_const = {:0.2f} nm'.format(self.parameters['fret']['R0_const']))
+        print('Orientation independent R0_const = {:0.1f} A'.format(self.parameters['fret']['R0_const']))
 
         print('''
               donor    acceptor
@@ -856,4 +878,4 @@ k_ic (ns^-1)  {:0.2f}    {:0.2f}
 if __name__ == "__main__":
     directory, parameter_file = parseCmd()
     parameters = readParameters(parameter_file)
-    experiment = Experiment(directory, parameters, binwidth=0.025, compute_anisotropy=False, verbose=True)
+    experiment = Experiment(directory, parameters, binwidth=0.025, compute_anisotropy=False, verbose=True, units='A')
