@@ -1,5 +1,12 @@
 ## Changelog
 
+### [0.2.0] 2021-03-19
+- Add submodule to simulate photon burst to account for shot-noise and better comparison with single-molecule confocal experiments
+- Add notebook documenting the burst simulation
+- Add pybind11 and build.py to pyproject.toml to build burst.relaxation C++ extension
+- setup.py is omitted when building locally (to avoid breaking the metadata) but generated when building via github actions since conda still depends on it. 
+- Updated docstrings and docs
+
 ### [0.1.5] 2021-03-09
 - Improve continuous integration with Github actions
 - Add PyPI and conda deployment

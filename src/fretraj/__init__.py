@@ -39,7 +39,7 @@ from . import jupyter
 if sys.platform.startswith('linux'):
     try:
         from . import burst
-    except ModuleNotFoundError:
+    except (ImportError, ModuleNotFoundError):
         print('The burst module could not be imported\n')
 else:
     print('The burst module is currently only available on linux\n')
