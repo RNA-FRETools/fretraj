@@ -40,9 +40,9 @@ if sys.platform.startswith('linux'):
     try:
         from . import burst
     except (ImportError, ModuleNotFoundError):
-        print('The burst module could not be imported\n')
+        print('The burst submodule could not be imported\n')
 else:
-    print('The burst module is currently only available on linux\n')
+    print('The burst submodule is currently only available on Linux\n')
 
 import warnings
 import numba

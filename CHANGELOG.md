@@ -1,5 +1,8 @@
 ## Changelog
 
+### [0.2.1] 2021-03-19
+- Create matrix deployments for different Python versions
+
 ### [0.2.0] 2021-03-19
 - Add submodule to simulate photon burst to account for shot-noise and better comparison with single-molecule confocal experiments
 - Add notebook documenting the burst simulation
