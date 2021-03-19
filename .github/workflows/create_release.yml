@@ -6,8 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  build:
-    if: github.repository == 'fdsteffen/fretraj'  
+  build: 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
