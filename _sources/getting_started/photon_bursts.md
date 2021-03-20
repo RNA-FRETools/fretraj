@@ -61,7 +61,6 @@ The resulting FRET histogram is broadened by shot-noise.
 
 sns.set_style('white')
 sns.set_context('notebook')
-sns.set(font='Arial')
 
 def set_ticksStyle(x_size=4, y_size=4, x_dir='in', y_dir='in'):
     sns.set_style('ticks', {'xtick.major.size': x_size, 'ytick.major.size': y_size, 'xtick.direction': x_dir, 'ytick.direction': y_dir})
