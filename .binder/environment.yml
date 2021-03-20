@@ -4,7 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - fretraj
+  - fretraj==0.2.1
   - cmake
   - pip
   - matplotlib
