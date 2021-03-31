@@ -4,7 +4,7 @@ from pymol import cmd
 
 
 @cmd.extend
-def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=100, gaussRes=3, grid_buffer=2):
+def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=100, gaussRes=3, grid_buffer=2, state=0):
     """Creates a map object from a selection with xyz coordinates (e.g. a PDB or XYZ object)
     and draws a smooth isosurface at the specified contour level.
 
@@ -21,8 +21,13 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
         spacing between grid points (in A)
     bfactor : int
         temperature factor; higher numbers generates smoother surfaces
-    gaussRes : int
+    gaussRes : int, optional=3
         Gaussian resolution; higher numbers generate smoother surfaces
+    grid_buffer : float, optional=2
+        buffer for map
+    state : int, optional=0
+        0: use all states independently with independent extents (default)
+        -3: combine all states (ACVs) into a single map
 
     Notes
     ----
@@ -39,8 +44,7 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
     cmd.alter(selection, bfactor_str)
     gaussRes_default = cmd.get('gaussian_resolution')
     cmd.set('gaussian_resolution', gaussRes)
-    # Note: choose state=-3 if all ACVs should be combined into a single map
-    cmd.map_new(name_map, 'gaussian', grid_spacing, selection, state=0)
+    cmd.map_new(name_map, 'gaussian', grid_spacing, selection, state=state)
     cmd.isosurface(name_surf, name_map, contour_level, selection, buffer=grid_buffer)
     cmd.set('gaussian_resolution', gaussRes_default)
     cmd.disable(selection)
