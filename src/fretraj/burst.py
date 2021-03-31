@@ -679,7 +679,8 @@ class Experiment:
         .. [1] Lakowicz, Principles of fluorescence spectroscopy, 3rd ed. (2006), pp.355-358.
         """
         loss_photoselection = 2/5
-        loss_abs_em_dipoles = (3*np.cos(dipole_angle_abs_em)**2-1)/2
+        dipole_angle_abs_em_rad = dipole_angle_abs_em / 180 * np.pi
+        loss_abs_em_dipoles = (3*np.cos(dipole_angle_abs_em_rad)**2-1)/2
         r = loss_photoselection * loss_abs_em_dipoles * (polIntensity[:, 1]-polIntensity[:, 2]) / (polIntensity[:, 1]+2*polIntensity[:, 2])
         anisotropy = np.vstack((polIntensity[:, 0], r)).T
         return anisotropy
