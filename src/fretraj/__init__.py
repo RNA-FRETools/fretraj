@@ -35,6 +35,7 @@ from . import export
 from . import fret
 from . import grid
 from . import jupyter
+from . import restraints
 
 if sys.platform.startswith('linux'):
     try:

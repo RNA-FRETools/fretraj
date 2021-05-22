@@ -452,6 +452,6 @@ def R_DAE_to_Rmp(mean_R_DA_E):
     .. [3] Kalinin, S. et al. "A toolkit and benchmark study for FRET-restrained high-precision \
         structural modeling", *Nat. Methods* **9**, 1218–1225 (2012).
     """
-    R_mp = 1.109*10**-5*mean_R_DA_E**3 - 7.286*10**-3*mean_R_DA_E**2
-    + 1.979*mean_R_DA_E - 34.345
+    R_mp = 1.109*10**-5*mean_R_DA_E**3 - 7.286*10**-3*mean_R_DA_E**2 \
+        + 1.979*mean_R_DA_E - 34.345
     return R_mp

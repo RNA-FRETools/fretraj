@@ -965,6 +965,7 @@
      <string>File</string>
     </property>
     <addaction name="actionSettings"/>
+    <addaction name="actionRestraints"/>
    </widget>
    <addaction name="menuRestraints"/>
    <addaction name="menuHelp"/>
