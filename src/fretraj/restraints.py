@@ -9,6 +9,7 @@ try:
 except ImportError:  # for PyMOL plugin
     from . import export
 
+
 class Plumed:
     """
     Class objects holding the specification for the Plumed configuration file
@@ -61,8 +62,14 @@ class Plumed:
         else:
             print('No selected atom types within the cutoff. Try to increase the cutoff.')
 
-    def write_plumed(self, filename, R_mp, kappa_dist=1000, Rmp_kappa=500):
+    def write_plumed(self, filename, R_mp, kappa_dist=100, Rmp_kappa=100):
         """
+        R_mp : float
+            distance in Angstrom
+
+        Notes
+        -----
+        FRETraj distance units: A, Plumed / Gromacs distance units are nm
         """
         plumed_str = ''
         k = 1
@@ -78,7 +85,7 @@ class Plumed:
                 k += 1
             plumed_str += 'WHOLEMOLECULES ENTITY0=1-{:d}\n'.format(self.n_atoms)
             plumed_str += 'Rmp: DISTANCE ATOMS=mp1,mp2 NOPBC\n'
-            plumed_str += 'RESTRAINT ARG=Rmp AT={:0.1f} KAPPA={}\n'.format(R_mp, Rmp_kappa)
+            plumed_str += 'RESTRAINT ARG=Rmp AT={:0.1f} KAPPA={}\n'.format(R_mp / 10, Rmp_kappa)
             with open(filename, 'w') as f:
                 f.write(plumed_str)
             return True
