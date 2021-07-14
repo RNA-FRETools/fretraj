@@ -20,10 +20,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        auto-update-conda: true
-        python-version: ${{ matrix.python-version }}
     - name: Get Poetry for Linux
       if: matrix.os == 'ubuntu-latest'
       env:
@@ -38,9 +34,14 @@ jobs:
       run: |
         (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py -UseBasicParsing).Content | python -
         echo "$env:POETRY_HOME\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: fretraj
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
     - name: Build package  
       env:
-        POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates a "test" environment by default 
+        POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates an environment by default 
       run: |
         conda install mdtraj>=1.9.5 -c conda-forge
         poetry install --no-dev
