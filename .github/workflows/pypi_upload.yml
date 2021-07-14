@@ -22,15 +22,20 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Get Poetry for Linux
       if: matrix.os == 'ubuntu-latest'
-      run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+      run: |
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+        source $HOME/.poetry/env
     - name: Get Poetry for Windows
       if: matrix.os == 'windows-latest'
-      run: (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -
+      run: |
+        (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -
+        $env:Path += ";$HOME\.poetry\bin"
     - uses: conda-incubator/setup-miniconda@v2
-    - name: Build package   
+    - name: Build package
+      env:
+        POETRY_VIRTUALENVS_CREATE: false  # conda-incubator by default activates a "test" environment
       run: |
         conda install mdtraj>=1.9.5 -c conda-forge
-        source $HOME/.poetry/env
         poetry install --no-dev
         poetry build 
     - name: Upload build artefact
