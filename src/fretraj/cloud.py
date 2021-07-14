@@ -77,7 +77,7 @@ def parseCmd():
                      an MD trajectory or a given PDB structure')
     parser.add_argument('--version', action='version',
                         version='%(prog)s ' + str(metadata['Version']))
-    parser.add_argument('--path', action='version', version=f'package directory: {package_directory}',
+    parser.add_argument('--path', action='version', version=f"package directory: {package_directory}",
                         help='Show package directory')
     parser.add_argument('-i', '--input', help='Input PDB structure (.pdb)', required=True)
     parser.add_argument('-p', '--parameters',
@@ -156,13 +156,13 @@ def check_labels(labels, verbose=True):
                             labels[field][pos][key] = copy.copy(_default_params[field][key])
                             if verbose:
                                 print('Missing Key: \'{}\' in {} {}. Falling back to \"{}\"'.format(key, field, pos,
-                                      _default_params[field][key]))
+                                                                                                    _default_params[field][key]))
                         else:
                             raise KeyError('Missing Key', key, pos, field)
                     else:
                         if not isinstance(labels[field][pos][key], t):
                             raise TypeError('\'{}\' in {} {} must be of one of the following types: {}'.format(key,
-                                            field, pos, t))
+                                                                                                               field, pos, t))
 
                 # check if there are any unrecognized keys
                 for key in labels[field][pos].keys():
@@ -371,10 +371,10 @@ def create_acv_traj(volume_list, verbose=False):
     """
     acv_traj = {}
     xyz_sub, top = acv_subsampling(volume_list, verbose=False)
-    acv_traj['AV'] = md.Trajectory(xyz_sub['AV']/10, top['AV'])
+    acv_traj['AV'] = md.Trajectory(xyz_sub['AV'] / 10, top['AV'])
     if any(volume_list[0].acv.tag_1d > 1):
-        acv_traj['FV'] = md.Trajectory(xyz_sub['FV']/10, top['FV'])
-        acv_traj['CV'] = md.Trajectory(xyz_sub['CV']/10, top['CV'])
+        acv_traj['FV'] = md.Trajectory(xyz_sub['FV'] / 10, top['FV'])
+        acv_traj['CV'] = md.Trajectory(xyz_sub['CV'] / 10, top['CV'])
     return acv_traj
 
 
@@ -417,12 +417,12 @@ def save_acv_traj(filename, volume_list, format='pdb', verbose=False):
             filename = f'{base}_{v}{suffix}'
             if format == 'xtc':
                 with md.formats.XTCTrajectoryFile(filename, 'w') as f:
-                    f.write(xyz_sub[v]/10)
+                    f.write(xyz_sub[v] / 10)
             else:
                 with md.formats.XYZTrajectoryFile(filename, 'w') as f:
                     f.write(xyz_sub[v])
 
-            first_frame = md.Trajectory(xyz_sub[v][0]/10, top[v])
+            first_frame = md.Trajectory(xyz_sub[v][0] / 10, top[v])
             first_frame.save_pdb(f'{base}_{v}.pdb')
 
 
@@ -455,11 +455,11 @@ def _create_volume_topology(n_atoms):
         number of points in the volume
     """
     atoms = pd.concat((pd.Series(range(n_atoms), name='serial'),
-                       pd.Series(['D']*n_atoms, name='name'),
-                       pd.Series(['D']*n_atoms, name='element'),
-                       pd.Series([0]*n_atoms, name='resSeq'),
-                       pd.Series(['X']*n_atoms, name='resName'),
-                       pd.Series([0]*n_atoms, name='chainID')), axis=1)
+                       pd.Series(['D'] * n_atoms, name='name'),
+                       pd.Series(['D'] * n_atoms, name='element'),
+                       pd.Series([0] * n_atoms, name='resSeq'),
+                       pd.Series(['X'] * n_atoms, name='resName'),
+                       pd.Series([0] * n_atoms, name='chainID')), axis=1)
     top = md.Topology.from_dataframe(atoms)
     return top
 
@@ -510,7 +510,7 @@ class ACV:
             self.grid_1d, self.tag_1d = self._reweight_cv(grid_acv.grid, cv_thickness, cv_fraction)
             self.grid_3d = Volume.reshape_grid(self.grid_1d, grid_acv.shape)
             self.tag_3d = Volume.reshape_grid(self.tag_1d, grid_acv.shape)
-            self.cloud_xyzqt = Volume.grid2pts(self.grid_3d, grid_acv.originXYZ, [grid_acv.discStep] * 3, self.tag_3d)
+            self.cloud_xyzqt = Volume.grid2pts(self.grid_3d, grid_acv.originXYZ, np.array([grid_acv.discStep] * 3), self.tag_3d)
             if use_LabelLib and _LabelLib_found:
                 self.ll_Grid3D = ll.Grid3D(grid_acv.shape, grid_acv.originXYZ, grid_acv.discStep)
                 self.ll_Grid3D.grid = self.grid_1d
@@ -738,6 +738,7 @@ class Trajectory:
     timestep : int
         time difference between two frames in picoseconds
     """
+
     def __init__(self, fret, timestep=None, kappasquare=None):
         n = len(fret)
         self.mean_E_DA = np.array([fret[i].mean_E_DA for i in range(n) if hasattr(fret[i], 'mean_E_DA')]).round(2)
@@ -760,9 +761,9 @@ class Trajectory:
         df = pd.DataFrame((self.mean_R_DA, self.mean_E_DA, self.mean_R_DA_E, self.R_attach, self.R_mp),
                           index=['<R_DA> (A)', '<E_DA>', '<R_DA_E> (A)', 'R_attach (A)', 'R_mp (A)']).T
         if self.timestep:
-            df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)')*self.timestep), axis=1)
+            df = pd.concat((df, pd.Series(range(df.shape[0]), name='time (ps)') * self.timestep), axis=1)
         if self.kappasquare:
-            df = pd.concat((df, pd.Series(np.ones(df.shape[0]), name='kappasquare')*self.kappasquare), axis=1)
+            df = pd.concat((df, pd.Series(np.ones(df.shape[0]), name='kappasquare') * self.kappasquare), axis=1)
         return df
 
     def save_traj(self, filename, format='csv', units='A', header=True, R_kappa_only=False):
@@ -787,10 +788,10 @@ class Trajectory:
             else:
                 separator = ','
             if units == 'nm':
-                df['<R_DA> (A)'] = self.dataframe['<R_DA> (A)']/10
-                df['<R_DA_E> (A)'] = self.dataframe['<R_DA_E> (A)']/10
-                df['R_attach (A)'] = self.dataframe['R_attach (A)']/10
-                df['R_mp (A)'] = self.dataframe['R_mp (A)']/10
+                df['<R_DA> (A)'] = self.dataframe['<R_DA> (A)'] / 10
+                df['<R_DA_E> (A)'] = self.dataframe['<R_DA_E> (A)'] / 10
+                df['R_attach (A)'] = self.dataframe['R_attach (A)'] / 10
+                df['R_mp (A)'] = self.dataframe['R_mp (A)'] / 10
                 df.rename({header: header.replace('(A)', '(nm)') for header in df.columns.values},
                           axis='columns', inplace=True)
             if R_kappa_only:
@@ -820,6 +821,7 @@ class Volume:
     cloud_xyzqt : ndarray
         array of x-,y-,z-coordinates with corresponding weights and tags with a shape [n_gridpts(+), 5]
     """
+
     def __init__(self, structure, site, labels, cloud_xyzqt=None, verbose=True):
         self.structure = structure
         self.attach_id = labels['Position'][site]['attach_id']
@@ -999,7 +1001,7 @@ class Volume:
         return grid_3d
 
     @staticmethod
-    @nb.jit(forceobj=True)
+    @nb.jit(nopython=True)
     def grid2pts(grid_3d, xyz_min, d_xyz, *args):
         """Convert 3D-grid with density values to xyz coordinates with a weight (q)
 
@@ -1007,9 +1009,9 @@ class Volume:
         ----------
         grid_3d : ndarray([nx,ny,nz])
             3-dimensional array of grid points with a shape given by n_xyz
-        xyz_min : list
+        xyz_min : ndarray
             origin coordinates of the grid
-        d_xyz : list
+        d_xyz : ndarray
             grid spacing in x-,y- and z-direction
 
         Returns
@@ -1023,14 +1025,14 @@ class Volume:
         >>> grid_3d = numpy.zeros((3,3,3))
         >>> grid_3d[(1,1,1)] = 1   # FV
         >>> grid_3d[(1,2,1)] = 10  # CV
-        >>> ft.cloud.Volume.grid2pts(grid_3d, [0,0,0], [1,1,1])
+        >>> ft.cloud.Volume.grid2pts(grid_3d, (0,0,0), (1,1,1))
         array([[ 0.5,  0.5,  0.5,  1.  1],
                [ 0.5,  1. ,  0.5, 10.  1]])
 
         >>> tag_3d = numpy.zeros((3,3,3))
         >>> grid_3d[(1,1,1)] = 1   # FV
         >>> grid_3d[(1,1,1)] = 2   # CV
-        >>> ft.cloud.Volume.grid2pts(grid_3d, [0,0,0], [1,1,1], tag_3d)
+        >>> ft.cloud.Volume.grid2pts(grid_3d, (0,0,0), (1,1,1), tag_3d)
         array([[ 0.5,  0.5,  0.5,  1.  1],
                [ 0.5,  1. ,  0.5, 10.  2]])
 
@@ -1044,7 +1046,7 @@ class Volume:
         else:
             tag_3d = np.full(grid_3d.shape, 1)
 
-        cloud_xyzqt = np.empty((nx * ny * nz, 5), dtype=np.float64, order='C')
+        cloud_xyzqt = np.empty((nx * ny * nz, 5), dtype=np.float64)
 
         gdx = np.arange(0, nx, dtype=np.float64) * dx
         gdy = np.arange(0, ny, dtype=np.float64) * dy
@@ -1155,7 +1157,7 @@ class Volume:
                 encode_element = False
             file_str = export.xyz(self.acv.cloud_xyzqt, self.acv.mp, write_weights, encode_element)
         elif format == 'open_dx':
-            d_xyz = [self.grid_spacing] * 3
+            d_xyz = np.array([self.grid_spacing] * 3)
             xyz_min = self.av.originXYZ
             file_str = export.open_dx(self.acv.grid_3d, xyz_min, d_xyz)
         else:
@@ -1318,7 +1320,7 @@ class Volume:
         arr_1D_sorted = arr_1D[idx_sorted]
         weights_sorted = weights[idx_sorted]
         weights_cs = np.cumsum(weights_sorted)
-        xp = (weights_cs - (1-quantile)*weights_sorted) / weights_cs[-1]
+        xp = (weights_cs - (1 - quantile) * weights_sorted) / weights_cs[-1]
         return np.interp(quantile, xp, arr_1D_sorted)
 
     def save_mp(self, filename, format='plain', units='A'):

@@ -36,16 +36,7 @@ from . import fret
 from . import grid
 from . import jupyter
 
-if sys.platform.startswith('linux'):
-    try:
-        from . import burst
-    except (ImportError, ModuleNotFoundError):
-        print('The burst submodule could not be imported\n')
-else:
-    print('The burst submodule is currently only available on Linux\n')
-
-import warnings
-import numba
-
-warnings.simplefilter('ignore', category=numba.errors.NumbaDeprecationWarning)
-warnings.simplefilter('ignore', category=numba.errors.NumbaPendingDeprecationWarning)
+try:
+    from . import burst
+except (ImportError, ModuleNotFoundError):
+    print('The burst submodule could not be imported\n')
