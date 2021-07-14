@@ -24,7 +24,7 @@ jobs:
       if: matrix.os == ubuntu-latest
       run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
     - name: Get Poetry for Windows
-      if matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-latest'
       run: (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -
     - uses: conda-incubator/setup-miniconda@v2
     - name: Build package   
