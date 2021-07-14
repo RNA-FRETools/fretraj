@@ -18,6 +18,8 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install Tox
-        run: pip install tox
+        run: | 
+          pip install tox
+          $CONDA/bin/conda install zlib
       - name: Run Tox
         run: tox -e py
