@@ -20,6 +20,7 @@ jobs:
       - name: Install Tox
         run: | 
           pip install tox
-          $CONDA/bin/conda install zlib
+          echo $CONDA/bin >> $GITHUB_PATH
+          conda install zlib
       - name: Run Tox
         run: tox -e py
