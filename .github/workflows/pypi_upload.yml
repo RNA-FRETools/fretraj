@@ -21,7 +21,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Get Poetry for Linux
-      if: matrix.os == ubuntu-latest
+      if: matrix.os == 'ubuntu-latest'
       run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
     - name: Get Poetry for Windows
       if: matrix.os == 'windows-latest'
