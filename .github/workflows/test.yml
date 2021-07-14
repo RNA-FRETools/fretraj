@@ -19,8 +19,5 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install Tox
         run: pip install tox
-      - name: Get MDtraj from conda
-        if:  matrix.os == 'windows-latest'
-        run: C:\Miniconda\condabin\conda.bat install mdtraj>=1.9.5 -c conda-forge
       - name: Run Tox
         run: tox -e py
