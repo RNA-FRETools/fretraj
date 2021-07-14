@@ -20,7 +20,7 @@ classifiers = [
     "Framework :: Jupyter",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-include = ["CHANGELOG.md", "src/skripts", "tests", "src/fretraj/*.so"]
+include = ["CHANGELOG.md", "src/skripts", "tests", "src/fretraj/*.so", "src/fretraj/*.pyd"]
 
 
 [tool.poetry.dependencies]
