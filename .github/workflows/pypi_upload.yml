@@ -1,4 +1,4 @@
-name: Upload to PyPI and Anaconda
+name: Upload to PyPI
 
 on:
   push:
@@ -12,26 +12,31 @@ jobs:
     runs-on: ${{ matrix.os}}
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: [3.7, 3.8]
+        os: [ubuntu-latest, windows-latest]
+        python-version: [3.9]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies and build package
+    - name: Get Poetry for Linux
+      if: matrix.os == ubuntu-latest
+      run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+    - name: Get Poetry for Windows
+      if matrix.os == 'windows-latest'
+      run: (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -
+    - uses: conda-incubator/setup-miniconda@v2
+    - name: Build package   
       run: |
-        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+        conda install mdtraj>=1.9.5 -c conda-forge
         source $HOME/.poetry/env
-        export POETRY_VIRTUALENVS_CREATE=false
-        sed -r -i 's|(generate-setup-file\s*=\s)\w+|\1true|g' pyproject.toml
         poetry install --no-dev
         poetry build 
     - name: Upload build artefact
       uses: actions/upload-artifact@v2
       with:
-        name: dist-${{ matrix.python-version }}
+        name: fretraj-dist
         path: dist
         retention-days: 1
 
@@ -41,64 +46,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.8
     - name: Download build artefacts
       uses: actions/download-artifact@v2
+      with:
+        name: fretraj-dist
+        path: dist
     - name: Publish to PyPI
       env:
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
       run: |
         curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
         source $HOME/.poetry/env
-        export POETRY_VIRTUALENVS_CREATE=false
-        # combine compiled .so files from sdists
-        mkdir dist
-        tar -xvzf dist-3.7/*tar.gz --wildcards --no-anchored '*.so'
-        tar -xvzf dist-3.8/*tar.gz
-        archive=`basename $(ls dist-3.8/*.tar.gz) .tar.gz`
-        tar -czvf dist/"$archive".tar.gz "$archive"
-        mv dist-3.7/*whl dist/
-        mv dist-3.8/*whl dist/
-        poetry publish
-    - name: Add conda to system path
-      run: |
-        echo $CONDA/bin >> $GITHUB_PATH   
-    - name: Install conda dependencies
-      run: |
-        conda install conda-build anaconda-client
-    - name: Build conda package
-      env:
-        PACKAGE: fretraj
-      run: |
-        echo "Wait for PyPI package"
-        sleep 60
-        conda skeleton pypi $PACKAGE --noarch-python --extra-specs pybind11
         
-        # package specific edits of meta.yaml
-        sed -i '/gui --help/d' $PACKAGE/meta.yaml
-        sed -i '/vis --help/d' $PACKAGE/meta.yaml
-        sed -i "s|pyqt5|pyqt|g" $PACKAGE/meta.yaml
 
-        # general edits of meta.yaml
-        sed -r -i "s|(host:)|\1\n\    - poetry|g" $PACKAGE/meta.yaml
-        sed -i "s|your-github-id-here|fdsteffen|g" $PACKAGE/meta.yaml
-        doc_url=`sed -n -e 's/^.*documentation = //p' pyproject.toml`
-        dev_url=`sed -n -e 's/^.*repository = //p' pyproject.toml`
-        sed -r -i "s|(doc_url: )|\1$doc_url|g" $PACKAGE/meta.yaml
-        sed -r -i "s|(dev_url: )|\1$dev_url|g" $PACKAGE/meta.yaml
-        sed -r -i "s|(license_file: )|\1LICENSE|g" $PACKAGE/meta.yaml
-        sed -r '/dev_url:/a \  description: |\n' $PACKAGE/meta.yaml | sed '/description/q' > tmp
-        sed 's/^/    /' README.md | sed -r 's|#### ([a-zA-Z0-9_ ]*)|<h4>\1</h4>|g' |
-        sed -r 's|### ([a-zA-Z0-9_ ]*)|<h3>\1</h3>|g' | sed -r 's|## ([a-zA-Z0-9_ ]*)|<h2>\1</h2>|g' |
-        sed -r 's|# ([a-zA-Z0-9_ ]*)|<h1>\1</h1>|g' >> tmp && mv tmp $PACKAGE/meta.yaml
-
-        conda-build $PACKAGE --output-folder build/ --channel conda-forge
-    - name: Upload to Anaconda
-      env:
-        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN_ORG }}
-      run: |
-        anaconda upload -u rna-fretools build/noarch/*.tar.bz2
-        conda-build purge-all
