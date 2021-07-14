@@ -19,8 +19,8 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install Tox
         run: pip install tox
-      - name: Get zlib on Windows for building MDtraj
+      - name: Get MDtraj from conda
         if:  matrix.os == 'windows-latest'
-        run: C:\Miniconda\condabin\conda.bat install zlib
+        run: C:\Miniconda\condabin\conda.bat install mdtraj
       - name: Run Tox
         run: tox -e py
