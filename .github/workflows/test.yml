@@ -8,8 +8,8 @@ jobs:
     runs-on: ${{ matrix.os}}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python: [3.7, 3.8, 3.9]
+        os: [ubuntu-latest, windows-latest]
+        python: [3.9]
 
     steps:
       - uses: actions/checkout@v2
@@ -18,9 +18,9 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install Tox
-        run: | 
-          pip install tox
-          echo $CONDA/bin >> $GITHUB_PATH
-          conda install zlib
+        run: pip install tox
+      - name: Get zlib on Windows for building MDtraj
+        if:  matrix.os == 'windows-latest'
+        run: C:\Miniconda\condabin\conda.bat install zlib
       - name: Run Tox
         run: tox -e py
