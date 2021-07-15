@@ -6,11 +6,12 @@
 [![codecov](https://codecov.io/gh/fdsteffen/fretraj/branch/master/graph/badge.svg?token=A2E70FbycQ)](https://codecov.io/gh/fdsteffen/fretraj)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-*FRETraj* is a Python module for calculating **multiple accessible-contact volumes** (multi-ACV) and predicting **FRET efficiencies**. It provides an interface to the [*LabelLib*](https://github.com/Fluorescence-Tools/LabelLib) library to simulate fluorophore dynamics. The package features a user-friendly **PyMOL plugin**<sup>[1](#pymol)</sup> which can be used to explore different labeling positions when designing FRET experiments. In an AV simulation the fluorophore distribution is estimated by a shortest path search (Djikstra algorithm) using a coarse-grained dye probe. *FRETraj* further implements a **Python-only** version of the geometrical clash search used in *LabelLib*. This should facilitate prototyping of new features for the ACV algorithm.
-
+*FRETraj* is a Python module for calculating multiple accessible-contact volumes (multi-ACV) and predicting FRET efficiencies.  The package features a user-friendly **PyMOL plugin**<sup>[1](#pymol)</sup> for for FRET-assisted, integrative structural modeling. It interfaces with the [*LabelLib*](https://github.com/Fluorescence-Tools/LabelLib) library for fast computation of ACVs. 
+Specifically, *FRETraj* is designed to:
+- plan (single-molecule) FRET experiments by optimizing **labeling positions**
+- interpret FRET-based **distance measurements** on a biomolecule
+- integrate FRET experiments with **molecular dynamics** simulations
 <img src="https://raw.githubusercontent.com/fdsteffen/fretraj/master/docs/images/graphical_abstract.png">
-     
-A recent addition to the original AV model (Kalinin et al. *Nat. Methods*, 2012) is the so-called **contact volume** (Steffen et. al. *PCCP* 2016). Here, the accessible volume is split into a free volume (FV, transparent) where the dye is freely diffusing and a contact volume (CV, opaque) where the dye stacks to the biomolecular surface. Time-resolved anisotropy experiments suggest that certain fluorophores, among those the commonly used cyanines Cy3 and Cy5, are particularly prone to interact with both proteins and nucleic acids. The contact volume accounts for this effect by reweighting the point-cloud. By choosing different experimental weights for the free and contact component the AV dye model is refined, making *in silico* FRET predictions more reliable.
 
 ## Installation
 Follow the instructions for your platform [here](https://rna-fretools.github.io/fretraj/getting_started/installation)

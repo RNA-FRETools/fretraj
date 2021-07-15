@@ -1,6 +1,8 @@
 # Welcome to FRETraj
-
-*FRETraj* is a Python module for calculating **multiple accessible-contact volumes** (multi-ACV) and predicting **FRET efficiencies**. It provides an interface to the [*LabelLib*](https://github.com/Fluorescence-Tools/LabelLib) library to simulate fluorophore dynamics. The package features a user-friendly **PyMOL plugin** [^PyMOL] which can be used to explore different labeling positions when designing FRET experiments. In an AV simulation the fluorophore distribution is estimated by a shortest path search (Djikstra algorithm) using a coarse-grained dye probe. *FRETraj* further implements a **Python-only** version of the geometrical clash search used in *LabelLib*. This should facilitate prototyping of new features for the ACV algorithm.
+*FRETraj* is a Python module for **predicting FRET efficiencies** by calculating multiple accessible-contact volumes (multi-ACV) to estimate donor and acceptor dye dynamics. The package features a user-friendly **PyMOL plugin** [^PyMOL] for FRET-assisted, integrative structural modeling. It interfaces with the [*LabelLib*](https://github.com/Fluorescence-Tools/LabelLib) library for fast computation of ACVs. Specifically, *FRETraj* is designed to:
+- plan (single-molecule) FRET experiments by optimizing **labeling positions**
+- interpret FRET-based **distance measurements** on a biomolecule
+- integrate FRET experiments with **molecular dynamics** simulations
 
 ```{figure} images/graphical_abstract.png
 ---
