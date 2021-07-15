@@ -1,9 +1,8 @@
 <img src="https://raw.githubusercontent.com/fdsteffen/fretraj/master/docs/images/fretraj_logo_readme.png">
 
-[![Build Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20build/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
+[![Build Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20test/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
 [![Docs Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20docs/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
 [![PyPI](https://img.shields.io/pypi/v/fretraj)](https://pypi.org/project/fretraj/)
-[![Anaconda-Server Badge](https://img.shields.io/badge/Install%20with-conda-green.svg)](https://anaconda.org/rna-fretools/fretraj)
 [![codecov](https://codecov.io/gh/fdsteffen/fretraj/branch/master/graph/badge.svg?token=A2E70FbycQ)](https://codecov.io/gh/fdsteffen/fretraj)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
