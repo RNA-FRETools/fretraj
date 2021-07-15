@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-NAME = 'D'
-ELEMENT = 'D'
-NAME_MP = 'Mn'
-ELEMENT_MP = 'Mn'
+NAME = "D"
+ELEMENT = "D"
+NAME_MP = "Mn"
+ELEMENT_MP = "Mn"
 OCCUPANCY_MP = -1
 
-_pdb_format = '{:6}{:5d}{:>5}{:1}{:>3} {:1}{:4d}{:1}   {:>8.3f}{:>8.3f}{:>8.3f}{:>6.2f}{:>6.2f}          {:>2}{:>2}\n'
+_pdb_format = "{:6}{:5d}{:>5}{:1}{:>3} {:1}{:4d}{:1}   {:>8.3f}{:>8.3f}{:>8.3f}{:>6.2f}{:>6.2f}          {:>2}{:>2}\n"
 
 
 def open_dx(grid_3d, xyz_min, d_xyz):
@@ -31,24 +31,24 @@ def open_dx(grid_3d, xyz_min, d_xyz):
     nx, ny, nz = grid_3d.shape
     dx, dy, dz = d_xyz
 
-    s = ''
-    s += 'object 1 class gridpositions counts {:d} {:d} {:d}\n'.format(nx, ny, nz)
-    s += 'origin {:0.3f} {:0.3f} {:0.3f}\n'.format(xmin, ymin, zmin)
-    s += 'delta {:0.2f} 0 0\n'.format(dx)
-    s += 'delta 0 {:0.2f} 0\n'.format(dy)
-    s += 'delta 0 0 {:0.2f}\n'.format(dz)
-    s += 'object 2 class gridconnections counts {:d} {:d} {:d}\n'.format(nx, ny, nz)
-    s += 'object 3 class array type double rank 0 items {:d} data follows\n'.format(nx * ny * nz)
+    s = ""
+    s += "object 1 class gridpositions counts {:d} {:d} {:d}\n".format(nx, ny, nz)
+    s += "origin {:0.3f} {:0.3f} {:0.3f}\n".format(xmin, ymin, zmin)
+    s += "delta {:0.2f} 0 0\n".format(dx)
+    s += "delta 0 {:0.2f} 0\n".format(dy)
+    s += "delta 0 0 {:0.2f}\n".format(dz)
+    s += "object 2 class gridconnections counts {:d} {:d} {:d}\n".format(nx, ny, nz)
+    s += "object 3 class array type double rank 0 items {:d} data follows\n".format(nx * ny * nz)
     k = 0
     for ix in range(0, nx):
         for iy in range(0, ny):
             for iz in range(0, nz):
-                s += '{}'.format(grid_3d[ix, iy, iz])
+                s += "{}".format(grid_3d[ix, iy, iz])
                 k += 1
                 if k % 3 == 0:
-                    s += '\n'
+                    s += "\n"
                 else:
-                    s += ' '
+                    s += " "
     s += 'attribute "dep" string "positions"\n'
     s += 'object "density" class field\n'
     s += 'component "positions" value 1\n'
@@ -77,32 +77,32 @@ def xyz(cloud_xyzqt, mp, write_weights=True, encode_element=False):
         XYZ formatted string
     """
     n_points = cloud_xyzqt.shape[0]
-    s = ''
-    s += '{:d}\n'.format(n_points)
-    s += '# Accessible contact volume\n'
+    s = ""
+    s += "{:d}\n".format(n_points)
+    s += "# Accessible contact volume\n"
     if write_weights:
         for k in range(n_points):
             if encode_element:
                 if cloud_xyzqt[k, 4] == 2:
-                    element = 'C'  # contact volume
+                    element = "C"  # contact volume
                 else:
-                    element = 'F'  # free volume
+                    element = "F"  # free volume
             else:
                 element = ELEMENT
-            s += f'{element:1}\t{cloud_xyzqt[k, 0]:.3f}\t{cloud_xyzqt[k, 1]:.3f}\t{cloud_xyzqt[k, 2]:.3f}\t{cloud_xyzqt[k, 3]:.3f}\n'
-        s += f'{ELEMENT_MP:1}\t{mp[0]:.3f}\t{mp[1]:.3f}\t{mp[2]:.3f}\t{-1:.3f}\n'
+            s += f"{element:1}\t{cloud_xyzqt[k, 0]:.3f}\t{cloud_xyzqt[k, 1]:.3f}\t{cloud_xyzqt[k, 2]:.3f}\t{cloud_xyzqt[k, 3]:.3f}\n"
+        s += f"{ELEMENT_MP:1}\t{mp[0]:.3f}\t{mp[1]:.3f}\t{mp[2]:.3f}\t{-1:.3f}\n"
 
     else:
         for k in range(n_points):
             if encode_element:
                 if cloud_xyzqt[k, 4] == 2:
-                    element = 'C'
+                    element = "C"
                 else:
-                    element = 'F'
+                    element = "F"
             else:
                 element = ELEMENT
-            s += f'{element:1}\t{cloud_xyzqt[k, 0]:.3f}\t{cloud_xyzqt[k, 1]:.3f}\t{cloud_xyzqt[k, 2]:.3f}\n'
-        s += f'{ELEMENT_MP:1}\t{mp[0]:.3f}\t{mp[1]:.3f}\t{mp[2]:.3f}\n'
+            s += f"{element:1}\t{cloud_xyzqt[k, 0]:.3f}\t{cloud_xyzqt[k, 1]:.3f}\t{cloud_xyzqt[k, 2]:.3f}\n"
+        s += f"{ELEMENT_MP:1}\t{mp[0]:.3f}\t{mp[1]:.3f}\t{mp[2]:.3f}\n"
     return s
 
 
@@ -168,14 +168,30 @@ def pdb(cloud_xyzqt, mp):
     """
     n_points = cloud_xyzqt.shape[0]
     bfactor = 99
-    s = ''
+    s = ""
     for k in range(n_points):
         if cloud_xyzqt[k, 4] == 2:
-            resn = 'CV'
+            resn = "CV"
         else:
-            resn = 'FV'
-        s += _pdb_format.format('ATOM', k+1, NAME, ' ', resn, ' ', int(cloud_xyzqt[k, 4]), ' ', cloud_xyzqt[k, 0],
-                                cloud_xyzqt[k, 1], cloud_xyzqt[k, 2], bfactor, cloud_xyzqt[k, 3], ELEMENT, ' ')
-    s += _pdb_format.format('ATOM', k+2, NAME_MP, ' ', 'MP', ' ', 0, ' ', mp[0], mp[1], mp[2], bfactor, -1,
-                            ELEMENT_MP, ' ')
+            resn = "FV"
+        s += _pdb_format.format(
+            "ATOM",
+            k + 1,
+            NAME,
+            " ",
+            resn,
+            " ",
+            int(cloud_xyzqt[k, 4]),
+            " ",
+            cloud_xyzqt[k, 0],
+            cloud_xyzqt[k, 1],
+            cloud_xyzqt[k, 2],
+            bfactor,
+            cloud_xyzqt[k, 3],
+            ELEMENT,
+            " ",
+        )
+    s += _pdb_format.format(
+        "ATOM", k + 2, NAME_MP, " ", "MP", " ", 0, " ", mp[0], mp[1], mp[2], bfactor, -1, ELEMENT_MP, " "
+    )
     return s

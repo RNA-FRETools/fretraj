@@ -46,10 +46,10 @@ class Grid3D:
         self.grid_3d = self.dijkstra_init(maxR, maxR_source)
         self.grid_3d = self.setAboveTreshold(self.grid_3d, linker_length, -4)
         self.grid_3d = self.setAboveTreshold(self.grid_3d, 0, 1)
-        if simulation_type == 'AV1':
+        if simulation_type == "AV1":
             dye_radii = [dye_radii[0]]
         self.grid_3d = self.excludeConcentricSpheres(mol_xyzr, dye_radii, 1)
-        self.grid = self.grid_3d.flatten(order='F')
+        self.grid = self.grid_3d.flatten(order="F")
 
     @staticmethod
     @nb.jit(nopython=True)
@@ -76,14 +76,14 @@ class Grid3D:
         xyz_min = attach_xyz - ll_padRound
         originAdj = xyz_min - 0.5 * grid_spacing
         gridptsPerEdge = 2 * int(ll_padRound / grid_spacing + 0.5)  # + 1
-        grid_3d = np.full((gridptsPerEdge,gridptsPerEdge,gridptsPerEdge), np.inf)
+        grid_3d = np.full((gridptsPerEdge, gridptsPerEdge, gridptsPerEdge), np.inf)
         for i in range(gridptsPerEdge):
             for j in range(gridptsPerEdge):
                 for k in range(gridptsPerEdge):
                     ijk = np.array([i, j, k])
-                    maxRSq = int(linker_length**2 / grid_spacing**2 + 0.5)
+                    maxRSq = int(linker_length ** 2 / grid_spacing ** 2 + 0.5)
                     ijk0 = (attach_xyz - xyz_min) / grid_spacing
-                    dSq = np.sum((ijk - ijk0)**2)
+                    dSq = np.sum((ijk - ijk0) ** 2)
                     if dSq > maxRSq:
                         grid_3d[(i, j, k)] = -1
         return grid_3d, xyz_min, originAdj
@@ -128,12 +128,13 @@ class Grid3D:
         neighbor_list = nb.typed.List()
         [neighbor_list.append(n) for n in self.sortedNeighborIdx(maxVdW_extraClash)]
         if not neighbor_list:
-            raise ValueError('Neighbor list is empty')
+            raise ValueError("Neighbor list is empty")
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
-        outDistSq = (self.halfCubeLength + maxVdW_extraClash)**2
-        distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
-        grid_3d = self._carve_VdWextraClash(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq,
-                                            outDistSq, self.shape)
+        outDistSq = (self.halfCubeLength + maxVdW_extraClash) ** 2
+        distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz) ** 2, 1)
+        grid_3d = self._carve_VdWextraClash(
+            self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, extraClash, distSq, outDistSq, self.shape
+        )
         return grid_3d
 
     @staticmethod
@@ -245,7 +246,7 @@ class Grid3D:
         accuracy)
         """
         idxs = []
-        maxRSq = maxR**2
+        maxRSq = maxR ** 2
         imaxR = int(maxR / grid_spacing + 0.5)  # rounds to next integer
         # (1) build a cube with (2*imaxR+1)**3 indices
         for k in range(-imaxR, imaxR + 1, 1):
@@ -253,7 +254,7 @@ class Grid3D:
                 for i in range(-imaxR, imaxR + 1, 1):
                     ijk = np.array([i, j, k], dtype=int)
                     # (2) only accept indices with 0 < dS < imaxRSq
-                    dSq = np.sum(ijk**2) * grid_spacing**2
+                    dSq = np.sum(ijk ** 2) * grid_spacing ** 2
                     if dSq <= maxRSq:  # and dSq > 0:
                         d = np.sqrt(dSq)
                         idxs.append((d, ijk))
@@ -378,16 +379,17 @@ class Grid3D:
         [dye_radii_sorted.append(x) for x in sorted(dye_radii)]
         rhos = np.linspace(0, maxRho, len(dye_radii) + 1)
         ijk_atom = self._xyz2idx(mol_xyzr[:, 0:3], self.originAdj, self.discStep)
-        outdistSq = (self.halfCubeLength + maxVdW_extraClash)**2
-        distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz)**2, 1)
-        grid_3d = self._assignRho(self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos, distSq,
-                                  outdistSq, self.shape)
+        outdistSq = (self.halfCubeLength + maxVdW_extraClash) ** 2
+        distSq = np.sum((mol_xyzr[:, 0:3] - self.attach_xyz) ** 2, 1)
+        grid_3d = self._assignRho(
+            self.grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos, distSq, outdistSq, self.shape
+        )
         return grid_3d
 
     @staticmethod
     @nb.jit(nopython=True)
     def _assignRho(grid_3d, mol_xyzr, neighbor_list, ijk_atom, dye_radii_sorted, rhos, distSq, outdistSq, grid_shape):
-        """Loop through the atoms and radii and reassign the grid values with a number 0 < rho < 1. 
+        """Loop through the atoms and radii and reassign the grid values with a number 0 < rho < 1.
         0.00: grid point is not compatible with any of the three dye radii (clashes with VdW surface)
         0.33: grid point is compatible with the smallest dye radius
         0.66: grid point is compatible with the smallest two radii
@@ -451,8 +453,8 @@ class Grid3D:
         neighbor_list = nb.typed.List()
         [neighbor_list.append(n) for n in self.sortedNeighborIdx(maxClash)]
         ijk_atom = self._xyz2idx(das_xyzrm[:, 0:3], self.originAdj, self.discStep)
-        outDistSq = (self.halfCubeLength + maxClash)**2
-        distSq = np.sum((das_xyzrm[:, 0:3] - self.attach_xyz)**2, 1)
+        outDistSq = (self.halfCubeLength + maxClash) ** 2
+        distSq = np.sum((das_xyzrm[:, 0:3] - self.attach_xyz) ** 2, 1)
         grid_3d = self._assignDensity(self.grid_3d, das_xyzrm, neighbor_list, ijk_atom, distSq, outDistSq, self.shape)
         return grid_3d
 
