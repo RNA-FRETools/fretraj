@@ -41,3 +41,5 @@ try:
 except (ImportError, ModuleNotFoundError):
     _burst_module_found = False
     print("The burst submodule could not be imported\n")
+else:
+    _burst_module_found = True
