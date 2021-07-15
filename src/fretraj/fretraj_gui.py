@@ -780,43 +780,49 @@ class App(QtWidgets.QMainWindow):
                 json.dump(self.settings, f, indent=2)
 
     def openDocumentation(self):
-        if not self.docsURL:
-            if not self.settings["local_docs"]:
+        try:
+            webbrowser.open(self.docsURL)
+        except webbrowser.Error:
+            if not self.docsURL:
+                if not self.settings["local_docs"]:
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Information)
+                    msg.setWindowTitle("Location of docs not configured")
+                    msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+                    msg.setText("Press <OK> and specify the path of the local docs.")
+                    returnValue = msg.exec_()
+                    if returnValue == QtWidgets.QMessageBox.Ok:
+                        self.set_localdocsDir()
+
+            if not self.settings["browser"]:
                 msg = QtWidgets.QMessageBox()
                 msg.setIcon(QtWidgets.QMessageBox.Information)
-                msg.setWindowTitle("Location of docs not configured")
+                msg.setWindowTitle("Web browser not configured")
                 msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
-                msg.setText("Press <OK> and specify the path of the local docs.")
+                msg.setText(
+                    "For the documentation to be displayed, the path to a web browser needs to be configured. Press <OK> and search for the browser executable (Firefox, Chrome or Edge)."
+                )
                 returnValue = msg.exec_()
                 if returnValue == QtWidgets.QMessageBox.Ok:
-                    self.set_localdocsDir()
+                    self.set_browser()
 
-        if not self.settings["browser"]:
-            msg = QtWidgets.QMessageBox()
-            msg.setIcon(QtWidgets.QMessageBox.Information)
-            msg.setWindowTitle("Web browser not configured")
-            msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
-            msg.setText(
-                "For the documentation to be displayed, the path to a web browser needs to be configured. Press <OK> and search for the browser executable (Firefox, Chrome or Edge)."
-            )
-            returnValue = msg.exec_()
-            if returnValue == QtWidgets.QMessageBox.Ok:
-                self.set_browser()
-
-        if self.settings["browser"]:
-            try:
-                browser = webbrowser.get("{} %s".format(self.settings["browser"]))
-                browser.open("file://{}/index.html".format(self.settings["local_docs"]))
-            except webbrowser.Error:
-                self.settings["browser"] = None
-                print("Browser not found!")
-                with open(self.settings_file, "w") as f:
-                    json.dump(self.settings, f, indent=2)
-            except FileNotFoundError:
-                self.settings["local_docs"] = None
-                print("Local docs not found!")
-                with open(self.settings_file, "w") as f:
-                    json.dump(self.settings, f, indent=2)
+            if self.settings["browser"]:
+                try:
+                    browser = webbrowser.get("{} %s".format(self.settings["browser"]))
+                    if self.docsURL:
+                        browser.open(self.docsURL)
+                    else:
+                        browser.open("file://{}/index.html".format(self.settings["local_docs"]))
+                except webbrowser.Error:
+                    self.settings["browser"] = None
+                    print("Browser not found!")
+                    with open(self.settings_file, "w") as f:
+                        json.dump(self.settings, f, indent=2)
+                except FileNotFoundError:
+                    self.settings["local_docs"] = None
+                    print("Local docs not found!")
+                    with open(self.settings_file, "w") as f:
+                        json.dump(self.settings, f, indent=2)
 
     def openAbout(self):
         """
@@ -828,7 +834,7 @@ class App(QtWidgets.QMainWindow):
         msg.setWindowTitle("About FRETraj")
         current_year = datetime.datetime.now().year
         msg.setText(
-            f"{metadata['Name']} {metadata['Version']}\n{metadata['Summary']}\n\n\(C) {metadata['Author']}\nUniversity of Zurich, 2020-{current_year}"
+            f"{metadata['Name']} {metadata['Version']}\n{metadata['Summary']}\n\n(C) {metadata['Author']}\nUniversity of Zurich, {current_year}"
         )
         msg.exec_()
 
