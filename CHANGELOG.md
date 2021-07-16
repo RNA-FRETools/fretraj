@@ -1,5 +1,12 @@
 ## Changelog
 
+### [0.2.2] 2021-07-16
+- Add pybind11 to build-system and create wheels for linux-64/win-64 and Python versions 3.7, 3.8 and 3.9
+- Use tox for testing
+- Add docker image for PyMOL+FRETraj
+- Add black code style
+- Update docs for installation
+
 ### [0.2.1] 2021-03-19
 - Create matrix deployments for different Python versions
 
