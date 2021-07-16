@@ -44,7 +44,7 @@ jobs:
         POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates an environment by default 
       run: |
         conda install mdtraj>=1.9.5 -c conda-forge
-        poetry install --no-dev
+        poetry install
         poetry build
     - name: Upload build artefact
       uses: actions/upload-artifact@v2

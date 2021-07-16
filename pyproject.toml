@@ -36,6 +36,7 @@ jsonschema = "^3.2.0"
 nglview = "^3.0.3"
 
 [tool.poetry.dev-dependencies]
+pybind11 = "^2.6.2"
 pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
 pytest-mock = "^3.6.1"
