@@ -1,5 +1,8 @@
 ## Changelog
 
+### [0.2.4] 2021-07-16
+- Fix version dependencies of Numpy, Pandas and Matplotlib for Python 3.6
+
 ### [0.2.3] 2021-07-16
 - Update versions of dependencies to ensure compatibility with Python 3.6
 - Include .so and .pyd files in wheels only and .cpp in sdist only
