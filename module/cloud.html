@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cloud</title>
     
-  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -34,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -44,7 +41,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -59,14 +56,14 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FRET" href="fret.html" />
     <link rel="prev" title="The parameter files" href="../background/parameter_file.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -75,30 +72,30 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="../index.html">
-  
-  <img src="../_static/fretraj_logo.png" class="logo" alt="logo">
-  
-  
-</a>
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/fretraj_logo.png" class="logo" alt="logo">
+      
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../intro.html">
    Welcome to FRETraj
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Getting started
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../getting_started/installation.html">
    Installation
@@ -133,12 +130,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Background
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../background/accessible_volume.html">
    The accessible volume
@@ -155,12 +152,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Code
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Cloud
@@ -187,12 +184,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   References
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../references.html">
    References
@@ -200,6 +197,7 @@
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -265,12 +263,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -572,10 +570,10 @@ This accounts for the (experimentally) determined fraction of dyes populating th
 <p class="rubric">References</p>
 <dl class="footnote brackets">
 <dt class="label" id="id1"><span class="brackets">1</span></dt>
-<dd><p>Steffen, F. D., Sigel, R. K. O. &amp; Börner, R. “An atomistic view on carbocyanine         photophysics in the realm of RNA”, <em>Phys. Chem. Chem. Phys.</em> <strong>18</strong>, 29045–29055 (2016).</p>
+<dd><p>Steffen, F. D., Sigel, R. K. O. &amp; Börner, R. “An atomistic view on carbocyanine photophysics in the realm of RNA”, <em>Phys. Chem. Chem. Phys.</em> <strong>18</strong>, 29045–29055 (2016).</p>
 </dd>
 <dt class="label" id="id2"><span class="brackets">2</span></dt>
-<dd><p>Dimura, M. et al. Quantitative FRET studies and integrative modeling unravel the structure         and dynamics of biomolecular systems”, <em>Curr. Opin. Struct. Biol.</em> <strong>40</strong>, 163–185 (2016).</p>
+<dd><p>Dimura, M. et al. Quantitative FRET studies and integrative modeling unravel the structure and dynamics of biomolecular systems”, <em>Curr. Opin. Struct. Biol.</em> <strong>40</strong>, 163–185 (2016).</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -613,10 +611,10 @@ This accounts for the (experimentally) determined fraction of dyes populating th
 <p class="rubric">References</p>
 <dl class="footnote brackets">
 <dt class="label" id="id3"><span class="brackets">3</span></dt>
-<dd><p>Kalinin, S. et al. “A toolkit and benchmark study for FRET-restrained high-precision         structural modeling”, <em>Nat. Methods</em> <strong>9</strong>, 1218–1225 (2012).</p>
+<dd><p>Kalinin, S. et al. “A toolkit and benchmark study for FRET-restrained high-precision structural modeling”, <em>Nat. Methods</em> <strong>9</strong>, 1218–1225 (2012).</p>
 </dd>
 <dt class="label" id="id4"><span class="brackets">4</span></dt>
-<dd><p>Sindbert, S. et al. “Accurate distance determination of nucleic acids via Förster         resonance energy transfer: implications of dye linker length and rigidity”,         <em>J. Am. Chem. Soc.</em> <strong>133</strong>, 2463–2480 (2011).</p>
+<dd><p>Sindbert, S. et al. “Accurate distance determination of nucleic acids via Förster resonance energy transfer: implications of dye linker length and rigidity”, <em>J. Am. Chem. Soc.</em> <strong>133</strong>, 2463–2480 (2011).</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -679,8 +677,8 @@ frames using the same dye and grid parameters</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>grid_3d</strong> (<em>ndarray([nx,ny,nz])</em>) – 3-dimensional array of grid points with a shape given by n_xyz</p></li>
-<li><p><strong>xyz_min</strong> (<em>list</em>) – origin coordinates of the grid</p></li>
-<li><p><strong>d_xyz</strong> (<em>list</em>) – grid spacing in x-,y- and z-direction</p></li>
+<li><p><strong>xyz_min</strong> (<em>ndarray</em>) – origin coordinates of the grid</p></li>
+<li><p><strong>d_xyz</strong> (<em>ndarray</em>) – grid spacing in x-,y- and z-direction</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -691,7 +689,7 @@ frames using the same dye and grid parameters</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grid_3d</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_3d</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># FV</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_3d</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># CV</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ft</span><span class="o">.</span><span class="n">cloud</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">grid2pts</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ft</span><span class="o">.</span><span class="n">cloud</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">grid2pts</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 <span class="go">array([[ 0.5,  0.5,  0.5,  1.  1],</span>
 <span class="go">       [ 0.5,  1. ,  0.5, 10.  1]])</span>
 </pre></div>
@@ -699,7 +697,7 @@ frames using the same dye and grid parameters</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tag_3d</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_3d</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># FV</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">grid_3d</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">2</span>   <span class="c1"># CV</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ft</span><span class="o">.</span><span class="n">cloud</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">grid2pts</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">tag_3d</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ft</span><span class="o">.</span><span class="n">cloud</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">grid2pts</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">tag_3d</span><span class="p">)</span>
 <span class="go">array([[ 0.5,  0.5,  0.5,  1.  1],</span>
 <span class="go">       [ 0.5,  1. ,  0.5, 10.  2]])</span>
 </pre></div>
@@ -1101,11 +1099,9 @@ of points in the smallest volume)</p></li>
 
       </div>
     </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
+  
   </body>
 </html>

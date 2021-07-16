@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>References</title>
     
-  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -34,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -44,7 +41,7 @@
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -58,14 +55,14 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Utilities" href="module/utilities.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -74,30 +71,30 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
-  
-  <img src="_static/fretraj_logo.png" class="logo" alt="logo">
-  
-  
-</a>
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      <img src="_static/fretraj_logo.png" class="logo" alt="logo">
+      
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
    Welcome to FRETraj
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Getting started
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="getting_started/installation.html">
    Installation
@@ -132,12 +129,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Background
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="background/accessible_volume.html">
    The accessible volume
@@ -154,12 +151,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Code
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="module/cloud.html">
    Cloud
@@ -186,12 +183,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   References
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    References
@@ -199,6 +196,7 @@
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -264,12 +262,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -278,11 +276,11 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#related-projects">
    Related projects
@@ -295,8 +293,7 @@
  </li>
 </ul>
 
-        </nav>
-        
+            </nav>
         </div>
     </div>
 </div>
@@ -352,22 +349,31 @@
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
 <p id="id1"><dl class="citation">
-<dt class="label" id="id11"><span class="brackets">1</span></dt>
+<dt class="label" id="id2"><span class="brackets">1</span></dt>
+<dd><p>Warren L. DeLano. Pymol: an open-source molecular graphics tool. <em>CCP4 Newsletter on protein crystallography</em>, 40(1):82–92, 2002.</p>
+</dd>
+<dt class="label" id="id10"><span class="brackets">2</span></dt>
+<dd><p>Thomas Kluyver, Benjamin Ragan-Kelley, Fernando Pérez, Brian Granger, Matthias Bussonnier, Jonathan Frederic, Kyle Kelley, Jessica Hamrick, Jason Grout, Sylvain Corlay, Paul Ivanov, Damián Avila, Safia Abdalla, Carol Willing, and Jupyter development team. Jupyter notebooks – a publishing format for reproducible computational workflows. In Fernando Loizides and Birgit Schmidt, editors, <em>Positioning and Power in Academic Publishing</em>, pages 87–90. Ios Press Inc, Amsterdam, 2016. <a class="reference external" href="https://doi.org/10.3233/978-1-61499-649-1-87">doi:10.3233/978-1-61499-649-1-87</a>.</p>
+</dd>
+<dt class="label" id="id13"><span class="brackets">3</span></dt>
+<dd><p>Hai Nguyen, David A. Case, and Alexander S. Rose. Nglview-interactive molecular graphics for jupyter notebooks. <em>Bioinformatics</em>, 34(7):1241–1242, 2018. <a class="reference external" href="https://doi.org/10.1093/bioinformatics/btx789">doi:10.1093/bioinformatics/btx789</a>.</p>
+</dd>
+<dt class="label" id="id15"><span class="brackets">4</span></dt>
 <dd><p>Simon Sindbert, Stanislav Kalinin, Hien Nguyen, Andrea Kienzler, Lilia Clima, Willi Bannwarth, Bettina Appel, Sabine Müller, and Claus A. M. Seidel. Accurate distance determination of nucleic acids via förster resonance energy transfer: implications of dye linker length and rigidity. <em>J. Am. Chem. Soc.</em>, 133(8):2463–2480, 2011. <a class="reference external" href="https://doi.org/10.1021/ja105725e">doi:10.1021/ja105725e</a>.</p>
 </dd>
-<dt class="label" id="id5"><span class="brackets">2</span></dt>
+<dt class="label" id="id6"><span class="brackets">5</span></dt>
 <dd><p>Björn Hellenkamp, Sonja Schmid, Olga Doroshenko, Oleg Opanasyuk, Ralf Kühnemuth, Soheila Rezaei Adariani, Benjamin Ambrose, Mikayel Aznauryan, Anders Barth, Victoria Birkedal, Mark E. Bowen, Hongtao Chen, Thorben Cordes, Tobias Eilert, Carel Fijen, Christian Gebhardt, Markus Götz, Giorgos Gouridis, Enrico Gratton, Taekjip Ha, Pengyu Hao, Christian A. Hanke, Andreas Hartmann, Jelle Hendrix, Lasse L. Hildebrandt, Verena Hirschfeld, Johannes Hohlbein, Boyang Hua, Christian G. Hübner, Eleni Kallis, Achillefs N. Kapanidis, Jae-Yeol Kim, Georg Krainer, Don C. Lamb, Nam Ki Lee, Edward A. Lemke, Brié Levesque, Marcia Levitus, James J. McCann, Nikolaus Naredi-Rainer, Daniel Nettels, Thuy Ngo, Ruoyi Qiu, Nicole C. Robb, Carlheinz Röcker, Hugo Sanabria, Michael Schlierf, Tim Schröder, Benjamin Schuler, Henning Seidel, Lisa Streit, Johann Thurn, Philip Tinnefeld, Swati Tyagi, Niels Vandenberk, Andrés Manuel Vera, Keith R. Weninger, Bettina Wünsch, Inna S. Yanez-Orozco, Jens Michaelis, Claus A. M. Seidel, Timothy D. Craggs, and Thorsten Hugel. Precision and accuracy of single-molecule fret measurements-a multi-laboratory benchmark study. <em>Nat. Methods</em>, 15(9):669–676, 2018. <a class="reference external" href="https://doi.org/10.1038/s41592-018-0085-0">doi:10.1038/s41592-018-0085-0</a>.</p>
 </dd>
-<dt class="label" id="id7"><span class="brackets">3</span></dt>
+<dt class="label" id="id8"><span class="brackets">6</span></dt>
 <dd><p>Martin Hoefling, Nicola Lima, Dominik Haenni, Claus A. M. Seidel, Benjamin Schuler, and Helmut Grubmüller. Structural heterogeneity and quantitative fret efficiency distributions of polyprolines through a hybrid atomistic simulation and monte carlo approach. <em>PLoS One</em>, 6(5):e19791, 2011. <a class="reference external" href="https://doi.org/10.1371/journal.pone.0019791">doi:10.1371/journal.pone.0019791</a>.</p>
 </dd>
-<dt class="label" id="id6"><span class="brackets">4</span></dt>
+<dt class="label" id="id7"><span class="brackets">7</span></dt>
 <dd><p>Martin Hoefling and Helmut Grubmüller. In silico fret from simulated dye dynamics. <em>Comput. Phys. Commun.</em>, 184(3):841–852, 2013. <a class="reference external" href="https://doi.org/10.1016/j.cpc.2012.10.018">doi:10.1016/j.cpc.2012.10.018</a>.</p>
 </dd>
-<dt class="label" id="id12"><span class="brackets">5</span></dt>
+<dt class="label" id="id16"><span class="brackets">8</span></dt>
 <dd><p>Fabio D. Steffen, Roland K. O. Sigel, and Richard Börner. An atomistic view on carbocyanine photophysics in the realm of rna. <em>Phys. Chem. Chem. Phys.</em>, 18(42):29045–29055, 2016. <a class="reference external" href="https://doi.org/10.1039/c6cp04277e">doi:10.1039/c6cp04277e</a>.</p>
 </dd>
-<dt class="label" id="id8"><span class="brackets">6</span></dt>
+<dt class="label" id="id9"><span class="brackets">9</span></dt>
 <dd><p>Stanislav Kalinin, Thomas Peulen, Simon Sindbert, Paul J. Rothwell, Sylvia Berger, Tobias Restle, Roger S. Goody, Holger Gohlke, and Claus A. M. Seidel. A toolkit and benchmark study for fret-restrained high-precision structural modeling. <em>Nat. Methods</em>, 9(12):1218–1225, 2012. <a class="reference external" href="https://doi.org/10.1038/nmeth.2222">doi:10.1038/nmeth.2222</a>.</p>
 </dd>
 </dl>
@@ -421,11 +427,9 @@
 
       </div>
     </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
+  
   </body>
 </html>

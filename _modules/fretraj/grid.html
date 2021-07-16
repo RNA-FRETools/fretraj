@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>fretraj.grid</title>
     
-  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -34,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -44,7 +41,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -57,14 +54,14 @@
     <link rel="shortcut icon" href="../../_static/fretraj_logo.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -73,30 +70,30 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="../../index.html">
-  
-  <img src="../../_static/fretraj_logo.png" class="logo" alt="logo">
-  
-  
-</a>
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      <img src="../../_static/fretraj_logo.png" class="logo" alt="logo">
+      
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../intro.html">
    Welcome to FRETraj
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Getting started
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../getting_started/installation.html">
    Installation
@@ -131,12 +128,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Background
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../background/accessible_volume.html">
    The accessible volume
@@ -153,12 +150,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Code
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../module/cloud.html">
    Cloud
@@ -185,12 +182,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   References
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../references.html">
    References
@@ -198,6 +195,7 @@
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -246,12 +244,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -273,15 +271,6 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numba</span> <span class="k">as</span> <span class="nn">nb</span>
 <span class="kn">import</span> <span class="nn">heapq</span>
-<span class="kn">import</span> <span class="nn">packaging.version</span>
-
-<span class="c1"># Note: Reflected lists are deprecated in numba &gt;=0.51. Typed lists are available from numba &gt;=0.45.</span>
-<span class="c1"># The heapq used for the priority queue in the Dijkstra algorithm does not accept typed list though (numba issue #4926).</span>
-<span class="c1"># Thus, the Numba version needs to be pinned. Numba &lt;=0.50 issues scheduled deprecation warnings</span>
-<span class="c1"># but does run the Dijkstra implementation in nopython mode with Python 3.7 and 3.8 (not 3.9, numba issue #6345).</span>
-<span class="c1"># Numba 0.50 requires numpy&lt;1.20 (numba issue #6041)</span>
-
-<span class="n">_hasTypedList</span> <span class="o">=</span> <span class="n">packaging</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">nb</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">packaging</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;0.45.0&#39;</span><span class="p">)</span>
 
 <span class="n">_dist_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]))</span>  <span class="c1"># reduction to 74 neighbors</span>
 
@@ -326,13 +315,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dijkstra_init</span><span class="p">(</span><span class="n">maxR</span><span class="p">,</span> <span class="n">maxR_source</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setAboveTreshold</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">linker_length</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setAboveTreshold</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">simulation_type</span> <span class="o">==</span> <span class="s1">&#39;AV1&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">simulation_type</span> <span class="o">==</span> <span class="s2">&quot;AV1&quot;</span><span class="p">:</span>
             <span class="n">dye_radii</span> <span class="o">=</span> <span class="p">[</span><span class="n">dye_radii</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">excludeConcentricSpheres</span><span class="p">(</span><span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">dye_radii</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Grid3D.make_grid"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D.make_grid">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">forceobj</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">make_grid</span><span class="p">(</span><span class="n">attach_xyz</span><span class="p">,</span> <span class="n">linker_length</span><span class="p">,</span> <span class="n">grid_spacing</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Build a 3D grid around the attachment point</span>
 
@@ -356,14 +345,14 @@
         <span class="n">xyz_min</span> <span class="o">=</span> <span class="n">attach_xyz</span> <span class="o">-</span> <span class="n">ll_padRound</span>
         <span class="n">originAdj</span> <span class="o">=</span> <span class="n">xyz_min</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">grid_spacing</span>
         <span class="n">gridptsPerEdge</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">ll_padRound</span> <span class="o">/</span> <span class="n">grid_spacing</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># + 1</span>
-        <span class="n">grid_3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">([</span><span class="n">gridptsPerEdge</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="n">grid_3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">gridptsPerEdge</span><span class="p">,</span> <span class="n">gridptsPerEdge</span><span class="p">,</span> <span class="n">gridptsPerEdge</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gridptsPerEdge</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gridptsPerEdge</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gridptsPerEdge</span><span class="p">):</span>
                     <span class="n">ijk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span>
-                    <span class="n">maxRSq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linker_length</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">grid_spacing</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+                    <span class="n">maxRSq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linker_length</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">grid_spacing</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
                     <span class="n">ijk0</span> <span class="o">=</span> <span class="p">(</span><span class="n">attach_xyz</span> <span class="o">-</span> <span class="n">xyz_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">grid_spacing</span>
-                    <span class="n">dSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">ijk</span> <span class="o">-</span> <span class="n">ijk0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="n">dSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">ijk</span> <span class="o">-</span> <span class="n">ijk0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">dSq</span> <span class="o">&gt;</span> <span class="n">maxRSq</span><span class="p">:</span>
                         <span class="n">grid_3d</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">return</span> <span class="n">grid_3d</span><span class="p">,</span> <span class="n">xyz_min</span><span class="p">,</span> <span class="n">originAdj</span></div>
@@ -405,16 +394,16 @@
 <span class="sd">            3-dimensional array of grid points with a shape of 2*adjL+1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">maxVdW_extraClash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="n">extraClash</span>
-        <span class="k">if</span> <span class="n">_hasTypedList</span><span class="p">:</span>
-            <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
-            <span class="p">[</span><span class="n">neighbor_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxVdW_extraClash</span><span class="p">)]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">neighbor_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxVdW_extraClash</span><span class="p">)</span>
+        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">neighbor_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxVdW_extraClash</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">neighbor_list</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Neighbor list is empty&quot;</span><span class="p">)</span>
         <span class="n">ijk_atom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xyz2idx</span><span class="p">(</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">originAdj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discStep</span><span class="p">)</span>
-        <span class="n">outDistSq</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">halfCubeLength</span> <span class="o">+</span> <span class="n">maxVdW_extraClash</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">distSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">attach_xyz</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carve_VdWextraClash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">extraClash</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span>
-                                            <span class="n">outDistSq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">outDistSq</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">halfCubeLength</span> <span class="o">+</span> <span class="n">maxVdW_extraClash</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">distSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">attach_xyz</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carve_VdWextraClash</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">extraClash</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span> <span class="n">outDistSq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">grid_3d</span></div>
 
 <div class="viewcode-block" id="Grid3D._carve_VdWextraClash"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D._carve_VdWextraClash">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -472,16 +461,12 @@
         <span class="n">ai</span><span class="p">,</span> <span class="n">aj</span><span class="p">,</span> <span class="n">ak</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xyz2idx</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attach_xyz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">originAdj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discStep</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">[</span><span class="n">ai</span><span class="p">,</span> <span class="n">aj</span><span class="p">,</span> <span class="n">ak</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">priority_queue</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">ai</span><span class="p">,</span> <span class="n">aj</span><span class="p">,</span> <span class="n">ak</span><span class="p">))]</span>
-        <span class="k">if</span> <span class="n">_hasTypedList</span><span class="p">:</span>
-            <span class="c1"># priority_queue = nb.typed.List()</span>
-            <span class="c1"># [priority_queue.append(x) for x in [(0.0, (ai, aj, ak))]]</span>
-            <span class="n">edges_ess</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
-            <span class="p">[</span><span class="n">edges_ess</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">essential_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxR</span><span class="p">),</span> <span class="n">_dist_list</span><span class="p">)]</span>
-            <span class="n">edges_src</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
-            <span class="p">[</span><span class="n">edges_src</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxR_source</span><span class="p">)]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">edges_ess</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">essential_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxR</span><span class="p">),</span> <span class="n">_dist_list</span><span class="p">)</span>
-            <span class="n">edges_src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxR_source</span><span class="p">)</span>
+        <span class="n">priority_queue</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">priority_queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">ai</span><span class="p">,</span> <span class="n">aj</span><span class="p">,</span> <span class="n">ak</span><span class="p">))]]</span>
+        <span class="n">edges_ess</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">edges_ess</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">essential_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxR</span><span class="p">),</span> <span class="n">_dist_list</span><span class="p">)]</span>
+        <span class="n">edges_src</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">edges_src</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxR_source</span><span class="p">)]</span>
         <span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dijkstra</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">edges_ess</span><span class="p">,</span> <span class="n">edges_src</span><span class="p">,</span> <span class="n">priority_queue</span><span class="p">,</span> <span class="p">(</span><span class="n">ai</span><span class="p">,</span> <span class="n">aj</span><span class="p">,</span> <span class="n">ak</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">grid_3d</span></div>
 
@@ -504,7 +489,6 @@
         <span class="k">return</span> <span class="n">idxs</span></div>
 
 <div class="viewcode-block" id="Grid3D._neighborIdx"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D._neighborIdx">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">forceobj</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_neighborIdx</span><span class="p">(</span><span class="n">maxR</span><span class="p">,</span> <span class="n">grid_spacing</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Build a list of neighboring indices to the origin (0,0,0)</span>
 
@@ -531,7 +515,7 @@
 <span class="sd">        accuracy)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">idxs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">maxRSq</span> <span class="o">=</span> <span class="n">maxR</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">maxRSq</span> <span class="o">=</span> <span class="n">maxR</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">imaxR</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">maxR</span> <span class="o">/</span> <span class="n">grid_spacing</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># rounds to next integer</span>
         <span class="c1"># (1) build a cube with (2*imaxR+1)**3 indices</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">imaxR</span><span class="p">,</span> <span class="n">imaxR</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
@@ -539,7 +523,7 @@
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">imaxR</span><span class="p">,</span> <span class="n">imaxR</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
                     <span class="n">ijk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
                     <span class="c1"># (2) only accept indices with 0 &lt; dS &lt; imaxRSq</span>
-                    <span class="n">dSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ijk</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">grid_spacing</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="n">dSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ijk</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">grid_spacing</span> <span class="o">**</span> <span class="mi">2</span>
                     <span class="k">if</span> <span class="n">dSq</span> <span class="o">&lt;=</span> <span class="n">maxRSq</span><span class="p">:</span>  <span class="c1"># and dSq &gt; 0:</span>
                         <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dSq</span><span class="p">)</span>
                         <span class="n">idxs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">d</span><span class="p">,</span> <span class="n">ijk</span><span class="p">))</span>
@@ -592,6 +576,7 @@
 <span class="sd">        ndarray</span>
 <span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">priority_queue</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">priority_queue</span><span class="p">)</span>
         <span class="k">while</span> <span class="n">priority_queue</span><span class="p">:</span>
             <span class="n">r</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">priority_queue</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="n">grid_3d</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
@@ -657,26 +642,23 @@
 <span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">maxVdW_extraClash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dye_radii</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">_hasTypedList</span><span class="p">:</span>
-            <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
-            <span class="p">[</span><span class="n">neighbor_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxVdW_extraClash</span><span class="p">)]</span>
-            <span class="n">dye_radii_sorted</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
-            <span class="p">[</span><span class="n">dye_radii_sorted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dye_radii</span><span class="p">)]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">neighbor_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxVdW_extraClash</span><span class="p">)</span>
-            <span class="n">dye_radii_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dye_radii</span><span class="p">)</span>
+        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">neighbor_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxVdW_extraClash</span><span class="p">)]</span>
+        <span class="n">dye_radii_sorted</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">dye_radii_sorted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dye_radii</span><span class="p">)]</span>
         <span class="n">rhos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxRho</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dye_radii</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ijk_atom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xyz2idx</span><span class="p">(</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">originAdj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discStep</span><span class="p">)</span>
-        <span class="n">outdistSq</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">halfCubeLength</span> <span class="o">+</span> <span class="n">maxVdW_extraClash</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">distSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">attach_xyz</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assignRho</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">dye_radii_sorted</span><span class="p">,</span> <span class="n">rhos</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span>
-                                  <span class="n">outdistSq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">outdistSq</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">halfCubeLength</span> <span class="o">+</span> <span class="n">maxVdW_extraClash</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">distSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">mol_xyzr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">attach_xyz</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assignRho</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">dye_radii_sorted</span><span class="p">,</span> <span class="n">rhos</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span> <span class="n">outdistSq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">grid_3d</span></div>
 
 <div class="viewcode-block" id="Grid3D._assignRho"><a class="viewcode-back" href="../../module/grid.html#fretraj.grid.Grid3D._assignRho">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_assignRho</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">mol_xyzr</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">dye_radii_sorted</span><span class="p">,</span> <span class="n">rhos</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span> <span class="n">outdistSq</span><span class="p">,</span> <span class="n">grid_shape</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loop through the atoms and radii and reassign the grid values with a number 0 &lt; rho &lt; 1. </span>
+        <span class="sd">&quot;&quot;&quot;Loop through the atoms and radii and reassign the grid values with a number 0 &lt; rho &lt; 1.</span>
 <span class="sd">        0.00: grid point is not compatible with any of the three dye radii (clashes with VdW surface)</span>
 <span class="sd">        0.33: grid point is compatible with the smallest dye radius</span>
 <span class="sd">        0.66: grid point is compatible with the smallest two radii</span>
@@ -737,14 +719,11 @@
 <span class="sd">            3-dimensional array of grid points with a shape given by n_xyz</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">maxClash</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">das_xyzrm</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">discStep</span>
-        <span class="k">if</span> <span class="n">_hasTypedList</span><span class="p">:</span>
-            <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
-            <span class="p">[</span><span class="n">neighbor_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxClash</span><span class="p">)]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">neighbor_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxClash</span><span class="p">)</span>
+        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">typed</span><span class="o">.</span><span class="n">List</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">neighbor_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortedNeighborIdx</span><span class="p">(</span><span class="n">maxClash</span><span class="p">)]</span>
         <span class="n">ijk_atom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xyz2idx</span><span class="p">(</span><span class="n">das_xyzrm</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">originAdj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discStep</span><span class="p">)</span>
-        <span class="n">outDistSq</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">halfCubeLength</span> <span class="o">+</span> <span class="n">maxClash</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">distSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">das_xyzrm</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">attach_xyz</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">outDistSq</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">halfCubeLength</span> <span class="o">+</span> <span class="n">maxClash</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">distSq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">das_xyzrm</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">attach_xyz</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">grid_3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assignDensity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">das_xyzrm</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">,</span> <span class="n">ijk_atom</span><span class="p">,</span> <span class="n">distSq</span><span class="p">,</span> <span class="n">outDistSq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">grid_3d</span></div>
 
@@ -820,11 +799,9 @@
 
       </div>
     </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
+  
   </body>
 </html>

@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Installation</title>
     
-  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -34,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -44,7 +41,7 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -59,14 +56,14 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Calculating ACVs" href="acv_calculation.html" />
     <link rel="prev" title="Welcome to FRETraj" href="../intro.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -75,30 +72,30 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="../index.html">
-  
-  <img src="../_static/fretraj_logo.png" class="logo" alt="logo">
-  
-  
-</a>
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/fretraj_logo.png" class="logo" alt="logo">
+      
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../intro.html">
    Welcome to FRETraj
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Getting started
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Installation
@@ -133,12 +130,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Background
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../background/accessible_volume.html">
    The accessible volume
@@ -155,12 +152,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Code
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../module/cloud.html">
    Cloud
@@ -187,12 +184,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   References
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../references.html">
    References
@@ -200,6 +197,7 @@
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -265,12 +263,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -279,25 +277,41 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#install-pymol-and-fretraj">
-   1. Install PyMOL and FRETraj
+  <a class="reference internal nav-link" href="#pymol-plugin">
+   1. PyMOL plugin
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#install-pymol-and-fretraj">
+     1.1 Install PyMOL and FRETraj
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#register-the-plugin">
+     1.2 Register the Plugin
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#install-with-docker">
+     1.3 Install with Docker
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#register-the-plugin">
-   2. Register the Plugin
+  <a class="reference internal nav-link" href="#juypter-notebook">
+   2. Juypter notebook
   </a>
  </li>
 </ul>
 
-        </nav>
-        
+            </nav>
         </div>
     </div>
 </div>
@@ -308,16 +322,30 @@
                 
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>There are two main ways of interacting with <em>FRETraj</em>:</p>
+<ol class="simple">
+<li><p>as a <a class="reference external" href="https://pymol.org/">PyMOL</a> plugin with a GUI</p></li>
+<li><p>as a Python module in a <a class="reference external" href="https://jupyter.org/">Jupyter</a> notebook</p></li>
+</ol>
+<div class="section" id="pymol-plugin">
+<h2>1. PyMOL plugin<a class="headerlink" href="#pymol-plugin" title="Permalink to this headline">¶</a></h2>
+<p>Depending on your operating system and preference there are multiple options to install PyMOL</p>
+<ul class="simple">
+<li><p>install PyMOL and add <em>FRETraj</em> as a Plugin manually → <a class="reference external" href="#install-manually">Install PyMOL and FRETraj</a></p></li>
+<li><p>install a Docker image with PyMOL and <em>FRETraj</em> preconfigured (see Docker image) → <a class="reference external" href="#install-docker">Install with Docker</a></p></li>
+</ul>
 <div class="section" id="install-pymol-and-fretraj">
-<h2>1. Install PyMOL and FRETraj<a class="headerlink" href="#install-pymol-and-fretraj" title="Permalink to this headline">¶</a></h2>
+<h3>1.1 Install PyMOL and FRETraj<a class="headerlink" href="#install-pymol-and-fretraj" title="Permalink to this headline">¶</a></h3>
+<p><a name="install-manually"></a></p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="887030bc-c56d-4794-a675-c29db717391a" name="716efc36-e556-4e86-9d56-57e5324d50a3" type="radio">
-</input><label class="tabbed-label" for="887030bc-c56d-4794-a675-c29db717391a">
+<input checked="checked" id="3246d0e0-26d1-40f8-80af-a1f9e77dbb65" name="daa2d69b-de64-429f-bb02-7427f959d679" type="radio">
+</input><label class="tabbed-label" for="3246d0e0-26d1-40f8-80af-a1f9e77dbb65">
 For Windows</label><div class="tabbed-content docutils">
 <ul>
-<li><p>Get the latest binaries of PyMOL from <a class="reference external" href="https://pymol.org/">Schrödinger</a></p></li>
-<li><p>Search for <strong>Anaconda prompt</strong> in the Windows start menu and run the following command to install <em>FRETraj</em> from the <code class="docutils literal notranslate"><span class="pre">RNA-FRETools</span></code> channel from <a class="reference external" href="http://anaconda.org">anaconda.org</a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">fretraj</span> <span class="o">-</span><span class="n">c</span> <span class="n">rna</span><span class="o">-</span><span class="n">fretools</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<li><p>Get PyMOL from <a class="reference external" href="https://pymol.org/">Schrödinger</a> or follow the instructions <a class="reference external" href="https://pymolwiki.org/index.php/Windows_Install">here</a>.</p></li>
+<li><p>Search for <strong>Anaconda/Miniforge prompt</strong> in the Windows start menu and run the following commands to install <em>FRETraj</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">mdtraj</span><span class="o">&gt;=</span><span class="mf">1.9.5</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">fretraj</span>
 </pre></div>
 </div>
 </li>
@@ -328,41 +356,25 @@ For Windows</label><div class="tabbed-content docutils">
 </li>
 </ul>
 </div>
-<input id="0f038123-c734-490a-8dc5-696f752c3ffe" name="716efc36-e556-4e86-9d56-57e5324d50a3" type="radio">
-</input><label class="tabbed-label" for="0f038123-c734-490a-8dc5-696f752c3ffe">
-For Linux and macOS</label><div class="tabbed-content docutils">
+<input id="01d568da-2335-4cdb-be94-a493d7a05e64" name="daa2d69b-de64-429f-bb02-7427f959d679" type="radio">
+</input><label class="tabbed-label" for="01d568da-2335-4cdb-be94-a493d7a05e64">
+For Linux</label><div class="tabbed-content docutils">
 <ul>
-<li><p>Install the PyMOL binaries from <a class="reference external" href="https://pymol.org/">Schrödinger</a> or directly from the Schrödinger Anaconda channel.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">schrodinger</span> <span class="n">pymol</span><span class="o">-</span><span class="n">bundle</span>
-</pre></div>
-</div>
-<div class="admonition-open-source-pymol admonition">
-<p class="admonition-title">Open-source PyMOL</p>
-<p>You may also build PyMOL yourself from <a class="reference external" href="https://github.com/schrodinger/pymol-open-source">source</a>.</p>
-</div>
-</li>
-<li><p>Install <em>FRETraj</em> either from <strong>PyPI</strong> (with <code class="docutils literal notranslate"><span class="pre">pip</span></code>), <strong>Anaconda</strong> (with <code class="docutils literal notranslate"><span class="pre">conda</span></code>) or <strong>Github</strong> (clone or <a class="reference external" href="https://github.com/RNA-FRETools/fretraj.git">download</a> and install from source with <code class="docutils literal notranslate"><span class="pre">poetry</span></code> or <code class="docutils literal notranslate"><span class="pre">pip</span></code>).</p>
+<li><p>Get PyMOL either from <a class="reference external" href="https://pymol.org/">Schrödinger</a> or from your package manager (e.g. on Ubuntu <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">pymol</span></code>). Alternatively, you can compile PyMOL yourself from the source code on <a class="reference external" href="https://github.com/schrodinger/pymol-open-source">Github</a>.</p></li>
+<li><p>Install <em>FRETraj</em> with pip or build it from source</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="713b8fa6-deaa-4c0b-9239-df32910d2d62" name="7ec145b6-51de-4302-9cf3-46b57cc87afd" type="radio">
-</input><label class="tabbed-label" for="713b8fa6-deaa-4c0b-9239-df32910d2d62">
+<input checked="checked" id="611e6b01-459e-4c1b-8798-f488f63ba30c" name="ed7068b2-a192-4627-a957-165b884dfbe7" type="radio">
+</input><label class="tabbed-label" for="611e6b01-459e-4c1b-8798-f488f63ba30c">
 pip</label><div class="tabbed-content docutils">
 <p>Install from <strong>PyPI</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fretraj</span>
 </pre></div>
 </div>
 </div>
-<input id="b0086a2b-1bba-4f6f-94db-6b9ce994ce11" name="7ec145b6-51de-4302-9cf3-46b57cc87afd" type="radio">
-</input><label class="tabbed-label" for="b0086a2b-1bba-4f6f-94db-6b9ce994ce11">
-conda</label><div class="tabbed-content docutils">
-<p>Install from <strong>Anaconda</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">fretraj</span> <span class="o">-</span><span class="n">c</span> <span class="n">rna</span><span class="o">-</span><span class="n">fretools</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-</pre></div>
-</div>
-</div>
-<input id="b2705a06-8161-43cc-be70-3931aec8f96b" name="7ec145b6-51de-4302-9cf3-46b57cc87afd" type="radio">
-</input><label class="tabbed-label" for="b2705a06-8161-43cc-be70-3931aec8f96b">
+<input id="11bd93f0-722b-4801-a638-c82e7ed804e8" name="ed7068b2-a192-4627-a957-165b884dfbe7" type="radio">
+</input><label class="tabbed-label" for="11bd93f0-722b-4801-a638-c82e7ed804e8">
 from source</label><div class="tabbed-content docutils">
-<p>Install the latest development version from <strong>Github</strong> with <a class="reference external" href="https://python-poetry.org/">Poetry</a>)</p>
+<p>Install the latest development version from <a class="reference external" href="https://github.com/RNA-FRETools/fretraj.git">Github</a> with <a class="reference external" href="https://python-poetry.org/">Poetry</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="o">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span>
 <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">RNA</span><span class="o">-</span><span class="n">FRETools</span><span class="o">/</span><span class="n">fretraj</span><span class="o">.</span><span class="n">git</span>
 <span class="n">cd</span> <span class="n">fretraj</span><span class="o">/</span>
@@ -382,7 +394,7 @@ from source</label><div class="tabbed-content docutils">
 </div>
 </div>
 <div class="section" id="register-the-plugin">
-<h2>2. Register the Plugin<a class="headerlink" href="#register-the-plugin" title="Permalink to this headline">¶</a></h2>
+<h3>1.2 Register the Plugin<a class="headerlink" href="#register-the-plugin" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Start PyMOL and install the <em>FRETraj</em> GUI with PyMOL’s Plugin manager: <code class="docutils literal notranslate"><span class="pre">Plugin</span></code> → <code class="docutils literal notranslate"><span class="pre">Plugin</span> <span class="pre">manager</span></code> → <code class="docutils literal notranslate"><span class="pre">Install</span> <span class="pre">New</span> <span class="pre">Plugin</span></code> → <code class="docutils literal notranslate"><span class="pre">Choose</span> <span class="pre">file...</span></code> and select the <code class="docutils literal notranslate"><span class="pre">fretraj_gui.py</span></code> file located in the directory that was issued by <code class="docutils literal notranslate"><span class="pre">fretraj</span> <span class="pre">--path</span></code>. In the popup window select where you would like to install the plugin (default: <code class="docutils literal notranslate"><span class="pre">&lt;PyMOL_path&gt;/site-packages/pmg_tk/startup/</span></code>). Confirm with OK.</p></li>
 </ul>
@@ -390,25 +402,51 @@ from source</label><div class="tabbed-content docutils">
 <a class="reference internal image-reference" href="../_images/pymol_plugin_manager.png"><img alt="../_images/pymol_plugin_manager.png" src="../_images/pymol_plugin_manager.png" style="width: 450px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">PyMOL’s plugin manager on Windows.</span><a class="headerlink" href="#pymol-plugin-manager" title="Permalink to this image">¶</a></p>
 </div>
-<div class="admonition-accelerated-acv-calculation-with-labellib admonition">
-<p class="admonition-title">Accelerated ACV calculation with LabelLib</p>
-<p>For faster computation of the accessible-contact volumes you may additionally consider installing the C++ library <a class="reference external" href="https://github.com/Fluorescence-Tools/LabelLib">LabelLib</a> with either <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>. However, is not strictly required since <em>FRETraj</em> features a built-in Python implementation of the ACV algorithm.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For faster computation of the accessible-contact volumes you may additionally consider installing the C++ library <a class="reference external" href="https://github.com/Fluorescence-Tools/LabelLib">LabelLib</a> with either <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>. However, this is not required since <em>FRETraj</em> features a built-in Python implementation of the ACV algorithm.</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="268e03c5-2588-478f-8ac2-02139dbcb857" name="30d0b8cf-b17e-4ac7-ac83-b96732be51f9" type="radio">
-</input><label class="tabbed-label" for="268e03c5-2588-478f-8ac2-02139dbcb857">
+<input checked="checked" id="24df6626-6395-4533-bd46-661c98db498d" name="dbc53bc1-df93-447a-8a7c-e4020f07b4a6" type="radio">
+</input><label class="tabbed-label" for="24df6626-6395-4533-bd46-661c98db498d">
 pip</label><div class="tabbed-content docutils">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">labellib</span>
 </pre></div>
 </div>
 </div>
-<input id="15e3dc06-2062-4e44-8b3c-1ad9d5b01ccd" name="30d0b8cf-b17e-4ac7-ac83-b96732be51f9" type="radio">
-</input><label class="tabbed-label" for="15e3dc06-2062-4e44-8b3c-1ad9d5b01ccd">
+<input id="5e1256c6-7352-44be-8bb5-9fa0dd986b99" name="dbc53bc1-df93-447a-8a7c-e4020f07b4a6" type="radio">
+</input><label class="tabbed-label" for="5e1256c6-7352-44be-8bb5-9fa0dd986b99">
 conda</label><div class="tabbed-content docutils">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">labellib</span> <span class="o">-</span><span class="n">c</span> <span class="n">tpeulen</span>
 </pre></div>
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="section" id="install-with-docker">
+<h3>1.3 Install with Docker<a class="headerlink" href="#install-with-docker" title="Permalink to this headline">¶</a></h3>
+<p><a name="install-docker"></a>
+As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and <em>FRETraj</em> preinstalled. Make sure you have <a class="reference external" href="https://www.docker.com/products/docker-desktop">Docker</a> and an X11 server installed (e.g. <a class="reference external" href="https://sourceforge.net/projects/vcxsrv/">VcXsrv</a> for Windows, configured with <code class="docutils literal notranslate"><span class="pre">Wgl=&quot;False&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">DisableAC=&quot;True&quot;</span></code>). Then pull and run the image from DockerHub</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">pull</span> <span class="n">fdsteffen</span><span class="o">/</span><span class="n">fretraj</span><span class="o">-</span><span class="n">pymol</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">e</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="n">your</span><span class="o">-</span><span class="n">ip</span><span class="o">-</span><span class="n">adress</span><span class="p">:</span><span class="mi">0</span> <span class="n">fdsteffen</span><span class="o">/</span><span class="n">fretraj</span><span class="o">-</span><span class="n">pymol</span> <span class="o">-</span><span class="n">v</span> <span class="n">path</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">your</span><span class="o">-</span><span class="n">host</span><span class="p">:</span><span class="o">/</span><span class="n">mnt</span>
+</pre></div>
+</div>
+<div class="admonition-incentive-or-open-source-pymol admonition">
+<p class="admonition-title">Incentive or open-source PyMOL</p>
+<p>PyMOL was developed by Warren DeLano <span id="id1">[<a class="reference internal" href="../references.html#id2">1</a>]</span> and is currently maintained by <a class="reference external" href="https://pymol.org/">Schrödinger</a>.
+Binaries for Windows, Linux and macOS are distributed by Schrödinger under academic and commercial licensing options. The source-code is available on <a class="reference external" href="https://github.com/schrodinger/pymol-open-source">Github</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="juypter-notebook">
+<h2>2. Juypter notebook<a class="headerlink" href="#juypter-notebook" title="Permalink to this headline">¶</a></h2>
+<p>If you prefer a programmatic approach to calculating accessible-contact volumes and predicting FRET efficiencies you may interact with <em>FRETraj</em> in a <a class="reference external" href="https://jupyter.org/">Jupyter</a> <span id="id2">[<a class="reference internal" href="../references.html#id10">2</a>]</span> notebook and use NGLview <span id="id3">[<a class="reference internal" href="../references.html#id13">3</a>]</span> instead of PyMOL for visualization. A demo notebook can be found <a class="reference external" href="https://github.com/RNA-FRETools/FRETraj-demo">here</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fretraj</span>
+</pre></div>
+</div>
+<div class="admonition-note-on-pep-517 admonition">
+<p class="admonition-title">Note on PEP 517</p>
+<p>On Windows you likely need to first install <em>mdtraj</em> with <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">mdtraj&gt;=1.9.5</span></code> as wheels are only available for Linux on PyPI.</p>
 </div>
 </div>
 </div>
@@ -460,11 +498,9 @@ conda</label><div class="tabbed-content docutils">
 
       </div>
     </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
+  
   </body>
 </html>

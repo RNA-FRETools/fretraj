@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>fretraj.fret</title>
     
-  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -34,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -44,7 +41,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -57,14 +54,14 @@
     <link rel="shortcut icon" href="../../_static/fretraj_logo.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -73,30 +70,30 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="../../index.html">
-  
-  <img src="../../_static/fretraj_logo.png" class="logo" alt="logo">
-  
-  
-</a>
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      <img src="../../_static/fretraj_logo.png" class="logo" alt="logo">
+      
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../intro.html">
    Welcome to FRETraj
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Getting started
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../getting_started/installation.html">
    Installation
@@ -131,12 +128,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Background
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../background/accessible_volume.html">
    The accessible volume
@@ -153,12 +150,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Code
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../module/cloud.html">
    Cloud
@@ -185,12 +182,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   References
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../references.html">
    References
@@ -198,6 +195,7 @@
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -246,12 +244,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -272,6 +270,7 @@
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">LabelLib</span> <span class="k">as</span> <span class="nn">ll</span>
 <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
@@ -294,11 +293,11 @@
 <span class="sd">    float</span>
 <span class="sd">        distance between the mean dye positions of acv1 and acv2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R_mp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">((</span><span class="n">acv1</span><span class="o">.</span><span class="n">mp</span> <span class="o">-</span> <span class="n">acv2</span><span class="o">.</span><span class="n">mp</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">R_mp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">((</span><span class="n">acv1</span><span class="o">.</span><span class="n">mp</span> <span class="o">-</span> <span class="n">acv2</span><span class="o">.</span><span class="n">mp</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R_mp</span></div>
 
 
-<div class="viewcode-block" id="dists_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.dists_DA">[docs]</a><span class="k">def</span> <span class="nf">dists_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span> <span class="n">return_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="dists_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.dists_DA">[docs]</a><span class="k">def</span> <span class="nf">dists_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">return_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute a randomly subsampled donor-acceptor distance distribution</span>
 <span class="sd">    for the two accessible volume clouds</span>
 
@@ -320,8 +319,7 @@
     <span class="k">if</span> <span class="n">return_weights</span><span class="p">:</span>
         <span class="n">idx1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">acv1</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">),</span> <span class="n">n_dist</span><span class="p">)</span>
         <span class="n">idx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">),</span> <span class="n">n_dist</span><span class="p">)</span>
-        <span class="n">R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">acv1</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-                               <span class="o">-</span> <span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">acv1</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">acv1</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         <span class="n">R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">R_DA</span><span class="p">,</span> <span class="n">w</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
@@ -330,12 +328,11 @@
         <span class="n">w2</span> <span class="o">=</span> <span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span>
         <span class="n">idx1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">acv1</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">),</span> <span class="n">n_dist</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">w1</span><span class="p">)</span>
         <span class="n">idx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">),</span> <span class="n">n_dist</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">w2</span><span class="p">)</span>
-        <span class="n">R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">acv1</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-                               <span class="o">-</span> <span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">acv1</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">acv2</span><span class="o">.</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">idx2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R_DA</span></div>
 
 
-<div class="viewcode-block" id="dists_DA_ll"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.dists_DA_ll">[docs]</a><span class="k">def</span> <span class="nf">dists_DA_ll</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span> <span class="n">return_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="dists_DA_ll"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.dists_DA_ll">[docs]</a><span class="k">def</span> <span class="nf">dists_DA_ll</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">return_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute a randomly subsampled donor-acceptor distance distribution</span>
 <span class="sd">    for the two accessible volume clouds</span>
 
@@ -354,15 +351,14 @@
 <span class="sd">        ndarray of shape 1 x n_dist or 2 x n_dist (if weights are included)</span>
 <span class="sd">        containing distances between acv1 and acv2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ll</span><span class="o">.</span><span class="n">sampleDistanceDistInv</span><span class="p">(</span><span class="n">acv1</span><span class="o">.</span><span class="n">ll_Grid3D</span><span class="p">,</span> <span class="n">acv2</span><span class="o">.</span><span class="n">ll_Grid3D</span><span class="p">,</span>
-                    <span class="n">n_dist</span><span class="p">))</span>
+    <span class="n">R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ll</span><span class="o">.</span><span class="n">sampleDistanceDistInv</span><span class="p">(</span><span class="n">acv1</span><span class="o">.</span><span class="n">ll_Grid3D</span><span class="p">,</span> <span class="n">acv2</span><span class="o">.</span><span class="n">ll_Grid3D</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">return_weights</span><span class="p">:</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">),</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_dist</span><span class="p">)</span>
         <span class="n">R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">R_DA</span><span class="p">,</span> <span class="n">w</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
     <span class="k">return</span> <span class="n">R_DA</span></div>
 
 
-<div class="viewcode-block" id="mean_dist_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_dist_DA">[docs]</a><span class="k">def</span> <span class="nf">mean_dist_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="mean_dist_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_dist_DA">[docs]</a><span class="k">def</span> <span class="nf">mean_dist_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the average donor-acceptor distance &lt;R_DA&gt;</span>
 <span class="sd">    between donor and acceptor</span>
 
@@ -384,7 +380,7 @@
     <span class="k">if</span> <span class="n">R_DA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">R_DA</span> <span class="o">=</span> <span class="n">dists_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; calculating R_DAs&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt; calculating R_DAs&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">R_DA</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">mean_R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
@@ -392,7 +388,7 @@
     <span class="k">return</span> <span class="n">mean_R_DA</span></div>
 
 
-<div class="viewcode-block" id="mean_dist_DA_ll"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_dist_DA_ll">[docs]</a><span class="k">def</span> <span class="nf">mean_dist_DA_ll</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">):</span>
+<div class="viewcode-block" id="mean_dist_DA_ll"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_dist_DA_ll">[docs]</a><span class="k">def</span> <span class="nf">mean_dist_DA_ll</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the average donor-acceptor distance &lt;R_DA&gt; between</span>
 <span class="sd">    acv1 and acv2 using LabelLib</span>
 
@@ -412,7 +408,7 @@
     <span class="k">return</span> <span class="n">mean_R_DA</span></div>
 
 
-<div class="viewcode-block" id="std_dist_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.std_dist_DA">[docs]</a><span class="k">def</span> <span class="nf">std_dist_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="std_dist_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.std_dist_DA">[docs]</a><span class="k">def</span> <span class="nf">std_dist_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the standard deviation of the donor acceptor distances sigma_R_DA</span>
 
 <span class="sd">    Parameters</span>
@@ -434,16 +430,15 @@
     <span class="k">if</span> <span class="n">R_DA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">R_DA</span> <span class="o">=</span> <span class="n">dists_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; calculating R_DAs&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt; calculating R_DAs&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">R_DA</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">sigma_R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-                             <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">sigma_R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">sigma_R_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">R_DA</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sigma_R_DA</span></div>
 
 
-<div class="viewcode-block" id="FRET_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.FRET_DA">[docs]</a><span class="k">def</span> <span class="nf">FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="FRET_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.FRET_DA">[docs]</a><span class="k">def</span> <span class="nf">FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the FRET efficiencies E for each donor acceptor distance</span>
 
 <span class="sd">    Parameters</span>
@@ -476,16 +471,15 @@
     <span class="k">if</span> <span class="n">R_DA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">R_DA</span> <span class="o">=</span> <span class="n">dists_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; calculating R_DAs&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt; calculating R_DAs&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">R_DA</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">E_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">R0</span><span class="o">**</span><span class="mi">6</span> <span class="o">/</span> <span class="p">(</span><span class="n">R0</span><span class="o">**</span><span class="mi">6</span> <span class="o">+</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">6</span><span class="p">),</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">E_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">R0</span> <span class="o">**</span> <span class="mi">6</span> <span class="o">/</span> <span class="p">(</span><span class="n">R0</span> <span class="o">**</span> <span class="mi">6</span> <span class="o">+</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">6</span><span class="p">),</span> <span class="n">R_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">E_DA</span> <span class="o">=</span> <span class="n">R0</span><span class="o">**</span><span class="mi">6</span> <span class="o">/</span> <span class="p">(</span><span class="n">R0</span><span class="o">**</span><span class="mi">6</span> <span class="o">+</span> <span class="n">R_DA</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">E_DA</span> <span class="o">=</span> <span class="n">R0</span> <span class="o">**</span> <span class="mi">6</span> <span class="o">/</span> <span class="p">(</span><span class="n">R0</span> <span class="o">**</span> <span class="mi">6</span> <span class="o">+</span> <span class="n">R_DA</span> <span class="o">**</span> <span class="mi">6</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">E_DA</span></div>
 
 
-<div class="viewcode-block" id="mean_FRET_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_FRET_DA">[docs]</a><span class="k">def</span> <span class="nf">mean_FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span>
-                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="mean_FRET_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_FRET_DA">[docs]</a><span class="k">def</span> <span class="nf">mean_FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the average FRET efficiency &lt;E&gt; between donor and acceptor cloud</span>
 
 <span class="sd">    Parameters</span>
@@ -513,7 +507,7 @@
     <span class="k">if</span> <span class="n">E_DA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">E_DA</span> <span class="o">=</span> <span class="n">FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R_DA</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; calculating E_DAs&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt; calculating E_DAs&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">E_DA</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">mean_E_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
@@ -521,8 +515,7 @@
     <span class="k">return</span> <span class="n">mean_E_DA</span></div>
 
 
-<div class="viewcode-block" id="std_FRET_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.std_FRET_DA">[docs]</a><span class="k">def</span> <span class="nf">std_FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span>
-                <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="std_FRET_DA"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.std_FRET_DA">[docs]</a><span class="k">def</span> <span class="nf">std_FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the standard deviation of the FRET efficiencies sigma_E</span>
 
 <span class="sd">    Parameters</span>
@@ -550,16 +543,15 @@
     <span class="k">if</span> <span class="n">E_DA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">E_DA</span> <span class="o">=</span> <span class="n">FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R_DA</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; calculating E_DAs&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt; calculating E_DAs&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">E_DA</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">sigma_E_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-                             <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">sigma_E_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">E_DA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">sigma_E_DA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">E_DA</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sigma_E_DA</span></div>
 
 
-<div class="viewcode-block" id="mean_FRET_DA_ll"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_FRET_DA_ll">[docs]</a><span class="k">def</span> <span class="nf">mean_FRET_DA_ll</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">):</span>
+<div class="viewcode-block" id="mean_FRET_DA_ll"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_FRET_DA_ll">[docs]</a><span class="k">def</span> <span class="nf">mean_FRET_DA_ll</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the average FRET efficiency &lt;E&gt; between donor and acceptor cloud</span>
 <span class="sd">    using LabelLib</span>
 
@@ -580,8 +572,7 @@
     <span class="k">return</span> <span class="n">ll</span><span class="o">.</span><span class="n">meanEfficiency</span><span class="p">(</span><span class="n">acv1</span><span class="o">.</span><span class="n">ll_Grid3D</span><span class="p">,</span> <span class="n">acv2</span><span class="o">.</span><span class="n">ll_Grid3D</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="mean_dist_DA_fromFRET"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_dist_DA_fromFRET">[docs]</a><span class="k">def</span> <span class="nf">mean_dist_DA_fromFRET</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">mean_E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="mean_dist_DA_fromFRET"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.mean_dist_DA_fromFRET">[docs]</a><span class="k">def</span> <span class="nf">mean_dist_DA_fromFRET</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">mean_E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the FRET averaged donor acceptor distance &lt;R_DA&gt;_E</span>
 
 <span class="sd">    Parameters</span>
@@ -630,14 +621,14 @@
     <span class="k">if</span> <span class="n">mean_E_DA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">mean_E_DA</span> <span class="o">=</span> <span class="n">mean_FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">E_DA</span><span class="p">,</span> <span class="n">R_DA</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; calculating mean_E_DA&#39;</span><span class="p">)</span>
-    <span class="n">mean_R_DA_E</span> <span class="o">=</span> <span class="n">R0</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">mean_E_DA</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt; calculating mean_E_DA&quot;</span><span class="p">)</span>
+    <span class="n">mean_R_DA_E</span> <span class="o">=</span> <span class="n">R0</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">mean_E_DA</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mean_R_DA_E</span></div>
 
 
-<div class="viewcode-block" id="std_dist_DA_fromFRET"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.std_dist_DA_fromFRET">[docs]</a><span class="k">def</span> <span class="nf">std_dist_DA_fromFRET</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">mean_E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sigma_E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span>
-                         <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="std_dist_DA_fromFRET"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.std_dist_DA_fromFRET">[docs]</a><span class="k">def</span> <span class="nf">std_dist_DA_fromFRET</span><span class="p">(</span>
+    <span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">mean_E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sigma_E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">E_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R_DA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R0</span><span class="o">=</span><span class="mi">54</span><span class="p">,</span> <span class="n">n_dist</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate the standard deviation of the FRET averaged donor acceptor</span>
 <span class="sd">    distances sigma_R_DA_E by error propagation</span>
 
@@ -672,10 +663,9 @@
         <span class="n">mean_E_DA</span> <span class="o">=</span> <span class="n">mean_FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">E_DA</span><span class="p">,</span> <span class="n">R_DA</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
         <span class="n">sigma_E_DA</span> <span class="o">=</span> <span class="n">std_FRET_DA</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">,</span> <span class="n">E_DA</span><span class="p">,</span> <span class="n">R_DA</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="n">n_dist</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt; calculating mean_E_DA and sigma_E_DA&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt; calculating mean_E_DA and sigma_E_DA&quot;</span><span class="p">)</span>
     <span class="c1"># error propagation: sqrt( (df/dx)^2 * sigma_x^2 )</span>
-    <span class="n">sigma_R_DA_E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">R0</span><span class="o">/</span><span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">mean_E_DA</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">mean_E_DA</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-                           <span class="o">*</span> <span class="n">sigma_E_DA</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sigma_R_DA_E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">R0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">mean_E_DA</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">mean_E_DA</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sigma_E_DA</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sigma_R_DA_E</span></div>
 
 
@@ -692,7 +682,7 @@
 <span class="sd">    float</span>
 <span class="sd">        distance between the attachment sites</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R_attach</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">((</span><span class="n">attach1_xyz</span> <span class="o">-</span> <span class="n">attach2_xyz</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">R_attach</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">((</span><span class="n">attach1_xyz</span> <span class="o">-</span> <span class="n">attach2_xyz</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R_attach</span></div>
 
 
@@ -723,8 +713,8 @@
 <span class="sd">    .. [3] Kalinin, S. et al. &quot;A toolkit and benchmark study for FRET-restrained high-precision \</span>
 <span class="sd">        structural modeling&quot;, *Nat. Methods* **9**, 1218–1225 (2012).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R_mp</span> <span class="o">=</span> <span class="mf">1.109</span><span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">5</span><span class="o">*</span><span class="n">mean_R_DA_E</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="mf">7.286</span><span class="o">*</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="o">*</span><span class="n">mean_R_DA_E</span><span class="o">**</span><span class="mi">2</span>
-    <span class="o">+</span> <span class="mf">1.979</span><span class="o">*</span><span class="n">mean_R_DA_E</span> <span class="o">-</span> <span class="mf">34.345</span>
+    <span class="n">R_mp</span> <span class="o">=</span> <span class="mf">1.109</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="o">-</span><span class="mi">5</span> <span class="o">*</span> <span class="n">mean_R_DA_E</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="mf">7.286</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">mean_R_DA_E</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="o">+</span><span class="mf">1.979</span> <span class="o">*</span> <span class="n">mean_R_DA_E</span> <span class="o">-</span> <span class="mf">34.345</span>
     <span class="k">return</span> <span class="n">R_mp</span></div>
 </pre></div>
 
@@ -753,11 +743,9 @@
 
       </div>
     </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
+  
   </body>
 </html>

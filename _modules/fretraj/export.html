@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>fretraj.export</title>
     
-  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -34,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -44,7 +41,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -57,14 +54,14 @@
     <link rel="shortcut icon" href="../../_static/fretraj_logo.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -73,30 +70,30 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="../../index.html">
-  
-  <img src="../../_static/fretraj_logo.png" class="logo" alt="logo">
-  
-  
-</a>
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+      <img src="../../_static/fretraj_logo.png" class="logo" alt="logo">
+      
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../intro.html">
    Welcome to FRETraj
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Getting started
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../getting_started/installation.html">
    Installation
@@ -131,12 +128,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Background
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../background/accessible_volume.html">
    The accessible volume
@@ -153,12 +150,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   Code
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../module/cloud.html">
    Cloud
@@ -185,12 +182,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption">
  <span class="caption-text">
   References
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../../references.html">
    References
@@ -198,6 +195,7 @@
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -246,12 +244,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -271,13 +269,13 @@
   <h1>Source code for fretraj.export</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 
-<span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;D&#39;</span>
-<span class="n">ELEMENT</span> <span class="o">=</span> <span class="s1">&#39;D&#39;</span>
-<span class="n">NAME_MP</span> <span class="o">=</span> <span class="s1">&#39;Mn&#39;</span>
-<span class="n">ELEMENT_MP</span> <span class="o">=</span> <span class="s1">&#39;Mn&#39;</span>
+<span class="n">NAME</span> <span class="o">=</span> <span class="s2">&quot;D&quot;</span>
+<span class="n">ELEMENT</span> <span class="o">=</span> <span class="s2">&quot;D&quot;</span>
+<span class="n">NAME_MP</span> <span class="o">=</span> <span class="s2">&quot;Mn&quot;</span>
+<span class="n">ELEMENT_MP</span> <span class="o">=</span> <span class="s2">&quot;Mn&quot;</span>
 <span class="n">OCCUPANCY_MP</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
-<span class="n">_pdb_format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:6}{:5d}{:&gt;5}{:1}{:&gt;3}</span><span class="s1"> </span><span class="si">{:1}{:4d}{:1}</span><span class="s1">   </span><span class="si">{:&gt;8.3f}{:&gt;8.3f}{:&gt;8.3f}{:&gt;6.2f}{:&gt;6.2f}</span><span class="s1">          </span><span class="si">{:&gt;2}{:&gt;2}</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="n">_pdb_format</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:6}{:5d}{:&gt;5}{:1}{:&gt;3}</span><span class="s2"> </span><span class="si">{:1}{:4d}{:1}</span><span class="s2">   </span><span class="si">{:&gt;8.3f}{:&gt;8.3f}{:&gt;8.3f}{:&gt;6.2f}{:&gt;6.2f}</span><span class="s2">          </span><span class="si">{:&gt;2}{:&gt;2}</span><span class="se">\n</span><span class="s2">&quot;</span>
 
 
 <div class="viewcode-block" id="open_dx"><a class="viewcode-back" href="../../module/utilities.html#fretraj.export.open_dx">[docs]</a><span class="k">def</span> <span class="nf">open_dx</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">,</span> <span class="n">xyz_min</span><span class="p">,</span> <span class="n">d_xyz</span><span class="p">):</span>
@@ -302,24 +300,24 @@
     <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="n">grid_3d</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span> <span class="o">=</span> <span class="n">d_xyz</span>
 
-    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;object 1 class gridpositions counts </span><span class="si">{:d}</span><span class="s1"> </span><span class="si">{:d}</span><span class="s1"> </span><span class="si">{:d}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;origin </span><span class="si">{:0.3f}</span><span class="s1"> </span><span class="si">{:0.3f}</span><span class="s1"> </span><span class="si">{:0.3f}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">zmin</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;delta </span><span class="si">{:0.2f}</span><span class="s1"> 0 0</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;delta 0 </span><span class="si">{:0.2f}</span><span class="s1"> 0</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;delta 0 0 </span><span class="si">{:0.2f}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dz</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;object 2 class gridconnections counts </span><span class="si">{:d}</span><span class="s1"> </span><span class="si">{:d}</span><span class="s1"> </span><span class="si">{:d}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;object 3 class array type double rank 0 items </span><span class="si">{:d}</span><span class="s1"> data follows</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nx</span> <span class="o">*</span> <span class="n">ny</span> <span class="o">*</span> <span class="n">nz</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;object 1 class gridpositions counts </span><span class="si">{:d}</span><span class="s2"> </span><span class="si">{:d}</span><span class="s2"> </span><span class="si">{:d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;origin </span><span class="si">{:0.3f}</span><span class="s2"> </span><span class="si">{:0.3f}</span><span class="s2"> </span><span class="si">{:0.3f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">zmin</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;delta </span><span class="si">{:0.2f}</span><span class="s2"> 0 0</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;delta 0 </span><span class="si">{:0.2f}</span><span class="s2"> 0</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;delta 0 0 </span><span class="si">{:0.2f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dz</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;object 2 class gridconnections counts </span><span class="si">{:d}</span><span class="s2"> </span><span class="si">{:d}</span><span class="s2"> </span><span class="si">{:d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;object 3 class array type double rank 0 items </span><span class="si">{:d}</span><span class="s2"> data follows</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nx</span> <span class="o">*</span> <span class="n">ny</span> <span class="o">*</span> <span class="n">nz</span><span class="p">)</span>
     <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nx</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ny</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">iz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nz</span><span class="p">):</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">])</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid_3d</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">])</span>
                 <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span>
     <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;attribute &quot;dep&quot; string &quot;positions&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;object &quot;density&quot; class field</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;component &quot;positions&quot; value 1</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -348,32 +346,32 @@
 <span class="sd">        XYZ formatted string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n_points</span> <span class="o">=</span> <span class="n">cloud_xyzqt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;# Accessible contact volume</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{:d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;# Accessible contact volume</span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="k">if</span> <span class="n">write_weights</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">encode_element</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">element</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>  <span class="c1"># contact volume</span>
+                    <span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>  <span class="c1"># contact volume</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">element</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span>  <span class="c1"># free volume</span>
+                    <span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span>  <span class="c1"># free volume</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">element</span> <span class="o">=</span> <span class="n">ELEMENT</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">element</span><span class="si">:</span><span class="s1">1</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ELEMENT_MP</span><span class="si">:</span><span class="s1">1</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="o">-</span><span class="mi">1</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">element</span><span class="si">:</span><span class="s2">1</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ELEMENT_MP</span><span class="si">:</span><span class="s2">1</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="o">-</span><span class="mi">1</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">encode_element</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">element</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>
+                    <span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">element</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span>
+                    <span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">element</span> <span class="o">=</span> <span class="n">ELEMENT</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">element</span><span class="si">:</span><span class="s1">1</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ELEMENT_MP</span><span class="si">:</span><span class="s1">1</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">element</span><span class="si">:</span><span class="s2">1</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ELEMENT_MP</span><span class="si">:</span><span class="s2">1</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">mp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="k">return</span> <span class="n">s</span></div>
 
 
@@ -439,16 +437,32 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n_points</span> <span class="o">=</span> <span class="n">cloud_xyzqt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">bfactor</span> <span class="o">=</span> <span class="mi">99</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">resn</span> <span class="o">=</span> <span class="s1">&#39;CV&#39;</span>
+            <span class="n">resn</span> <span class="o">=</span> <span class="s2">&quot;CV&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">resn</span> <span class="o">=</span> <span class="s1">&#39;FV&#39;</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="n">_pdb_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;ATOM&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">NAME</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">resn</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">bfactor</span><span class="p">,</span> <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">ELEMENT</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="n">_pdb_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;ATOM&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">NAME_MP</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;MP&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">mp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">bfactor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                            <span class="n">ELEMENT_MP</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">resn</span> <span class="o">=</span> <span class="s2">&quot;FV&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">_pdb_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">&quot;ATOM&quot;</span><span class="p">,</span>
+            <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">NAME</span><span class="p">,</span>
+            <span class="s2">&quot; &quot;</span><span class="p">,</span>
+            <span class="n">resn</span><span class="p">,</span>
+            <span class="s2">&quot; &quot;</span><span class="p">,</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span>
+            <span class="s2">&quot; &quot;</span><span class="p">,</span>
+            <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">bfactor</span><span class="p">,</span>
+            <span class="n">cloud_xyzqt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+            <span class="n">ELEMENT</span><span class="p">,</span>
+            <span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="n">_pdb_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="s2">&quot;ATOM&quot;</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">NAME_MP</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;MP&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">mp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">bfactor</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ELEMENT_MP</span><span class="p">,</span> <span class="s2">&quot; &quot;</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">s</span></div>
 </pre></div>
 
@@ -477,11 +491,9 @@
 
       </div>
     </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
+  
   </body>
 </html>
