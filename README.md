@@ -6,14 +6,15 @@
 [![codecov](https://codecov.io/gh/fdsteffen/fretraj/branch/master/graph/badge.svg?token=A2E70FbycQ)](https://codecov.io/gh/fdsteffen/fretraj)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-*FRETraj* is a Python module for calculating multiple accessible-contact volumes (multi-ACV) and predicting FRET efficiencies.  The package features a user-friendly **PyMOL plugin**<sup>[1](#pymol)</sup> for for FRET-assisted, integrative structural modeling. It interfaces with the [*LabelLib*](https://github.com/Fluorescence-Tools/LabelLib) library for fast computation of ACVs. 
+*FRETraj* is a Python module for **predicting FRET efficiencies** by calculating multiple accessible-contact volumes (multi-ACV) to estimate donor and acceptor dye dynamics. The package features a user-friendly **PyMOL plugin**<sup>[1](#pymol)</sup> for for FRET-assisted, integrative structural modeling. It interfaces with the [*LabelLib*](https://github.com/Fluorescence-Tools/LabelLib) library for fast computation of ACVs. 
 Specifically, *FRETraj* is designed to:
 - plan (single-molecule) FRET experiments by optimizing **labeling positions**
 - interpret FRET-based **distance measurements** on a biomolecule
 - integrate FRET experiments with **molecular dynamics** simulations
+
 <img src="https://raw.githubusercontent.com/fdsteffen/fretraj/master/docs/images/graphical_abstract.png">
 
-## Installation
+## Installation and Documentation
 Follow the instructions for your platform [here](https://rna-fretools.github.io/fretraj/getting_started/installation)
 
 ## References
