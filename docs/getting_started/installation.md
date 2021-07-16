@@ -90,11 +90,11 @@ conda install labellib -c tpeulen
 
 ### 1.3 Install with Docker
 <a name="install-docker"></a>
-As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and *FRETraj* preinstalled. Make sure you have [Docker](https://www.docker.com/products/docker-desktop) and an X11 server installed (e.g. [VcXsrv](https://sourceforge.net/projects/vcxsrv/) for Windows, configured with `Wgl="False"` and `DisableAC="True"`). Then pull and run the image from DockerHub
+As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and *FRETraj* preinstalled. Make sure you have [Docker](https://www.docker.com/products/docker-desktop) and an X11 server installed (e.g. [VcXsrv](https://sourceforge.net/projects/vcxsrv/) for Windows, configured with `Wgl="False"` and `DisableAC="True"`). Then pull and run the image from DockerHub (replace `hostdir` with a directory on your host system that you would like to mount into the image)
 
 ```
 docker pull fdsteffen/fretraj-pymol
-docker run -e DISPLAY=your-ip-adress:0 fdsteffen/fretraj-pymol -v path-on-your-host:/mnt
+docker run -e DISPLAY=host.docker.internal:0 fdsteffen/fretraj-pymol -v hostdir:/mnt
 ```
 
 ```{admonition} Incentive or open-source PyMOL

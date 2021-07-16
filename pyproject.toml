@@ -20,7 +20,17 @@ classifiers = [
     "Framework :: Jupyter",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-include = ["CHANGELOG.md", "src/skripts", "tests", "src/fretraj/*.so", "src/fretraj/*.pyd"]
+include = [{path = "src/fretraj/*.py", format=["wheel", "sdist"]},
+           {path = "src/fretraj/*.json", format=["wheel", "sdist"]},
+           {path = "src/fretraj/skripts", format=["wheel", "sdist"]},
+           {path = "src/fretraj/examples", format=["wheel", "sdist"]},
+           {path = "src/fretraj/UI", format=["wheel", "sdist"]},
+           {path = "tests", format=["wheel", "sdist"]},
+           {path = "CHANGELOG.md", format=["wheel", "sdist"]},
+           {path = "src/fretraj/*.cpp", format=["sdist"]}
+           {path = "src/fretraj/*.so", format="wheel"},
+           {path = "src/fretraj/*.pyd", format="wheel"}
+           ]
 
 
 [tool.poetry.dependencies]
