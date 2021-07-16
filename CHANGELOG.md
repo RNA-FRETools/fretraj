@@ -1,5 +1,9 @@
 ## Changelog
 
+### [0.2.3] 2021-07-16
+- Update versions of dependencies to ensure compatibility with Python 3.6
+- Include .so and .pyd files in wheels only and .cpp in sdist only
+
 ### [0.2.2] 2021-07-16
 - Add pybind11 to build-system and create wheels for linux-64/win-64 and Python versions 3.7, 3.8 and 3.9
 - Use tox for testing
