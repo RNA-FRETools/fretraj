@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fretraj"
-version = "0.2.4"
+version = "0.2.5"
 description = "Predicting FRET with accessible-contact volumes"
 authors = [
     "Fabio Steffen <fabio.steffen@chem.uzh.ch>", 
@@ -20,16 +20,15 @@ classifiers = [
     "Framework :: Jupyter",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-include = [{path = "src/fretraj/*.py", format=["wheel", "sdist"]},
+packages = [{include = "src/fretraj/*.py", format=["wheel", "sdist"]}]
+include = [
            {path = "src/fretraj/*.json", format=["wheel", "sdist"]},
            {path = "src/fretraj/skripts", format=["wheel", "sdist"]},
            {path = "src/fretraj/examples", format=["wheel", "sdist"]},
            {path = "src/fretraj/UI", format=["wheel", "sdist"]},
-           {path = "tests", format=["wheel", "sdist"]},
-           {path = "CHANGELOG.md", format=["wheel", "sdist"]},
            {path = "src/fretraj/*.cpp", format=["sdist"]},
-           {path = "src/fretraj/*.so", format="wheel"},
-           {path = "src/fretraj/*.pyd", format="wheel"}
+           {path = "src/fretraj/*.so", format=["wheel"]},
+           {path = "src/fretraj/*.pyd", format=["wheel"]}
            ]
 
 
@@ -43,10 +42,10 @@ mdtraj = "^1.9.6"
 PyQt5 = "^5.12.3"
 tqdm = "^4.59.0"
 jsonschema = "^3.2.0"
-nglview = "^3.0.3"
+pybind11 = "^2.6.2"
+
 
 [tool.poetry.dev-dependencies]
-pybind11 = "^2.6.2"
 pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
 pytest-mock = "^3.6.1"

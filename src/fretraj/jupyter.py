@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
 
-# start a PyMOL server session from a terminal:
-#   pymol -R
-
-# On Windows you may create a shortcut that executes the following command:
-#   C:\path\to\PyMOLWin.exe -R
-
 import os
 import re
-import nglview
-import ipywidgets
+from fretraj import _nglview_found
+
+if _nglview_found:
+    import nglview
+    import ipywidgets
+else:
+    print("nglview is not installed. Please install with pip or conda")
 
 
 def connect2pymol():
     """
     Establish an RPC connection to run PyMOL commands from the command line or from a Jupyter notebook
+
+    Notes
+    -----
+    start a PyMOL server session from a terminal
+    >>> pymol -R
+
+    On Windows you may create a shortcut that executes the command C:\path\to\PyMOLWin.exe -R
     """
     import xmlrpc.client as xmlrpclib
     cmd = xmlrpclib.ServerProxy('http://localhost:9123')
@@ -27,6 +33,17 @@ def connect2pymol():
 
 
 def nglview_trajectory(traj_biomol):
+    """Create a nglview trajectory scene
+
+    Parameters
+    ----------
+    traj_biomol : mdtraj.Trajectory
+        trajectory of the biomolecule
+
+    Returns
+    -------
+    view : nglview.NGLWidget
+    """
     view = nglview.NGLWidget()
     view.add_trajectory(traj_biomol)
     view.clear_representations(component=0)

@@ -34,7 +34,15 @@ from . import cloud
 from . import export
 from . import fret
 from . import grid
-from . import jupyter
+
+
+try:
+    import nglview
+except ModuleNotFoundError:
+    _nglview_found = False
+else:
+    _nglview_found = True
+    from . import jupyter
 
 try:
     from . import burst
