@@ -21,4 +21,4 @@ jobs:
         run: pip install tox
       - uses: conda-incubator/setup-miniconda@v2
       - name: Run Tox
-        run: tox -e py
+        run: tox -e clean,py
