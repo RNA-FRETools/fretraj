@@ -5,6 +5,7 @@ on: [workflow_dispatch]
 jobs:
   build:
     if: github.repository == 'fdsteffen/fretraj' 
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
