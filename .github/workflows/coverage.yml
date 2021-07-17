@@ -12,7 +12,7 @@ jobs:
       with:
         python-version: 3.9
     - name: Install Tox
-        run: pip install tox
+      run: pip install tox
     - uses: conda-incubator/setup-miniconda@v2
     - name: Run Tox
       run: tox -e clean,py
