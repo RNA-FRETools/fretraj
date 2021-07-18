@@ -30,11 +30,13 @@ __keywords__ = metadata["Keywords"]
 __license__ = metadata["License"]
 __urls__ = _get_urls()
 
-from . import cloud
-from . import export
-from . import fret
-from . import grid
 
+try:
+    import LabelLib as ll
+except ModuleNotFoundError:
+    _LabelLib_found = False
+else:
+    _LabelLib_found = True
 
 try:
     import nglview
@@ -51,3 +53,8 @@ except (ImportError, ModuleNotFoundError):
     print("The burst submodule could not be imported\n")
 else:
     _burst_module_found = True
+
+from . import cloud
+from . import export
+from . import fret
+from . import grid

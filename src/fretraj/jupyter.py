@@ -8,27 +8,27 @@ if _nglview_found:
     import nglview
     import ipywidgets
 else:
-    print("nglview is not installed. Please install with pip or conda")
+    print("nglview is not available. Please install with pip or conda")
 
 
 def connect2pymol():
-    """
-    Establish an RPC connection to run PyMOL commands from the command line or from a Jupyter notebook
+    """Establish an RPC connection to run PyMOL commands from the command line or from a Jupyter notebook
 
     Notes
     -----
-    start a PyMOL server session from a terminal
+    Start a PyMOL server session from a terminal:
     >>> pymol -R
 
     On Windows you may create a shortcut that executes the command C:\path\to\PyMOLWin.exe -R
     """
     import xmlrpc.client as xmlrpclib
-    cmd = xmlrpclib.ServerProxy('http://localhost:9123')
+
+    cmd = xmlrpclib.ServerProxy("http://localhost:9123")
     curr_wd = os.getcwd()
     try:
         cmd.cd(curr_wd)
     except:
-        cmd.cd(re.sub(r'/mnt/([a-z])', r'\1:', curr_wd))
+        cmd.cd(re.sub(r"/mnt/([a-z])", r"\1:", curr_wd))
     return cmd
 
 
@@ -47,9 +47,9 @@ def nglview_trajectory(traj_biomol):
     view = nglview.NGLWidget()
     view.add_trajectory(traj_biomol)
     view.clear_representations(component=0)
-    view.add_simplified_base(component=0, selection='/0', disablePicking=True, colorScheme='atomindex')
-    view.add_cartoon(component=0, selection='/0', aspectRatio=4, disablePicking=True, colorScheme='atomindex')
-    view.stage.set_parameters(mouse_preset='pymol')
+    view.add_simplified_base(component=0, selection="/0", disablePicking=True, colorScheme="atomindex")
+    view.add_cartoon(component=0, selection="/0", aspectRatio=4, disablePicking=True, colorScheme="atomindex")
+    view.stage.set_parameters(mouse_preset="pymol")
     return view
 
 
@@ -78,18 +78,20 @@ def nglview_trajectory_AV(traj_biomol, traj_volume1, traj_volume2, surface_repre
     view.clear_representations(component=1)
     view.clear_representations(component=2)
 
-    view.add_simplified_base(component=0, selection='/0', disablePicking=True, colorScheme='atomindex')
-    view.add_cartoon(component=0, selection='/0', aspectRatio=4, disablePicking=True, colorScheme='atomindex')
+    view.add_simplified_base(component=0, selection="/0", disablePicking=True, colorScheme="atomindex")
+    view.add_cartoon(component=0, selection="/0", aspectRatio=4, disablePicking=True, colorScheme="atomindex")
 
     if surface_representation:
-        view.add_surface(color='#6cb381', wireframe=True, opacity=0.4, isolevel=0, component=1,
-                         disablePicking=True, selection='all')
-        view.add_surface(color='#c25449', wireframe=True, opacity=0.4, isolevel=0, component=2,
-                         disablePicking=True, selection='all')
+        view.add_surface(
+            color="#6cb381", wireframe=True, opacity=0.4, isolevel=0, component=1, disablePicking=True, selection="all"
+        )
+        view.add_surface(
+            color="#c25449", wireframe=True, opacity=0.4, isolevel=0, component=2, disablePicking=True, selection="all"
+        )
     else:
-        view.add_spacefill(color='#6cb381', component=1, disablePicking=True, selection='all')
-        view.add_spacefill(color='#c25449', component=2, disablePicking=True, selection='all')
-    view.stage.set_parameters(mouse_preset='pymol')
+        view.add_spacefill(color="#6cb381", component=1, disablePicking=True, selection="all")
+        view.add_spacefill(color="#c25449", component=2, disablePicking=True, selection="all")
+    view.stage.set_parameters(mouse_preset="pymol")
     return view
 
 
@@ -122,18 +124,22 @@ def nglview_trajectory_ACV(traj_biomol, traj_volume1_FV, traj_volume2_FV, traj_v
     view.clear_representations(component=3)
     view.clear_representations(component=4)
 
-    view.add_simplified_base(component=0, selection='/0', disablePicking=True, colorScheme='atomindex')
-    view.add_cartoon(component=0, selection='/0', aspectRatio=4, disablePicking=True, colorScheme='atomindex')
+    view.add_simplified_base(component=0, selection="/0", disablePicking=True, colorScheme="atomindex")
+    view.add_cartoon(component=0, selection="/0", aspectRatio=4, disablePicking=True, colorScheme="atomindex")
 
-    view.add_surface(color='#6cb381', wireframe=False, opacity=0.4, isolevel=0, component=1,
-                     disablePicking=True, selection='all')
-    view.add_surface(color='#c25449', wireframe=False, opacity=0.4, isolevel=0, component=2,
-                     disablePicking=True, selection='all')
-    view.add_surface(color='#6cb381', wireframe=True, opacity=0.4, isolevel=0, component=3,
-                     disablePicking=True, selection='all')
-    view.add_surface(color='#c25449', wireframe=True, opacity=0.4, isolevel=0, component=4,
-                     disablePicking=True, selection='all')
-    view.stage.set_parameters(mouse_preset='pymol')
+    view.add_surface(
+        color="#6cb381", wireframe=False, opacity=0.4, isolevel=0, component=1, disablePicking=True, selection="all"
+    )
+    view.add_surface(
+        color="#c25449", wireframe=False, opacity=0.4, isolevel=0, component=2, disablePicking=True, selection="all"
+    )
+    view.add_surface(
+        color="#6cb381", wireframe=True, opacity=0.4, isolevel=0, component=3, disablePicking=True, selection="all"
+    )
+    view.add_surface(
+        color="#c25449", wireframe=True, opacity=0.4, isolevel=0, component=4, disablePicking=True, selection="all"
+    )
+    view.stage.set_parameters(mouse_preset="pymol")
     return view
 
 
@@ -159,7 +165,7 @@ def nglview_multimodel_ACV(biomol_filename, volume1_filename, volume2_filename):
     acv_A = nglview.FileStructure(volume2_filename)
 
     struct_str = struct.get_structure_string()
-    n_models = struct_str.count('MODEL')
+    n_models = struct_str.count("MODEL")
 
     view.add_component(struct)
     view.add_component(acv_D)
@@ -169,18 +175,22 @@ def nglview_multimodel_ACV(biomol_filename, volume1_filename, volume2_filename):
     view.clear_representations(component=1)
     view.clear_representations(component=2)
 
-    view.add_simplified_base(component=0, selection='/0', disablePicking=True, colorScheme='atomindex')
-    view.add_cartoon(component=0, selection='/0', aspectRatio=4, disablePicking=True, colorScheme='atomindex')
+    view.add_simplified_base(component=0, selection="/0", disablePicking=True, colorScheme="atomindex")
+    view.add_cartoon(component=0, selection="/0", aspectRatio=4, disablePicking=True, colorScheme="atomindex")
 
-    view.add_surface(color='#6cb381', wireframe=False, opacity=0.4, isolevel=0, component=1,
-                     disablePicking=True, selection='CV')
-    view.add_surface(color='#c25449', wireframe=False, opacity=0.4, isolevel=0, component=2,
-                     disablePicking=True, selection='CV')
-    view.add_surface(color='#6cb381', wireframe=True, opacity=0.4, isolevel=0, component=1,
-                     disablePicking=True, selection='all')
-    view.add_surface(color='#c25449', wireframe=True, opacity=0.4, isolevel=0, component=2,
-                     disablePicking=True, selection='all')
-    view.stage.set_parameters(mouse_preset='pymol')
+    view.add_surface(
+        color="#6cb381", wireframe=False, opacity=0.4, isolevel=0, component=1, disablePicking=True, selection="CV"
+    )
+    view.add_surface(
+        color="#c25449", wireframe=False, opacity=0.4, isolevel=0, component=2, disablePicking=True, selection="CV"
+    )
+    view.add_surface(
+        color="#6cb381", wireframe=True, opacity=0.4, isolevel=0, component=1, disablePicking=True, selection="all"
+    )
+    view.add_surface(
+        color="#c25449", wireframe=True, opacity=0.4, isolevel=0, component=2, disablePicking=True, selection="all"
+    )
+    view.stage.set_parameters(mouse_preset="pymol")
     return view, n_models
 
 
@@ -192,11 +202,15 @@ def _change_model(model):
     model : int
     """
     for i in range(view.n_components):
-        view._remote_call('setSelection', target='compList', args=[f'/{model}'], kwargs=dict(component_index=i))
+        view._remote_call("setSelection", target="compList", args=[f"/{model}"], kwargs=dict(component_index=i))
         n_representations = 5  # more than 5 representations are unlikely
         for i in range(n_representations):
-            view._remote_call('setSelection', target='Representation', args=[f'/{model}'],
-                              kwargs=dict(component_index=0, repr_index=i))
+            view._remote_call(
+                "setSelection",
+                target="Representation",
+                args=[f"/{model}"],
+                kwargs=dict(component_index=0, repr_index=i),
+            )
 
 
 def model_slider(n_models):
@@ -218,16 +232,16 @@ def model_slider(n_models):
     int_slider = ipywidgets.IntSlider(
         value=0,
         min=0,
-        max=n_models-1,
+        max=n_models - 1,
         step=1,
-        description='Frame:',
+        description="Frame:",
         disabled=False,
         continuous_update=False,
-        orientation='horizontal',
+        orientation="horizontal",
         readout=True,
-        readout_format='d'
-        )
-    int_slider.observe(_on_slider_value_change, names='value')
+        readout_format="d",
+    )
+    int_slider.observe(_on_slider_value_change, names="value")
     return int_slider
 
 
@@ -244,7 +258,7 @@ def _on_slider_value_change(change):
     """
     output = ipywidgets.Output()
     with output:
-        _change_model(change['new'])
+        _change_model(change["new"])
 
 
 def render_view(view, gui=False):
@@ -257,5 +271,5 @@ def render_view(view, gui=False):
           display the scene within a GUI window
           (useful for interacting with components and representations)
     """
-    print('Building scene, please wait...')
+    print("Building scene, please wait...")
     return view.display(gui)

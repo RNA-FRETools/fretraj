@@ -3,25 +3,18 @@
 import numpy as np
 import pandas as pd
 import os
-import argparse
 import json
 import mdtraj as md
 import numba as nb
 import copy
 import pickle
 
-try:
-    import LabelLib as ll
-except ModuleNotFoundError:
-    print("\nNote: the LabelLib module is not installed. \nACV calculations will use a Python-only algorithm\n")
-    _LabelLib_found = False
-else:
-    _LabelLib_found = True
 
 from fretraj import export
 from fretraj import fret
 from fretraj import grid
-from fretraj import metadata
+from fretraj import _LabelLib_found
+
 
 DISTANCE_SAMPLES = 100000
 
@@ -69,35 +62,6 @@ _default_params = {
     field: {key: val[1] for key, val in _label_dict[field]["pd_key"].items() if val[1] is not None}
     for field in _label_dict.keys()
 }
-
-
-def parseCmd():
-    """Parse the command line to get the input PDB file and the dye parameters
-
-    Returns
-    -------
-    tuple of str
-        tuple containing the filenames of the input PDB, the parameter file
-        and the output ACV
-
-    """
-    parser = argparse.ArgumentParser(
-        description="compute accessible-contact clouds for an MD trajectory or a given PDB structure"
-    )
-    parser.add_argument("--version", action="version", version="%(prog)s " + str(metadata["Version"]))
-    parser.add_argument(
-        "--path", action="version", version=f"package directory: {package_directory}", help="Show package directory"
-    )
-    parser.add_argument("-i", "--input", help="Input PDB structure (.pdb)", required=True)
-    parser.add_argument("-p", "--parameters", help="Parameter file (.json)", required=True)
-    parser.add_argument(
-        "-o", "--output", help="Output file of accessible contact volume (.pdb, .xyz, .dx)", required=False
-    )
-    args = parser.parse_args()
-    in_filePDB = args.input
-    param_fileJSON = args.parameters
-    out_fileACV = args.output
-    return (in_filePDB, param_fileJSON, out_fileACV)
 
 
 def labeling_params(param_file, verbose=True):
@@ -1401,18 +1365,3 @@ class Volume:
                 json.dump(mp_dict, f)
             else:
                 f.write("{:0.3f}   {:0.3f}   {:0.3f}\n".format(*mp))
-
-
-def main():
-    in_filePDB, param_fileJSON, out_fileACV = parseCmd()
-    labels = labeling_params(param_fileJSON)
-    struct = md.load_pdb(in_filePDB)
-    av = Volume(struct, 0, "40", labels)
-
-    if out_fileACV:
-        _, out_fileextACV = os.path.splitext(out_fileACV)
-        av.save_acv(out_fileACV, format=out_fileextACV[1:])
-
-
-if __name__ == "__main__":
-    main()

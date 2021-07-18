@@ -3,7 +3,7 @@ FRETraj PyMOL Plugin
 
 Calculate accessible contact volumes and predict FRET efficiencies
 
-(c) Fabio Steffen, University of Zurich, 2020-2021
+(c) Fabio Steffen, University of Zurich, 2021
 """
 
 import sys

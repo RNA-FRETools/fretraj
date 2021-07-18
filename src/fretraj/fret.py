@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
 
 import numpy as np
-
-try:
+from fretraj import _LabelLib_found
+if _LabelLib_found:
     import LabelLib as ll
-except ModuleNotFoundError:
-    _LabelLib_found = False
-else:
-    _LabelLib_found = True
-
 
 def dist_mp(acv1, acv2):
     """Compute the distance between mean dye positions R_MP of two accessible
