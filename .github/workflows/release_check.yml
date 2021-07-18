@@ -19,5 +19,6 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install Tox
         run: pip install tox
-      - name: Run Tox
-        run: tox -e pip_release  # check output to test if release deployment and installation was successful
+      - uses: conda-incubator/setup-miniconda@v2
+      - name: Test PyPI deployment and installation
+        run: tox -e pip_release_wheel,pip_release_sdist  # check output to evaluate if release deployment was successful
