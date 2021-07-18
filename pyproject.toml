@@ -21,6 +21,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
 include = [{path = "src/fretraj/*.so", format=["wheel"]},
+           {path = "src/fretraj/*.pyd", format=["wheel"]},
            {path = "src/fretraj/*.cpp", format=["sdist"]}]
 
 
