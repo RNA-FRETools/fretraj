@@ -39,7 +39,7 @@ def parseCmd():
     parser.add_argument(
         "--show-config",
         action="version",
-        version=f"labellib: {_LabelLib_found} | nglview: {_nglview_found} | burst submodule: {_burst_module_found} | jupyter submodule: {_nglview_found} \n",
+        version=f"labellib: {_LabelLib_found} | nglview: {_nglview_found} | burst submodule: {_burst_module_found} | jupyter submodule: {_nglview_found}",
         help="Show installed libraries and submodules",
     )
     args = parser.parse_args()
