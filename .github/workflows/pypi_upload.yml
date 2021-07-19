@@ -20,8 +20,8 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Get Poetry for Linux
-      if: matrix.os == 'ubuntu-latest'
+    - name: Get Poetry for Linux/macOs
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
       env:
         POETRY_HOME: ${{ github.workspace }}
       run: |
