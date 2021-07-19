@@ -272,11 +272,11 @@ class Species:
         self.trajectories = []
         total_frames = 0
         for i, rkappa_filename in enumerate(filelist_rkappa):
-            try:
+            if filelist_don_coords and filelist_acc_coords:
                 traj = Trajectory.from_file(
                     rkappa_filename, filelist_don_coords[i], filelist_acc_coords[i], units=units
                 )
-            except TypeError:
+            else:
                 traj = Trajectory.from_file(rkappa_filename, units=units)
 
             if n_trajectory_splits:
@@ -338,6 +338,8 @@ class Trajectory:
             self.checkLengthIdentity(self.length, donor_xyz, acceptor_xyz)
         self.donorTD = self.transitionDipole(donor_xyz)
         self.acceptorTD = self.transitionDipole(acceptor_xyz)
+        print(self.acceptorTD)
+        raise ValueError
 
     @classmethod
     def from_file(cls, rkappa_filename, don_coords_filename=None, acc_coords_filename=None, units="A"):
@@ -380,6 +382,8 @@ class Trajectory:
                 acceptor_xyz[:, 1:] = acceptor_xyz[:, 1:] * 10
         else:
             acceptor_xyz = None
+        print(acc_coords_filename)
+        print(acceptor_xyz)
         return cls(rkappa[:, 0], rkappa[:, 1], rkappa[:, 2], donor_xyz, acceptor_xyz)
 
     def checkLengthIdentity(self, traj_length, donor_xyz, acceptor_xyz):
