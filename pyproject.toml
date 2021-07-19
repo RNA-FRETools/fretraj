@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fretraj"
-version = "0.2.6-alpha.2"
+version = "0.2.6-alpha.3"
 description = "Predicting FRET with accessible-contact volumes"
 authors = [
     "Fabio Steffen <fabio.steffen@chem.uzh.ch>", 
