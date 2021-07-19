@@ -12,7 +12,14 @@ from distutils.errors import DistutilsPlatformError
 
 class get_pybind_include(object):
     def __str__(self):
-        import pybind11
+        import subprocess
+        import sys
+
+        try:
+            import pybind11
+        except ModuleNotFoundError:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "pybind11>=2.6.2"])
+            import pybind11
 
         return pybind11.get_include()
 
