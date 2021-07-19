@@ -18,7 +18,13 @@ class get_pybind_include(object):
 
 
 extensions = [
-    Extension("relaxation", sources=["src/fretraj/relaxation.cpp"], include_dirs=[get_pybind_include()], language="c++")
+    Extension(
+        "relaxation",
+        sources=["src/fretraj/relaxation.cpp"],
+        include_dirs=[get_pybind_include()],
+        language="c++",
+        extra_compile_args=["-std=c++11"],
+    )
 ]
 
 
