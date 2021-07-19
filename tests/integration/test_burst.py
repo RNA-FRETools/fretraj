@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import pytest
-from fretraj import _burst_module_found
+from fretraj import _burst_module_available
 import os
 import numpy as np
 
-if _burst_module_found:
+if _burst_module_available:
     from fretraj import burst
 else:
     pytestmark = pytest.mark.skip
