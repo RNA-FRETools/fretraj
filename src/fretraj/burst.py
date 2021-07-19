@@ -179,7 +179,7 @@ class Ensemble:
         self.species = []
         ps = parameters["species"]
         for i in range(len(ps["name"])):
-            filelist_rkappa = glob.glob(os.path.join(directory, ps["unix_pattern_rkappa"][i]))
+            filelist_rkappa = sorted(glob.glob(os.path.join(directory, ps["unix_pattern_rkappa"][i])))
             if not filelist_rkappa:
                 raise IndexError(
                     'No rkappa files found for species "{}" with the pattern "{}" in the directory "{}".'.format(
@@ -188,8 +188,8 @@ class Ensemble:
                 )
 
             if compute_anisotropy:
-                filelist_don_coords = glob.glob(os.path.join(directory, ps["unix_pattern_don_coords"][i]))
-                filelist_acc_coords = glob.glob(os.path.join(directory, ps["unix_pattern_acc_coords"][i]))
+                filelist_don_coords = sorted(glob.glob(os.path.join(directory, ps["unix_pattern_don_coords"][i])))
+                filelist_acc_coords = sorted(glob.glob(os.path.join(directory, ps["unix_pattern_acc_coords"][i])))
                 if (not filelist_don_coords) or (not filelist_acc_coords):
                     raise NameError(
                         'No dye coordinates files found for species "{}" with the pattern "{}" or "{}" in the directory "{}".'.format(
