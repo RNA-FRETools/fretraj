@@ -32,13 +32,20 @@ Depending on your operating system and preference there are multiple options to 
 
 - Get PyMOL either from [Schrödinger](https://pymol.org/) or from your package manager (e.g. on Ubuntu `apt-get install pymol`). Alternatively, you can compile PyMOL yourself from the source code on [Github](https://github.com/schrodinger/pymol-open-source).
 
-- Install *FRETraj* with pip or build it from source
+- Install *FRETraj*
   
 
     ````{tabbed} pip
     Install from **PyPI** 
     ```
     pip install fretraj
+    ```
+    ````
+
+    ````{tabbed} conda
+    Install from the **conda-forge** channel on Anaconda.org
+    ```
+    conda install fretraj -c conda-forge
     ```
     ````
 
@@ -107,9 +114,7 @@ Binaries for Windows, Linux and macOS are distributed by Schrödinger under acad
 If you prefer a programmatic approach to calculating accessible-contact volumes and predicting FRET efficiencies you may interact with *FRETraj* in a [Jupyter](https://jupyter.org/) {cite}`Kluyver.2016` notebook and use NGLview {cite}`Nguyen.2018` instead of PyMOL for visualization. A demo notebook can be found [here](https://github.com/RNA-FRETools/FRETraj-demo).
 
 ```
-pip install fretraj
-```
-
-```{admonition} Note on PEP 517
-On Windows you likely need to first install *mdtraj* with `conda install mdtraj>=1.9.5` as wheels are only available for Linux on PyPI.
+pip install fretraj   # Linux / macOS
+or
+conda install fretraj -c conda-forge   # Linux / macOS / Windows
 ```

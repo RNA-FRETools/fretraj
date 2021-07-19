@@ -1,5 +1,14 @@
 ## Changelog
 
+### [0.2.6] 2021-07-19
+- Remove nglview as dependency to make package installation faster
+- Fix includes and remove tests from deployed wheel and sdist (test suite is available with the source code on Github)
+- Fix pybind11 dependency
+- Relocate the entrypoint scripts to console.py 
+
+### [0.2.5] 2021-07-16
+- release yanked
+
 ### [0.2.4] 2021-07-16
 - Fix version dependencies of Numpy, Pandas and Matplotlib for Python 3.6
 

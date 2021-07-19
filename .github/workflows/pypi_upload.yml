@@ -43,7 +43,6 @@ jobs:
       env:
         POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates an environment by default 
       run: |
-        pip install pybind11
         poetry build
     - name: Upload build artefact
       uses: actions/upload-artifact@v2
