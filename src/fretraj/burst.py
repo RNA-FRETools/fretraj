@@ -338,7 +338,6 @@ class Trajectory:
             self.checkLengthIdentity(self.length, donor_xyz, acceptor_xyz)
         self.donorTD = self.transitionDipole(donor_xyz)
         self.acceptorTD = self.transitionDipole(acceptor_xyz)
-        print(self.acceptorTD)
 
     @classmethod
     def from_file(cls, rkappa_filename, don_coords_filename=None, acc_coords_filename=None, units="A"):
@@ -381,8 +380,6 @@ class Trajectory:
                 acceptor_xyz[:, 1:] = acceptor_xyz[:, 1:] * 10
         else:
             acceptor_xyz = None
-        print(acc_coords_filename)
-        print(acceptor_xyz)
         return cls(rkappa[:, 0], rkappa[:, 1], rkappa[:, 2], donor_xyz, acceptor_xyz)
 
     def checkLengthIdentity(self, traj_length, donor_xyz, acceptor_xyz):
@@ -398,7 +395,9 @@ class Trajectory:
         all_lengths = [traj_length, len(donor_xyz[:, 0]), len(acceptor_xyz[:, 0])]
         if all_lengths[1:] != all_lengths[:-1]:
             raise ValueError(
-                "Length of rkappa and dye coordinates is not the same [{}].".format(", ".join(all_lengths))
+                f"Length of rkappa and dye coordinates is not the same:\nrkappa: {all_lengths[0]}, donor coordinates: {all_lengths[1]}, acceptor coordinates: {all_lengths[2]}".format(
+                    all_lengths
+                )
             )
 
     @staticmethod
