@@ -339,7 +339,6 @@ class Trajectory:
         self.donorTD = self.transitionDipole(donor_xyz)
         self.acceptorTD = self.transitionDipole(acceptor_xyz)
         print(self.acceptorTD)
-        raise ValueError
 
     @classmethod
     def from_file(cls, rkappa_filename, don_coords_filename=None, acc_coords_filename=None, units="A"):
