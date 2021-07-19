@@ -24,8 +24,8 @@ package_directory = os.path.dirname(os.path.abspath(__file__))
 _relax_types = ["D_f", "D_ic", "A_f", "A_ic", "q"]
 
 _schema = {
-    "title": "Fluorburst",
-    "description": "Parameters for Fluorburst to calculate FRET efficiencies and anisotropy decays from MD simulations",
+    "title": "Burst",
+    "description": "Parameters to calculate FRET efficiencies and anisotropy decays from MD simulations",
     "type": "object",
     "properties": {
         "dyes": {
@@ -341,7 +341,7 @@ class Trajectory:
 
     @classmethod
     def from_file(cls, rkappa_filename, don_coords_filename=None, acc_coords_filename=None, units="A"):
-        """Create a fluordynamics.fluorburst.Trajectory class from filenames
+        """Create a burst.Trajectory class from filenames
 
         Parameters
         ----------
@@ -532,7 +532,7 @@ class Relaxation:
 
     Parameters
     ----------
-    trajectory : fluordynamics.burst.Trajectory
+    trajectory : burst.Trajectory
         trajectory object containing inter-dye distances, kappasquare values and donor/acceptor dye transition dipoles
     pD_tot : float
         probability of a donor relaxation event (photon emission + internal conversion)
@@ -879,7 +879,7 @@ class Experiment:
 
         Returns
         -------
-        fluordynamics.fluorburst.Burst
+        burst.Burst
             Burst object containing a series of relaxation events with associated decaytimes, polarizations and FRET efficiencies
         """
         burst = Burst(burstsize, self.parameters["dyes"]["QD"], self.parameters["dyes"]["QA"])

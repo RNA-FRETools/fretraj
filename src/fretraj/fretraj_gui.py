@@ -21,13 +21,10 @@ import datetime
 from fretraj import __urls__
 from fretraj import cloud
 from fretraj import metadata
+from fretraj import _LabelLib_found
 
-try:
+if _LabelLib_found:
     import LabelLib as ll
-except ModuleNotFoundError:
-    _LabelLib_found = False
-else:
-    _LabelLib_found = True
 
 try:
     from pymol import cmd

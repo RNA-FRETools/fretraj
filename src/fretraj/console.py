@@ -3,13 +3,15 @@
 import subprocess
 import os
 import argparse
+import platform
 
 package_directory = os.path.dirname(os.path.abspath(__file__))
 
 from fretraj import metadata
 from fretraj import _LabelLib_found
-from fretraj import _burst_module_found
 from fretraj import _nglview_found
+from fretraj import _burst_module_available
+from fretraj import _jupyter_module_available
 from fretraj import cloud
 import mdtraj as md
 
@@ -39,7 +41,7 @@ def parseCmd():
     parser.add_argument(
         "--show-config",
         action="version",
-        version=f"labellib: {_LabelLib_found} | nglview: {_nglview_found} | burst submodule: {_burst_module_found} | jupyter submodule: {_nglview_found}",
+        version=f"labellib: {_LabelLib_found} | nglview: {_nglview_found} | burst submodule: {_burst_module_available} | jupyter submodule: {_jupyter_module_available}",
         help="Show installed libraries and submodules",
     )
     args = parser.parse_args()
@@ -79,7 +81,10 @@ def pymol_vis():
     Run with:
     >>> pymol_vis -c <structure file (.gro/.pdb)> -x <xtc trajectory> (optional) -v <pymol visualization file> (optional) -s <start,stop,stride (default 1,-1,1)>
     """
-    subprocess.call(os.path.join(package_directory, "skripts", "pymol_vis.sh"))
+    if platform.system() != "Windows":
+        subprocess.call(os.path.join(package_directory, "skripts", "pymol_vis.sh"))
+    else:
+        print("pymol_vis is only available for Unix operating systems")
 
 
 def vmd_vis():
@@ -90,4 +95,7 @@ def vmd_vis():
     Run with:
     >>> vmd_vis -c <structure file (.gro/.pdb)> -x <xtc trajectory> (optional) -v <vmd visualization file> (optional) -s <start,stop,stride (default 1,-1,1)>
     """
-    subprocess.call(os.path.join(package_directory, "skripts", "vmd_vis.sh"))
+    if platform.system() != "Windows":
+        subprocess.call(os.path.join(package_directory, "skripts", "vmd_vis.sh"))
+    else:
+        print("vmd_vis is only available for Unix operating systems")

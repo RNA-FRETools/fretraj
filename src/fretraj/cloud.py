@@ -15,6 +15,8 @@ from fretraj import fret
 from fretraj import grid
 from fretraj import _LabelLib_found
 
+if _LabelLib_found:
+    import LabelLib as ll
 
 DISTANCE_SAMPLES = 100000
 

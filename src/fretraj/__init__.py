@@ -42,17 +42,19 @@ try:
     import nglview
 except ModuleNotFoundError:
     _nglview_found = False
+    _jupyter_module_available = False
 else:
     _nglview_found = True
+    _jupyter_module_available = True
     from . import jupyter
 
 try:
     from . import burst
 except (ImportError, ModuleNotFoundError):
-    _burst_module_found = False
+    _burst_module_available = False
     print("The burst submodule could not be imported\n")
 else:
-    _burst_module_found = True
+    _burst_module_available = True
 
 from . import cloud
 from . import export
