@@ -30,4 +30,4 @@ If you use **FRETraj** in your work please refer to the following paper:
 
 ---
 
-<sup><a name="pymol">1</a></sup> PyMOL is a trademark of Schrödinger, LLC.
+<sup><a name="pymol">1</a></sup> PyMOL was developed by WarrenDeLano and is maintained by Schrödinger, LLC.
