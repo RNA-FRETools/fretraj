@@ -1,4 +1,4 @@
-name: FRETraj release test
+name: FRETraj release test for PyPI
 
 on: [pull_request, workflow_dispatch]
 
