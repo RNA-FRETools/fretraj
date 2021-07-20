@@ -429,7 +429,7 @@ s-photon counts (orthogonal)</p></li>
 <dd class="field-odd"><p><strong>burstsize</strong> (<em>int</em>) – total number of photons (donor + acceptor) to generate in this burst</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><em>fluordynamics.fluorburst.Burst</em> – Burst object containing a series of relaxation events with associated decaytimes, polarizations and FRET efficiencies</p>
+<dd class="field-even"><p><em>burst.Burst</em> – Burst object containing a series of relaxation events with associated decaytimes, polarizations and FRET efficiencies</p>
 </dd>
 </dl>
 </dd></dl>
@@ -572,7 +572,7 @@ then function returns the maximum width expected solely due to shot noise.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trajectory</strong> (<em>fluordynamics.burst.Trajectory</em>) – trajectory object containing inter-dye distances, kappasquare values and donor/acceptor dye transition dipoles</p></li>
+<li><p><strong>trajectory</strong> (<em>burst.Trajectory</em>) – trajectory object containing inter-dye distances, kappasquare values and donor/acceptor dye transition dipoles</p></li>
 <li><p><strong>pD_tot</strong> (<em>float</em>) – probability of a donor relaxation event (photon emission + internal conversion)</p></li>
 <li><p><strong>pA_tot</strong> (<em>float</em>) – probability of a acceptor relaxation event (photon emission + internal conversion)</p></li>
 <li><p><strong>quenching_radius</strong> (<em>float</em>) – minimum distance beyond which inter-dye quenching will lead to a non-radiative decay (e.g. Dexter energy transfer)</p></li>
@@ -637,7 +637,7 @@ the transition dipole of the donor or acceptor dye</p></li>
 <dl class="py method">
 <dt id="fretraj.burst.Trajectory.from_file">
 <em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rkappa_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">don_coords_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_coords_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/burst.html#Trajectory.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.burst.Trajectory.from_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a fluordynamics.fluorburst.Trajectory class from filenames</p>
+<dd><p>Create a burst.Trajectory class from filenames</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

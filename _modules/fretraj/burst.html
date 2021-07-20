@@ -293,8 +293,8 @@
 <span class="n">_relax_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;D_f&quot;</span><span class="p">,</span> <span class="s2">&quot;D_ic&quot;</span><span class="p">,</span> <span class="s2">&quot;A_f&quot;</span><span class="p">,</span> <span class="s2">&quot;A_ic&quot;</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">]</span>
 
 <span class="n">_schema</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Fluorburst&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters for Fluorburst to calculate FRET efficiencies and anisotropy decays from MD simulations&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Burst&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters to calculate FRET efficiencies and anisotropy decays from MD simulations&quot;</span><span class="p">,</span>
     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
     <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;dyes&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -448,7 +448,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">species</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">ps</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])):</span>
-            <span class="n">filelist_rkappa</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">ps</span><span class="p">[</span><span class="s2">&quot;unix_pattern_rkappa&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span>
+            <span class="n">filelist_rkappa</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">ps</span><span class="p">[</span><span class="s2">&quot;unix_pattern_rkappa&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])))</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">filelist_rkappa</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
                     <span class="s1">&#39;No rkappa files found for species &quot;</span><span class="si">{}</span><span class="s1">&quot; with the pattern &quot;</span><span class="si">{}</span><span class="s1">&quot; in the directory &quot;</span><span class="si">{}</span><span class="s1">&quot;.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -457,8 +457,8 @@
                 <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">compute_anisotropy</span><span class="p">:</span>
-                <span class="n">filelist_don_coords</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">ps</span><span class="p">[</span><span class="s2">&quot;unix_pattern_don_coords&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span>
-                <span class="n">filelist_acc_coords</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">ps</span><span class="p">[</span><span class="s2">&quot;unix_pattern_acc_coords&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span>
+                <span class="n">filelist_don_coords</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">ps</span><span class="p">[</span><span class="s2">&quot;unix_pattern_don_coords&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])))</span>
+                <span class="n">filelist_acc_coords</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">ps</span><span class="p">[</span><span class="s2">&quot;unix_pattern_acc_coords&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])))</span>
                 <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">filelist_don_coords</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">filelist_acc_coords</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span>
                         <span class="s1">&#39;No dye coordinates files found for species &quot;</span><span class="si">{}</span><span class="s1">&quot; with the pattern &quot;</span><span class="si">{}</span><span class="s1">&quot; or &quot;</span><span class="si">{}</span><span class="s1">&quot; in the directory &quot;</span><span class="si">{}</span><span class="s1">&quot;.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -541,11 +541,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">trajectories</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">total_frames</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rkappa_filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filelist_rkappa</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">filelist_don_coords</span> <span class="ow">and</span> <span class="n">filelist_acc_coords</span><span class="p">:</span>
                 <span class="n">traj</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span>
                     <span class="n">rkappa_filename</span><span class="p">,</span> <span class="n">filelist_don_coords</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">filelist_acc_coords</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span>
                 <span class="p">)</span>
-            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">else</span><span class="p">:</span>
                 <span class="n">traj</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">rkappa_filename</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">n_trajectory_splits</span><span class="p">:</span>
@@ -610,7 +610,7 @@
 
 <div class="viewcode-block" id="Trajectory.from_file"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Trajectory.from_file">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rkappa_filename</span><span class="p">,</span> <span class="n">don_coords_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acc_coords_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a fluordynamics.fluorburst.Trajectory class from filenames</span>
+        <span class="sd">&quot;&quot;&quot;Create a burst.Trajectory class from filenames</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -664,7 +664,9 @@
         <span class="n">all_lengths</span> <span class="o">=</span> <span class="p">[</span><span class="n">traj_length</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">donor_xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">acceptor_xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])]</span>
         <span class="k">if</span> <span class="n">all_lengths</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="n">all_lengths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Length of rkappa and dye coordinates is not the same [</span><span class="si">{}</span><span class="s2">].&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_lengths</span><span class="p">))</span>
+                <span class="sa">f</span><span class="s2">&quot;Length of rkappa and dye coordinates is not the same:</span><span class="se">\n</span><span class="s2">rkappa: </span><span class="si">{</span><span class="n">all_lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, donor coordinates: </span><span class="si">{</span><span class="n">all_lengths</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">, acceptor coordinates: </span><span class="si">{</span><span class="n">all_lengths</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">all_lengths</span>
+                <span class="p">)</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Trajectory.transitionDipole"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Trajectory.transitionDipole">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -801,7 +803,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    trajectory : fluordynamics.burst.Trajectory</span>
+<span class="sd">    trajectory : burst.Trajectory</span>
 <span class="sd">        trajectory object containing inter-dye distances, kappasquare values and donor/acceptor dye transition dipoles</span>
 <span class="sd">    pD_tot : float</span>
 <span class="sd">        probability of a donor relaxation event (photon emission + internal conversion)</span>
@@ -1148,7 +1150,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        fluordynamics.fluorburst.Burst</span>
+<span class="sd">        burst.Burst</span>
 <span class="sd">            Burst object containing a series of relaxation events with associated decaytimes, polarizations and FRET efficiencies</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">burst</span> <span class="o">=</span> <span class="n">Burst</span><span class="p">(</span><span class="n">burstsize</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QD&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QA&quot;</span><span class="p">])</span>
