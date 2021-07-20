@@ -488,6 +488,10 @@
 <dt id="fretraj.jupyter.connect2pymol">
 <code class="sig-prename descclassname"><span class="pre">fretraj.jupyter.</span></code><code class="sig-name descname"><span class="pre">connect2pymol</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/jupyter.html#connect2pymol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.jupyter.connect2pymol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Establish an RPC connection to run PyMOL commands from the command line or from a Jupyter notebook</p>
+<p class="rubric">Notes</p>
+<p>Start a PyMOL server session from a terminal:
+&gt;&gt;&gt; pymol -R</p>
+<p>On Windows you may create a shortcut that executes the command C:path      oPyMOLWin.exe -R</p>
 </dd></dl>
 
 <dl class="py function">
@@ -530,7 +534,16 @@
 <dl class="py function">
 <dt id="fretraj.jupyter.nglview_trajectory">
 <code class="sig-prename descclassname"><span class="pre">fretraj.jupyter.</span></code><code class="sig-name descname"><span class="pre">nglview_trajectory</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traj_biomol</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/jupyter.html#nglview_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.jupyter.nglview_trajectory" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create a nglview trajectory scene</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>traj_biomol</strong> (<em>mdtraj.Trajectory</em>) – trajectory of the biomolecule</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>view</strong> (<em>nglview.NGLWidget</em>)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="fretraj.jupyter.nglview_trajectory_ACV">

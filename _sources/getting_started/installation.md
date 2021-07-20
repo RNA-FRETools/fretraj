@@ -32,13 +32,20 @@ Depending on your operating system and preference there are multiple options to 
 
 - Get PyMOL either from [Schrödinger](https://pymol.org/) or from your package manager (e.g. on Ubuntu `apt-get install pymol`). Alternatively, you can compile PyMOL yourself from the source code on [Github](https://github.com/schrodinger/pymol-open-source).
 
-- Install *FRETraj* with pip or build it from source
+- Install *FRETraj*
   
 
     ````{tabbed} pip
     Install from **PyPI** 
     ```
     pip install fretraj
+    ```
+    ````
+
+    ````{tabbed} conda
+    Install from the **conda-forge** channel on Anaconda.org
+    ```
+    conda install fretraj -c conda-forge
     ```
     ````
 
@@ -90,11 +97,11 @@ conda install labellib -c tpeulen
 
 ### 1.3 Install with Docker
 <a name="install-docker"></a>
-As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and *FRETraj* preinstalled. Make sure you have [Docker](https://www.docker.com/products/docker-desktop) and an X11 server installed (e.g. [VcXsrv](https://sourceforge.net/projects/vcxsrv/) for Windows, configured with `Wgl="False"` and `DisableAC="True"`). Then pull and run the image from DockerHub
+As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and *FRETraj* preinstalled. Make sure you have [Docker](https://www.docker.com/products/docker-desktop) and an X11 server installed (e.g. [VcXsrv](https://sourceforge.net/projects/vcxsrv/) for Windows, configured with `Wgl="False"` and `DisableAC="True"`). Then pull and run the image from DockerHub (replace `hostdir` with a directory on your host system that you would like to mount into the image)
 
 ```
 docker pull fdsteffen/fretraj-pymol
-docker run -e DISPLAY=your-ip-adress:0 fdsteffen/fretraj-pymol -v path-on-your-host:/mnt
+docker run -e DISPLAY=host.docker.internal:0 fdsteffen/fretraj-pymol -v hostdir:/mnt
 ```
 
 ```{admonition} Incentive or open-source PyMOL
@@ -107,9 +114,7 @@ Binaries for Windows, Linux and macOS are distributed by Schrödinger under acad
 If you prefer a programmatic approach to calculating accessible-contact volumes and predicting FRET efficiencies you may interact with *FRETraj* in a [Jupyter](https://jupyter.org/) {cite}`Kluyver.2016` notebook and use NGLview {cite}`Nguyen.2018` instead of PyMOL for visualization. A demo notebook can be found [here](https://github.com/RNA-FRETools/FRETraj-demo).
 
 ```
-pip install fretraj
-```
-
-```{admonition} Note on PEP 517
-On Windows you likely need to first install *mdtraj* with `conda install mdtraj>=1.9.5` as wheels are only available for Linux on PyPI.
+pip install fretraj   # Linux / macOS
+or
+conda install fretraj -c conda-forge   # Linux / macOS / Windows
 ```

@@ -338,8 +338,8 @@
 <h3>1.1 Install PyMOL and FRETraj<a class="headerlink" href="#install-pymol-and-fretraj" title="Permalink to this headline">¶</a></h3>
 <p><a name="install-manually"></a></p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="6583afb9-be81-4232-aa60-fed05667f8b8" name="fe865d3d-d0a1-4fe6-b72c-b8446f1f0729" type="radio">
-</input><label class="tabbed-label" for="6583afb9-be81-4232-aa60-fed05667f8b8">
+<input checked="checked" id="188403d4-8b28-44bf-b644-836e9b630157" name="6abc7970-5b8e-46a9-a0a9-e3397b057cc1" type="radio">
+</input><label class="tabbed-label" for="188403d4-8b28-44bf-b644-836e9b630157">
 For Windows</label><div class="tabbed-content docutils">
 <ul>
 <li><p>Get PyMOL from <a class="reference external" href="https://pymol.org/">Schrödinger</a> or follow the instructions <a class="reference external" href="https://pymolwiki.org/index.php/Windows_Install">here</a>.</p></li>
@@ -356,23 +356,31 @@ For Windows</label><div class="tabbed-content docutils">
 </li>
 </ul>
 </div>
-<input id="5d627e53-3d04-496b-a9a2-baecd046adb7" name="fe865d3d-d0a1-4fe6-b72c-b8446f1f0729" type="radio">
-</input><label class="tabbed-label" for="5d627e53-3d04-496b-a9a2-baecd046adb7">
+<input id="747e5eb1-2f09-449e-a8d6-9e85821f9c71" name="6abc7970-5b8e-46a9-a0a9-e3397b057cc1" type="radio">
+</input><label class="tabbed-label" for="747e5eb1-2f09-449e-a8d6-9e85821f9c71">
 For Linux</label><div class="tabbed-content docutils">
 <ul>
 <li><p>Get PyMOL either from <a class="reference external" href="https://pymol.org/">Schrödinger</a> or from your package manager (e.g. on Ubuntu <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">pymol</span></code>). Alternatively, you can compile PyMOL yourself from the source code on <a class="reference external" href="https://github.com/schrodinger/pymol-open-source">Github</a>.</p></li>
-<li><p>Install <em>FRETraj</em> with pip or build it from source</p>
+<li><p>Install <em>FRETraj</em></p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="af093902-abf2-4a8d-ade6-33ee98b21e4e" name="2def6ab8-eebe-4a2a-a0ab-1aeb358819fa" type="radio">
-</input><label class="tabbed-label" for="af093902-abf2-4a8d-ade6-33ee98b21e4e">
+<input checked="checked" id="204eb791-f85d-49a7-bfea-3b32f617d8d4" name="3287c985-2296-4077-90aa-e27a287c695a" type="radio">
+</input><label class="tabbed-label" for="204eb791-f85d-49a7-bfea-3b32f617d8d4">
 pip</label><div class="tabbed-content docutils">
 <p>Install from <strong>PyPI</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fretraj</span>
 </pre></div>
 </div>
 </div>
-<input id="f3b32d5c-f03b-40b6-a452-17ed275541e1" name="2def6ab8-eebe-4a2a-a0ab-1aeb358819fa" type="radio">
-</input><label class="tabbed-label" for="f3b32d5c-f03b-40b6-a452-17ed275541e1">
+<input id="ff363564-48e5-46ee-bfe5-1fc0c3e787df" name="3287c985-2296-4077-90aa-e27a287c695a" type="radio">
+</input><label class="tabbed-label" for="ff363564-48e5-46ee-bfe5-1fc0c3e787df">
+conda</label><div class="tabbed-content docutils">
+<p>Install from the <strong>conda-forge</strong> channel on <a class="reference external" href="http://Anaconda.org">Anaconda.org</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">fretraj</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+</pre></div>
+</div>
+</div>
+<input id="9848fac7-8152-4232-8207-1abc3a9c55e1" name="3287c985-2296-4077-90aa-e27a287c695a" type="radio">
+</input><label class="tabbed-label" for="9848fac7-8152-4232-8207-1abc3a9c55e1">
 from source</label><div class="tabbed-content docutils">
 <p>Install the latest development version from <a class="reference external" href="https://github.com/RNA-FRETools/fretraj.git">Github</a> with <a class="reference external" href="https://python-poetry.org/">Poetry</a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="o">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span>
@@ -406,15 +414,15 @@ from source</label><div class="tabbed-content docutils">
 <p class="admonition-title">Tip</p>
 <p>For faster computation of the accessible-contact volumes you may additionally consider installing the C++ library <a class="reference external" href="https://github.com/Fluorescence-Tools/LabelLib">LabelLib</a> with either <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span></code>. However, this is not required since <em>FRETraj</em> features a built-in Python implementation of the ACV algorithm.</p>
 <div class="tabbed-set docutils">
-<input checked="checked" id="58d15e13-24ef-4ae5-a297-a05cd537eaee" name="4dd58839-8271-485a-afaf-9072d89c9c03" type="radio">
-</input><label class="tabbed-label" for="58d15e13-24ef-4ae5-a297-a05cd537eaee">
+<input checked="checked" id="75006108-1069-42e9-aff0-83b2c92fcd60" name="a7962ad0-195a-4ab1-8ef9-138b29176aee" type="radio">
+</input><label class="tabbed-label" for="75006108-1069-42e9-aff0-83b2c92fcd60">
 pip</label><div class="tabbed-content docutils">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">labellib</span>
 </pre></div>
 </div>
 </div>
-<input id="59353eee-6627-4c2b-b012-806fc5a55870" name="4dd58839-8271-485a-afaf-9072d89c9c03" type="radio">
-</input><label class="tabbed-label" for="59353eee-6627-4c2b-b012-806fc5a55870">
+<input id="47ea375a-de6b-4872-8f6b-edbda0643c52" name="a7962ad0-195a-4ab1-8ef9-138b29176aee" type="radio">
+</input><label class="tabbed-label" for="47ea375a-de6b-4872-8f6b-edbda0643c52">
 conda</label><div class="tabbed-content docutils">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">labellib</span> <span class="o">-</span><span class="n">c</span> <span class="n">tpeulen</span>
 </pre></div>
@@ -426,9 +434,9 @@ conda</label><div class="tabbed-content docutils">
 <div class="section" id="install-with-docker">
 <h3>1.3 Install with Docker<a class="headerlink" href="#install-with-docker" title="Permalink to this headline">¶</a></h3>
 <p><a name="install-docker"></a>
-As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and <em>FRETraj</em> preinstalled. Make sure you have <a class="reference external" href="https://www.docker.com/products/docker-desktop">Docker</a> and an X11 server installed (e.g. <a class="reference external" href="https://sourceforge.net/projects/vcxsrv/">VcXsrv</a> for Windows, configured with <code class="docutils literal notranslate"><span class="pre">Wgl=&quot;False&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">DisableAC=&quot;True&quot;</span></code>). Then pull and run the image from DockerHub</p>
+As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and <em>FRETraj</em> preinstalled. Make sure you have <a class="reference external" href="https://www.docker.com/products/docker-desktop">Docker</a> and an X11 server installed (e.g. <a class="reference external" href="https://sourceforge.net/projects/vcxsrv/">VcXsrv</a> for Windows, configured with <code class="docutils literal notranslate"><span class="pre">Wgl=&quot;False&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">DisableAC=&quot;True&quot;</span></code>). Then pull and run the image from DockerHub (replace <code class="docutils literal notranslate"><span class="pre">hostdir</span></code> with a directory on your host system that you would like to mount into the image)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">pull</span> <span class="n">fdsteffen</span><span class="o">/</span><span class="n">fretraj</span><span class="o">-</span><span class="n">pymol</span>
-<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">e</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="n">your</span><span class="o">-</span><span class="n">ip</span><span class="o">-</span><span class="n">adress</span><span class="p">:</span><span class="mi">0</span> <span class="n">fdsteffen</span><span class="o">/</span><span class="n">fretraj</span><span class="o">-</span><span class="n">pymol</span> <span class="o">-</span><span class="n">v</span> <span class="n">path</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">your</span><span class="o">-</span><span class="n">host</span><span class="p">:</span><span class="o">/</span><span class="n">mnt</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">e</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="n">host</span><span class="o">.</span><span class="n">docker</span><span class="o">.</span><span class="n">internal</span><span class="p">:</span><span class="mi">0</span> <span class="n">fdsteffen</span><span class="o">/</span><span class="n">fretraj</span><span class="o">-</span><span class="n">pymol</span> <span class="o">-</span><span class="n">v</span> <span class="n">hostdir</span><span class="p">:</span><span class="o">/</span><span class="n">mnt</span>
 </pre></div>
 </div>
 <div class="admonition-incentive-or-open-source-pymol admonition">
@@ -441,12 +449,10 @@ Binaries for Windows, Linux and macOS are distributed by Schrödinger under acad
 <div class="section" id="juypter-notebook">
 <h2>2. Juypter notebook<a class="headerlink" href="#juypter-notebook" title="Permalink to this headline">¶</a></h2>
 <p>If you prefer a programmatic approach to calculating accessible-contact volumes and predicting FRET efficiencies you may interact with <em>FRETraj</em> in a <a class="reference external" href="https://jupyter.org/">Jupyter</a> <span id="id2">[<a class="reference internal" href="../references.html#id10">2</a>]</span> notebook and use NGLview <span id="id3">[<a class="reference internal" href="../references.html#id13">3</a>]</span> instead of PyMOL for visualization. A demo notebook can be found <a class="reference external" href="https://github.com/RNA-FRETools/FRETraj-demo">here</a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fretraj</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fretraj</span>   <span class="c1"># Linux / macOS</span>
+<span class="ow">or</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">fretraj</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>   <span class="c1"># Linux / macOS / Windows</span>
 </pre></div>
-</div>
-<div class="admonition-note-on-pep-517 admonition">
-<p class="admonition-title">Note on PEP 517</p>
-<p>On Windows you likely need to first install <em>mdtraj</em> with <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">mdtraj&gt;=1.9.5</span></code> as wheels are only available for Linux on PyPI.</p>
 </div>
 </div>
 </div>
