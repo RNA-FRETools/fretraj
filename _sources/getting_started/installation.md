@@ -15,11 +15,10 @@ Depending on your operating system and preference there are multiple options to 
 <a name="install-manually"></a>
 ````{tabbed} For Windows
 - Get PyMOL from [Schrödinger](https://pymol.org/) or follow the instructions [here](https://pymolwiki.org/index.php/Windows_Install).
-- Search for **Anaconda/Miniforge prompt** in the Windows start menu and run the following commands to install *FRETraj*
+- Search for **Anaconda/Miniforge prompt** in the Windows start menu and run the following command to install *FRETraj*
 
     ```
-    conda install mdtraj>=1.9.5
-    pip install fretraj
+    conda install fretraj -c conda-forge
     ```
 - Locate the installation directory by running
 
