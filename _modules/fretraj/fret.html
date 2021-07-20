@@ -270,9 +270,14 @@
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">fretraj</span> <span class="kn">import</span> <span class="n">_LabelLib_found</span>
-<span class="k">if</span> <span class="n">_LabelLib_found</span><span class="p">:</span>
+
+<span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">LabelLib</span> <span class="k">as</span> <span class="nn">ll</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">_LabelLib_found</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">_LabelLib_found</span> <span class="o">=</span> <span class="kc">True</span>
+
 
 <div class="viewcode-block" id="dist_mp"><a class="viewcode-back" href="../../module/fret.html#fretraj.fret.dist_mp">[docs]</a><span class="k">def</span> <span class="nf">dist_mp</span><span class="p">(</span><span class="n">acv1</span><span class="p">,</span> <span class="n">acv2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute the distance between mean dye positions R_MP of two accessible</span>
