@@ -9,6 +9,7 @@ F.D. Steffen, R.K.O. Sigel, R. Börner, *Bioinformatics* **2021**, *37*, 3953–
 
 ```
 The contact volume (CV) as an extension of the accessible volume (AV) is introduced in:
+
 F.D. Steffen, R.K.O. Sigel, R. Börner, *Phys. Chem. Chem. Phys* **2016**, *18*, 29045-29055. [![](https://img.shields.io/badge/DOI-10.1039/C6CP04277E-blue.svg)](https://doi.org/10.1039/C6CP04277E)
 
 ```{image} images/Steffen_PCCP_2016.png
