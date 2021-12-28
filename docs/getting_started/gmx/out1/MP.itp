@@ -1,0 +1,7 @@
+[ moleculetype ]
+; molname       nrexcl
+MP             1       ; pseudoatom representing the dye mean position
+
+[ atoms ]
+; id    at type         res nr  residue name     at name  cg nr  charge
+1       MP              1       MP             MP       1      0.00000
