@@ -57,7 +57,7 @@ _schema = {
             "properties": {
                 "R0": {"type": "number"},
                 "kappasquare": {"type": "number"},
-                "no_gamma": {"type": "boolean"},
+                "gamma": {"type": "boolean"},
                 "quenching_radius": {"type": "number"},
             },
             "required": ["R0"],
@@ -94,7 +94,7 @@ _schema = {
 _defaults = {
     "dyes": {"dipole_angle_abs_em": 0},
     "sampling": {"nbursts": 2000, "skipframesatstart": 0, "skipframesatend": 1000, "multiprocessing": True},
-    "fret": {"kappasquare": 0.6666, "no_gamma": False, "quenching_radius": 1},
+    "fret": {"kappasquare": 0.6666, "gamma": True, "quenching_radius": 1},
     "species": {"n_trajectory_splits": None},
     "bursts": {"QY_correction": False, "burst_size_file": None},
 }
@@ -507,21 +507,20 @@ class Burst:
                 self.events_DD_DA["q"] += 1
                 self.decaytimes_DD_DA["q"].append(decaytime)
 
-    def calcFRET(self, no_gamma, QD, QA):
+    def calcFRET(self, gamma, QD, QA):
         """Calculate the transfer efficiency based on the donor and acceptor photon counts upon donor excitation
 
         Parameters
         ----------
-        no_gamma : bool
-            mimic an uncorrected FRET experiment (i.e. before gamma-correction) which is affected by the different
-            quantum yields of donor and acceptor (note: the detection efficiency ratio is always set to be 1).
-            If the simulation should be compared to a gamma-corrected experiment this parameter should be set to `False`.
+        gamma : bool
+            If the simulation should be compare to a gamma-corrected experiment (note: the detection efficiency ratio is set to 1), set this parameter to `True`.
+            If the simulation should be compared to a uncorrected experiment, set this parameter to `False`.
         QD : float
             donor fluorescence quantum yield
         QA : float
             acceptor fluorescence quantum yield
         """
-        if no_gamma:
+        if gamma:
             self.FRETefficiency = (self.events_DD_DA["A_f"] / QA) / (
                 self.events_DD_DA["A_f"] / QA + self.events_DD_DA["D_f"] / QD
             )
@@ -922,9 +921,7 @@ class Experiment:
                 self.parameters["dyes"]["QD"], self.parameters["dyes"]["QA"], self.parameters["bursts"]["QY_correction"]
             ):
                 break
-        burst.calcFRET(
-            self.parameters["fret"]["no_gamma"], self.parameters["dyes"]["QD"], self.parameters["dyes"]["QA"]
-        )
+        burst.calcFRET(self.parameters["fret"]["gamma"], self.parameters["dyes"]["QD"], self.parameters["dyes"]["QA"])
         return burst
 
     def calcBurstsizes(self):
