@@ -15,6 +15,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          file: pymol/Dockerfile
           push: true
           tags: fdsteffen/fretraj-pymol:latest
       - name: Image digest
