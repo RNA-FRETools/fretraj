@@ -1,0 +1,37 @@
+color change rgb blue    0.20  0.33  0.72
+color change rgb red     0.76  0.33  0.29
+color change rgb gray    0.71  0.74  0.77
+color change rgb orange  0.89  0.50  0.32
+color change rgb green   0.42  0.70  0.51
+color change rgb violet  0.55  0.39  0.70
+axes location off
+
+mol modselect 0 0 all not solvent
+mol modstyle 0 0 Licorice 0.300000 12.000000 12.000000
+mol modcolor 0 0 ColorID 2
+mol modmaterial 0 0 AOChalky
+
+mol addrep 0
+mol modselect 1 0 {resname MP}
+mol modcolor 1 0 ColorID 0
+mol modstyle 1 0 VDW 1.500000 12.000000
+
+set sel [atomselect 0 "resname MP"]
+set pseudoid0 [lindex [$sel get index] 0]
+label add Bonds 0/$pseudoid0 0/1528
+label add Bonds 0/$pseudoid0 0/1561
+label add Bonds 0/$pseudoid0 0/1592
+label add Bonds 0/$pseudoid0 0/1622
+label add Bonds 0/$pseudoid0 0/1844
+label add Bonds 0/$pseudoid0 0/1877
+set pseudoid1 [lindex [$sel get index] 1]
+label add Bonds 0/$pseudoid1 0/31
+label add Bonds 0/$pseudoid1 0/61
+label add Bonds 0/$pseudoid1 0/92
+label add Bonds 0/$pseudoid1 0/3082
+label add Bonds 0/$pseudoid1 0/3115
+label add Bonds 0/$pseudoid1 0/3146
+label add Bonds 0/$pseudoid1 0/3177
+label add Bonds 0/$pseudoid1 0/3210
+label add Bonds 0/$pseudoid0 0/$pseudoid1
+label textsize 0.5
