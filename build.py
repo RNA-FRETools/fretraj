@@ -12,13 +12,27 @@ from distutils.errors import DistutilsPlatformError
 
 class get_pybind_include(object):
     def __str__(self):
-        import pybind11
+        import subprocess
+        import sys
+
+        try:
+            import pybind11
+        except ModuleNotFoundError:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "pybind11>=2.6.2"])
+            import pybind11
+
         return pybind11.get_include()
 
 
 extensions = [
-    Extension('relaxation', sources=['src/fretraj/relaxation.cpp'], include_dirs=[get_pybind_include()], language='c++')
-    ]
+    Extension(
+        "relaxation",
+        sources=["src/fretraj/relaxation.cpp"],
+        include_dirs=[get_pybind_include()],
+        language="c++",
+        extra_compile_args=["-std=c++11"],
+    )
+]
 
 
 class ExtBuilder(build_ext):
@@ -28,14 +42,14 @@ class ExtBuilder(build_ext):
     def run(self):
         try:
             build_ext.run(self)
-        except (DistutilsPlatformError, FileNotFoundError):
-            print('Unable to build C++ extensions of FRETraj')
+        except (DistutilsPlatformError, FileNotFoundError) as error:
+            print(f"{error}: Unable to build C++ extensions of FRETraj")
 
     def build_extension(self, ext):
         try:
             build_ext.build_extension(self, ext)
-        except (CCompilerError, DistutilsExecError, DistutilsPlatformError, ValueError):
-            print(f'Unable to build the {ext.name} C++ extension, the burst module will not be available')
+        except (CCompilerError, DistutilsExecError, DistutilsPlatformError, ValueError) as error:
+            print(f"{error}: Unable to build the {ext.name} C++ extension, the burst module will not be available")
 
 
 def build(setup_kwargs):
@@ -50,7 +64,7 @@ def build(setup_kwargs):
         if not os.path.exists(output):
             continue
         relative_extension = os.path.relpath(output, cmd.build_lib)
-        destination = os.path.join('src', distribution.package_dir, relative_extension)
+        destination = os.path.join("src", distribution.package_dir, relative_extension)
         shutil.copyfile(output, destination)
         mode = os.stat(destination).st_mode
         mode |= (mode & 0o444) >> 2

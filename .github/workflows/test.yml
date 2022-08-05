@@ -1,0 +1,24 @@
+name: FRETraj test
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    if: github.repository == 'fdsteffen/fretraj'
+    runs-on: ${{ matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: [3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Tox
+        run: pip install tox
+      - uses: conda-incubator/setup-miniconda@v2
+      - name: Run Tox
+        run: tox -e py

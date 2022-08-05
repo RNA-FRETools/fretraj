@@ -37,16 +37,16 @@ def smooth_map_from_xyz(name, selection, contour_level, grid_spacing, bfactor=10
     (see also https://www.pymolwiki.org/index.php/Discrete_objects)
 
     """
-    name_surf = name + '_isosurf'
-    name_map = name + '_map'
-    bfactor_str = 'b={:d}'.format(int(bfactor))
+    name_surf = name + "_isosurf"
+    name_map = name + "_map"
+    bfactor_str = "b={:d}".format(int(bfactor))
     cmd.alter(selection, bfactor_str)
     cmd.alter(selection, bfactor_str)
-    gaussRes_default = cmd.get('gaussian_resolution')
-    cmd.set('gaussian_resolution', gaussRes)
-    cmd.map_new(name_map, 'gaussian', grid_spacing, selection, state=state)
+    gaussRes_default = cmd.get("gaussian_resolution")
+    cmd.set("gaussian_resolution", gaussRes)
+    cmd.map_new(name_map, "gaussian", grid_spacing, selection, state=state)
     cmd.isosurface(name_surf, name_map, contour_level, selection, buffer=grid_buffer)
-    cmd.set('gaussian_resolution', gaussRes_default)
+    cmd.set("gaussian_resolution", gaussRes_default)
     cmd.disable(selection)
 
 
@@ -64,12 +64,12 @@ def draw_map(name, isomap, contour_level):
     contour_level : float
         contour level (in sigma units)
     """
-    name_surf = name + '_isosurf'
+    name_surf = name + "_isosurf"
     cmd.isosurface(name_surf, isomap, contour_level)
 
 
 @cmd.extend
-def set_acv_style(donor_name, acceptor_name, donor_site, acceptor_site, labels, volume_type='AV', transparency=False):
+def set_acv_style(donor_name, acceptor_name, donor_site, acceptor_site, labels, volume_type="AV", transparency=False):
     """
     Set a default style for the ACV clouds
 
@@ -88,24 +88,34 @@ def set_acv_style(donor_name, acceptor_name, donor_site, acceptor_site, labels, 
     transparency : bool
         make volume transparent
     """
-    cmd.set_color('donor_green', [108, 179, 129])
-    cmd.set_color('acceptor_red', [194, 84, 73])
-    if volume_type == 'CV':
-        contour_level = 'contour_level_CV'
-        donor_sele = '{} and resn CV'.format(donor_name)
-        acceptor_sele = '{} and resn CV'.format(acceptor_name)
-        donor_name = donor_name+'_CV'
-        acceptor_name = acceptor_name+'_CV'
+    cmd.set_color("donor_green", [108, 179, 129])
+    cmd.set_color("acceptor_red", [194, 84, 73])
+    if volume_type == "CV":
+        contour_level = "contour_level_CV"
+        donor_sele = "{} and resn CV".format(donor_name)
+        acceptor_sele = "{} and resn CV".format(acceptor_name)
+        donor_name = donor_name + "_CV"
+        acceptor_name = acceptor_name + "_CV"
     else:
-        contour_level = 'contour_level_AV'
+        contour_level = "contour_level_AV"
         donor_sele = donor_name
         acceptor_sele = acceptor_name
-    smooth_map_from_xyz(donor_name, donor_sele, labels['Position'][donor_site][contour_level],
-                        labels['Position'][donor_site]['grid_spacing'], labels['Position'][donor_site]['state'])
-    smooth_map_from_xyz(acceptor_name, acceptor_sele, labels['Position'][acceptor_site][contour_level],
-                        labels['Position'][acceptor_site]['grid_spacing'], labels['Position'][acceptor_site]['state'])
-    cmd.color('donor_green', donor_name+'_isosurf')
-    cmd.color('acceptor_red', acceptor_name+'_isosurf')
+    smooth_map_from_xyz(
+        donor_name,
+        donor_sele,
+        labels["Position"][donor_site][contour_level],
+        labels["Position"][donor_site]["grid_spacing"],
+        labels["Position"][donor_site]["state"],
+    )
+    smooth_map_from_xyz(
+        acceptor_name,
+        acceptor_sele,
+        labels["Position"][acceptor_site][contour_level],
+        labels["Position"][acceptor_site]["grid_spacing"],
+        labels["Position"][acceptor_site]["state"],
+    )
+    cmd.color("donor_green", donor_name + "_isosurf")
+    cmd.color("acceptor_red", acceptor_name + "_isosurf")
     if transparency:
-        cmd.set('transparency', 0.4, donor_name+'_isosurf')
-        cmd.set('transparency', 0.4, acceptor_name+'_isosurf')
+        cmd.set("transparency", 0.4, donor_name + "_isosurf")
+        cmd.set("transparency", 0.4, acceptor_name + "_isosurf")

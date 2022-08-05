@@ -1,5 +1,7 @@
-- file: intro
-- part: Getting started
+format: jb-book
+root: intro
+parts:
+- caption: Getting started
   chapters:
   - file: getting_started/installation
   - file: getting_started/acv_calculation
@@ -7,21 +9,18 @@
   - file: getting_started/jupyter-notebook
   - file: getting_started/trajectories
   - file: getting_started/photon_bursts
-
-- part: Background
+- caption: Background
   chapters:
   - file: background/accessible_volume
   - file: background/contact_volume
   - file: background/parameter_file
-
-- part: Code
+- caption: Code
   chapters:
   - file: module/cloud
   - file: module/fret
   - file: module/grid
   - file: module/burst
   - file: module/utilities
-
-- part: References
+- caption: References
   chapters:
   - file: references

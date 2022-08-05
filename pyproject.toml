@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fretraj"
-version = "0.2.1"
+version = "0.2.6"
 description = "Predicting FRET with accessible-contact volumes"
 authors = [
     "Fabio Steffen <fabio.steffen@chem.uzh.ch>", 
@@ -20,36 +20,30 @@ classifiers = [
     "Framework :: Jupyter",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-include = ["CHANGELOG.md", "src/skripts", "tests", "src/fretraj/*.so"]
+include = [{path = "src/fretraj/*.so", format=["wheel"]},
+           {path = "src/fretraj/*.pyd", format=["wheel"]},
+           {path = "src/fretraj/*.cpp", format=["sdist"]}]
 
 
 [tool.poetry.dependencies]
-python = ">=3.7.1,<3.9"
-mdtraj = "^1.9.5"
-numpy = "<1.20.0"
-pandas = "^1.2.2"
-PyQt5 = "^5.12.3"
-nglview = "^2.7.7"
-astunparse = "1.6.2"
-importlib-metadata = "^3.7.2"
-numba = "<=0.50.1"
-tqdm = "^4.59.0"
-jsonschema = "^3.2.0"
-pybind11 = "^2.6.2"
+python = ">=3.8,<3.11"
+pandas = "^1.4.3"
+PyQt5 = "^5.15.7"
+numba = "^0.56.0"
+mdtraj = "^1.9.7"
+tqdm = "^4.64.0"
+jsonschema = "^4.9.1"
+importlib-metadata = "^4.12.0"
 
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
 pytest-cov = "^2.11.1"
-jupyter-book = "^0.10.0"
-pytest-mock = "^3.5.1"
-matplotlib = "^3.3.4"
-jupytext = "^1.10.3"
-seaborn = "^0.11.1"
+pytest-mock = "^3.6.1"
 
 
 [tool.poetry.scripts]
-fretraj = "fretraj.cloud:main"
+fretraj = "fretraj.console:main"
 fretraj_gui = "fretraj.fretraj_gui:main"
 pymol_vis = "fretraj.console:pymol_vis"
 vmd_vis = "fretraj.console:vmd_vis"
@@ -61,5 +55,9 @@ script = "build.py"
 
 
 [build-system]
-requires = ["poetry-core>=1.0.0a9"]
+requires = ["poetry-core>=1.0.0a9", "pybind11>=2.6.2"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 120

@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 
 import numpy as np
-try:
+from fretraj import _LabelLib_found
+if _LabelLib_found:
     import LabelLib as ll
-except ModuleNotFoundError:
-    _LabelLib_found = False
-else:
-    _LabelLib_found = True
-
 
 def dist_mp(acv1, acv2):
     """Compute the distance between mean dye positions R_MP of two accessible
@@ -23,11 +19,11 @@ def dist_mp(acv1, acv2):
     float
         distance between the mean dye positions of acv1 and acv2
     """
-    R_mp = np.sqrt(sum((acv1.mp - acv2.mp)**2))
+    R_mp = np.sqrt(sum((acv1.mp - acv2.mp) ** 2))
     return R_mp
 
 
-def dists_DA(acv1, acv2, n_dist=10**6, return_weights=True):
+def dists_DA(acv1, acv2, n_dist=10 ** 6, return_weights=True):
     """Compute a randomly subsampled donor-acceptor distance distribution
     for the two accessible volume clouds
 
@@ -49,8 +45,7 @@ def dists_DA(acv1, acv2, n_dist=10**6, return_weights=True):
     if return_weights:
         idx1 = np.random.choice(len(acv1.cloud_xyzqt), n_dist)
         idx2 = np.random.choice(len(acv2.cloud_xyzqt), n_dist)
-        R_DA = np.sqrt(np.sum((acv1.cloud_xyzqt[idx1, 0:3]
-                               - acv2.cloud_xyzqt[idx2, 0:3])**2, axis=1))
+        R_DA = np.sqrt(np.sum((acv1.cloud_xyzqt[idx1, 0:3] - acv2.cloud_xyzqt[idx2, 0:3]) ** 2, axis=1))
         w = acv1.cloud_xyzqt[idx1, 3] * acv2.cloud_xyzqt[idx2, 3]
         w = w / w.sum()
         R_DA = np.vstack((R_DA, w)).T
@@ -59,12 +54,11 @@ def dists_DA(acv1, acv2, n_dist=10**6, return_weights=True):
         w2 = acv2.cloud_xyzqt[:, 3] / sum(acv2.cloud_xyzqt[:, 3])
         idx1 = np.random.choice(len(acv1.cloud_xyzqt), n_dist, p=w1)
         idx2 = np.random.choice(len(acv2.cloud_xyzqt), n_dist, p=w2)
-        R_DA = np.sqrt(np.sum((acv1.cloud_xyzqt[idx1, 0:3]
-                               - acv2.cloud_xyzqt[idx2, 0:3])**2, axis=1))
+        R_DA = np.sqrt(np.sum((acv1.cloud_xyzqt[idx1, 0:3] - acv2.cloud_xyzqt[idx2, 0:3]) ** 2, axis=1))
     return R_DA
 
 
-def dists_DA_ll(acv1, acv2, n_dist=10**6, return_weights=True):
+def dists_DA_ll(acv1, acv2, n_dist=10 ** 6, return_weights=True):
     """Compute a randomly subsampled donor-acceptor distance distribution
     for the two accessible volume clouds
 
@@ -83,15 +77,14 @@ def dists_DA_ll(acv1, acv2, n_dist=10**6, return_weights=True):
         ndarray of shape 1 x n_dist or 2 x n_dist (if weights are included)
         containing distances between acv1 and acv2
     """
-    R_DA = np.array(ll.sampleDistanceDistInv(acv1.ll_Grid3D, acv2.ll_Grid3D,
-                    n_dist))
+    R_DA = np.array(ll.sampleDistanceDistInv(acv1.ll_Grid3D, acv2.ll_Grid3D, n_dist))
     if return_weights:
         w = np.full((1, n_dist), 1 / n_dist)
         R_DA = np.vstack((R_DA, w)).T
     return R_DA
 
 
-def mean_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
+def mean_dist_DA(acv1, acv2, R_DA=None, n_dist=10 ** 6, verbose=False):
     """Calculate the average donor-acceptor distance <R_DA>
     between donor and acceptor
 
@@ -113,7 +106,7 @@ def mean_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
     if R_DA is None:
         R_DA = dists_DA(acv1, acv2, n_dist)
         if verbose:
-            print('> calculating R_DAs')
+            print("> calculating R_DAs")
     if R_DA.ndim > 1:
         mean_R_DA = np.dot(R_DA[:, 0], R_DA[:, 1]) / R_DA[:, 1].sum()
     else:
@@ -121,7 +114,7 @@ def mean_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
     return mean_R_DA
 
 
-def mean_dist_DA_ll(acv1, acv2, n_dist=10**6):
+def mean_dist_DA_ll(acv1, acv2, n_dist=10 ** 6):
     """Calculate the average donor-acceptor distance <R_DA> between
     acv1 and acv2 using LabelLib
 
@@ -141,7 +134,7 @@ def mean_dist_DA_ll(acv1, acv2, n_dist=10**6):
     return mean_R_DA
 
 
-def std_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
+def std_dist_DA(acv1, acv2, R_DA=None, n_dist=10 ** 6, verbose=False):
     """Calculate the standard deviation of the donor acceptor distances sigma_R_DA
 
     Parameters
@@ -163,16 +156,15 @@ def std_dist_DA(acv1, acv2, R_DA=None, n_dist=10**6, verbose=False):
     if R_DA is None:
         R_DA = dists_DA(acv1, acv2, n_dist)
         if verbose:
-            print('> calculating R_DAs')
+            print("> calculating R_DAs")
     if R_DA.ndim > 1:
-        sigma_R_DA = np.sqrt(np.dot(R_DA[:, 0]**2, R_DA[:, 1])
-                             - np.dot(R_DA[:, 0], R_DA[:, 1])**2)
+        sigma_R_DA = np.sqrt(np.dot(R_DA[:, 0] ** 2, R_DA[:, 1]) - np.dot(R_DA[:, 0], R_DA[:, 1]) ** 2)
     else:
         sigma_R_DA = np.std(R_DA)
     return sigma_R_DA
 
 
-def FRET_DA(acv1, acv2, R_DA=None, R0=54, n_dist=10**6, verbose=False):
+def FRET_DA(acv1, acv2, R_DA=None, R0=54, n_dist=10 ** 6, verbose=False):
     """Calculate the FRET efficiencies E for each donor acceptor distance
 
     Parameters
@@ -205,16 +197,15 @@ def FRET_DA(acv1, acv2, R_DA=None, R0=54, n_dist=10**6, verbose=False):
     if R_DA is None:
         R_DA = dists_DA(acv1, acv2, n_dist)
         if verbose:
-            print('> calculating R_DAs')
+            print("> calculating R_DAs")
     if R_DA.ndim > 1:
-        E_DA = np.vstack((R0**6 / (R0**6 + R_DA[:, 0]**6), R_DA[:, 1])).T
+        E_DA = np.vstack((R0 ** 6 / (R0 ** 6 + R_DA[:, 0] ** 6), R_DA[:, 1])).T
     else:
-        E_DA = R0**6 / (R0**6 + R_DA**6)
+        E_DA = R0 ** 6 / (R0 ** 6 + R_DA ** 6)
     return E_DA
 
 
-def mean_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
-                 verbose=False):
+def mean_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10 ** 6, verbose=False):
     """Calculate the average FRET efficiency <E> between donor and acceptor cloud
 
     Parameters
@@ -242,7 +233,7 @@ def mean_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
     if E_DA is None:
         E_DA = FRET_DA(acv1, acv2, R_DA, R0, n_dist, verbose)
         if verbose:
-            print('> calculating E_DAs')
+            print("> calculating E_DAs")
     if E_DA.ndim > 1:
         mean_E_DA = np.dot(E_DA[:, 0], E_DA[:, 1]) / E_DA[:, 1].sum()
     else:
@@ -250,8 +241,7 @@ def mean_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
     return mean_E_DA
 
 
-def std_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
-                verbose=False):
+def std_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10 ** 6, verbose=False):
     """Calculate the standard deviation of the FRET efficiencies sigma_E
 
     Parameters
@@ -279,16 +269,15 @@ def std_FRET_DA(acv1, acv2, E_DA=None, R_DA=None, R0=54, n_dist=10**6,
     if E_DA is None:
         E_DA = FRET_DA(acv1, acv2, R_DA, R0, n_dist, verbose)
         if verbose:
-            print('> calculating E_DAs')
+            print("> calculating E_DAs")
     if E_DA.ndim > 1:
-        sigma_E_DA = np.sqrt(np.dot(E_DA[:, 0]**2, E_DA[:, 1])
-                             - np.dot(E_DA[:, 0], E_DA[:, 1])**2)
+        sigma_E_DA = np.sqrt(np.dot(E_DA[:, 0] ** 2, E_DA[:, 1]) - np.dot(E_DA[:, 0], E_DA[:, 1]) ** 2)
     else:
         sigma_E_DA = np.std(E_DA)
     return sigma_E_DA
 
 
-def mean_FRET_DA_ll(acv1, acv2, R0=54, n_dist=10**6):
+def mean_FRET_DA_ll(acv1, acv2, R0=54, n_dist=10 ** 6):
     """Calculate the average FRET efficiency <E> between donor and acceptor cloud
     using LabelLib
 
@@ -309,8 +298,7 @@ def mean_FRET_DA_ll(acv1, acv2, R0=54, n_dist=10**6):
     return ll.meanEfficiency(acv1.ll_Grid3D, acv2.ll_Grid3D, R0, n_dist)
 
 
-def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None,
-                          R0=54, n_dist=10**6, verbose=False):
+def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None, R0=54, n_dist=10 ** 6, verbose=False):
     """Calculate the FRET averaged donor acceptor distance <R_DA>_E
 
     Parameters
@@ -359,14 +347,14 @@ def mean_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, E_DA=None, R_DA=None,
     if mean_E_DA is None:
         mean_E_DA = mean_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist, verbose)
         if verbose:
-            print('> calculating mean_E_DA')
-    mean_R_DA_E = R0 * (1 / mean_E_DA - 1)**(1 / 6)
+            print("> calculating mean_E_DA")
+    mean_R_DA_E = R0 * (1 / mean_E_DA - 1) ** (1 / 6)
     return mean_R_DA_E
 
 
-def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None,
-                         E_DA=None, R_DA=None, R0=54, n_dist=10**6,
-                         verbose=False):
+def std_dist_DA_fromFRET(
+    acv1, acv2, mean_E_DA=None, sigma_E_DA=None, E_DA=None, R_DA=None, R0=54, n_dist=10 ** 6, verbose=False
+):
     """Calculate the standard deviation of the FRET averaged donor acceptor
     distances sigma_R_DA_E by error propagation
 
@@ -401,10 +389,9 @@ def std_dist_DA_fromFRET(acv1, acv2, mean_E_DA=None, sigma_E_DA=None,
         mean_E_DA = mean_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist, verbose)
         sigma_E_DA = std_FRET_DA(acv1, acv2, E_DA, R_DA, R0, n_dist, verbose)
         if verbose:
-            print('> calculating mean_E_DA and sigma_E_DA')
+            print("> calculating mean_E_DA and sigma_E_DA")
     # error propagation: sqrt( (df/dx)^2 * sigma_x^2 )
-    sigma_R_DA_E = np.sqrt((R0/(6 * (1/mean_E_DA-1)**(5/6) * mean_E_DA**2))**2
-                           * sigma_E_DA**2)
+    sigma_R_DA_E = np.sqrt((R0 / (6 * (1 / mean_E_DA - 1) ** (5 / 6) * mean_E_DA ** 2)) ** 2 * sigma_E_DA ** 2)
     return sigma_R_DA_E
 
 
@@ -421,7 +408,7 @@ def dist_attach(attach1_xyz, attach2_xyz):
     float
         distance between the attachment sites
     """
-    R_attach = np.sqrt(sum((attach1_xyz - attach2_xyz)**2))
+    R_attach = np.sqrt(sum((attach1_xyz - attach2_xyz) ** 2))
     return R_attach
 
 
@@ -452,6 +439,6 @@ def R_DAE_to_Rmp(mean_R_DA_E):
     .. [3] Kalinin, S. et al. "A toolkit and benchmark study for FRET-restrained high-precision \
         structural modeling", *Nat. Methods* **9**, 1218–1225 (2012).
     """
-    R_mp = 1.109*10**-5*mean_R_DA_E**3 - 7.286*10**-3*mean_R_DA_E**2 \
-        + 1.979*mean_R_DA_E - 34.345
+    R_mp = 1.109 * 10 ** -5 * mean_R_DA_E ** 3 - 7.286 * 10 ** -3 * mean_R_DA_E ** 2
+    +1.979 * mean_R_DA_E - 34.345
     return R_mp

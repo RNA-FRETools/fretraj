@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage() { echo "Visualize ACV restraints in PyMOL
-Usage: pymol_restraints.sh -c <structure file (.gro/.pdb)> -x <xtc trajectory> (optional) -v <pymol visualization file> (optional), -s <start,stop,stride (default 1,-1,1)>" 1>&2; exit 1; }
+Usage: pymol_vis -c <structure file (.gro/.pdb)> -x <xtc trajectory> (optional) -v <pymol visualization file> (optional), -s <start,stop,stride (default 1,-1,1)>" 1>&2; exit 1; }
 invalidOpt() { echo "Invalid option: -$OPTARG" 1>&2; exit 1; }
 missingArg() { echo "Option -$OPTARG requires an argument" 1>&2; exit 1; }
 cleanup() { if ls -f $1/\#* 1> /dev/null 2>&1 ; then rm $1/\#* ; fi ; }
