@@ -8,7 +8,6 @@ Calculate accessible contact volumes and predict FRET efficiencies
 
 import sys
 import os
-from PyQt5 import QtWidgets, QtCore, QtGui, uic
 import mdtraj as md
 import json
 import copy
@@ -32,6 +31,11 @@ except ModuleNotFoundError:
     print("Pymol is not installed. Submodule fretraj.isosurf will not be imported.")
 else:
     from fretraj import isosurf
+
+try:
+    from PyQt5 import QtWidgets, QtCore, QtGui, uic
+except ModuleNotFoundError:
+    print("PyQt5 is not installed. Please install with pip or conda.")
 
 package_directory = os.path.dirname(os.path.abspath(cloud.__file__))
 
