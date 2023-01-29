@@ -131,7 +131,7 @@ The above key-values are mandatory. The main keys define photopyhsical parameter
     },
 "fret": 
     {"kappasquare": 0.6666
-     "no_gamma": False,
+     "gamma": True,
      "quenching_radius" 1,
     }
 "species":
