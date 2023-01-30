@@ -18,7 +18,6 @@ jobs:
     - name: build docs
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        source $HOME/.poetry/env
         export POETRY_VIRTUALENVS_CREATE=false
         pip install jupyter-book matplotlib seaborn
         poetry install
