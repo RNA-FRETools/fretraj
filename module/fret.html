@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>FRET</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,51 +20,67 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/fretraj_logo.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Grid" href="grid.html" />
     <link rel="prev" title="Cloud" href="cloud.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -71,10 +89,15 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
       
       <img src="../_static/fretraj_logo.png" class="logo" alt="logo">
       
@@ -83,16 +106,17 @@
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro.html">
-   Welcome to FRETraj
-  </a>
- </li>
-</ul>
-<p class="caption">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to FRETraj
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Getting started
  </span>
@@ -132,7 +156,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Background
  </span>
@@ -154,7 +178,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Code
  </span>
@@ -186,7 +210,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   References
  </span>
@@ -200,12 +224,17 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
 </div>
 
 
@@ -213,86 +242,170 @@
 
 
           
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
     
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
+    <div class="header-article row sticky-top noprint">
         
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/module/fret.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/RNA-FRETools/fretraj"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2Fmodule/fret.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/module/fret.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
     </div>
 </div>
 
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/RNA-FRETools/fretraj"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2Fmodule/fret.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
 </div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-        </div>
     </div>
-</div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>FRET</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="section" id="fret">
-<h1>FRET<a class="headerlink" href="#fret" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="fret">
+<h1>FRET<a class="headerlink" href="#fret" title="Permalink to this headline">#</a></h1>
 <p>The <strong>FRET</strong> submodule provides all the functionality to calculate distance and FRET distributions between a donor and an acceptor ACV cloud.</p>
 <span class="target" id="module-fretraj.fret"></span><dl class="py function">
-<dt id="fretraj.fret.FRET_DA">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">FRET_DA</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#FRET_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.FRET_DA" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.FRET_DA">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">FRET_DA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#FRET_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.FRET_DA" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the FRET efficiencies E for each donor acceptor distance</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -317,8 +430,8 @@ containing FRET efficiencies between acv1 and acv2</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.R_DAE_to_Rmp">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">R_DAE_to_Rmp</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean_R_DA_E</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#R_DAE_to_Rmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.R_DAE_to_Rmp" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.R_DAE_to_Rmp">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">R_DAE_to_Rmp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean_R_DA_E</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#R_DAE_to_Rmp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.R_DAE_to_Rmp" title="Permalink to this definition">#</a></dt>
 <dd><p>Conversion function for &lt;R_DA,E&gt; to R_mp derived in Kalinin, <em>Nat. Methods</em> (2012)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -343,8 +456,8 @@ polynomial:</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.dist_attach">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">dist_attach</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attach1_xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attach2_xyz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#dist_attach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.dist_attach" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.dist_attach">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">dist_attach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attach1_xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attach2_xyz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#dist_attach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.dist_attach" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the distance between the attachment sites</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -357,8 +470,8 @@ polynomial:</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.dist_mp">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">dist_mp</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#dist_mp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.dist_mp" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.dist_mp">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">dist_mp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#dist_mp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.dist_mp" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the distance between mean dye positions R_MP of two accessible
 contact volumes</p>
 <dl class="field-list simple">
@@ -372,8 +485,8 @@ contact volumes</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.dists_DA">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">dists_DA</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#dists_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.dists_DA" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.dists_DA">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">dists_DA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#dists_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.dists_DA" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute a randomly subsampled donor-acceptor distance distribution
 for the two accessible volume clouds</p>
 <dl class="field-list simple">
@@ -392,8 +505,8 @@ containing distances between acv1 and acv2</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.dists_DA_ll">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">dists_DA_ll</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#dists_DA_ll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.dists_DA_ll" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.dists_DA_ll">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">dists_DA_ll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#dists_DA_ll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.dists_DA_ll" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute a randomly subsampled donor-acceptor distance distribution
 for the two accessible volume clouds</p>
 <dl class="field-list simple">
@@ -412,8 +525,8 @@ containing distances between acv1 and acv2</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.mean_FRET_DA">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">mean_FRET_DA</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_FRET_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_FRET_DA" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.mean_FRET_DA">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">mean_FRET_DA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_FRET_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_FRET_DA" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the average FRET efficiency &lt;E&gt; between donor and acceptor cloud</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -435,8 +548,8 @@ between acv1 and acv2 (if None calculate on the fly)</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.mean_FRET_DA_ll">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">mean_FRET_DA_ll</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_FRET_DA_ll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_FRET_DA_ll" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.mean_FRET_DA_ll">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">mean_FRET_DA_ll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_FRET_DA_ll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_FRET_DA_ll" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the average FRET efficiency &lt;E&gt; between donor and acceptor cloud
 using LabelLib</p>
 <dl class="field-list simple">
@@ -454,8 +567,8 @@ using LabelLib</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.mean_dist_DA">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">mean_dist_DA</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_dist_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_dist_DA" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.mean_dist_DA">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">mean_dist_DA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_dist_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_dist_DA" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the average donor-acceptor distance &lt;R_DA&gt;
 between donor and acceptor</p>
 <dl class="field-list simple">
@@ -474,8 +587,8 @@ between donor and acceptor</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.mean_dist_DA_fromFRET">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">mean_dist_DA_fromFRET</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_dist_DA_fromFRET"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_dist_DA_fromFRET" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.mean_dist_DA_fromFRET">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">mean_dist_DA_fromFRET</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_dist_DA_fromFRET"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_dist_DA_fromFRET" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the FRET averaged donor acceptor distance &lt;R_DA&gt;_E</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -513,8 +626,8 @@ between acv1 and acv2 (if None calculate on the fly)</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.mean_dist_DA_ll">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">mean_dist_DA_ll</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_dist_DA_ll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_dist_DA_ll" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.mean_dist_DA_ll">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">mean_dist_DA_ll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#mean_dist_DA_ll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.mean_dist_DA_ll" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the average donor-acceptor distance &lt;R_DA&gt; between
 acv1 and acv2 using LabelLib</p>
 <dl class="field-list simple">
@@ -531,8 +644,8 @@ acv1 and acv2 using LabelLib</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.std_FRET_DA">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">std_FRET_DA</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#std_FRET_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.std_FRET_DA" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.std_FRET_DA">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">std_FRET_DA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#std_FRET_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.std_FRET_DA" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the standard deviation of the FRET efficiencies sigma_E</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -554,8 +667,8 @@ between acv1 and acv2 (if None calculate on the fly)</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.std_dist_DA">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">std_dist_DA</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#std_dist_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.std_dist_DA" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.std_dist_DA">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">std_dist_DA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#std_dist_DA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.std_dist_DA" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the standard deviation of the donor acceptor distances sigma_R_DA</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -573,8 +686,8 @@ between acv1 and acv2 (if None calculate on the fly)</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fretraj.fret.std_dist_DA_fromFRET">
-<code class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></code><code class="sig-name descname"><span class="pre">std_dist_DA_fromFRET</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#std_dist_DA_fromFRET"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.std_dist_DA_fromFRET" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.fret.std_dist_DA_fromFRET">
+<span class="sig-prename descclassname"><span class="pre">fretraj.fret.</span></span><span class="sig-name descname"><span class="pre">std_dist_DA_fromFRET</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acv1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acv2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_DA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">54</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/fret.html#std_dist_DA_fromFRET"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.fret.std_dist_DA_fromFRET" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the standard deviation of the FRET averaged donor acceptor
 distances sigma_R_DA_E by error propagation</p>
 <dl class="field-list simple">
@@ -599,7 +712,7 @@ between acv1 and acv2 (if None calculate on the fly)</p></li>
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -623,34 +736,48 @@ between acv1 and acv2 (if None calculate on the fly)</p></li>
 
               </div>
               
-        
-        <div class='prev-next-bottom'>
-            
-    <a class='left-prev' id="prev-link" href="cloud.html" title="previous page">Cloud</a>
-    <a class='right-next' id="next-link" href="grid.html" title="next page">Grid</a>
-
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="cloud.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Cloud</p>
         </div>
-        
+    </a>
+    <a class='right-next' id="next-link" href="grid.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Grid</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Fabio D. Steffen<br/>
-        
-            &copy; Copyright 2020-2021.<br/>
-      </p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Fabio D. Steffen<br/>
+  
+      &copy; Copyright 2020-2021.<br/>
+</p>
+        </footer>
     </div>
-  </footer>
-</main>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 
-  
+
   </body>
 </html>

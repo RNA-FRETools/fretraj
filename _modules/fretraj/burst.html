@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>fretraj.burst</title>
     
-  <link href="../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,47 +19,63 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/togglebutton.js"></script>
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
     <link rel="shortcut icon" href="../../_static/fretraj_logo.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -67,10 +84,15 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
       
       <img src="../../_static/fretraj_logo.png" class="logo" alt="logo">
       
@@ -79,16 +101,17 @@
 </div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../../intro.html">
-   Welcome to FRETraj
-  </a>
- </li>
-</ul>
-<p class="caption">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to FRETraj
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Getting started
  </span>
@@ -128,7 +151,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Background
  </span>
@@ -150,7 +173,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Code
  </span>
@@ -182,7 +205,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   References
  </span>
@@ -196,12 +219,17 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
 </div>
 
 
@@ -209,61 +237,116 @@
 
 
           
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
     
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/RNA-FRETools/fretraj"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2F_modules/fretraj/burst.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+    <div class="header-article row sticky-top noprint">
         
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/RNA-FRETools/fretraj"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2F_modules/fretraj/burst.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
     </div>
 </div>
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-        </div>
-    </div>
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
               <div>
                 
   <h1>Source code for fretraj.burst</h1><div class="highlight"><pre>
@@ -326,7 +409,7 @@
             <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;R0&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">},</span>
                 <span class="s2">&quot;kappasquare&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">},</span>
-                <span class="s2">&quot;no_gamma&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">},</span>
+                <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">},</span>
                 <span class="s2">&quot;quenching_radius&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">},</span>
             <span class="p">},</span>
             <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;R0&quot;</span><span class="p">],</span>
@@ -363,14 +446,14 @@
 <span class="n">_defaults</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;dyes&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dipole_angle_abs_em&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
     <span class="s2">&quot;sampling&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nbursts&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span> <span class="s2">&quot;skipframesatstart&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;skipframesatend&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="s2">&quot;multiprocessing&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
-    <span class="s2">&quot;fret&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;kappasquare&quot;</span><span class="p">:</span> <span class="mf">0.6666</span><span class="p">,</span> <span class="s2">&quot;no_gamma&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;quenching_radius&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s2">&quot;fret&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;kappasquare&quot;</span><span class="p">:</span> <span class="mf">0.6666</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;quenching_radius&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
     <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;n_trajectory_splits&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
     <span class="s2">&quot;bursts&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;QY_correction&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;burst_size_file&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
 <span class="p">}</span>
 
 
 <div class="viewcode-block" id="parseCmd"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.parseCmd">[docs]</a><span class="k">def</span> <span class="nf">parseCmd</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Read the command line arguments</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read the command line arguments</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -390,7 +473,7 @@
 
 
 <div class="viewcode-block" id="readParameters"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.readParameters">[docs]</a><span class="k">def</span> <span class="nf">readParameters</span><span class="p">(</span><span class="n">parameter_file</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read parameters from a JSON file</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read parameters from a JSON file</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -413,7 +496,7 @@
 
 
 <div class="viewcode-block" id="in_notebook"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.in_notebook">[docs]</a><span class="k">def</span> <span class="nf">in_notebook</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Check if code is run in IPython notebook.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if code is run in IPython notebook.</span>
 <span class="sd">    The variable `__IPYTHON__` is defined in Jupyter or IPython but not a normal Python interpreter.</span>
 
 <span class="sd">    Returns</span>
@@ -429,7 +512,7 @@
 
 
 <div class="viewcode-block" id="Ensemble"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Ensemble">[docs]</a><span class="k">class</span> <span class="nc">Ensemble</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Instantiate a new ensemble of trajectories from different species</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate a new ensemble of trajectories from different species</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -499,7 +582,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">checkTimeStepIdentity</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Ensemble.checkTimeStepIdentity"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Ensemble.checkTimeStepIdentity">[docs]</a>    <span class="k">def</span> <span class="nf">checkTimeStepIdentity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verify that the trajectories of all species in the ensemble have the same time step&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify that the trajectories of all species in the ensemble have the same time step&quot;&quot;&quot;</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="p">[</span><span class="n">traj</span><span class="o">.</span><span class="n">dt</span> <span class="k">for</span> <span class="n">species</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">species</span> <span class="k">for</span> <span class="n">traj</span> <span class="ow">in</span> <span class="n">species</span><span class="o">.</span><span class="n">trajectories</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="n">dt</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Timestep of trajectories is not the same across the ensemble.&quot;</span><span class="p">)</span>
@@ -508,7 +591,7 @@
 
 
 <div class="viewcode-block" id="Species"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Species">[docs]</a><span class="k">class</span> <span class="nc">Species</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Create a new species of trajectories</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new species of trajectories</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -574,7 +657,7 @@
 
 
 <div class="viewcode-block" id="Trajectory"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Trajectory">[docs]</a><span class="k">class</span> <span class="nc">Trajectory</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Time trajectory (in ps) of inter-dye distances (in nm) and kappa-square values</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Time trajectory (in ps) of inter-dye distances (in nm) and kappa-square values</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -610,7 +693,7 @@
 
 <div class="viewcode-block" id="Trajectory.from_file"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Trajectory.from_file">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rkappa_filename</span><span class="p">,</span> <span class="n">don_coords_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acc_coords_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a burst.Trajectory class from filenames</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a burst.Trajectory class from filenames</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -652,7 +735,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">rkappa</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rkappa</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">rkappa</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">donor_xyz</span><span class="p">,</span> <span class="n">acceptor_xyz</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Trajectory.checkLengthIdentity"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Trajectory.checkLengthIdentity">[docs]</a>    <span class="k">def</span> <span class="nf">checkLengthIdentity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">traj_length</span><span class="p">,</span> <span class="n">donor_xyz</span><span class="p">,</span> <span class="n">acceptor_xyz</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Check that rkappa and dye coordinate files have the same length</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that rkappa and dye coordinate files have the same length</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -671,7 +754,7 @@
 
 <div class="viewcode-block" id="Trajectory.transitionDipole"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Trajectory.transitionDipole">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">transitionDipole</span><span class="p">(</span><span class="n">dye_xyz</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute a normalized transition dipole vector</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute a normalized transition dipole vector</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -693,7 +776,7 @@
 
 
 <div class="viewcode-block" id="Burst"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Burst">[docs]</a><span class="k">class</span> <span class="nc">Burst</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Create a new burst</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new burst</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -715,7 +798,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">FRETefficiency</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Burst.checkBurstSizeReached"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Burst.checkBurstSizeReached">[docs]</a>    <span class="k">def</span> <span class="nf">checkBurstSizeReached</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">QD</span><span class="p">,</span> <span class="n">QA</span><span class="p">,</span> <span class="n">QY_correction</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Check if the number of photons has reached the specified burstsize</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the number of photons has reached the specified burstsize</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -735,7 +818,7 @@
             <span class="k">return</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="Burst.addRelaxationEvent"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Burst.addRelaxationEvent">[docs]</a>    <span class="k">def</span> <span class="nf">addRelaxationEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">decaytime</span><span class="p">,</span> <span class="n">polarization</span><span class="p">,</span> <span class="n">is_AA</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Classify the relaxation event</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify the relaxation event</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -776,21 +859,20 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">events_DD_DA</span><span class="p">[</span><span class="s2">&quot;q&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">decaytimes_DD_DA</span><span class="p">[</span><span class="s2">&quot;q&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">decaytime</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Burst.calcFRET"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Burst.calcFRET">[docs]</a>    <span class="k">def</span> <span class="nf">calcFRET</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">no_gamma</span><span class="p">,</span> <span class="n">QD</span><span class="p">,</span> <span class="n">QA</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the transfer efficiency based on the donor and acceptor photon counts upon donor excitation</span>
+<div class="viewcode-block" id="Burst.calcFRET"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Burst.calcFRET">[docs]</a>    <span class="k">def</span> <span class="nf">calcFRET</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">QD</span><span class="p">,</span> <span class="n">QA</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the transfer efficiency based on the donor and acceptor photon counts upon donor excitation</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        no_gamma : bool</span>
-<span class="sd">            mimic an uncorrected FRET experiment (i.e. before gamma-correction) which is affected by the different</span>
-<span class="sd">            quantum yields of donor and acceptor (note: the detection efficiency ratio is always set to be 1).</span>
-<span class="sd">            If the simulation should be compared to a gamma-corrected experiment this parameter should be set to `False`.</span>
+<span class="sd">        gamma : bool</span>
+<span class="sd">            If the simulation should be compare to a gamma-corrected experiment (note: the detection efficiency ratio is set to 1), set this parameter to `True`.</span>
+<span class="sd">            If the simulation should be compared to a uncorrected experiment, set this parameter to `False`.</span>
 <span class="sd">        QD : float</span>
 <span class="sd">            donor fluorescence quantum yield</span>
 <span class="sd">        QA : float</span>
 <span class="sd">            acceptor fluorescence quantum yield</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">no_gamma</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gamma</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">FRETefficiency</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">events_DD_DA</span><span class="p">[</span><span class="s2">&quot;A_f&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">QA</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">events_DD_DA</span><span class="p">[</span><span class="s2">&quot;A_f&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">QA</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">events_DD_DA</span><span class="p">[</span><span class="s2">&quot;D_f&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">QD</span>
             <span class="p">)</span>
@@ -799,7 +881,7 @@
 
 
 <div class="viewcode-block" id="Relaxation"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Relaxation">[docs]</a><span class="k">class</span> <span class="nc">Relaxation</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Create a relaxation event (photon emission or internal conversion)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a relaxation event (photon emission or internal conversion)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -887,7 +969,7 @@
 
 
 <div class="viewcode-block" id="Experiment"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment">[docs]</a><span class="k">class</span> <span class="nc">Experiment</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Setup an in silico fluorescence experiment</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Setup an in silico fluorescence experiment</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1039,7 +1121,7 @@
 
 <div class="viewcode-block" id="Experiment.polarizationIntensity"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.polarizationIntensity">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">polarizationIntensity</span><span class="p">(</span><span class="n">binwidth</span><span class="p">,</span> <span class="n">decaytimes</span><span class="p">,</span> <span class="n">polarizations</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the polarization-resolved fluorescence intensities</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the polarization-resolved fluorescence intensities</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1069,7 +1151,7 @@
 
 <div class="viewcode-block" id="Experiment.calcAnisotropy"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.calcAnisotropy">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">calcAnisotropy</span><span class="p">(</span><span class="n">polIntensity</span><span class="p">,</span> <span class="n">dipole_angle_abs_em</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the time-resolved anisotropy decay</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the time-resolved anisotropy decay</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1101,7 +1183,7 @@
         <span class="k">return</span> <span class="n">anisotropy</span></div>
 
 <div class="viewcode-block" id="Experiment.calcTransitionRates"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.calcTransitionRates">[docs]</a>    <span class="k">def</span> <span class="nf">calcTransitionRates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the time-independent transition rates and probabilities&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the time-independent transition rates and probabilities&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;kD_f&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QD&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;tauD&quot;</span><span class="p">],</span>
             <span class="s2">&quot;kA_f&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QA&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;tauA&quot;</span><span class="p">],</span>
@@ -1121,7 +1203,7 @@
         <span class="p">}</span></div>
 
 <div class="viewcode-block" id="Experiment.calcTransferRate"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.calcTransferRate">[docs]</a>    <span class="k">def</span> <span class="nf">calcTransferRate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculated the time-dependent transfer rate</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculated the time-dependent transfer rate</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1141,7 +1223,7 @@
         <span class="k">return</span> <span class="n">k_fret</span></div>
 
 <div class="viewcode-block" id="Experiment.calcBurst"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.calcBurst">[docs]</a>    <span class="k">def</span> <span class="nf">calcBurst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">burstsize</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute a photon burst</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute a photon burst</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1191,13 +1273,11 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QD&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QA&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;bursts&quot;</span><span class="p">][</span><span class="s2">&quot;QY_correction&quot;</span><span class="p">]</span>
             <span class="p">):</span>
                 <span class="k">break</span>
-        <span class="n">burst</span><span class="o">.</span><span class="n">calcFRET</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;fret&quot;</span><span class="p">][</span><span class="s2">&quot;no_gamma&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QD&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QA&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
+        <span class="n">burst</span><span class="o">.</span><span class="n">calcFRET</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;fret&quot;</span><span class="p">][</span><span class="s2">&quot;gamma&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QD&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;dyes&quot;</span><span class="p">][</span><span class="s2">&quot;QA&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">burst</span></div>
 
 <div class="viewcode-block" id="Experiment.calcBurstsizes"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.calcBurstsizes">[docs]</a>    <span class="k">def</span> <span class="nf">calcBurstsizes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute random burstsizes x_1,x_2,...x_n based on an analytical burstsize distribution P(x) = x^lambda</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute random burstsizes x_1,x_2,...x_n based on an analytical burstsize distribution P(x) = x^lambda</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1221,7 +1301,7 @@
 
 <div class="viewcode-block" id="Experiment.shot_noise_width"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.shot_noise_width">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">shot_noise_width</span><span class="p">(</span><span class="n">mean_E</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the width (standard deviation) expected due to shot noise given the total number of photons `N`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the width (standard deviation) expected due to shot noise given the total number of photons `N`.</span>
 <span class="sd">        When `N` is the minimal photon threshold for a burst, i.e. parameters[&#39;burst&#39;][&#39;lower_limit&#39;],</span>
 <span class="sd">        then function returns the maximum width expected solely due to shot noise.</span>
 
@@ -1240,7 +1320,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_E</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">mean_E</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Experiment.gaussian"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.gaussian">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculate a Gaussian probability density function</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate a Gaussian probability density function</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1259,7 +1339,7 @@
         <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Experiment.save"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">remove_bursts</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Pickle the experiment class to a file</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pickle the experiment class to a file</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1278,7 +1358,7 @@
 
 <div class="viewcode-block" id="Experiment.load"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.load">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Load an instance of the experiment class from a pickle file</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load an instance of the experiment class from a pickle file</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1289,7 +1369,7 @@
             <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Experiment.print_settings"><a class="viewcode-back" href="../../module/burst.html#fretraj.burst.Experiment.print_settings">[docs]</a>    <span class="k">def</span> <span class="nf">print_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_anisotropy</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Print the rates and settings of the in-silico experiment</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print the rates and settings of the in-silico experiment</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1299,7 +1379,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Orientation independent R0_const = </span><span class="si">{:0.1f}</span><span class="s2"> A&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;fret&quot;</span><span class="p">][</span><span class="s2">&quot;R0_const&quot;</span><span class="p">]))</span>
 
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">              donor    acceptor</span>
 <span class="sd">QY            {:0.2f}    {:0.2f}</span>
 <span class="sd">tau (ns)      {:0.2f}    {:0.2f}</span>
@@ -1340,32 +1420,34 @@
 
               </div>
               
-        
-        <div class='prev-next-bottom'>
-            
-
-        </div>
-        
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Fabio D. Steffen<br/>
-        
-            &copy; Copyright 2020-2021.<br/>
-      </p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Fabio D. Steffen<br/>
+  
+      &copy; Copyright 2020-2021.<br/>
+</p>
+        </footer>
     </div>
-  </footer>
-</main>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 
-  
+
   </body>
 </html>

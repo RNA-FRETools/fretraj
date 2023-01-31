@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Grid</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,49 +20,65 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
     <link rel="shortcut icon" href="../_static/fretraj_logo.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Burst" href="burst.html" />
     <link rel="prev" title="FRET" href="fret.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -69,10 +87,15 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
       
       <img src="../_static/fretraj_logo.png" class="logo" alt="logo">
       
@@ -81,16 +104,17 @@
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro.html">
-   Welcome to FRETraj
-  </a>
- </li>
-</ul>
-<p class="caption">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to FRETraj
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Getting started
  </span>
@@ -130,7 +154,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Background
  </span>
@@ -152,7 +176,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Code
  </span>
@@ -184,7 +208,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   References
  </span>
@@ -198,12 +222,17 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
 </div>
 
 
@@ -211,86 +240,170 @@
 
 
           
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
     
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
+    <div class="header-article row sticky-top noprint">
         
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/module/grid.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/RNA-FRETools/fretraj"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2Fmodule/grid.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/module/grid.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
     </div>
 </div>
 
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/RNA-FRETools/fretraj"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/RNA-FRETools/fretraj/issues/new?title=Issue%20on%20page%20%2Fmodule/grid.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
 </div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-        </div>
     </div>
-</div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Grid</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="section" id="grid">
-<h1>Grid<a class="headerlink" href="#grid" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="grid">
+<h1>Grid<a class="headerlink" href="#grid" title="Permalink to this headline">#</a></h1>
 <p>The <strong>grid</strong> submodule generates a ACV point cloud using Python-only functions. While naturally slower than the C++ version implemented in LabelLib it allows for rapid prototyping.</p>
 <span class="target" id="module-fretraj.grid"></span><dl class="py class">
-<dt id="fretraj.grid.Grid3D">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fretraj.grid.</span></code><code class="sig-name descname"><span class="pre">Grid3D</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attach_xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linker_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linker_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dye_radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fretraj.grid.</span></span><span class="sig-name descname"><span class="pre">Grid3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attach_xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linker_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linker_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dye_radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D" title="Permalink to this definition">#</a></dt>
 <dd><p>Class object holding a 3D grid</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -316,8 +429,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D._assignDensity">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">_assignDensity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">das_xyzrm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outDistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._assignDensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._assignDensity" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D._assignDensity">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_assignDensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">das_xyzrm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outDistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._assignDensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._assignDensity" title="Permalink to this definition">#</a></dt>
 <dd><p>Loop through the atom of the biomolecule and reassign those grid value which are within das_xyzrm[m, 3]
 as they belong to the CV.</p>
 <dl class="field-list simple">
@@ -339,8 +452,8 @@ as they belong to the CV.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D._assignRho">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">_assignRho</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dye_radii_sorted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outdistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._assignRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._assignRho" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D._assignRho">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_assignRho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dye_radii_sorted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outdistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._assignRho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._assignRho" title="Permalink to this definition">#</a></dt>
 <dd><p>Loop through the atoms and radii and reassign the grid values with a number 0 &lt; rho &lt; 1.
 0.00: grid point is not compatible with any of the three dye radii (clashes with VdW surface)
 0.33: grid point is compatible with the smallest dye radius
@@ -364,8 +477,8 @@ as they belong to the CV.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D._carve_VdWextraClash">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">_carve_VdWextraClash</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraClash</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outDistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._carve_VdWextraClash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._carve_VdWextraClash" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D._carve_VdWextraClash">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_carve_VdWextraClash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbor_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ijk_atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraClash</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outDistSq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._carve_VdWextraClash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._carve_VdWextraClash" title="Permalink to this definition">#</a></dt>
 <dd><p>Loop through the atoms and assign -1 to all grid values that are within the atoms VdW radius
 plus an extraClash value</p>
 <dl class="field-list simple">
@@ -385,8 +498,8 @@ plus an extraClash value</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D._neighborIdx">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">_neighborIdx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._neighborIdx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._neighborIdx" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D._neighborIdx">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_neighborIdx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._neighborIdx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._neighborIdx" title="Permalink to this definition">#</a></dt>
 <dd><p>Build a list of neighboring indices to the origin (0,0,0)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -410,8 +523,8 @@ accuracy)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D._xyz2idx">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">_xyz2idx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">originAdj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._xyz2idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._xyz2idx" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D._xyz2idx">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_xyz2idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">originAdj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D._xyz2idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D._xyz2idx" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the ijk grid indices for a set of xyz values</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -430,8 +543,8 @@ accuracy)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.addWeights">
-<code class="sig-name descname"><span class="pre">addWeights</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">das_xyzrm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.addWeights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.addWeights" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.addWeights">
+<span class="sig-name descname"><span class="pre">addWeights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">das_xyzrm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.addWeights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.addWeights" title="Permalink to this definition">#</a></dt>
 <dd><p>Reassign those grid values which are part of the contact volume.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -444,8 +557,8 @@ accuracy)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.block_molecule">
-<code class="sig-name descname"><span class="pre">block_molecule</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraClash</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.block_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.block_molecule" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.block_molecule">
+<span class="sig-name descname"><span class="pre">block_molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraClash</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.block_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.block_molecule" title="Permalink to this definition">#</a></dt>
 <dd><p>Block the grid points which are within the VdW radius of any atom of the biomolecule plus an extra clash radius</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -461,8 +574,8 @@ accuracy)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.dijkstra">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">dijkstra</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_ess</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_ijk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.dijkstra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.dijkstra" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.dijkstra">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dijkstra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_ess</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges_src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_ijk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.dijkstra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.dijkstra" title="Permalink to this definition">#</a></dt>
 <dd><p>Djikstra algorithm with a priority queue</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -481,8 +594,8 @@ accuracy)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.dijkstra_init">
-<code class="sig-name descname"><span class="pre">dijkstra_init</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxR_source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.dijkstra_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.dijkstra_init" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.dijkstra_init">
+<span class="sig-name descname"><span class="pre">dijkstra_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxR_source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.dijkstra_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.dijkstra_init" title="Permalink to this definition">#</a></dt>
 <dd><p>Initialize the Dijkstra search algorithm</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -498,8 +611,8 @@ accuracy)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.essential_neighbors">
-<code class="sig-name descname"><span class="pre">essential_neighbors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idxs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.essential_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.essential_neighbors" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.essential_neighbors">
+<span class="sig-name descname"><span class="pre">essential_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idxs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.essential_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.essential_neighbors" title="Permalink to this definition">#</a></dt>
 <dd><p>Reduce the neighbor list to those indices with a distance from the origin featured in dist_list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -517,8 +630,8 @@ at the expense of the accuracy of the resulting accessible volume (i.e. its “s
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.excludeConcentricSpheres">
-<code class="sig-name descname"><span class="pre">excludeConcentricSpheres</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dye_radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxRho</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.excludeConcentricSpheres"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.excludeConcentricSpheres" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.excludeConcentricSpheres">
+<span class="sig-name descname"><span class="pre">excludeConcentricSpheres</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_xyzr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dye_radii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxRho</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.excludeConcentricSpheres"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.excludeConcentricSpheres" title="Permalink to this definition">#</a></dt>
 <dd><p>Exclude all grid points which are not compatible with any of the dye radii because of clashing with the VdW surface</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -535,8 +648,8 @@ at the expense of the accuracy of the resulting accessible volume (i.e. its “s
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.make_grid">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">make_grid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attach_xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linker_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.make_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.make_grid" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.make_grid">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attach_xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linker_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.make_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.make_grid" title="Permalink to this definition">#</a></dt>
 <dd><p>Build a 3D grid around the attachment point</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -554,8 +667,8 @@ at the expense of the accuracy of the resulting accessible volume (i.e. its “s
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.setAboveTreshold">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">setAboveTreshold</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.setAboveTreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.setAboveTreshold" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.setAboveTreshold">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setAboveTreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_3d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.setAboveTreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.setAboveTreshold" title="Permalink to this definition">#</a></dt>
 <dd><p>Reassign grid values which are above a specified treshold</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -572,8 +685,8 @@ at the expense of the accuracy of the resulting accessible volume (i.e. its “s
 </dd></dl>
 
 <dl class="py method">
-<dt id="fretraj.grid.Grid3D.sortedNeighborIdx">
-<code class="sig-name descname"><span class="pre">sortedNeighborIdx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxR</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.sortedNeighborIdx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.sortedNeighborIdx" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fretraj.grid.Grid3D.sortedNeighborIdx">
+<span class="sig-name descname"><span class="pre">sortedNeighborIdx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxR</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fretraj/grid.html#Grid3D.sortedNeighborIdx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fretraj.grid.Grid3D.sortedNeighborIdx" title="Permalink to this definition">#</a></dt>
 <dd><p>Build a neighbor list with a maximal extent given by maxR and sorted by increasing distance
 from the origin</p>
 <dl class="field-list simple">
@@ -588,7 +701,7 @@ from the origin</p>
 
 </dd></dl>
 
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -612,34 +725,48 @@ from the origin</p>
 
               </div>
               
-        
-        <div class='prev-next-bottom'>
-            
-    <a class='left-prev' id="prev-link" href="fret.html" title="previous page">FRET</a>
-    <a class='right-next' id="next-link" href="burst.html" title="next page">Burst</a>
-
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="fret.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">FRET</p>
         </div>
-        
+    </a>
+    <a class='right-next' id="next-link" href="burst.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Burst</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
-    <div class="container">
-      <p>
-        
-          By Fabio D. Steffen<br/>
-        
-            &copy; Copyright 2020-2021.<br/>
-      </p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Fabio D. Steffen<br/>
+  
+      &copy; Copyright 2020-2021.<br/>
+</p>
+        </footer>
     </div>
-  </footer>
-</main>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 
-  
+
   </body>
 </html>
