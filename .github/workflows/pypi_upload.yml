@@ -25,14 +25,14 @@ jobs:
       env:
         POETRY_HOME: ${{ github.workspace }}
       run: |
-        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+        curl -sSL https://install.python-poetry.org | python3 -
         echo "$POETRY_HOME/bin" >> $GITHUB_PATH
     - name: Get Poetry for Windows
       if: matrix.os == 'windows-latest'
       env:
         POETRY_HOME: ${{ github.workspace }}
       run: |
-        (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -
+        (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
         echo "$env:POETRY_HOME\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     - uses: conda-incubator/setup-miniconda@v2
       with:
@@ -66,7 +66,7 @@ jobs:
       env:
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
       run: |
-        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+        curl -sSL https://install.python-poetry.org | python3 -
         source $HOME/.poetry/env
         poetry publish
         
