@@ -1,5 +1,8 @@
 ## Changelog
 
+### [0.2.7] 2023-10-16
+- Add Python 3.11 support
+
 ### [0.2.6] 2021-07-19
 - Remove nglview as dependency to make package installation faster
 - Fix includes and remove tests from deployed wheel and sdist (test suite is available with the source code on Github)
