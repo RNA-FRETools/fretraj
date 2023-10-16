@@ -42,9 +42,8 @@ jobs:
     - name: Build package
       env:
         POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates an environment by default 
-      shell: pwsh
       run: |
-        conda info
+        conda install poetry-core
         poetry build
     - name: Upload build artefact
       uses: actions/upload-artifact@v2
