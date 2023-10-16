@@ -44,7 +44,6 @@ jobs:
         POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates an environment by default 
       shell: pwsh
       run: |
-        conda activate fretraj
         poetry build
     - name: Upload build artefact
       uses: actions/upload-artifact@v2
