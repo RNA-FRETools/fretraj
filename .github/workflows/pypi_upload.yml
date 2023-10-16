@@ -36,14 +36,14 @@ jobs:
         echo "$env:POETRY_HOME\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     - uses: conda-incubator/setup-miniconda@v2
       with:
-        activate-environment: fretraj
+        activate-environment: ""
+        auto-activate-base: true
         auto-update-conda: true
         python-version: ${{ matrix.python-version }}
     - name: Build package  
       env:
         POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates an environment by default 
       run: |
-        conda install openssl
         poetry build
     - name: Upload build artefact
       uses: actions/upload-artifact@v2
