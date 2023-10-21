@@ -1,77 +1,16 @@
-import os
+import pathlib
 import shutil
+from setuptools import setup
+from pybind11.setup_helpers import Pybind11Extension
 
+# https://pybind11.readthedocs.io/en/stable/compiling.html
+# https://github.com/python-poetry/poetry/issues/2740
 
-from distutils.command.build_ext import build_ext
-from distutils.core import Distribution
-from distutils.core import Extension
-from distutils.errors import CCompilerError
-from distutils.errors import DistutilsExecError
-from distutils.errors import DistutilsPlatformError
-
-
-class get_pybind_include(object):
-    def __str__(self):
-        import subprocess
-        import sys
-
-        try:
-            import pybind11
-        except ModuleNotFoundError:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "pybind11>=2.6.2"])
-            import pybind11
-
-        return pybind11.get_include()
-
-
-extensions = [
-    Extension(
-        "relaxation",
-        sources=["src/fretraj/relaxation.cpp"],
-        include_dirs=[get_pybind_include()],
-        language="c++",
-        extra_compile_args=["-std=c++11"],
-    )
-]
-
-
-class ExtBuilder(build_ext):
-
-    built_extensions = []
-
-    def run(self):
-        try:
-            build_ext.run(self)
-        except (DistutilsPlatformError, FileNotFoundError) as error:
-            print(f"{error}: Unable to build C++ extensions of FRETraj")
-
-    def build_extension(self, ext):
-        try:
-            build_ext.build_extension(self, ext)
-        except (CCompilerError, DistutilsExecError, DistutilsPlatformError, ValueError) as error:
-            print(f"{error}: Unable to build the {ext.name} C++ extension, the burst module will not be available")
+ext_modules = [Pybind11Extension("relaxation", ["src/fretraj/relaxation.cpp"], extra_compile_args=["-std=c++11"])]
 
 
 def build(setup_kwargs):
-
-    distribution = Distribution({"name": "FRETraj", "ext_modules": extensions, "package_dir": "fretraj"})
-
-    cmd = ExtBuilder(distribution)
-    cmd.ensure_finalized()
-    cmd.run()
-
-    for output in cmd.get_outputs():
-        if not os.path.exists(output):
-            continue
-        relative_extension = os.path.relpath(output, cmd.build_lib)
-        destination = os.path.join("src", distribution.package_dir, relative_extension)
-        shutil.copyfile(output, destination)
-        mode = os.stat(destination).st_mode
-        mode |= (mode & 0o444) >> 2
-        os.chmod(destination, mode)
-
-    return setup_kwargs
-
-
-if __name__ == "__main__":
-    build({})
+    setup(ext_modules=ext_modules)
+    for suffix in ["*.so", "*.pyd"]:
+        for file in pathlib.Path("build").rglob(suffix):
+            shutil.copyfile(file, f"src/fretraj/{file.name}")

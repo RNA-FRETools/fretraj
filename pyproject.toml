@@ -49,12 +49,12 @@ vmd_vis = "fretraj.console:vmd_vis"
 
 
 [tool.poetry.build]
-generate-setup-file = false
+generate-setup-file = true
 script = "build.py"
 
 
 [build-system]
-requires = ["poetry-core>=1.0.0a9", "pybind11>=2.6.2"]
+requires = ["poetry-core>=1.0.0a9", "pybind11>=2.6.2", "setuptools"]
 build-backend = "poetry.core.masonry.api"
 
 
