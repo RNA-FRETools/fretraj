@@ -68,7 +68,7 @@ jobs:
         POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        source $HOME/.poetry/env
+        echo "$POETRY_HOME/bin" >> $GITHUB_PATH
         poetry publish
         
 
