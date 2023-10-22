@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.9','3.10','3.11']
+        python-version: ['3.10','3.11']
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -43,7 +43,6 @@ jobs:
       env:
         POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates an environment by default 
       run: |
-        conda install python=${{ matrix.python-version }}  # update to latest patch (for win32 ssl)
         poetry build
     - name: Upload build artefact
       uses: actions/upload-artifact@v3
