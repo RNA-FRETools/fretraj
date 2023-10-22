@@ -11,6 +11,3 @@ ext_modules = [Pybind11Extension("relaxation", ["src/fretraj/relaxation.cpp"], e
 
 def build(setup_kwargs):
     setup(ext_modules=ext_modules)
-    for suffix in ["*.so", "*.pyd"]:
-        for file in pathlib.Path("build").rglob(suffix):
-            shutil.copyfile(file, f"src/fretraj/{file.name}")

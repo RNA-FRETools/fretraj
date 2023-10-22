@@ -43,10 +43,10 @@ jobs:
       env:
         POETRY_VIRTUALENVS_CREATE: false  # conda-incubator activates an environment by default 
       run: |
-        conda update python
+        conda install python=${{ matrix.python-version }}  # update to latest patch (for win32 ssl)
         poetry build
     - name: Upload build artefact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: fretraj-dist
         path: dist
@@ -57,9 +57,9 @@ jobs:
     if: github.repository == 'fdsteffen/fretraj' 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Download build artefacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: fretraj-dist
         path: dist
@@ -69,6 +69,6 @@ jobs:
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
         echo "$POETRY_HOME/bin" >> $GITHUB_PATH
-        poetry publish
+        #poetry publish
         
 
