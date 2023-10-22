@@ -1,5 +1,8 @@
 ## Changelog
 
+### [0.2.9] 2023-10-22
+- Loosen numba dependencies for conda
+
 ### [0.2.8] 2023-10-22
 - Add Python 3.11 support
 - Refactor build script
