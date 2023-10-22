@@ -1,7 +1,12 @@
 ## Changelog
 
-### [0.2.7] 2023-10-16
+### [0.2.8] 2023-10-22
 - Add Python 3.11 support
+- Refactor build script
+- wheels for Python 3.10, 3.11 for (Linux, Win, and macOS Intel)
+
+### [0.2.7] 2023-10-16
+- release yanked
 
 ### [0.2.6] 2021-07-19
 - Remove nglview as dependency to make package installation faster

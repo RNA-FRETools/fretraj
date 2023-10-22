@@ -15,7 +15,7 @@ import pandas as pd
 import jsonschema
 import sys
 
-from . import relaxation
+import relaxation
 from fretraj import metadata
 
 package_directory = os.path.dirname(os.path.abspath(__file__))
@@ -984,7 +984,7 @@ class Experiment:
         array
             probability density at the given `x`
         """
-        return 1 / np.sqrt(2 * np.pi * sigma ** 2) * np.exp(-((x - mean) ** 2) / (2 * sigma ** 2))
+        return 1 / np.sqrt(2 * np.pi * sigma**2) * np.exp(-((x - mean) ** 2) / (2 * sigma**2))
 
     def save(self, filename, remove_bursts=False):
         """Pickle the experiment class to a file
