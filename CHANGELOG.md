@@ -1,5 +1,8 @@
 ## Changelog
 
+### [0.2.10] 2023-10-22
+- Adjust numba, pandas dependencies for conda
+
 ### [0.2.9] 2023-10-22
 - Loosen numba dependencies for conda
 

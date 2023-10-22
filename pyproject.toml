@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fretraj"
-version = "0.2.9"
+version = "0.2.10"
 description = "Predicting FRET with accessible-contact volumes"
 authors = [
     "Fabio Steffen <fabio.steffen@chem.uzh.ch>", 
@@ -27,11 +27,11 @@ include = [{path = "src/fretraj/*.so", format=["wheel"]},
 
 [tool.poetry.dependencies]
 python = ">=3.8"
-numba = "^0.56.0"
+numba = ">=0.57.0"
+pandas = ">=1.2"
 mdtraj = "^1.9.7"
 tqdm = "^4.64.0"
 jsonschema = "^4.9.1"
-pandas = "^1.2"
 importlib-metadata = "^6.8.0"
 
 
