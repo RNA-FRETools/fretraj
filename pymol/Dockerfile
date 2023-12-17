@@ -1,8 +1,8 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND noninteractive
-ENV package_dir /usr/local/lib/python3.9/dist-packages/fretraj/
+ENV package_dir /usr/local/lib/python3.10/dist-packages/fretraj/
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends pymol pip luakit && \
+    apt-get install -y --no-install-recommends python3-dev pymol pip luakit gcc g++ && \
     python3 -m pip install -U pip && \
     rm -rf /var/lib/apt/lists/* && \
     pip install fretraj && \
