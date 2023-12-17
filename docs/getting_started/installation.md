@@ -13,6 +13,7 @@ Depending on your operating system and preference there are multiple options to 
 
 ### 1.1 Install PyMOL and FRETraj
 <a name="install-manually"></a>
+
 ````{tabbed} For Windows
 - Get PyMOL from [Schrödinger](https://pymol.org/) or follow the instructions [here](https://pymolwiki.org/index.php/Windows_Install).
 - Search for **Anaconda/Miniforge prompt** in the Windows start menu and run the following command to install *FRETraj*
