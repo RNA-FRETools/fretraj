@@ -13,7 +13,9 @@ Depending on your operating system and preference there are multiple options to 
 
 ### 1.1 Install PyMOL and FRETraj
 <a name="install-manually"></a>
-````{tabbed} For Windows
+
+```````{tab-set}
+``````{tab-item} For Windows
 - Get PyMOL from [Schrödinger](https://pymol.org/) or follow the instructions [here](https://pymolwiki.org/index.php/Windows_Install).
 - Search for **Anaconda/Miniforge prompt** in the Windows start menu and run the following command to install *FRETraj*
 
@@ -25,30 +27,31 @@ Depending on your operating system and preference there are multiple options to 
     ```
     fretraj --path
     ```
-````
+``````
 
-``````{tabbed} For Linux
+``````{tab-item} For Linux
 
 - Get PyMOL either from [Schrödinger](https://pymol.org/) or from your package manager (e.g. on Ubuntu `apt-get install pymol`). Alternatively, you can compile PyMOL yourself from the source code on [Github](https://github.com/schrodinger/pymol-open-source).
 
 - Install *FRETraj*
   
 
-    ````{tabbed} pip
+    ``````{tab-set}
+    `````{tab-item} pip
     Install from **PyPI** 
     ```
     pip install fretraj
     ```
-    ````
+    `````
 
-    ````{tabbed} conda
+    `````{tab-item} conda
     Install from the **conda-forge** channel on Anaconda.org
     ```
     conda install fretraj -c conda-forge
     ```
-    ````
+    `````
 
-    `````{tabbed} from source
+    `````{tab-item} from source
     Install the latest development version from [Github](https://github.com/RNA-FRETools/fretraj.git) with [Poetry](https://python-poetry.org/)
     
     ```
@@ -58,12 +61,14 @@ Depending on your operating system and preference there are multiple options to 
     poetry install
     ```
     `````
+    ``````
 - Locate the installation directory by running
 
     ```
     fretraj --path
     ```
 ``````
+```````
 
 
 ### 1.2 Register the Plugin
@@ -78,21 +83,23 @@ PyMOL's plugin manager on Windows.
 ```
 
 
-`````{tip}
+``````{tip}
 For faster computation of the accessible-contact volumes you may additionally consider installing the C++ library [LabelLib](https://github.com/Fluorescence-Tools/LabelLib) with either `pip` or `conda`. However, this is not required since *FRETraj* features a built-in Python implementation of the ACV algorithm.
 
-````{tabbed} pip
+`````{tab-set}
+````{tab-item} pip
 ```
 pip install labellib
 ```
 ````
 
-````{tabbed} conda
+````{tab-item} conda
 ```
 conda install labellib -c tpeulen
 ```
 ````
 `````
+``````
 
 ### 1.3 Install with Docker
 <a name="install-docker"></a>
