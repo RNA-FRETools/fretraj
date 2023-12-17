@@ -14,7 +14,9 @@ Depending on your operating system and preference there are multiple options to 
 ### 1.1 Install PyMOL and FRETraj
 <a name="install-manually"></a>
 
-````{tabbed} For Windows
+:::: {.panel-tabset}
+
+#### For Windows
 - Get PyMOL from [Schrödinger](https://pymol.org/) or follow the instructions [here](https://pymolwiki.org/index.php/Windows_Install).
 - Search for **Anaconda/Miniforge prompt** in the Windows start menu and run the following command to install *FRETraj*
 
@@ -26,74 +28,71 @@ Depending on your operating system and preference there are multiple options to 
     ```
     fretraj --path
     ```
-````
 
-``````{tabbed} For Linux
+#### For Linux
 
 - Get PyMOL either from [Schrödinger](https://pymol.org/) or from your package manager (e.g. on Ubuntu `apt-get install pymol`). Alternatively, you can compile PyMOL yourself from the source code on [Github](https://github.com/schrodinger/pymol-open-source).
 
 - Install *FRETraj*
-  
 
-    ````{tabbed} pip
-    Install from **PyPI** 
-    ```
-    pip install fretraj
-    ```
-    ````
+::: {.panel-tabset}
 
-    ````{tabbed} conda
-    Install from the **conda-forge** channel on Anaconda.org
-    ```
-    conda install fretraj -c conda-forge
-    ```
-    ````
+###### pip
+Install from **PyPI** 
+```
+pip install fretraj
+```
 
-    `````{tabbed} from source
-    Install the latest development version from [Github](https://github.com/RNA-FRETools/fretraj.git) with [Poetry](https://python-poetry.org/)
-    
-    ```
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-    git clone https://github.com/RNA-FRETools/fretraj.git
-    cd fretraj/
-    poetry install
-    ```
-    `````
+###### conda
+Install from the **conda-forge** channel on Anaconda.org
+```
+conda install fretraj -c conda-forge
+```
+
+##### from source
+Install the latest development version from [Github](https://github.com/RNA-FRETools/fretraj.git) with [Poetry](https://python-poetry.org/)
+
+```
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+git clone https://github.com/RNA-FRETools/fretraj.git
+cd fretraj/
+poetry install
+```
+:::
+
 - Locate the installation directory by running
 
     ```
     fretraj --path
     ```
-``````
+::::
 
 
 ### 1.2 Register the Plugin
 - Start PyMOL and install the *FRETraj* GUI with PyMOL's Plugin manager: `Plugin` &rarr; `Plugin manager` &rarr; `Install New Plugin` &rarr; `Choose file...` and select the `fretraj_gui.py` file located in the directory that was issued by `fretraj --path`. In the popup window select where you would like to install the plugin (default: `<PyMOL_path>/site-packages/pmg_tk/startup/`). Confirm with OK.
 
-```{figure} ../images/pymol_plugin_manager.png
----
-width: 450px
-name: pymol_plugin_manager
----
-PyMOL's plugin manager on Windows.
-```
+![PyMOL's plugin manager on Windows.](../images/pymol_plugin_manager.png){width=450px}
 
 
-`````{tip}
+
+:::: {.callout-tip}
 For faster computation of the accessible-contact volumes you may additionally consider installing the C++ library [LabelLib](https://github.com/Fluorescence-Tools/LabelLib) with either `pip` or `conda`. However, this is not required since *FRETraj* features a built-in Python implementation of the ACV algorithm.
 
-````{tabbed} pip
+::: {.panel-tabset}
+#### pip
+
 ```
 pip install labellib
 ```
-````
 
-````{tabbed} conda
+#### conda
 ```
 conda install labellib -c tpeulen
 ```
-````
-`````
+
+:::
+
+::::
 
 ### 1.3 Install with Docker
 <a name="install-docker"></a>
@@ -104,10 +103,11 @@ docker pull fdsteffen/fretraj-pymol:latest
 docker run -e DISPLAY=host.docker.internal:0 -v hostdir:/mnt fdsteffen/fretraj-pymol
 ```
 
-```{admonition} Incentive or open-source PyMOL
+::: {.callout-note}
+### Incentive or open-source PyMOL
 PyMOL was developed by Warren DeLano {cite}`DeLano.2002` and is currently maintained by [Schrödinger](https://pymol.org/). 
 Binaries for Windows, Linux and macOS are distributed by Schrödinger under academic and commercial licensing options. The source-code is available on [Github](https://github.com/schrodinger/pymol-open-source).
-```
+:::
 
 ## 2. Juypter notebook
 
