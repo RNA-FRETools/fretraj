@@ -7,12 +7,12 @@ There are two main ways of interacting with *FRETraj*:
 
 ## 1. PyMOL plugin
 Depending on your operating system and preference there are multiple options to install PyMOL
-- install PyMOL and add *FRETraj* as a Plugin manually &rarr; [Install PyMOL and FRETraj](#install-manually)
-- install a Docker image with PyMOL and *FRETraj* preconfigured (see Docker image) &rarr; [Install with Docker](#install-docker)
+- install PyMOL and add *FRETraj* as a Plugin manually &rarr; [Install PyMOL and FRETraj](install-manually)
+- install a Docker image with PyMOL and *FRETraj* preconfigured (see Docker image) &rarr; [Install with Docker](install-docker)
 
 
+(install-manually)=
 ### 1.1 Install PyMOL and FRETraj
-<a name="install-manually"></a>
 
 ```````{tab-set}
 ``````{tab-item} For Windows
@@ -101,6 +101,7 @@ conda install labellib -c tpeulen
 `````
 ``````
 
+(install-docker)=
 ### 1.3 Install with Docker
 <a name="install-docker"></a>
 As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and *FRETraj* preinstalled. Make sure you have [Docker](https://www.docker.com/products/docker-desktop) and an X11 server installed (e.g. [VcXsrv](https://sourceforge.net/projects/vcxsrv/) for Windows, configured with `Wgl="False"` and `DisableAC="True"`). Then pull and run the image from DockerHub (replace `hostdir` with a directory on your host system that you would like to mount into the image)
@@ -110,10 +111,14 @@ docker pull fdsteffen/fretraj-pymol:latest
 docker run -e DISPLAY=host.docker.internal:0 -v hostdir:/mnt fdsteffen/fretraj-pymol
 ```
 
-```{admonition} Incentive or open-source PyMOL
+````{admonition} Incentive or open-source PyMOL
 PyMOL was developed by Warren DeLano {cite}`DeLano.2002` and is currently maintained by [Schrödinger](https://pymol.org/). 
-Binaries for Windows, Linux and macOS are distributed by Schrödinger under academic and commercial licensing options. The source-code is available on [Github](https://github.com/schrodinger/pymol-open-source).
+Binaries for Windows, Linux and macOS are distributed by Schrödinger under academic and commercial licensing options. The source-code is available on [Github](https://github.com/schrodinger/pymol-open-source). The cross-platform, open-source PyMOL can be installed with conda
+
 ```
+conda install conda-forge::pymol-open-source
+```
+````
 
 ## 2. Juypter notebook
 
