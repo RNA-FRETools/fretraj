@@ -19,15 +19,15 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -77,7 +77,7 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
 
@@ -120,12 +120,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <header>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
   
+  </header>
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -406,7 +414,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h1>
@@ -419,12 +427,11 @@ document.write(`
 <h2>1. PyMOL plugin<a class="headerlink" href="#pymol-plugin" title="Permalink to this heading">#</a></h2>
 <p>Depending on your operating system and preference there are multiple options to install PyMOL</p>
 <ul class="simple">
-<li><p>install PyMOL and add <em>FRETraj</em> as a Plugin manually → <span class="xref myst">Install PyMOL and FRETraj</span></p></li>
-<li><p>install a Docker image with PyMOL and <em>FRETraj</em> preconfigured (see Docker image) → <span class="xref myst">Install with Docker</span></p></li>
+<li><p>install PyMOL and add <em>FRETraj</em> as a Plugin manually → <a class="reference internal" href="#install-manually"><span class="std std-ref">Install PyMOL and FRETraj</span></a></p></li>
+<li><p>install a Docker image with PyMOL and <em>FRETraj</em> preconfigured (see Docker image) → <a class="reference internal" href="#install-docker"><span class="std std-ref">Install with Docker</span></a></p></li>
 </ul>
 <section id="install-pymol-and-fretraj">
-<h3>1.1 Install PyMOL and FRETraj<a class="headerlink" href="#install-pymol-and-fretraj" title="Permalink to this heading">#</a></h3>
-<p><a name="install-manually"></a></p>
+<span id="install-manually"></span><h3>1.1 Install PyMOL and FRETraj<a class="headerlink" href="#install-pymol-and-fretraj" title="Permalink to this heading">#</a></h3>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
 </input><label class="sd-tab-label" for="sd-tab-item-0">
@@ -521,7 +528,7 @@ conda</label><div class="sd-tab-content docutils">
 </div>
 </section>
 <section id="install-with-docker">
-<h3>1.3 Install with Docker<a class="headerlink" href="#install-with-docker" title="Permalink to this heading">#</a></h3>
+<span id="install-docker"></span><h3>1.3 Install with Docker<a class="headerlink" href="#install-with-docker" title="Permalink to this heading">#</a></h3>
 <p><a name="install-docker"></a>
 As an alternative to the native installation outlined above, you may also use a Docker image with PyMOL and <em>FRETraj</em> preinstalled. Make sure you have <a class="reference external" href="https://www.docker.com/products/docker-desktop">Docker</a> and an X11 server installed (e.g. <a class="reference external" href="https://sourceforge.net/projects/vcxsrv/">VcXsrv</a> for Windows, configured with <code class="docutils literal notranslate"><span class="pre">Wgl=&quot;False&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">DisableAC=&quot;True&quot;</span></code>). Then pull and run the image from DockerHub (replace <code class="docutils literal notranslate"><span class="pre">hostdir</span></code> with a directory on your host system that you would like to mount into the image)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">pull</span> <span class="n">fdsteffen</span><span class="o">/</span><span class="n">fretraj</span><span class="o">-</span><span class="n">pymol</span><span class="p">:</span><span class="n">latest</span>
@@ -531,7 +538,10 @@ As an alternative to the native installation outlined above, you may also use a 
 <div class="admonition-incentive-or-open-source-pymol admonition">
 <p class="admonition-title">Incentive or open-source PyMOL</p>
 <p>PyMOL was developed by Warren DeLano <span id="id1">[<a class="reference internal" href="../references.html#id2" title="Warren L. DeLano. Pymol: an open-source molecular graphics tool. CCP4 Newsletter on protein crystallography, 40(1):82–92, 2002.">1</a>]</span> and is currently maintained by <a class="reference external" href="https://pymol.org/">Schrödinger</a>.
-Binaries for Windows, Linux and macOS are distributed by Schrödinger under academic and commercial licensing options. The source-code is available on <a class="reference external" href="https://github.com/schrodinger/pymol-open-source">Github</a>.</p>
+Binaries for Windows, Linux and macOS are distributed by Schrödinger under academic and commercial licensing options. The source-code is available on <a class="reference external" href="https://github.com/schrodinger/pymol-open-source">Github</a>. The cross-platform, open-source PyMOL can be installed with conda</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span><span class="p">::</span><span class="n">pymol</span><span class="o">-</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span>
+</pre></div>
+</div>
 </div>
 </section>
 </section>
@@ -603,6 +613,7 @@ Binaries for Windows, Linux and macOS are distributed by Schrödinger under acad
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
@@ -664,8 +675,8 @@ By Fabio D. Steffen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
   <footer class="bd-footer">
   </footer>
