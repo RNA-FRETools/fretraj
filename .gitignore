@@ -106,7 +106,7 @@ venv.bak/
 
 other/
 
-*fretraj_settings.conf
+*.fretraj_settings.json
 
 out/
 *.ipynb

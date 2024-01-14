@@ -272,7 +272,7 @@ class App(QtWidgets.QMainWindow):
                 if " " in self.fileName_pdb:
                     raise ValueError
             except ValueError:
-                print("filename cannot contain whitespaces.")
+                self.openErrorWin("File Error", "The filename cannot contain whitespaces.")
                 return 0
             else:
                 if self.fileName_pdb[-3:] == "cif":
@@ -310,8 +310,12 @@ class App(QtWidgets.QMainWindow):
                     ]
                     nucleic_str = " or ".join([f"resn {r}" for r in NA_list])
                     idx_protein_nucleic = self.struct.top.select(f"protein or {nucleic_str}")
+                    if len(idx_protein_nucleic) == 0:
+                        self.openErrorWin(
+                            "File Error", "The specified PDB contains no protein or nucleic acid residues."
+                        )
+                        return 0
                     self.struct = self.struct.atom_slice(idx_protein_nucleic)
-
                     self.lineEdit_pdbFile.setText(self.fileName_pdb)
                     self.spinBox_statePDB.setMaximum(self.struct.n_frames)
                     self.spinBox_atomID.setMaximum(self.struct.n_atoms)
@@ -415,7 +419,6 @@ class App(QtWidgets.QMainWindow):
                                 return 0
 
                             for pos_dis in labels_json[field].keys():
-
                                 self.labels[field][pos_dis] = {}
                                 for key in self.labels_default[field][name_default].keys():
                                     if isinstance(labels_json[field][pos_dis], dict):
@@ -478,7 +481,8 @@ class App(QtWidgets.QMainWindow):
         """
         self.deleteLabelFromList()
         self.deleteDistanceFromList()
-        self.deleteIsosurface()
+        if self._pymol_running:
+            self.deleteIsosurface()
         if self.labelName != self.labelName_default:
             todelete = self.labelName
             self.comboBox_labelName.removeItem(self.comboBox_labelName.currentIndex())
@@ -918,7 +922,7 @@ class App(QtWidgets.QMainWindow):
         msg.setWindowTitle(title)
         msg.setText(message)
         msg.exec_()
-    
+
     def openRestraints(self):
         """
         Open restraints window
@@ -926,9 +930,13 @@ class App(QtWidgets.QMainWindow):
         self.restraintsWindow.lineEdit_donor.setText(self.donorName)
         self.restraintsWindow.lineEdit_acceptor.setText(self.acceptorName)
         mean_E_DA = self.traj[(self.donorName, self.acceptorName)].mean_E_DA
-        self.restraintsWindow.lineEdit_fretValue.setText('{:0.2f}'.format(mean_E_DA))
-        self.restraintsWindow.lineEdit_mpValue.setText('{:0.1f}'.format(self.traj[(self.donorName, self.acceptorName)].R_mp))
-        self.restraintsWindow.lineEdit_rdaValue.setText('{:0.1f}'.format(self.traj[(self.donorName, self.acceptorName)].mean_R_DA))
+        self.restraintsWindow.lineEdit_fretValue.setText("{:0.2f}".format(mean_E_DA))
+        self.restraintsWindow.lineEdit_mpValue.setText(
+            "{:0.1f}".format(self.traj[(self.donorName, self.acceptorName)].R_mp)
+        )
+        self.restraintsWindow.lineEdit_rdaValue.setText(
+            "{:0.1f}".format(self.traj[(self.donorName, self.acceptorName)].mean_R_DA)
+        )
         self.restraintsWindow.doubleSpinBox_fretTarget.setValue(mean_E_DA)
         isOK = self.restraintsWindow.exec_()
 
@@ -937,33 +945,47 @@ class App(QtWidgets.QMainWindow):
         Calculate R_DA_E and R_mp from a FRET value
         """
         mean_E_DA = self.restraintsWindow.doubleSpinBox_fretTarget.value()
-        R_DA_E = fret.mean_dist_DA_fromFRET(None,None,mean_E_DA, None, None, self.doubleSpinBox_R0.value())
-        self.restraintsWindow.lineEdit_rdaTarget.setText('{:0.1f}'.format(R_DA_E))    
-        self.restraintsWindow.lineEdit_mpTarget.setText('{:0.1f}'.format(fret.R_DAE_to_Rmp(R_DA_E)))
+        R_DA_E = fret.mean_dist_DA_fromFRET(None, None, mean_E_DA, None, None, self.doubleSpinBox_R0.value())
+        self.restraintsWindow.lineEdit_rdaTarget.setText("{:0.1f}".format(R_DA_E))
+        self.restraintsWindow.lineEdit_mpTarget.setText("{:0.1f}".format(fret.R_DAE_to_Rmp(R_DA_E)))
 
     def save_plumed(self):
         """
         Save a Plumed file
         """
-        frame_mdtraj = self.labels['Position'][self.labelName]['frame_mdtraj']
-        plumed = restraints.Plumed(self.struct[frame_mdtraj], [self.av[self.donorName], self.av[self.acceptorName]], 
-                                   self.restraintsWindow.lineEdit_selection.text(), self.restraintsWindow.doubleSpinBox_cutoff.value())
+        frame_mdtraj = self.labels["Position"][self.labelName]["frame_mdtraj"]
+        plumed = restraints.Plumed(
+            self.struct[frame_mdtraj],
+            [self.av[self.donorName], self.av[self.acceptorName]],
+            self.restraintsWindow.lineEdit_selection.text(),
+            self.restraintsWindow.doubleSpinBox_cutoff.value(),
+        )
         try:
-            pair = '_{}-{}'.format(self.donorName.split('-')[1], self.acceptorName.split('-')[1])
+            pair = "_{}-{}".format(self.donorName.split("-")[1], self.acceptorName.split("-")[1])
         except IndexError:
-            pair = ''
+            pair = ""
         R_mp = float(self.restraintsWindow.lineEdit_mpTarget.text())
-        written = plumed.write_plumed('{}/plumed_{}{}.dat'.format(self.settings['root_path'], self.fileName_pdb[:-4], pair), 
-                            R_mp, self.restraintsWindow.spinBox_distForceConst.value(), self.restraintsWindow.spinBox_RmpForceConst.value())
+        written = plumed.write_plumed(
+            "{}/plumed_{}{}.dat".format(self.settings["root_path"], self.fileName_pdb[:-4], pair),
+            R_mp,
+            self.restraintsWindow.spinBox_distForceConst.value(),
+            self.restraintsWindow.spinBox_RmpForceConst.value(),
+        )
         if written:
             if self.restraintsWindow.checkBox_includeff.isChecked():
-                plumed.write_pseudo('{}/MP.pdb'.format(self.settings['root_path']), '{}/MP.itp'.format(self.settings['root_path']))
-                self.av[self.donorName].save_mp('{}/MP_D.dat'.format(self.settings['root_path']), units='nm', format='plain')
-                self.av[self.acceptorName].save_mp('{}/MP_A.dat'.format(self.settings['root_path']), units='nm', format='plain')
-            self.statusBar().showMessage('Plumed restraint file saved to disk', 3000)
+                plumed.write_pseudo(
+                    "{}/MP.pdb".format(self.settings["root_path"]), "{}/MP.itp".format(self.settings["root_path"])
+                )
+                self.av[self.donorName].save_mp(
+                    "{}/MP_D.dat".format(self.settings["root_path"]), units="nm", format="plain"
+                )
+                self.av[self.acceptorName].save_mp(
+                    "{}/MP_A.dat".format(self.settings["root_path"]), units="nm", format="plain"
+                )
+            self.statusBar().showMessage("Plumed restraint file saved to disk", 3000)
             self.restraintsWindow.close()
         else:
-            self.statusBar().showMessage('No selected atom types within the cutoff. Try to increase the cutoff.', 3000)
+            self.statusBar().showMessage("No selected atom types within the cutoff. Try to increase the cutoff.", 3000)
 
 
 def main():
