@@ -15,7 +15,7 @@ import pandas as pd
 import jsonschema
 import sys
 
-from fretraj import relaxation
+import relaxation
 from fretraj import metadata
 
 package_directory = os.path.dirname(os.path.abspath(__file__))
