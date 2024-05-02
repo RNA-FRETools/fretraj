@@ -19,6 +19,7 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install Tox
         run: pip install tox
-      - uses: conda-incubator/setup-miniconda@v2
+      - uses: conda-incubator/setup-miniconda@v3
+        miniforge-version: latest
       - name: Test PyPI deployment and installation
         run: tox -e pip_release_wheel,pip_release_sdist  # check output to evaluate if release deployment was successful
