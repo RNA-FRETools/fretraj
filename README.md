@@ -1,5 +1,8 @@
 <img src="https://raw.githubusercontent.com/fdsteffen/fretraj/master/docs/images/fretraj_logo_readme.png">
 
+
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10898653.svg)](https://doi.org/10.5281/zenodo.10898653)
 [![Build Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20test/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
 [![Docs Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20docs/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
 [![PyPI](https://img.shields.io/pypi/v/fretraj)](https://pypi.org/project/fretraj/)
