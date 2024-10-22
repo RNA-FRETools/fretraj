@@ -526,7 +526,7 @@ class Burst:
         Parameters
         ----------
         gamma : bool
-            If the simulation should be compare to a gamma-corrected experiment (note: the detection efficiency ratio is set to 1), set this parameter to `True`.
+            If the simulation should be compare to a gamma-corrected experiment, set this parameter to `True`.
             If the simulation should be compared to a uncorrected experiment, set this parameter to `False`.
         QD : float
             donor fluorescence quantum yield

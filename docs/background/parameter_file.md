@@ -79,7 +79,9 @@ The structure of the second parameter file is as follows:
     {"tauD": float,
      "tauA": float,
      "QD": float,
-     "QA": float
+     "QA": float,
+     "etaD":float,
+     "etaA":float
     },
 "fret": 
     {"R0": 54},
@@ -101,6 +103,7 @@ The above key-values are mandatory. The main keys define photopyhsical parameter
 - `dyes`
     - `tauD` / `tauA`: fluorescence lifetime of the donor and acceptor dye
     - `QD` / `QA`: quantum yields of the donor and acceptor dye
+    - `etaD` / `etaA`: detection efficiency of the donor and acceptor channel 
 - `fret`
     - `R0`: Förster radius in Angstrom
 - `species`
