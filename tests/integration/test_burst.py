@@ -16,7 +16,7 @@ _TEST_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 @pytest.fixture
 def setup_parameters(mocker):
     BURST_PARAMETERS = {
-        "dyes": {"tauD": 0.75, "tauA": 1.5, "QD": 0.2, "QA": 0.3},
+        "dyes": {"tauD": 0.75, "tauA": 1.5, "QD": 0.2, "QA": 0.3, "etaD": 1, "etaA": 1},
         "sampling": {"nbursts": 2000, "skipframesatstart": 0, "skipframesatend": 1000, "multiprocessing": True},
         "fret": {"R0": 54, "kappasquare": 0.666666, "no_gamma": True, "quenching_radius": 1.0},
         "species": {

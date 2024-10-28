@@ -99,18 +99,16 @@ int checkDetectionIndex(int event, double etaD, double etaA)
     {
         if (p < etaD)
         {
-            return 3;
+            return event;
         }
     }
     else if (event == 2)
     {
         if (p < etaA)
         {
-            return -3;
+            return event;
         }
     }
-    return event;
-
 }
 
 
@@ -135,7 +133,7 @@ PYBIND11_MODULE(relaxation, m)
                                          "The intensity of the parallel polarized light is proportional to cos^2(x), where x is the angle between between the dipoles at time points t_ex and t_em."
                                          "Similarly, the intensity of perpedicular polarized light is proportional to 0.5*sin^2(x)"
                                          "The probability of a parallel photon is thus calculated as cos^2(x)/(cos^2(x)+0.5*sin^2(x)) = 2*cos^2(x)/(cos^2(x)+1)"),
-        py::arg("excitation_dipole"), py::arg("emission_dipole");
-    m.def("checkDetectionIndex", &checkDetectionIndex, "Check if fluorescence is detected by detector ",
+          py::arg("excitation_dipole"), py::arg("emission_dipole");
+    m.def("checkDetectionIndex", &checkDetectionIndex, "Check if fluorescence is detected by detector",
           py::arg("event"), py::arg("etaD"), py::arg("etaA"));
 }
