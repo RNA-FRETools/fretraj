@@ -92,6 +92,27 @@ int checkRelaxationIndex(int event, int excitation_ndx, int relaxation_ndx, py::
     return event;
 }
 
+int checkDetectionIndex(int event, double etaD, double etaA)
+{
+    double p = std::generate_canonical<double, 10>(gen);
+    if (event == 1)
+    {
+        if (p < etaD)
+        {
+            return event;
+        }
+    }
+    else if (event == 2)
+    {
+        if (p < etaA)
+        {
+            return event;
+        }
+    }
+}
+
+
+
 PYBIND11_MODULE(relaxation, m)
 {
     m.doc() = "C-extension of the fluordynamics package for fast photon sampling";
@@ -112,5 +133,7 @@ PYBIND11_MODULE(relaxation, m)
                                          "The intensity of the parallel polarized light is proportional to cos^2(x), where x is the angle between between the dipoles at time points t_ex and t_em."
                                          "Similarly, the intensity of perpedicular polarized light is proportional to 0.5*sin^2(x)"
                                          "The probability of a parallel photon is thus calculated as cos^2(x)/(cos^2(x)+0.5*sin^2(x)) = 2*cos^2(x)/(cos^2(x)+1)"),
-        py::arg("excitation_dipole"), py::arg("emission_dipole");
+          py::arg("excitation_dipole"), py::arg("emission_dipole");
+    m.def("checkDetectionIndex", &checkDetectionIndex, "Check if fluorescence is detected by detector",
+          py::arg("event"), py::arg("etaD"), py::arg("etaA"));
 }

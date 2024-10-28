@@ -21,7 +21,7 @@ from fretraj import metadata
 package_directory = os.path.dirname(os.path.abspath(__file__))
 
 
-_relax_types = ["D_f", "D_ic", "A_f", "A_ic", "q"]
+_relax_types = ["Df_det", "D_ic", "Af_det", "A_ic", "q"]
 
 _schema = {
     "title": "Burst",
@@ -36,6 +36,8 @@ _schema = {
                 "tauA": {"type": "number"},
                 "QD": {"type": "number"},
                 "QA": {"type": "number"},
+                "etaD": {"type": "number"},
+                "etaA": {"type": "number"},
                 "dipole_angle_abs_em": {"type": "number"},
             },
             "required": ["tauD", "tauA", "QD", "QA"],
@@ -92,7 +94,7 @@ _schema = {
 }
 
 _defaults = {
-    "dyes": {"dipole_angle_abs_em": 0},
+    "dyes": {"dipole_angle_abs_em": 0, "etaD": 1, "etaA": 1},
     "sampling": {"nbursts": 2000, "skipframesatstart": 0, "skipframesatend": 1000, "multiprocessing": True},
     "fret": {"kappasquare": 0.6666, "gamma": True, "quenching_radius": 1},
     "species": {"n_trajectory_splits": None},
@@ -355,7 +357,7 @@ class Trajectory:
         """
         rkappa = pd.read_csv(rkappa_filename, sep=r"\s+", names=["time", "R", "kappa"]).values
         if units == "nm":
-            rkappa = rkappa * 10
+            rkappa[:, 1] *= 10
         if don_coords_filename is not None:
             donor_xyz = pd.read_csv(
                 don_coords_filename,
@@ -442,7 +444,7 @@ class Burst:
         self.events_AA = {t: 0 for t in _relax_types}
         self.decaytimes_DD_DA = {t: [] for t in _relax_types}
         self.decaytimes_AA = {t: [] for t in _relax_types}
-        self.polarizations = {t: [] for t in ["D_f", "A_f"]}
+        self.polarizations = {t: [] for t in ["Df_det", "Af_det"]}
         self.FRETefficiency = None
 
     def checkBurstSizeReached(self, QD, QA, QY_correction):
@@ -462,7 +464,7 @@ class Burst:
         """
         if QY_correction and (self.events_DD_DA["D_f"] / QD + self.events_DD_DA["A_f"] / QA >= self.burstsize):
             return True
-        elif (not QY_correction) and (self.events_DD_DA["D_f"] + self.events_DD_DA["A_f"] == self.burstsize):
+        elif (not QY_correction) and (self.events_DD_DA["Df_det"] + self.events_DD_DA["Af_det"] == self.burstsize):
             return True
 
     def addRelaxationEvent(self, event, decaytime, polarization, is_AA):
@@ -471,8 +473,8 @@ class Burst:
         Parameters
         ----------
         event : int
-            type of relaxation event (1: donor photon, -1: internal conversion from donor,
-            2: acceptor photon, -2: internal conversion from acceptor, 0: relaxation due to inter-dye quenching)
+            type of relaxation event (1: detected donor photon, -1: internal conversion from donor,
+            2: detected acceptor photon, -2: internal conversion from acceptor, 0: relaxation due to inter-dye quenching)
         decaytime : float
             time in nanoseconds after the excitation event
         polarization : int
@@ -483,23 +485,23 @@ class Burst:
         """
         if is_AA:
             if event == 2:
-                self.events_AA["A_f"] += 1
-                self.decaytimes_AA["A_f"].append(decaytime)
-                self.polarizations["A_f"].append(polarization)
+                self.events_AA["Af_det"] += 1
+                self.decaytimes_AA["Af_det"].append(decaytime)
+                self.polarizations["Af_det"].append(polarization)
             elif event == -2:
                 self.events_AA["A_ic"] += 1
                 self.decaytimes_AA["A_ic"].append(decaytime)
         else:
             if event == 1:
-                self.events_DD_DA["D_f"] += 1
-                self.decaytimes_DD_DA["D_f"].append(decaytime)
-                self.polarizations["D_f"].append(polarization)
+                self.events_DD_DA["Df_det"] += 1
+                self.decaytimes_DD_DA["Df_det"].append(decaytime)
+                self.polarizations["Df_det"].append(polarization)
             elif event == -1:
                 self.events_DD_DA["D_ic"] += 1
                 self.decaytimes_DD_DA["D_ic"].append(decaytime)
             elif event == 2:
-                self.events_DD_DA["A_f"] += 1
-                self.decaytimes_DD_DA["A_f"].append(decaytime)
+                self.events_DD_DA["Af_det"] += 1
+                self.decaytimes_DD_DA["Af_det"].append(decaytime)
             elif event == -2:
                 self.events_DD_DA["A_ic"] += 1
                 self.decaytimes_DD_DA["A_ic"].append(decaytime)
@@ -507,13 +509,13 @@ class Burst:
                 self.events_DD_DA["q"] += 1
                 self.decaytimes_DD_DA["q"].append(decaytime)
 
-    def calcFRET(self, gamma, QD, QA):
+    def calcFRET(self, gamma, QD, QA, etaD, etaA):
         """Calculate the transfer efficiency based on the donor and acceptor photon counts upon donor excitation
 
         Parameters
         ----------
         gamma : bool
-            If the simulation should be compare to a gamma-corrected experiment (note: the detection efficiency ratio is set to 1), set this parameter to `True`.
+            If the simulation should be compare to a gamma-corrected experiment, set this parameter to `True`.
             If the simulation should be compared to a uncorrected experiment, set this parameter to `False`.
         QD : float
             donor fluorescence quantum yield
@@ -521,11 +523,14 @@ class Burst:
             acceptor fluorescence quantum yield
         """
         if gamma:
-            self.FRETefficiency = (self.events_DD_DA["A_f"] / QA) / (
-                self.events_DD_DA["A_f"] / QA + self.events_DD_DA["D_f"] / QD
+            gamma_factor = (etaA * QA) / (etaD * QD)
+            self.FRETefficiency = (self.events_DD_DA["Af_det"]) / (
+                self.events_DD_DA["Af_det"] + (gamma_factor * self.events_DD_DA["Df_det"])
             )
         else:
-            self.FRETefficiency = self.events_DD_DA["A_f"] / (self.events_DD_DA["A_f"] + self.events_DD_DA["D_f"])
+            self.FRETefficiency = self.events_DD_DA["Af_det"] / (
+                self.events_DD_DA["Af_det"] + self.events_DD_DA["Df_det"]
+            )
 
 
 class Relaxation:
@@ -564,6 +569,8 @@ class Relaxation:
         skipframesatend,
         QD,
         QA,
+        etaD,
+        etaA,
         compute_anisotropy,
     ):
         event_DD_DA = 0
@@ -598,6 +605,9 @@ class Relaxation:
         self.event_AA = relaxation.checkRelaxationIndex(
             event_AA, self.excitation_ndx_AA, self.relaxation_ndx_AA, trajectory.R, quenching_radius, QD, QA
         )
+
+        self.event_DD_DA = relaxation.checkDetectionIndex(self.event_DD_DA, etaD, etaA)
+        self.event_AA = relaxation.checkDetectionIndex(self.event_AA, etaD, etaA)
 
         if compute_anisotropy and (self.event_DD_DA == 1):
             self.polarization_DD = relaxation.polarization(
@@ -744,7 +754,7 @@ class Experiment:
                 ]
             )
         if compute_anisotropy:
-            for t in ["D_f", "A_f"]:
+            for t in ["Df_det", "Af_det"]:
                 self.polarizations[t] = np.array(
                     [
                         pol
@@ -752,7 +762,7 @@ class Experiment:
                         for pol in polarizations
                     ]
                 )
-                if t == "D_f":
+                if t == "Df_det":
                     self.polIntensity[t] = self.polarizationIntensity(
                         binwidth, self.decaytimes_DD_DA[t], self.polarizations[t]
                     )
@@ -913,6 +923,8 @@ class Experiment:
                 self.parameters["sampling"]["skipframesatend"],
                 self.parameters["dyes"]["QD"],
                 self.parameters["dyes"]["QA"],
+                self.parameters["dyes"]["etaD"],
+                self.parameters["dyes"]["etaA"],
                 self.compute_anisotropy,
             )
             burst.addRelaxationEvent(relax.event_DD_DA, relax.decaytime_DD_DA, relax.polarization_DD, False)
@@ -921,7 +933,13 @@ class Experiment:
                 self.parameters["dyes"]["QD"], self.parameters["dyes"]["QA"], self.parameters["bursts"]["QY_correction"]
             ):
                 break
-        burst.calcFRET(self.parameters["fret"]["gamma"], self.parameters["dyes"]["QD"], self.parameters["dyes"]["QA"])
+        burst.calcFRET(
+            self.parameters["fret"]["gamma"],
+            self.parameters["dyes"]["QD"],
+            self.parameters["dyes"]["QA"],
+            self.parameters["dyes"]["etaD"],
+            self.parameters["dyes"]["etaA"],
+        )
         return burst
 
     def calcBurstsizes(self):
