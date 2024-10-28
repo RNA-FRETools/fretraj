@@ -17,6 +17,6 @@ jobs:
         with:
           file: pymol/Dockerfile
           push: true
-          tags: fdsteffen/fretraj-pymol:latest
+          tags: rna-fretools/fretraj-pymol:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

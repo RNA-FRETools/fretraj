@@ -4,7 +4,7 @@ on: [pull_request, workflow_dispatch]
 
 jobs:
   build:
-    if: github.repository == 'fdsteffen/fretraj'
+    if: github.repository == 'rna-fretools/fretraj'
     runs-on: ${{ matrix.os}}
     strategy:
       matrix:
