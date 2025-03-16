@@ -48,8 +48,9 @@ docs = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["fretraj", "fretraj.UI", "fretraj.skripts", "fretraj.examples"]
 
+[tool.setuptools.package-data]
+"*" = ["UI/*", "skripts/*", "examples/*", "*.json", "*.cpp", "*.so"]
 
 [project.urls]
 Repository = "https://github.com/RNA-FRETools/fretraj"
