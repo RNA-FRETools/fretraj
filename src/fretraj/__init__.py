@@ -58,4 +58,3 @@ from . import export
 from . import fret
 from . import grid
 from . import restraints
-from . import jupyter

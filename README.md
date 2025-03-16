@@ -1,13 +1,11 @@
 <img src="https://raw.githubusercontent.com/fdsteffen/fretraj/master/docs/images/fretraj_logo_readme.png">
 
-
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10898653.svg)](https://doi.org/10.5281/zenodo.10898653)
-[![Build Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20test/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
-[![Docs Status](https://github.com/fdsteffen/fretraj/workflows/FRETraj%20docs/badge.svg)](https://github.com/fdsteffen/fretraj/actions)
+[![Build and deploy](https://github.com/RNA-FRETools/fretraj/actions/workflows/build.yml/badge.svg)](https://github.com/RNA-FRETools/fretraj/actions/workflows/build.yml)
+[![Documentation](https://github.com/RNA-FRETools/fretraj/actions/workflows/docs.yml/badge.svg)](https://github.com/RNA-FRETools/fretraj/actions/workflows/docs.yml)
 [![PyPI](https://img.shields.io/pypi/v/fretraj)](https://pypi.org/project/fretraj/)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/fretraj.svg)](https://anaconda.org/conda-forge/fretraj)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10898653.svg)](https://doi.org/10.5281/zenodo.10898653)
 
 *FRETraj* is a Python module for **predicting FRET efficiencies** by calculating multiple accessible-contact volumes (multi-ACV) to estimate donor and acceptor dye dynamics. The package features a user-friendly **PyMOL plugin**<sup>[1](#pymol)</sup> for for FRET-assisted, integrative structural modeling. It interfaces with the [*LabelLib*](https://github.com/Fluorescence-Tools/LabelLib) library for fast computation of ACVs. 
 Specifically, *FRETraj* is designed to:

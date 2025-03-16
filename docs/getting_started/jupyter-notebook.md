@@ -19,6 +19,7 @@ predict a **mean FRET efficiency** between donor and acceptor.
 ```{code-cell} ipython3
 import mdtraj as md
 import fretraj as ft
+import fretraj.jupyter
 import os
 example_dir = '../../src/fretraj/examples/'
 ```
