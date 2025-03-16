@@ -19,7 +19,7 @@ def connect2pymol():
     Start a PyMOL server session from a terminal:
     >>> pymol -R
 
-    On Windows you may create a shortcut that executes the command C:\path\to\PyMOLWin.exe -R
+    On Windows you may create a shortcut that executes the command C:\\path\\to\\pymol.exe -R
     """
     import xmlrpc.client as xmlrpclib
 

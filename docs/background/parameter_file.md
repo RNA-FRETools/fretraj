@@ -68,8 +68,8 @@ Finally, some parameters are solely used for visualization in PyMOL:
 
 Further details about the simulation settings are provided in the [cloud](../module/cloud) and [fret](../module/fret) submodule descriptions.
 
-<a id='burst-simulation'></a>
 
+(burst-simulation)=
 ## Burst simulation
 
 The structure of the second parameter file is as follows:

@@ -4,8 +4,6 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -27,7 +25,7 @@ import seaborn as sns
 import os
 ```
 
-First, we load a parameter file for the burst simulation. The format of this file is described [here](../background/parameter_file.html#burst-simulation)
+First, we load a parameter file for the burst simulation. The format of this file is described [here](burst-simulation)
 
 ```{code-cell} ipython3
 :tags: [hide-output]

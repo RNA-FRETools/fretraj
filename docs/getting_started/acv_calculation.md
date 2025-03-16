@@ -30,7 +30,7 @@ In the following the most important settings and functionalities of FRETraj for 
 2. **Load PDB**: import a single or multi-state PDB/CIF file
 3. **Show Text**: Show the PDB text file in a integrated viewer to help with the atom ID selection
     ```{hint}
-    If you already have a JSON-formatted [parameter file](../background/parameter_file) you can load this file with the **Load Param** button and proceed directly to the last step [compute ACV](#compute-acv).
+    If you already have a JSON-formatted [parameter file](../background/parameter_file) you can load this file with the **Load Param** button and proceed directly to the last step [compute ACV](compute-acv).
     ```
 4. **atom ID**: select the attachment atom on the biomolecule by its serial ID
 5. **state**: select a different state of the PDB file
@@ -50,8 +50,9 @@ In the following the most important settings and functionalities of FRETraj for 
     - **AV library**: if [LabelLib](https://github.com/Fluorescence-Tools/LabelLib) has been installed, you may select *use LabelLib* to speed up the calculations. Otherwise a pure [Python version](../module/grid) of the ACV algorithm is used.
 
 11. **Contact volume**: Choose the thickness and relative fraction of the [contact volume](../background/contact_volume)
-    <a name="compute-acv"></a>
+ 
     ```{note}
     The parameter file is dynamically updated whenever a new label is added/removed or a setting is changed.
     ```
+(compute-acv)=
 12. **Compute ACV**: Start the calculation. The ACV is automatically saved to the selected root folder. Once the calculation has finished the ACV cloud is displayed in the molecular viewer and the *mean position (MP)* is indicated in the table

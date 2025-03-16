@@ -9,6 +9,7 @@ parts:
   - file: getting_started/jupyter-notebook
   - file: getting_started/trajectories
   - file: getting_started/photon_bursts
+  - file: getting_started/FRET_restraints
 - caption: Background
   chapters:
   - file: background/accessible_volume
@@ -20,6 +21,7 @@ parts:
   - file: module/fret
   - file: module/grid
   - file: module/burst
+  - file: module/restraints
   - file: module/utilities
 - caption: References
   chapters:

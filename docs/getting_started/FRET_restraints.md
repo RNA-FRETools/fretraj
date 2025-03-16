@@ -4,8 +4,6 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.10.3
 kernelspec:
   display_name: Python 3
   language: python
@@ -26,7 +24,7 @@ import fretraj as ft
 import importlib
 ```
 
-### Accessible contact volume
+## Accessible contact volume
 
 Calculate ACVs for donor and acceptor dye on an **solvated and energy minimized** biomolecule.
 > Note: the generated .gro file must first be converted to a .pdb file using `gmx trjconv`
@@ -72,10 +70,11 @@ targetRmp = ft.fret.R_DAE_to_Rmp(mean_R_DA_E)
 Compile a plumed input file for the MD simulation
 
 ```{code-cell} ipython3
+
 plumed.write_plumed('gmx/out/plumed_A1-U1.dat', targetRmp, 100, 100)
 ```
 
-To illustrate the restaints save a visualization skript for VMD or PyMOL which can be run with either `vmd_vis -c filename.gro -x trajectory.xtc -v vis.vmd` or `pymol_vis -c filename.gro -x trajectory.xtc -v vis.py`
+To illustrate the restaints save a visualization script for VMD or PyMOL which can be run with either `vmd_vis -c filename.gro -x trajectory.xtc -v vis.vmd` or `pymol_vis -c filename.gro -x trajectory.xtc -v vis.py`
 
 ```{code-cell} ipython3
 plumed.write_vmd('gmx/out/vis.vmd')
@@ -106,23 +105,6 @@ gmx insert-molecules -ci MP.pdb -f mn_riboswitch.gro -o mn_riboswitch.gro -ip ou
 
 Run the following command will tell you how many solvent molecules have been replaced by the MP pseudoatoms and how to update the topology. 
 
-```
-awk '$1 == "Replaced" {sum += $2}; END {print "\nIn your topology.top file under the section [ molecules ] do the following:\n(1) decrease the number of solvent molecules by " sum "\n(2) add the following line:\nMP        2"}' tmp_insert.dat && rm tmp_insert.dat
-```
-
-+++
-
-not needed
 ```sh
-mkdir md0
-mdp_dir=mdp
-structureName=mn_riboswitch_s4_cleaned
-plumedFile=plumed_A1-U1.dat
-
-gmx grompp -f "$mdp_dir"/md0.mdp -c npt/"$structureName".gro -p "$structureName".top -o md0/"$structureName".tpr -po md0/"$structureName".mdp
-gmx mdrun -v -s md0/"$structureName".tpr -c md0/"$structureName".gro -x md0/"$structureName".xtc -cpo md0/"$structureName".cpt -e md0/"$structureName".edr -g md0/"$structureName".log -plumed "$plumedFile"
-```
-
-```{code-cell} ipython3
-single_run
+awk '$1 == "Replaced" {sum += $2}; END {print "\nIn your topology.top file under the section [ molecules ] do the following:\n(1) decrease the number of solvent molecules by " sum "\n(2) add the following line:\nMP        2"}' tmp_insert.dat && rm tmp_insert.dat
 ```

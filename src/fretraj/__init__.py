@@ -1,9 +1,4 @@
-import sys
-
-try:
-    import importlib.metadata as meta  # Python >=3.8
-except ModuleNotFoundError:
-    import importlib_metadata as meta  # Python 3.7
+import importlib.metadata as meta
 
 PACKAGE = "fretraj"
 
@@ -21,11 +16,13 @@ def _get_urls():
     except TypeError:
         __urls__["Documentation"] = None
         __urls__["Repository"] = None
+        __urls__["Issues"] = None
     return __urls__
 
 
 __version__ = metadata["Version"]
-__author__ = metadata["Author"]
+__author__ = metadata["Author-email"]
+__summary__ = metadata["Summary"]
 __keywords__ = metadata["Keywords"]
 __license__ = metadata["License"]
 __urls__ = _get_urls()
@@ -60,3 +57,5 @@ from . import cloud
 from . import export
 from . import fret
 from . import grid
+from . import restraints
+from . import jupyter
