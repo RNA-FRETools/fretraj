@@ -50,7 +50,7 @@ docs = [
 where = ["src"]
 
 [tool.setuptools.package-data]
-fretraj = ["UI/*", "skripts/*", "examples/*", ".json"]
+fretraj = ["UI/*", "skripts/*", "examples/*", "*.json"]
 
 [project.urls]
 Repository = "https://github.com/RNA-FRETools/fretraj"
