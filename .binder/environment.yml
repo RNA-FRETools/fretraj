@@ -1,6 +1,5 @@
 name: FRETraj-demo
 channels:
-  - rna-fretools
   - conda-forge
   - defaults
 dependencies:

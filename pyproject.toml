@@ -1,17 +1,14 @@
-[tool.poetry]
+[project]
 name = "fretraj"
 version = "0.2.10"
 description = "Predicting FRET with accessible-contact volumes"
 authors = [
-    "Fabio Steffen <fabio.steffen@chem.uzh.ch>", 
-    "Roland K.O. Sigel <roland.sigel@chem.uzh.ch>", 
-    "Richard Börner <richard.boerner@hs-mittweida.de>"]
-maintainers = ["Fabio Steffen <fabio.steffen@chem.uzh.ch>"]
-license = "GPL-3.0-or-later"
+    { name = "Fabio Steffen", email = "fabio.steffen@chem.uzh.ch" }, 
+    { name = "Roland K.O. Sigel", email = "roland.sigel@chem.uzh.ch" }, 
+    { name = "Richard Börner", email = "richard.boerner@hs-mittweida.de" }
+    ]
+license = { text ="GPL-3.0-or-later" }
 readme = "README.md"
-homepage = "https://rna-fretools.github.io/"
-repository = "https://github.com/RNA-FRETools/fretraj"
-documentation = "https://rna-fretools.github.io/fretraj/"
 keywords = ["FRET", "single-molecule", "molecular dynamics", "PDB", "structure prediction"]
 classifiers = [
     "Programming Language :: Python",
@@ -20,43 +17,82 @@ classifiers = [
     "Framework :: Jupyter",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-include = [{path = "src/fretraj/*.so", format=["wheel"]},
-           {path = "src/fretraj/*.pyd", format=["wheel"]},
-           {path = "src/fretraj/*.cpp", format=["sdist"]}]
 
 
-[tool.poetry.dependencies]
-python = ">=3.8"
-numba = ">=0.57.0"
-pandas = ">=1.2"
-mdtraj = "^1.9.7"
-tqdm = "^4.64.0"
-jsonschema = "^4.9.1"
-importlib-metadata = "^7.1.0"
+requires-python = ">=3.8"
 
+dependencies = [
+    "numpy",
+    "numba",
+    "pandas",
+    "mdtraj",
+    "tqdm",
+    "jsonschema",
+    "importlib-metadata"
+]
 
-[tool.poetry.dev-dependencies]
-pytest = "^6.2.2"
-pytest-cov = "^2.11.1"
-pytest-mock = "^3.6.1"
+[project.optional-dependencies]
+dev = [
+    "bumpver",
+    "pytest",
+    "build",
+    "pytest-cov",
+    "pytest-mock"
+    ]
+docs = [
+    "jupyter-book",
+    "ipywidgets",
+    "matplotlib",
+    "seaborn"
+    ]
 
+[tool.setuptools.packages.find]
+where = ["src"]
 
-[tool.poetry.scripts]
+[tool.setuptools.package-data]
+fretraj = ["UI/*", "skripts/*", "examples/*"]
+
+[project.urls]
+Repository = "https://github.com/RNA-FRETools/fretraj"
+Documentation = "https://rna-fretools.github.io/fretraj/"
+Issues = "https://rna-fretools.github.io/fretraj/issues"
+
+[project.scripts]
 fretraj = "fretraj.console:main"
 fretraj_gui = "fretraj.fretraj_gui:main"
 pymol_vis = "fretraj.console:pymol_vis"
 vmd_vis = "fretraj.console:vmd_vis"
 
-
 [tool.poetry.build]
 generate-setup-file = true
 script = "build.py"
 
-
 [build-system]
-requires = ["poetry-core>=1.0.0a9", "pybind11>=2.6.2", "setuptools"]
-build-backend = "poetry.core.masonry.api"
-
+requires = ["setuptools", "pybind11"]
+build-backend = "setuptools.build_meta"
 
 [tool.black]
 line-length = 120
+
+[tool.bumpver]
+current_version = "0.2.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+push = true
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'version = "{version}"$',
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+relative_files = true
+source = ["src/fretraj"]
+omit = ["tests/*"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=fretraj"

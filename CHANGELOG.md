@@ -1,5 +1,9 @@
 ## Changelog
 
+### [0.2.11] 2025-03-16
+- Switch to setuptools build
+- Remove legacy Github workflows
+
 ### [0.2.10] 2023-10-22
 - Adjust numba, pandas dependencies for conda
 

@@ -16,7 +16,7 @@ Depending on your operating system and preference there are multiple options to 
 
 ```````{tab-set}
 ``````{tab-item} For Windows
-- Get PyMOL from [Schrödinger](https://pymol.org/) or follow the instructions [here](https://pymolwiki.org/index.php/Windows_Install).
+- Get PyMOL from [Schrödinger](https://pymol.org/) or install the [open-source version](https://github.com/schrodinger/pymol-open-source), e.g. via conda-forge `conda install conda-forge::pymol-open-source`.
 - Search for **Anaconda/Miniforge prompt** in the Windows start menu and run the following command to install *FRETraj*
 
     ```
@@ -31,7 +31,7 @@ Depending on your operating system and preference there are multiple options to 
 
 ``````{tab-item} For Linux
 
-- Get PyMOL either from [Schrödinger](https://pymol.org/) or from your package manager (e.g. on Ubuntu `apt-get install pymol`). Alternatively, you can compile PyMOL yourself from the source code on [Github](https://github.com/schrodinger/pymol-open-source).
+- Get PyMOL either from [Schrödinger](https://pymol.org/), from your package manager (e.g. on Ubuntu `apt-get install pymol`) or via conda-forge `conda install conda-forge::pymol-open-source`. Alternatively, you can compile PyMOL yourself from the source code on [Github](https://github.com/schrodinger/pymol-open-source). 
 
 - Install *FRETraj*
   
