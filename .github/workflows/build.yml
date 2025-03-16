@@ -27,7 +27,9 @@ jobs:
 
       - name: Test package
         run: |
-          pip install ".[dev]"
+          pip install build
+          python -m build
+          pip install dist/*.whl
           pytest
 
 
