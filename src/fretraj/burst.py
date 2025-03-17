@@ -21,7 +21,7 @@ from fretraj import metadata
 package_directory = os.path.dirname(os.path.abspath(__file__))
 
 
-_relax_types = ["Df_det", "D_ic", "Af_det", "A_ic", "q"]
+_relax_types = ["Df_det", "D_ic_nd", "Af_det", "A_ic_nd", "q"]
 
 _schema = {
     "title": "Burst",
@@ -473,8 +473,12 @@ class Burst:
         Parameters
         ----------
         event : int
-            type of relaxation event (1: detected donor photon, -1: internal conversion from donor,
-            2: detected acceptor photon, -2: internal conversion from acceptor, 0: relaxation due to inter-dye quenching)
+            type of relaxation event
+               1: detected donor photon
+              -1: internal conversion from donor or non-detected donor photon
+               2: detected acceptor photon
+              -2: internal conversion from acceptor or non-detected acceptor photon
+               0: relaxation due to inter-dye quenching
         decaytime : float
             time in nanoseconds after the excitation event
         polarization : int
@@ -489,22 +493,22 @@ class Burst:
                 self.decaytimes_AA["Af_det"].append(decaytime)
                 self.polarizations["Af_det"].append(polarization)
             elif event == -2:
-                self.events_AA["A_ic"] += 1
-                self.decaytimes_AA["A_ic"].append(decaytime)
+                self.events_AA["A_ic_nd"] += 1
+                self.decaytimes_AA["A_ic_nd"].append(decaytime)
         else:
             if event == 1:
                 self.events_DD_DA["Df_det"] += 1
                 self.decaytimes_DD_DA["Df_det"].append(decaytime)
                 self.polarizations["Df_det"].append(polarization)
             elif event == -1:
-                self.events_DD_DA["D_ic"] += 1
-                self.decaytimes_DD_DA["D_ic"].append(decaytime)
+                self.events_DD_DA["D_ic_nd"] += 1
+                self.decaytimes_DD_DA["D_ic_nd"].append(decaytime)
             elif event == 2:
                 self.events_DD_DA["Af_det"] += 1
                 self.decaytimes_DD_DA["Af_det"].append(decaytime)
             elif event == -2:
-                self.events_DD_DA["A_ic"] += 1
-                self.decaytimes_DD_DA["A_ic"].append(decaytime)
+                self.events_DD_DA["A_ic_nd"] += 1
+                self.decaytimes_DD_DA["A_ic_nd"].append(decaytime)
             else:
                 self.events_DD_DA["q"] += 1
                 self.decaytimes_DD_DA["q"].append(decaytime)

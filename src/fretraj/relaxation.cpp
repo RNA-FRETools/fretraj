@@ -97,18 +97,19 @@ int checkDetectionIndex(int event, double etaD, double etaA)
     double p = std::generate_canonical<double, 10>(gen);
     if (event == 1)
     {
-        if (p < etaD)
+        if (p > etaD)
         {
-            return event;
+            return -1;
         }
     }
     else if (event == 2)
     {
-        if (p < etaA)
+        if (p > etaA)
         {
-            return event;
+            return -2;
         }
     }
+    return event;
 }
 
 
