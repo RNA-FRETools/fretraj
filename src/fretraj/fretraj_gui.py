@@ -178,7 +178,7 @@ class App(QtWidgets.QMainWindow):
         self.comboBox_distanceName.currentIndexChanged.connect(self.update_comboBox)
         self.spinBox_statePDB.valueChanged.connect(self.update_PDBstate)
         self.push_setRootDirectory.clicked.connect(self.setRootDirectory)
-        self.push_clear.clicked.connect(self.clear_pymol)
+        self.push_clear.clicked.connect(self.clear)
         self.actionDocumentation.triggered.connect(self.openDocumentation)
         self.spinBox_atomID.valueChanged.connect(self.update_atom)
         self.push_transfer.clicked.connect(self.transferToLabel)
@@ -250,7 +250,6 @@ class App(QtWidgets.QMainWindow):
         self.checkBox_useLabelLib.setChecked(self.labels["Position"][pos]["use_LabelLib"])
         self.doubleSpinBox_R0.setValue(self.labels["Distance"][dis]["R0"])
         self.spinBox_nDist.setValue(self.labels["Distance"][dis]["n_dist"])
-        # self.update_atom()
         self.doubleSpinBox_contourValue.setValue(self.labels["Position"][pos]["contour_level_AV"])
         self.doubleSpinBox_contourValue_CV.setValue(self.labels["Position"][pos]["contour_level_CV"])
         self.spinBox_bfactor.setValue(self.labels["Position"][pos]["b_factor"])
@@ -318,7 +317,6 @@ class App(QtWidgets.QMainWindow):
                     self.struct = self.struct.atom_slice(idx_protein_nucleic)
                     self.lineEdit_pdbFile.setText(self.fileName_pdb)
                     self.spinBox_statePDB.setMaximum(self.struct.n_frames)
-                    self.spinBox_atomID.setMaximum(self.struct.n_atoms)
                     self.atom_chainIDs = [chain.index for chain in self.struct.top.chains for i in range(chain.n_atoms)]
                     self.push_computeACV.setEnabled(True)
                     self.spinBox_statePDB.setEnabled(True)
@@ -352,7 +350,10 @@ class App(QtWidgets.QMainWindow):
                         cmd.spectrum("count", "gray20 gray80")
                     else:
                         self.chain_names = list(string.ascii_uppercase[0 : self.struct.top.n_chains])
-                    self.update_atom()
+                    self.spinBox_atomID.setMinimum([a.serial for a in self.struct.atom_slice([0]).topology.atoms][0])
+                    self.spinBox_atomID.setMaximum(
+                        [a.serial for a in self.struct.atom_slice([self.struct.n_atoms - 1]).topology.atoms][0]
+                    )
                     return 1
 
     def cif2pdb(self, pathtoPDBfile):
@@ -380,7 +381,7 @@ class App(QtWidgets.QMainWindow):
             cmd.set("state", self.labels["Position"][self.labelName]["state"])
 
     def update_atom(self):
-        atom_id = self.spinBox_atomID.value() - 1
+        atom_id = self.spinBox_atomID.value()
         chain_id = self.atom_chainIDs[atom_id]
         self.lineEdit_pdbAtom.setText("{}-{}".format(self.chain_names[chain_id], str(self.struct.top.atom(atom_id))))
 
@@ -757,7 +758,7 @@ class App(QtWidgets.QMainWindow):
                     else:
                         cmd.set("transparency", 0, av_name + "_isosurf")
 
-    def clear_pymol(self):
+    def clear(self):
         self.lineEdit_pdbFile.clear()
         self.lineEdit_paramFile.clear()
         self.push_computeACV.setEnabled(False)
@@ -771,7 +772,8 @@ class App(QtWidgets.QMainWindow):
         self.lineEdit_pdbAtom.clear()
         for _ in range(self.comboBox_labelName.count()):
             self.deleteLabel()
-        cmd.reinitialize()
+        if self._pymol_running:
+            cmd.reinitialize()
 
     def setRootDirectory(self):
         rootDir = QtWidgets.QFileDialog.getExistingDirectory(self, "Set root directory")
@@ -861,7 +863,7 @@ class App(QtWidgets.QMainWindow):
         """
         Load an example file and calculate an ACV
         """
-        self.clear_pymol
+        self.clear()
         fileNamePath_pdb = "{}/{}{}".format(self.exampleDataPath, name, fileformat)
         fileNamePath_param = "{}/{}_labels{}".format(self.exampleDataPath, name, ".json")
         pdb_load = self.loadPDB(fileNamePath_pdb)
