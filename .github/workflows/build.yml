@@ -39,7 +39,11 @@ jobs:
 
   pypi-publish:
     if: startsWith(github.ref, 'refs/tags')
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.11', '3.12', '3.13']
     needs:
       - test-deploy
     permissions:
@@ -49,17 +53,13 @@ jobs:
       url: https://pypi.org/p/frettraj
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup python
         uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
 
-      - name: Build package
-        run: |
-          pip install build
-          python -m build
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.0
 
       - name: Upload dists
         uses: actions/upload-artifact@v4
