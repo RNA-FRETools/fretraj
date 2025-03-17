@@ -24,6 +24,7 @@ If you use **FRETraj** in your work please refer to the following paper:
 - F.D. Steffen, R.K.O. Sigel, R. Börner, *Bioinformatics* **2021**. [![](https://img.shields.io/badge/DOI-10.1093/bioinformatics/btab615-blue.svg)](https://doi.org/10.1093/bioinformatics/btab615)
 
 ### Additional readings
+- F.D. Steffen, R.A. Cunha, R.K.O. Sigel, R. Börner, *Nucleic Acids Res.* **2024**, *52*, e59.
 - F.D. Steffen, R.K.O. Sigel, R. Börner, *Phys. Chem. Chem. Phys.* **2016**, *18*, 29045-29055.
 - S. Kalinin, T. Peulen, C.A.M. Seidel et al. *Nat. Methods*, **2012**, *9*, 1218-1225.
 - T. Eilert, M. Beckers, F. Drechsler, J. Michaelis, *Comput. Phys. Commun.*, **2017**, *219*, 377–389.
