@@ -53,7 +53,7 @@ _label_dict = {
             "transparent_AV": (bool, True),
         }
     },
-    "Distance": {"pd_key": {"R0": ((int, float), None), "n_dist": (int, 10 ** 6)}},
+    "Distance": {"pd_key": {"R0": ((int, float), None), "n_dist": (int, 10**6)}},
 }
 
 _label_dict_vals = {
@@ -872,18 +872,22 @@ class Volume:
                         self.acv = None
                     else:
                         try:
-                            if self.attach_id < 1 or self.attach_id > self.n_atoms:
-                                raise IndexError
-                        except IndexError:
+                            if self.attach_id not in [a.serial for a in self.structure.top.atoms]:
+                                raise ValueError
+                        except ValueError:
                             print(
-                                "The attachment position {:d} is out of range, select an index within 1 - {:d}".format(
-                                    self.attach_id, self.n_atoms
+                                "The attachment ID {:d} is not present in the PDB file (id columns 7-11)".format(
+                                    self.attach_id
                                 )
                             )
                             self.av = None
                             self.acv = None
                         else:
-                            self.attach_id_mdtraj = labels["Position"][site]["attach_id"] - 1
+                            self.attach_id_mdtraj = [
+                                a.index
+                                for a in self.structure.top.atoms
+                                if a.serial == labels["Position"][site]["attach_id"]
+                            ][0]
                             self.resi_atom = self.structure.top.atom(self.attach_id_mdtraj)
 
                             self.av = self.calc_av(self.use_LabelLib)
@@ -894,7 +898,7 @@ class Volume:
                             except ValueError:
                                 if verbose:
                                     print(
-                                        "Empty Accessible volume at position {:d}. Is your attachment point buried?".format(
+                                        "Empty Accessible volume at atom ID position {:d}. Is your attachment point buried?".format(
                                             self.attach_id
                                         )
                                     )
