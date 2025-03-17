@@ -83,7 +83,7 @@ jobs:
   pypi-publish:
     if: startsWith(github.ref, 'refs/tags')
     name: Upload if release
-    needs: [build_wheel, build_sdist]
+    needs: [build-wheel, build-sdist]
     runs-on: ubuntu-latest
     permissions:
       id-token: write
