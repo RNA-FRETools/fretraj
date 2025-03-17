@@ -17,6 +17,7 @@ on:
 
 jobs:
   test-deploy:
+    name: Test deployment
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -37,41 +38,65 @@ jobs:
 
 
 
-  pypi-publish:
+  build-sdist:
+    if: startsWith(github.ref, 'refs/tags')
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    needs:
+      - test-deploy
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build source dist
+        run: pipx run build --sdist
+
+      - name: Upload source dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-sdist
+          path: dist/
+
+  build-wheel:
     if: startsWith(github.ref, 'refs/tags')
     runs-on: ${{ matrix.os}}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.11', '3.12', '3.13']
     needs:
       - test-deploy
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.0
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          with:
+            name: ci-wheels-${{ matrix.os }}
+            path: wheelhouse/*.whl
+
+
+  pypi-publish:
+    if: startsWith(github.ref, 'refs/tags')
+    name: Upload if release
+    needs: [build_wheel, build_sdist]
     permissions:
       id-token: write
     environment:
       name: pypi
       url: https://pypi.org/p/frettraj
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Setup python
-        uses: actions/setup-python@v5
-
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23.0
-
-      - name: Upload dists
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
       - name: Retrieve release distributions
         uses: actions/download-artifact@v4
         with:
-          name: release-dists
-          path: dist/
+          path: dist
+          pattern: ci-*
+          merge-multiple: true
 
       - name: Publish release distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+
