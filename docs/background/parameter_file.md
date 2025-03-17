@@ -40,7 +40,7 @@ The parameters above are mandatory and need to be defined by the user. Other par
 }
 ```
 
-The parameters are described in more detail in the sections [Calculating ACVs](../getting_started/acv_calculation) and [making FRET predictions](../getting_started/acv_calculation)
+The parameters are described in more detail in the sections [Calculating ACVs](../getting_started/acv_calculation) and [making FRET predictions](../getting_started/fret_prediction)
 
 ```{hint}
 The distance unit of FRETraj is **Angstrom** ([MDTraj](http://mdtraj.org/) in contrast uses nanometers). The time unit is **picosecond**.
