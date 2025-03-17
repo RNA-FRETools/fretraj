@@ -32,19 +32,19 @@ In the following the most important settings and functionalities of FRETraj for 
     ```{hint}
     If you already have a JSON-formatted [parameter file](../background/parameter_file) you can load this file with the **Load Param** button and proceed directly to the last step [compute ACV](compute-acv).
     ```
-4. **atom ID**: select the attachment atom on the biomolecule by its 1-based index (i.e. PyMOL's index selection, see Note below). 
+4. **atom ID**: select the attachment atom on the biomolecule by its serial atom ID (i.e. the ID of the atom given in the DPB file in columns 7-11, see *Note* below). 
      ```{note}
-    - [mdtraj](https://www.mdtraj.org/1.9.8.dev0/atom_selection.html) uses two different atom selections:
-        - `serial` refers to the atom identifier (number present in columns 7-11 of the PDB file), e.g. `[a.serial for a in dna.topology.atoms][0]` returns `1`.
-        - `index` refers to the 0-based index, e.g. `[a.index for a in dna.topology.atoms]` returns `0`. When using `atom_slice` the selection is re-indexed, i.e. `[a.index for a in dna.atom_slice([2]).topology.atoms]` returns `0` but the `serial` is maintained, i.e. `[a.serial for a in dna.atom_slice([2]).topology.atoms]` returns `3`).
-    - PDBs usually are 1-based indexed. PyMOL uses the following identifiers:
-        - `id` refers to the [atom identifier](https://pymol.org/dokuwiki/doku.php?id=selection:rank) (number present in columns 7-11 of the PDB file) which correspponds to mdtraj's `serial`.
+    - PyMOL uses the following identifiers:
+        - `id` refers to the [atom identifier](https://pymol.org/dokuwiki/doku.php?id=selection:rank) (number present in columns 7-11 of the PDB file) which correspponds to mdtraj's `serial` (see below). Usually PDBs start with `id=1` but this may vary if the PDB is sliced.
         - `index` refers to the [1-based index](https://pymol.org/dokuwiki/doku.php?id=selection:index))
-        - `rank` refers to the [0-based index](https://pymol.org/dokuwiki/doku.php?id=selection:rank) which corresponds to mdtraj's indexing
+        - `rank` refers to the [0-based index](https://pymol.org/dokuwiki/doku.php?id=selection:rank) which corresponds to mdtraj's `index` (see below)
+    - [mdtraj](https://www.mdtraj.org/1.9.8.dev0/atom_selection.html) exposes two atom selection options:
+        - `serial` refers to the atom identifier (number present in columns 7-11 of the PDB file), e.g. `[a.serial for a in dna.topology.atoms][0]` returns `1`.
+        - `index` refers to the 0-based indexe.g. `[a.index for a in dna.topology.atoms]` returns `0`. Note that, when using `atom_slice` the selection is re-indexed, i.e. `[a.index for a in dna.atom_slice([2]).topology.atoms]` returns `0` but the `serial` is maintained, i.e. `[a.serial for a in dna.atom_slice([2]).topology.atoms]` still returns `3`, given that the original PDB started with `id=1`).
     ```
 
-    ``` {admonition} Internal indexing in FRETraj 0.2.11
-    In FRETraj ≤ 0.2.10 we internally indexed `attach_id` using mdtraj's `index` (`attach_id_mdtraj`) while the user selected atoms using 1-based indexing (i.e. PyMOL's `index`). With FRETRaj ≥ 0.2.11 we now switch to internally use PyMOL's mdtraj's `serial` / PyMOL's `id` for `attach_id` to keep consistent atom identifiers upon slicing. For PDBs starting with `id=1` this change does not affect the user.
+    ``` {admonition} Internal indexing in FRETraj
+    In FRETraj we use `attach_id` to refer to the PyMOL's atom `id` / mdtraj's `serial`. Internally, we match the atom serial `id` to mdtraj's 0-based `index` (`attach_id_mdtraj`). This ensures consistency in `attach_id` when the PDB is sliced.
     ```
 
 5. **state**: select a different state of the PDB file
