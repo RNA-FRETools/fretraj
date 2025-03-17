@@ -1,6 +1,6 @@
 [project]
 name = "fretraj"
-version = "0.2.10"
+version = "0.2.11"
 description = "Predicting FRET with accessible-contact volumes"
 authors = [
     { name = "Fabio Steffen", email = "fabio.steffen@chem.uzh.ch" }, 
@@ -71,7 +71,7 @@ build-backend = "setuptools.build_meta"
 line-length = 120
 
 [tool.bumpver]
-current_version = "0.2.10"
+current_version = "0.2.11"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = true
