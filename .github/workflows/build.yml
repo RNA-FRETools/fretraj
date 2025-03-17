@@ -54,7 +54,7 @@ jobs:
       - name: Upload source dist
         uses: actions/upload-artifact@v4
         with:
-          name: ci-sdist
+          name: cibw-sdist
           path: dist/
 
   build-wheel:
@@ -72,11 +72,13 @@ jobs:
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.23.0
+        env:
+          CIBW_SKIP: pp*
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
-          name: ci-wheels-${{ matrix.os }}
+          name: cibw-wheels-${{ matrix.os }}
           path: wheelhouse/*.whl
 
 
@@ -95,7 +97,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: dist
-          pattern: ci-*
+          pattern: cibw-*
           merge-multiple: true
 
       - name: Publish release distributions to PyPI
